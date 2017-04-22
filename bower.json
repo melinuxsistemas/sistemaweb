@@ -1,0 +1,17 @@
+{
+  "name": "sistemaweb",
+  "homepage": "https://github.com/melinuxsistemas/sistemaweb",
+  "authors": [
+    "diegopasti <diegopasti@gmail.com>"
+  ],
+  "description": "Dependencies for project",
+  "main": "",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "static/bower"
+  ]
+}

@@ -31,6 +31,10 @@
       
       - https://git-scm.com/book/pt-br/v1/Ramifica%C3%A7%C3%A3o-Branching-no-Git-Branches-Remotos
 
+- Instalação do NodeJs e Bower.
+    - Baixar a versão adequada para o seu sistema operacional diretamente no site https://nodejs.org/en/download/.
+    - Instale na pasta de prefencia com configurações padrões.
+
 - Instalação do PyCharm Comunity.
     - Acesse e escolha a versão Comunity para o seu Sistema Operaciona: https://www.jetbrains.com/pycharm/download/
 
