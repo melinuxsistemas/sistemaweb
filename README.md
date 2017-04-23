@@ -65,13 +65,15 @@
 ### Estrutura
 ```
 <project_root>
-├── sistemaweb <django_project_root>
-│  ├── sistemaweb <configuration_root>
+├── sistemaweb              <django_project_root>
+│  ├── sistemaweb           <configuration_root>
 │  │  ├── __init__.py
 │  │  ├── settings.py
 │  │  ├── urls.py
 │  │  └── wsgi.py
-│  ├── apps
+│  ├── modules             <aplications_folder>
+│  │  ├── core             <main_aplication>
+│  │  └── __init__.py
 │  ├── conf
 │  ├── data
 │  │  └── backup
