@@ -1,6 +1,6 @@
-# SistemaWeb
+## SistemaWeb
 
-## Configurações
+### Configurações
   
   - Instalação do Python 3.6.1
     - Windows x86 executable installer (32 Bits): https://www.python.org/ftp/python/3.6.1/python-3.6.1.exe
@@ -61,3 +61,34 @@
       - Clique em apply e ok.
   
 - Instalar dependências Python com através do arquivo requirements.txt do projeto.
+
+### Estrutura
+```
+<project_root>
+├── sistemaweb <django_project_root>
+│  ├── sistemaweb <configuration_root>
+│  │  ├── __init__.py
+│  │  ├── settings.py
+│  │  ├── urls.py
+│  │  └── wsgi.py
+│  ├── apps
+│  ├── conf
+│  ├── data
+│  │  └── backup
+│  ├── logs
+│  ├── media
+│  ├── requirements
+│  │  ├── development.txt
+│  │  └── production.txt
+│  └── static
+│  │  └── bower
+│  ├──  media
+│  ├──  templates
+│  ├──  .bowerrc
+│  ├──  .gitignore
+│  ├──  bower.json
+│  ├──  manage.py
+│  └──  README.MD
+
+```
+
