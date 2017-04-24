@@ -11,7 +11,6 @@ opcoes_tipos_usuarios = (
         ('A', 'ADMIN'),
         ('D', 'DESENVOLVEDOR'),
         ('S', 'SUPORTE'),
-
 		('C', 'CONTRATANTE'),
 		('F', 'FUNCIONARIO'),
 	)
