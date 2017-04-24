@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'usuario.Usuario'
+
 
 # Application definition
 
@@ -38,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'djangobower',
+    'modules.core','modules.usuario',
 ]
 
 MIDDLEWARE = [
@@ -83,11 +86,9 @@ WSGI_APPLICATION = 'sistemaweb.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, '../data/db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'data\db.sqlite3'),
     }
 }
-
-
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
