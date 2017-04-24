@@ -94,3 +94,8 @@
 
 ```
 
+Para adicionar criar um novo modulo (app) basta informar o diretório no comando:
+
+``` python manage.py startapp <nome_modulo> modules/<nome_modulo> ```
+
+É necessário que a pasta onde se deseja criar o módulo exista previamente.
