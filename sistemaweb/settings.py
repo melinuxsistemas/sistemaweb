@@ -75,7 +75,11 @@ TEMPLATES = [
     },
 ]
 
+BOWER_PATH = 'C:/Users/diego/AppData/Roaming/npm/bower.cmd'
 BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'static/bower')
+
+BOWER_INSTALLED_APPS = (
+)
 
 WSGI_APPLICATION = 'sistemaweb.wsgi.application'
 

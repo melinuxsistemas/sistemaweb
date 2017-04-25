@@ -62,6 +62,12 @@
   
 - Instalar dependências Python com através do arquivo requirements.txt do projeto.
 
+- Instalar as dependencias de front-end é necessário ter o ```django-bower``` instalado.
+    - A instalação do django-bower é feita através do pip e dos requirements do projeto.
+    - No arquivo settings.py altere o ```BOWER_PATH``` para a pasta onde ele esta instalado.
+        - Se for no windows: ```C:\Users\{user_folder}\AppData\Roaming\npm\bower.cmd```
+        - Se for no Linux: ```VERIFICAR```
+
 ### Estrutura
 ```
 <project_root>
@@ -99,3 +105,4 @@ Para adicionar criar um novo modulo (app) basta informar o diretório no comando
 ``` python manage.py startapp <nome_modulo> modules/<nome_modulo> ```
 
 É necessário que a pasta onde se deseja criar o módulo exista previamente.
+
