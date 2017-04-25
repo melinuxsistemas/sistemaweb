@@ -1,6 +1,6 @@
 from django.conf.urls import url
-from modules import usuario
+from modules.usuario import views
 
 urlpatterns = [
-    #url(r'^admin/', usuario.views.),
+    url(r'', views.index),
 ]
