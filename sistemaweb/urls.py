@@ -22,7 +22,4 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'usuario/', include('modules.usuario.urls')),
-    #url(r'', include('blog.urls')),
-
-    #url(r'^home$/',views.index),
 ]
