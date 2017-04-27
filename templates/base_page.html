@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
 
       <title>{% block titulo_pagina %}Melinux Web{% endblock %}</title>
+      {% load static %}
+      <link href="{% static 'gentelella/css/bootstrap.min.css' %}" rel="stylesheet">
 
     {% block recursos_necessarios %}
     {% endblock %}

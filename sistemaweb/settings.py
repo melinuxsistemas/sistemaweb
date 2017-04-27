@@ -54,7 +54,9 @@ MIDDLEWARE = [
 ]
 
 STATICFILES_FINDERS = [
-    'djangobower.finders.BowerFinder',
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'djangobower.finders.BowerFinder'
 ]
 
 ROOT_URLCONF = 'sistemaweb.urls'
@@ -133,4 +135,33 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
+"""
+PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
+STATIC_ROOT = ''
+
+
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static_files"),
+]
+"""
+
+"""
+
+print ("Olha o PROJECT: ",PROJECT_ROOT)
+print ("Olha o BASEDIR: ",BASE_DIR)
+print ("Olha os statics: ",STATICFILES_DIRS)
+"""
+
+#STATIC_URL = '/static/'
+#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+import os.path
+
+STATIC_ROOT = ''
+STATIC_URL = '/static/'
+#STATIC_URL = os.path.join(BASE_DIR, 'static/')
+STATICFILES_DIRS = [ BASE_DIR+os.path.join('\\static\\'), ]
+
+print ("OLHA STATIC_URL=",STATIC_URL)
+#print ("OLHA STATICFILES_DIRS=",STATICFILES_DIRS)
