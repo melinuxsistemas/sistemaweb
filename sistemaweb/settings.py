@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
-
+import sys
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -78,8 +78,11 @@ TEMPLATES = [
         },
     },
 ]
+if sys.platform == 'linux':
+    BOWER_PATH = '/usr/local/bin/bower'
+else:
+    BOWER_PATH = 'C:/Users/diego/AppData/Roaming/npm/bower.cmd'
 
-BOWER_PATH = 'C:/Users/diego/AppData/Roaming/npm/bower.cmd'
 #BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'static/bower')
 
 BOWER_INSTALLED_APPS = (
@@ -131,7 +134,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pt-br'
 
 #TIME_ZONE = 'UTC'
 #USE_TZ = True
@@ -151,4 +154,4 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [ BASE_DIR+os.path.join('/static/'), ]
 
 WORKING_CONFIGURATION = os.path.join(BASE_DIR, 'conf/working.json')
-WORKING_SERVER = "http://127.0.0.1:8010"
+WORKING_SERVER = "http://192.168.1.116:8010"
