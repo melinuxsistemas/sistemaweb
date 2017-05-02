@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "compressor",
     'djangobower',
     'modules.core','modules.usuario',
 ]
@@ -56,7 +57,8 @@ MIDDLEWARE = [
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'djangobower.finders.BowerFinder'
+    'djangobower.finders.BowerFinder',
+    'compressor.finders.CompressorFinder',
 ]
 
 ROOT_URLCONF = 'sistemaweb.urls'
@@ -78,21 +80,34 @@ TEMPLATES = [
 ]
 
 BOWER_PATH = 'C:/Users/diego/AppData/Roaming/npm/bower.cmd'
-BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'static/bower')
+#BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'static/bower')
 
 BOWER_INSTALLED_APPS = (
+    'jquery#3.2.1',
+    'bootstrap#3.3.7',#3.3.2
+    'font-awesome#4.6.3',#4.2
+
+    'animate.css',
+    'gauge.js',
+    'chart.js',
+    'bootstrap-progressbar#0.9.0',
+    'jquery.nicescroll',
+    'moment',
+    "bootstrap-daterangepicker",
+    'fastclick',
+    'nprogress',
+    'pnotify',
+
 )
 
 WSGI_APPLICATION = 'sistemaweb.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'data\db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'data/db.sqlite3'),
     }
 }
 # Password validation
@@ -113,55 +128,26 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-
-
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
 #TIME_ZONE = 'UTC'
+#USE_TZ = True
 TIME_ZONE = 'America/Sao_Paulo'
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
-
-"""
-PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
-STATIC_ROOT = ''
-
-
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static_files"),
-]
-"""
-
-"""
-
-print ("Olha o PROJECT: ",PROJECT_ROOT)
-print ("Olha o BASEDIR: ",BASE_DIR)
-print ("Olha os statics: ",STATICFILES_DIRS)
-"""
-
-#STATIC_URL = '/static/'
-#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
-import os.path
-
 STATIC_ROOT = ''
 STATIC_URL = '/static/'
-#STATIC_URL = os.path.join(BASE_DIR, 'static/')
-STATICFILES_DIRS = [ BASE_DIR+os.path.join('\\static\\'), ]
+STATICFILES_DIRS = [ BASE_DIR+os.path.join('/static/'), ]
 
-print ("OLHA STATIC_URL=",STATIC_URL)
-#print ("OLHA STATICFILES_DIRS=",STATICFILES_DIRS)
+WORKING_CONFIGURATION = os.path.join(BASE_DIR, 'conf/working.json')

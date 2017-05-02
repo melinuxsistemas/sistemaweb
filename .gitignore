@@ -1,5 +1,7 @@
 # Created by .ignore support plugin (hsz.mobi)
 .idea/
 .sonar/
+/static/bower
+/static/compress
 *.pyc
 *.sqlite3

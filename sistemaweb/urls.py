@@ -17,6 +17,8 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf import settings
+from modules.usuario import views
+from modules.core import views as views_core
 
 
 #from modules import usuario
@@ -24,5 +26,6 @@ from django.conf import settings
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'usuario/', include('modules.usuario.urls')),
-]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    url(r'', include('modules.usuario.urls')),
+    url(r'^api/working/register/$', views_core.working),
+]#+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
