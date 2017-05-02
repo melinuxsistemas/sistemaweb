@@ -151,3 +151,4 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [ BASE_DIR+os.path.join('/static/'), ]
 
 WORKING_CONFIGURATION = os.path.join(BASE_DIR, 'conf/working.json')
+WORKING_SERVER = "http://127.0.0.1:8010"

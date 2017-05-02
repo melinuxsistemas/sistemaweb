@@ -6,3 +6,9 @@
 /static/compress
 *.pyc
 *.sqlite3
+modules/__pycache__/
+modules/core/__pycache__/
+modules/core/migrations/__pycache__/
+modules/usuario/__pycache__/
+modules/usuario/migrations/__pycache__/
+sistemaweb/__pycache__/

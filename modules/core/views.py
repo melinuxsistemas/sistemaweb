@@ -10,15 +10,13 @@ def working(request):
         working_key = get_working_key()
         data = post_request(request_page,working_key)
         data = json.dumps(data)
-        print("RESPONSE: ",data)
         return HttpResponse(data, content_type='application/json')
     else:
         raise Http404
 
-
 def post_request(request_page,working_key):
     headers = {'content-type': 'application/json'}
-    url = 'http://127.0.0.1:8010/api/work/register'
+    url = settings.WORKING_SERVER+"/api/work/register"
     data = {"request_page":request_page, "working_key":working_key}
     response = requests.get(url, data, headers=headers)
     return response.json()#json.loads(response.text)['msg'])
