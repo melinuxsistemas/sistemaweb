@@ -68,6 +68,22 @@
         - Se for no windows: ```C:\Users\{user_folder}\AppData\Roaming\npm\bower.cmd```
         - Se for no Linux: ```VERIFICAR```
 
+- Configure o PyCharm para analisar o código Python com o Pylint (instalado previamente pelos requirements).
+    - Acesse o painel File > Settings > Tools > External Tools.
+    - Clique para adicionar novo comando.
+    - No campo "Name" Informe o nome "pylint-pycharm".
+    - No campo "Group" digite "Code Style"
+    - Deixar Marcado a opção: "Synchronize files after execution", "Open console".
+    - Na sessão "Show in" marcar todas as opções.
+    - No campo "Program" digitar "pylint-pychar".
+    - No campo "Parameters" digitar "$FileName$".
+    - No campo "Working Directory" informar "$FileDir$".
+    - Clicar em Apply e OK.
+
+    O Pylint estara analisando em tempo real o codigo fonte sugerindo possiveis melhorias e adequações a padrões de codificação internacional como o PEP8.
+
+
+
 ### Estrutura
 ```
 <project_root>

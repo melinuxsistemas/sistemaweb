@@ -4,6 +4,7 @@ from django.conf import settings
 from django.http.response import Http404
 import json
 
+
 def working(request):
     if request.is_ajax():
         request_page = request.GET['request_page']
@@ -14,12 +15,14 @@ def working(request):
     else:
         raise Http404
 
+
 def post_request(request_page,working_key):
     headers = {'content-type': 'application/json'}
     url = settings.WORKING_SERVER+"/api/work/register"
     data = {"request_page":request_page, "working_key":working_key}
     response = requests.get(url, data, headers=headers)
     return response.json()#json.loads(response.text)['msg'])
+
 
 def get_working_key():
     config = json.loads(open(settings.WORKING_CONFIGURATION).read())
