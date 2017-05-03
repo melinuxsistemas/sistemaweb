@@ -6,6 +6,7 @@ pyparsing==2.2.0
 pytz==2017.2
 six==1.10.0
 requests==2.13.0
+django-lint
 
 # Requirements para permitir que o django minifique e utilize
 # arquivos estaticos no cache (codificado) quando em producao.

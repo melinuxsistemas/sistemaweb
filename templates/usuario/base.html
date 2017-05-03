@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% block titulo_pagina %}SistemaWeb - Base Login{% endblock %}</title>
+
+    <!-- Bootstrap -->
+     <script type="text/javascript">
+        //<![CDATA[
+        //try{if (!window.CloudFlare) {var CloudFlare=[{verbose:0,p:0,byc:0,owlid:"cf",bag2:1,mirage2:0,oracle:0,paths:{cloudflare:"/cdn-cgi/nexp/dok3v=1613a3a185/"},atok:"f94eb94be6b8c1dd0513cc63dec89225",petok:"300ac209155f5721cfbd88ce2b113cea7bb55b5f-1493505352-1800",zone:"colorlib.com",rocket:"a",apps:{}}];document.write('<script type="text/javascript" src="//ajax.cloudflare.com/cdn-cgi/nexp/dok3v=85b614c0f6/cloudflare.min.js"><'+'\/script>');}}catch(e){};
+        //]]>
+      </script>
+
+    {% load static %}
+    {% load compress %}
+    {% compress css %}
+    <link rel="shortcut icon" href="{% static 'images/favicon_sistema.png' %}">
+    <!-- NProgress -->
+    <script src="{% static 'bower/nprogress/nprogress.js' %}"></script>
+    <link href="{% static 'bower/nprogress/nprogress.css' %}" rel="stylesheet">
+
+    <script>
+      NProgress.start();
+    </script>
+
+    <link href="{% static 'bower/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="{% static 'bower/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+    <!-- Animate.css -->
+    <link href="{% static 'bower/animate.css/animate.min.css' %}" rel="stylesheet">
+    <!-- Custom Theme Style -->
+    <link href="{% static 'custom/gentelella/custom.css' %}" rel="stylesheet">
+
+    {% block recursos_necessarios %}
+    {% endblock %}
+    {% endcompress %}
+  </head>
+
+  <body class="login">
+    <div>
+      <a class="hiddenanchor" id="signup"></a>
+      <a class="hiddenanchor" id="signin"></a>
+
+      <div class="login_wrapper">
+        <div class="animate form login_form">
+          <section class="login_content">
+            {% block conteudo_principal %}
+
+            {% endblock %}
+          </section>
+        </div>
+      </div>
+    </div>
+  </body>
+  {% compress css %}
+  <!-- jQuery -->
+  <script src="{% static 'bower/jquery/dist/jquery.min.js' %}"></script>
+  <!-- PNotify -->
+  <link href="{% static 'bower/pnotify/dist/pnotify.css' %}" rel="stylesheet">
+  {% endcompress %}
+
+  {% compress js %}
+  <script src="{% static 'modules/core/base.js'%}"></script>
+  <script src="{% static 'custom/js/working.js' %}"></script>
+
+  <!-- PNotify -->
+  <script src="{% static 'bower/pnotify/dist/pnotify.js'%}"></script>
+
+  {% block recursos_complementares %}
+
+  {% endblock %}
+  {% endcompress %}
+
+  <script>
+      NProgress.done();
+      working();
+  </script>
+</html>
