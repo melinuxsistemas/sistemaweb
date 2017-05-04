@@ -43,21 +43,24 @@
       <a class="hiddenanchor" id="signup"></a>
       <a class="hiddenanchor" id="signin"></a>
 
-      <div class="login_wrapper">
+      <div class="login_wrapper" ng-controller="MeuController" id="controle_angular" ng-app="NovaApp">
         <div class="animate form login_form">
           <section class="login_content">
-            <form>
+            <form method="POST" id="form_usuario" ng-submit="esta_adicionando ? incluir_usuario() : alterar_usuario()">
               <h1><!--<i class="fa fa-paw"></i>--> SistemaWeb</h1>
-              <div>
-                <input type="text" class="form-control" placeholder="Email" required="" />
-              </div>
-              <div>
-                <input type="password" class="form-control" placeholder="Senha" required="" />
-              </div>
-              <div>
-                <a class="btn btn-primary submit form-control" href="index.html">Entrar</a>
-              </div>
+               {% csrf_token %}
+                <div>
+                  {{ form.email }}
+                  <!--<input id="email" type="text" class="form-control" placeholder="Email" required="" />-->
+                </div>
+                <div>
+                  {{ form.senha }}
+                  <!--<input id="senha" type="password" class="form-control" placeholder="Senha" required="" />-->
+                </div>
+                <div>
+                  <button type="submit" class="btn btn-sm btn-primary" >Entrar</button>
 
+                </div>
               <div class="clearfix"></div>
 
               <div class="separator">
@@ -83,12 +86,14 @@
   {% compress css %}
   <!-- jQuery -->
   <script src="{% static 'bower/jquery/dist/jquery.min.js' %}"></script>
+  <script src="{% static 'bower/angular/angular.min.js' %}"></script>
   <!-- PNotify -->
   <link href="{% static 'bower/pnotify/dist/pnotify.css' %}" rel="stylesheet">
   {% endcompress %}
 
   {% compress js %}
   <script src="{% static 'custom/js/working.js' %}"></script>
+  <script src="{% static 'custom/js/controlador.js' %}"></script>
 
   <!-- PNotify -->
   <script src="{% static 'bower/pnotify/dist/pnotify.js'%}"></script>
