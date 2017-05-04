@@ -1,13 +1,13 @@
 /**
  * Created by diego on 03/05/2017.
  */
-
 function notify(type,title,description){
   new PNotify({
     title: title,
     text: description,
+    //auto_display: false,
     type: type,
-    styling: 'bootstrap3'
+    styling: 'bootstrap3' // bootstrap3 , fontawesome
   });
   return (type=='error' ? false : true);
 }
@@ -40,11 +40,10 @@ function contains_numeric(id){
 }
 
 function contains_alpha(id) {
-  var letters = /^[a-zA-Z]+$/;
+  var letters = /[a-zA-Z]+$/;
   return (document.getElementById(id).value.match(letters) ? true : false);
 }
 
 function is_empty(id){
   return (document.getElementById(id).value.length == 0 ? !error_notify(id,"Campo Obrigatório","Por favor preencha o campo.") : false)
 }
-

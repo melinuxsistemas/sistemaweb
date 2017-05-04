@@ -1,6 +1,6 @@
 function criar_usuario_contratante(){
   NProgress.start();
-  if (validar_email() && comparar_senhas()){
+  if (validar_formulario()){
     success_notify("Usuário Cadastrado","Você receberá um email em instantes.")
     NProgress.done();
     return true;
@@ -11,7 +11,11 @@ function criar_usuario_contratante(){
   }
 }
 
-function comparar_senhas(){
+function validar_formulario(){
+  return (validar_email() && validar_senha());
+}
+
+function validar_senha(){
   var senha = document.getElementById("senha").value;
   var re_senha = document.getElementById("re_senha").value;
   if(senha === re_senha) {
@@ -22,6 +26,9 @@ function comparar_senhas(){
     else{
       if(!senha_vazia){
         return error_notify("senha","Senha insegura","Informe uma senha com ao menos 8 caracteres contendo letras e numeros.")
+      }
+      else{
+        return false;
       }
     }
   }
@@ -44,3 +51,4 @@ function validar_email() {
     return false;
   }
 }
+

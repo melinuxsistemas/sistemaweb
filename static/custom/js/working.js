@@ -1,3 +1,26 @@
+function working_qunit(){
+  var request_page = window.location.href;
+  request_page = request_page.slice(request_page.indexOf("/test"));
+  $.ajax({
+    type: "GET",
+    url: "http://localhost:8000/api/working/register/",
+    data: {
+      request_page: request_page,
+    },
+
+    complete : function(data) {
+      //alert("Olha a data: "+JSON.stringify(data))
+      new PNotify({
+            title: "WorkingAPI was updated",
+            addclass: 'visible',
+            text: '',
+            type: 'success',
+            styling: 'bootstrap3'
+        });
+    }
+  });
+}
+
 function working(){
   var request_page = window.location.href;
   $.ajax({

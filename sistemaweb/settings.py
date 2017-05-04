@@ -100,6 +100,8 @@ BOWER_INSTALLED_APPS = (
     'fastclick',
     'nprogress',
     'pnotify',
+    'qunit',
+    'blanket'
 
 )
 
@@ -149,6 +151,8 @@ USE_L10N = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
+TEST_URL = BASE_DIR+os.path.join('/test/')
+
 STATIC_ROOT = ''
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [ BASE_DIR+os.path.join('/static/'), ]
