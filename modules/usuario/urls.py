@@ -4,7 +4,8 @@ from modules.usuario import views
 urlpatterns = [
     #url(r'', views.index),
     url(r'^$', views.index),
-    url(r'^register/$', views.register),
-    url(r'^login/$', views.login),
+    url(r'^usuario/register/$', views.register),
+    url(r'^usuario/login/$', views.login),
+    url(r'^usuario/grava_novo/$', views.grava_novo),
 
 ]
