@@ -36,13 +36,17 @@
     <!-- Custom Theme Style -->
     <link href="{% static 'custom/gentelella/custom.css' %}" rel="stylesheet">
 
+    <!-- Angular -->
+    <script src="{% static 'bower/angular/angular.min.js' %}"></script>
+
     {% block recursos_necessarios %}
     {% endblock %}
     {% endcompress %}
   </head>
 
   <body class="login">
-    <div>
+    <div id="angular_content" ng-cloak ng-app="modules.usuario">
+      <div>
       <a class="hiddenanchor" id="signup"></a>
       <a class="hiddenanchor" id="signin"></a>
 
@@ -55,6 +59,7 @@
           </section>
         </div>
       </div>
+    </div>
     </div>
   </body>
   {% compress css %}
@@ -75,8 +80,8 @@
 
   {% endblock %}
   {% endcompress %}
-
   <script>
+      //app = angular.module('modules.usuario', []);
       NProgress.done();
       working();
   </script>

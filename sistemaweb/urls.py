@@ -17,15 +17,20 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf import settings
-from modules.usuario import views
-from modules.core import views as views_core
+from modules.usuario import views as view_usuario
+from modules.core import views as view_core
 
 
 #from modules import usuario
 #from modules.usuario import views
 
 urlpatterns = [
+    url(r'^$', view_core.index),
     url(r'^admin/', admin.site.urls),
-    url(r'', include('modules.usuario.urls')),
-    url(r'^api/working/register/$', views_core.working),
+    url(r'^login/$', view_usuario.login),
+    url(r'^register/$', view_usuario.register_page),
+
+    url(r'^api/usuario/', include('modules.usuario.urls')),
+
+    url(r'^api/working/register/$', view_core.working),
 ]#+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

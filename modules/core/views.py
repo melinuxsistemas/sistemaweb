@@ -4,6 +4,11 @@ from django.conf import settings
 from django.http.response import Http404
 import json
 
+from django.shortcuts import render_to_response
+
+
+def index(request):
+    return render_to_response("base_page.html")
 
 def working(request):
     #if request.is_ajax():

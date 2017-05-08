@@ -86,6 +86,7 @@ else:
 #BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'static/bower')
 
 BOWER_INSTALLED_APPS = (
+    'angular#1.6.4',
     'jquery#3.2.1',
     'bootstrap#3.3.7',#3.3.2
     'font-awesome#4.6.3',#4.2
@@ -158,4 +159,4 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [ BASE_DIR+os.path.join('/static/'), ]
 
 WORKING_CONFIGURATION = os.path.join(BASE_DIR, 'conf/working.json')
-WORKING_SERVER = "http://192.168.1.116:8010"
+WORKING_SERVER = "http://localhost:8010"

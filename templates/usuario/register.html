@@ -5,45 +5,51 @@
 {% endblock %}
 
 {% block conteudo_principal %}
-<form onsubmit="">
-  <h1><!--<i class="fa fa-paw"></i>--> SistemaWeb</h1>
-  <div>
-    <input id="email" type="text" class="form-control" placeholder="Email.." required />
-  </div>
-
-  <div>
-    <input id="senha" type="password" class="form-control" placeholder="Senha.." required />
-  </div>
-
-  <div>
-    <input id="re_senha" type="password" class="form-control" placeholder="Confirme a Senha.." required />
-  </div>
-
-  <br>
-
-  <div>
-    <button type="button" class="btn btn-primary submit form-control" onclick="criar_usuario_contratante()">Cadastrar</button>
-  </div>
-
-  <div class="clearfix"></div>
-
-  <div class="separator">
-    <p class="text-center">Não tem conta?
-      <a href="/register" class=""> Cadastre-se aqui.</a><br>
-      <a class="" href="#">Esqueci minha senha</a>
-    </p>
-
-    <div class="clearfix"></div>
-    <br />
+<div ng-controller="controller_register">
+  <form ><!--ng-submit="salvar_usuario()"-->
+    {% csrf_token %}
+    <h1><!--<i class="fa fa-paw"></i>--> SistemaWeb</h1>
+    {% verbatim %}Olha o email (Angular): {{ email }}{% endverbatim %}
 
     <div>
-      <p>©2016 All Rights Reserved. Privacy and Terms</p>
+      {{ formulario_register.email }}
     </div>
-  </div>
-</form>
+
+    <div>
+      {{ formulario_register.senha }}
+    </div>
+
+    <div>
+      {{ formulario_register.confirma_senha }}
+    </div>
+
+    <br>
+
+    <div>
+      <button type="button" class="btn btn-primary submit form-control" ng-click="salvar_usuario()">Cadastrar</button>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="separator">
+      <p class="text-center">Não tem conta?
+        <a href="/register" class=""> Cadastre-se aqui.</a><br>
+        <a class="" href="#">Esqueci minha senha</a>
+      </p>
+
+      <div class="clearfix"></div>
+      <br />
+
+      <div>
+        <p>©2016 All Rights Reserved. Privacy and Terms</p>
+      </div>
+    </div>
+  </form>
+</div>
 {% endblock %}
 
 {% block recursos_complementares %}
   {% load static %}
+  <script src="{% static 'modules/usuario/controladores/usuarioController.js' %}"></script>
   <script src="{% static 'modules/usuario/register.js'%}"></script>
 {% endblock %}
