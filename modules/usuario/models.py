@@ -11,7 +11,6 @@ opcoes_tipos_usuarios = (
         ('A', 'ADMIN'),
         ('D', 'DESENVOLVEDOR'),
         ('S', 'SUPORTE'),
-
 		('C', 'CONTRATANTE'),
 		('F', 'FUNCIONARIO'),
 	)
@@ -43,6 +42,14 @@ class GerenciadorUsuario(BaseUserManager):
         user.is_active = True
         user.save(using=self._db)
         return user
+
+    def verificar_email_disponivel(self,email):
+        resultado = self.model.objects.filter(email=email)
+        if len(resultado) == 0:
+            return True
+        else:
+            return False
+
 
 class Usuario(PermissionsMixin, AbstractBaseUser):
     email             = models.EmailField(_('Email'), max_length=255, unique=True)

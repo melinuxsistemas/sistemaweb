@@ -1,82 +1,66 @@
-from django.contrib.auth import login, authenticate
-from django.shortcuts import render, render_to_response, HttpResponse
+from django.http import Http404
+from django.views.decorators.csrf import requires_csrf_token,ensure_csrf_cookie
+from django.shortcuts import render,HttpResponse
+from django.core import serializers
+from modules.core.utils import executar_operacao
 from django.template import RequestContext
-from django.http.response import Http404
-from modules.usuario.form import form_login
-from django.forms.models import model_to_dict
-from modules.usuario.models import Usuario, GerenciadorUsuario
-
 import json
 
-def index(request):
-    return render_to_response("base_page.html")
+from modules.usuario.models import Usuario
+from modules.usuario.forms import formulario_register
 
-def register(request):
-    return render_to_response("usuario/register.html")
+#ensure_csrf_cookie()
+def register_page(request):
+    form_register = formulario_register()
+    return render(request, "usuario/register.html", {'formulario_register': form_register})
 
 
-def login(request):
-    form = form_login()
-    return render(request,"usuario/login.html",{'form': form})
-
-def grava_novo(request):
-    print(request.POST)
+#requires_csrf_token
+def register_save(request):
+    print("Vindo salvar ",request.POST)
     if request.is_ajax():
-        form = form_login(request.POST)
-        resultado = validar_formulario(form)
-        if resultado:
-            usuario = Usuario()
-            usuario.email =   form.cleaned_data['email']
-            usuario.set_password(form.cleaned_data["senha"])
+        form = formulario_register(request.POST)
+        response_dict = {}
 
-            response_dict = executar_operacao(usuario,"save")
+        if form.is_valid():
+            email = request.POST['email'].lower()
+            senha = request.POST['senha']
 
-            response_dict['message'] = str(response_dict['message'])
-        return HttpResponse(json.dumps(response_dict))
+            if Usuario.objects.verificar_email_disponivel(email):
+                usuario = Usuario.objects.criar_usuario_contratante(email,senha)
+                response_dict['success'] = True
+                response_dict['message'] = ""
+                response_dict['data-object'] = serializers.serialize('json',[usuario])
+                print("Veja como ficou: ",response_dict['data-object'])
+            else:
+                response_dict['success'] = False
+                response_dict['message'] = "Email já cadastrado."
+                response_dict['data-object'] = None
+                print ("Email ja existe")
+
+        else:
+            print ("Erro! validaçao do formulario deu erro")
+            print ("Olha os erros: ",form.errors)
+            response_dict['message'] = form.errors
+
+
+
+
+        #usuario =
+        #usuario.nome =
+        #usuario.descricao = request.POST["descricao"].upper()
+        #response_dict = executar_operacao(plano, "save")
+        #if response_dict['message'] != True:
+        #    response_dict['message'] = serializar_plano(response_dict['message'])
+        #"""
+        return HttpResponse(json.dumps(response_dict))#
     else:
         raise Http404
 
-def controle_usuario(request):
-    formulario_usuario = form_login()
-    return render_to_response(request,"usuario/login.html",
-                              {'formulario_usuario' : formulario_usuario})
-
-def validar_formulario(formulario):
-    if formulario.is_valid():
-        return True
-    else:
-        for campo in formulario:
-            erros = campo.errors.as_data()
-            print("Label "+campo.label)
-            if erros != []:
-                erro = erros[0]
-                #print "olha o erro:",erro[0]
-                msg = "Erro! "+campo.label.replace(":","")+str(erros[0])
-                print(msg)
-                return msg
+    #Sreturn HttpResponse(json.dumps({}))
+    #return render_to_response("base_page.html")
 
 
 
-def executar_operacao(registro,operacao):
-    response_dict = {}
-    if operacao == "save":
-        metodo_selecionado = registro.save
-        menssage_sucesso = "Registro adicionado com Sucesso!"
-        menssage_falha = "Erro! Registro não pode ser Salvo.\n"
-
-    elif operacao == "delete":
-        metodo_selecionado = registro.delete
-        menssage_sucesso = "Registro apagado com Sucesso!"
-        menssage_falha = "Erro! Registro não pode ser Salvo.\n"
-
-    try:
-        metodo_selecionado()
-        response_dict['success'] = True
-        response_dict['message'] = registro.id
-        print("Sucesso na execucao")
-    except Exception as e:
-        response_dict['success'] = False
-        response_dict['message'] = menssage_falha+str(e)
-        print("falha na execucao")
-    print(response_dict)
-    return response_dict,registro
+def login(request):
+    return render("usuario/login.html")
