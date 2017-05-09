@@ -1,18 +1,3 @@
-/*function criar_usuario_contratante(){
-  NProgress.start();
-
-  if (validar_formulario()){
-
-    success_notify("Usuário Cadastrado","Você receberá um email em instantes.")
-    NProgress.done();
-    return true;
-  }
-  else{
-    NProgress.done();
-    return false;
-  }
-}*/
-
 function validar_formulario(){
   return (validar_email() && validar_senha());
 }
