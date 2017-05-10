@@ -1,0 +1,29 @@
+[run]
+omit =
+    *PythonVirtualEnvs*
+    .sonar/*
+    conf/*
+    data/*
+    logs/*
+    media/*
+    requirements/*
+    sistemaweb/*
+    static/*
+    templates/*
+    test/*
+    .bowerrc
+    .coverage
+    .coveragerc
+    .gitignore
+    bower.json
+    manage.py
+    README.md
+    sonar-project.properties
+    *__init__.py*
+    *migrations*
+    *factories.py
+
+
+[report]
+[html]
+directory = test/unit/report/coverage_backend
