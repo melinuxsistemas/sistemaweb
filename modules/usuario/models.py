@@ -69,6 +69,9 @@ class Usuario(PermissionsMixin, AbstractBaseUser):
         verbose_name = _('Usuário')
         verbose_name_plural = _('Usuários')
 
+    def __unicode__(self):
+        return self.email
+
     def email_user(self, subject, message, from_email=None):
         send_mail(subject, message, from_email, [self.email])
 
