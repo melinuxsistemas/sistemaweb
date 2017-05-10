@@ -5,12 +5,10 @@
 {% endblock %}
 
 {% block conteudo_principal %}
-<div ng-controller="controller_register">
-  <form ><!--ng-submit="salvar_usuario()"-->
+<div ng-controller="register_controller">
+  <form id='form_register' method="POST" autocomplete="off"><!--ng-submit="salvar_usuario()"-->
     {% csrf_token %}
     <h1><!--<i class="fa fa-paw"></i>--> SistemaWeb</h1>
-    {% verbatim %}Olha o email (Angular): {{ email }}{% endverbatim %}
-
     <div>
       {{ formulario_register.email }}
     </div>
@@ -26,7 +24,7 @@
     <br>
 
     <div>
-      <button type="button" class="btn btn-primary submit form-control" ng-click="salvar_usuario()">Cadastrar</button>
+      <button type="button" class="btn btn-primary submit form-control" ng-click="save_user()">Cadastrar</button>
     </div>
 
     <div class="clearfix"></div>
@@ -52,6 +50,6 @@
 
 {% block recursos_complementares %}
   {% load static %}
-  <script src="{% static 'modules/usuario/controladores/usuarioController.js' %}"></script>
-  <script src="{% static 'modules/usuario/register.js'%}"></script>
+  <script src="{% static 'modules/usuario/usuario_controller.js' %}"></script>
+  <script src="{% static 'modules/usuario/usuario.js' %}"></script>
 {% endblock %}

@@ -27,7 +27,7 @@ from modules.core import views as view_core
 urlpatterns = [
     url(r'^$', view_core.index),
     url(r'^admin/', admin.site.urls),
-    url(r'^login/$', view_usuario.login),
+    url(r'^login/$', view_usuario.login_page),
     url(r'^register/$', view_usuario.register_page),
 
     url(r'^api/usuario/', include('modules.usuario.urls')),

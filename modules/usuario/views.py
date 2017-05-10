@@ -35,5 +35,5 @@ def register_save(request):
         raise Http404
 
 
-def login(request):
+def login_page(request):
     return render("usuario/login.html")
