@@ -11,6 +11,7 @@ class formulario_register(forms.Form):
                                         'class': "form-control text-lowercase",
                                         'id': 'email',
                                         'ng-model': 'email',
+                                        'autocomplete': "off",
                                         'placeholder': "Email..",
                                         'required':"true"
                                     }
@@ -21,8 +22,9 @@ class formulario_register(forms.Form):
                                 attrs={'id': 'senha',
                                        'class': "form-control ",
                                        'type': "password",
+                                       'autocomplete': "off",
                                        'ng-model': 'senha',
-                                       'placeholder': "Senha..",
+                                       'placeholder': "Confirme a Senha..",
                                        'required': ""
                                     }
                                 )
@@ -34,6 +36,7 @@ class formulario_register(forms.Form):
                                         attrs={'id': 'confirma_senha',
                                                'class': "form-control",
                                                'type': "password",
+                                               'autocomplete': "off",
                                                'ng-model': 'confirma_senha',
                                                'placeholder': "Senha..",
                                                'required': ""

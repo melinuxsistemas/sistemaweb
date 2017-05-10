@@ -47,3 +47,18 @@ function contains_alpha(id) {
 function is_empty(id){
   return (document.getElementById(id).value.length == 0 ? !error_notify(id,"Campo Obrigatório","Por favor preencha o campo.") : false)
 }
+
+function email_is_valid(id) {
+  var filter = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+  if(!is_empty(id)){
+    if(filter.test(document.getElementById(id).value)){
+      return true;
+    }
+    else{
+      return error_notify("email","Email Inválido","Verifique se o email foi digitado corretamente.")
+    }
+  }
+  else{
+    return false;
+  }
+}
