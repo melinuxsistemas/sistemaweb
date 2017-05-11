@@ -12,3 +12,4 @@ modules/core/migrations/__pycache__/
 modules/usuario/__pycache__/
 modules/usuario/migrations/__pycache__/
 sistemaweb/__pycache__/
+test/unit/report/

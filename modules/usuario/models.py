@@ -43,12 +43,31 @@ class GerenciadorUsuario(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def verificar_email_disponivel(self,email):
-        resultado = self.model.objects.filter(email=email)
-        if len(resultado) == 0:
+    def check_available_email(self, email):
+        if len(self.model.objects.filter(email=email)) == 0:
             return True
         else:
             return False
+
+    def authenticate(self, email=None, password=None):
+        try:
+            user = Usuario.objects.get_user_email(email)
+            if user.check_password(password):
+                return user
+        except Usuario.DoesNotExist:
+            return None
+
+    def get_user_email(self,email):
+        try:
+            return Usuario.objects.get(email=email)
+        except Usuario.DoesNotExist:
+            return None
+
+    def get_user(self, user_id):
+        try:
+            return Usuario.objects.get(pk=user_id)
+        except Usuario.DoesNotExist:
+            return None
 
 
 class Usuario(PermissionsMixin, AbstractBaseUser):
