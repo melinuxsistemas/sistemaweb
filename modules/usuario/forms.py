@@ -50,3 +50,27 @@ class formulario_register(forms.Form):
             self._errors["senha"] = ["Senha nao confere"]  # Will raise a error message
             del form_data['senha']
         return form_data
+
+class formulario_login(forms.Form):
+    email = forms.EmailField(label="Email", max_length=256, required=False, error_messages=MENSAGENS_ERROS,
+                             widget=forms.TextInput(
+                                 attrs={'type': "text",
+                                        'class': "form-control text-lowercase",
+                                        'id': 'email',
+                                        'ng-model': 'email',
+                                        'placeholder': "Email..",
+                                        'required': "true"
+                                        }
+                             )
+                             )
+    senha = forms.CharField(label="Senha", max_length=50, required=True, error_messages=MENSAGENS_ERROS,
+                            widget=forms.TextInput(
+                                attrs={'id': 'senha',
+                                       'class': "form-control ",
+                                       'type': "password",
+                                       'ng-model': 'senha',
+                                       'placeholder': "Senha..",
+                                       'required': ""
+                                       }
+                            )
+                            )

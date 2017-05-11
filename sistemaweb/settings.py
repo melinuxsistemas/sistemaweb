@@ -90,7 +90,7 @@ BOWER_INSTALLED_APPS = (
     'jquery#3.2.1',
     'bootstrap#3.3.7',#3.3.2
     'font-awesome#4.6.3',#4.2
-
+    'angular#1.6.4',
     'animate.css',
     'gauge.js',
     'chart.js',
@@ -147,7 +147,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-
+LOGIN_REDIRECT_URL = "/"
 
 
 # Static files (CSS, JavaScript, Images)
@@ -159,4 +159,4 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [ BASE_DIR+os.path.join('/static/'), ]
 
 WORKING_CONFIGURATION = os.path.join(BASE_DIR, 'conf/working.json')
-WORKING_SERVER = "http://localhost:8010"
+WORKING_SERVER = "http://192.168.1.116:8010"
