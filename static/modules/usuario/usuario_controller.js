@@ -3,7 +3,7 @@
  */
 
 var application = angular.module('modules.usuario', [])
-aplicacao.controller('register_controller', function($scope) {
+application.controller('register_controller', function($scope) {
 
   $scope.save_user = function () {
     var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
@@ -48,7 +48,7 @@ aplicacao.controller('register_controller', function($scope) {
   }
 });
 
-aplication.controller('login_controller', function($scope) {
+application.controller('login_controller', function($scope) {
 
   $scope.logar_usuario = function () {
     var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
