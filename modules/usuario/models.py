@@ -52,6 +52,7 @@ class GerenciadorUsuario(BaseUserManager):
     def authenticate(self, email=None, password=None):
         try:
             user = Usuario.objects.get_user_email(email)
+            print("usuario",user)
             if user.check_password(password):
                 return user
         except Usuario.DoesNotExist:
@@ -59,7 +60,9 @@ class GerenciadorUsuario(BaseUserManager):
 
     def get_user_email(self,email):
         try:
-            return Usuario.objects.get(email=email)
+            result = Usuario.objects.get(email=email)
+            print("Resultado ",result)
+            return result
         except Usuario.DoesNotExist:
             return None
 

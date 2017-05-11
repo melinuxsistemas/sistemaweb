@@ -1,10 +1,11 @@
 from django.shortcuts import render,HttpResponse
 from django.http import Http404
+#from django.contrib.auth import ticate, login
 import json
 
 from modules.core.utils import response_format_success,response_format_error
 from modules.usuario.models import Usuario
-from modules.usuario.forms import formulario_register
+from modules.usuario.forms import formulario_register, formulario_login
 
 
 def register_page(request):
@@ -42,12 +43,12 @@ def login_save(request):
             email = request.POST['email'].lower()
             senha = request.POST['senha']
 
-            usuario = authenticate(email=email, password=senha)
+            usuario = Usuario.objects.authenticate(email=email, password=senha)
+
             print(usuario)
-            if usuario != None:
+            if usuario is not None:
                 if usuario.is_active:
                     print("Você forneceu um email e senha corretos!")
-                    login(request, email)
                     response_dict = response_format_success(usuario, ['email', 'joined_date','password'])
                 else:
                     print("Email nao cadastrado!")

@@ -1,11 +1,12 @@
 /**
  * Created by diego on 05/05/2017.
  */
+var application = angular.module('modules.usuario', []);
 
-var application = angular.module('modules.usuario', [])
 application.controller('register_controller', function($scope) {
 
   $scope.save_user = function () {
+    alert("Salvando...");
     var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
     NProgress.start();
     if (validate_form_register()){
@@ -48,13 +49,14 @@ application.controller('register_controller', function($scope) {
   }
 });
 
+
 application.controller('login_controller', function($scope) {
 
   $scope.logar_usuario = function () {
     var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
     NProgress.start();
     alert("Vai validar email "+$scope.email);
-    //if (validate_form_login()){
+    if (validate_form_login()){
 
       $.ajax({
         type: "POST",
@@ -89,10 +91,10 @@ application.controller('login_controller', function($scope) {
 
       NProgress.done();
       return true;
-    //}
-    //else{
-    //  NProgress.done();
-    //  return false;
-    //}
+    }
+    else{
+      NProgress.done();
+      return false;
+    }
   }
 });
