@@ -2,11 +2,19 @@
  * Created by diego on 05/05/2017.
  */
 
-angular.module('modules.usuario', []).controller('register_controller', function($scope) {
+
+var aplication = angular.module('modules.usuario', []);
+aplication.controller('register_controller', function($scope) {
+
+  $scope.novo_teste = function () {
+    alert("tenta a sorte")
+  }
 
   $scope.save_user = function () {
+    alert("Cade?");
     var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
     NProgress.start();
+
     if (validate_form_register()){
       $.ajax({
         type: "POST",
@@ -22,6 +30,7 @@ angular.module('modules.usuario', []).controller('register_controller', function
           var response = $.parseJSON(data);
           var message = response['message']
           var resultado = response['success']
+
           if (resultado == true) {
             var data_object = $.parseJSON(response['data-object'])
             var moment_date = moment(data_object['fields']['joined_date']).format("DD/MM/YYYY - HH:mm:ss")
@@ -47,7 +56,7 @@ angular.module('modules.usuario', []).controller('register_controller', function
   }
 });
 
-angular.module('modules.usuario', []).controller('login_controller', function($scope) {
+aplication.controller('login_controller', function($scope) {
 
   $scope.login = function () {
     var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
