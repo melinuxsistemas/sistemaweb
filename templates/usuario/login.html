@@ -1,23 +1,33 @@
 {% extends 'usuario/base.html' %}
+{% load static %}
 {% block Titulo %}SistemaWeb - Adicionar Usuário{% endblock %}
 
 {% block recursos_necessarios %}
 {% endblock %}
 
 {% block conteudo_principal %}
-<form>
-  <h1><!--<i class="fa fa-paw"></i>--> SistemaWeb</h1>
-  <div>
-    <input type="text" class="form-control" placeholder="Email.." required="" />
-  </div>
+<div ng-controller="login_controller">
+    {% verbatim %}
+    {{ email }}
+    {% endverbatim %}
+    <form id="form_login">
+      {% csrf_token %}
+      <h1><!--<i class="fa fa-paw"></i>--> SistemaWeb</h1>
 
-  <div>
-    <input type="password" class="form-control" placeholder="Senha.." required="" />
-  </div>
+      <div>
+        {{ formulario_login.email }}
+      </div>
 
-  <div>
-    <a class="btn btn-primary submit form-control" href="index.html">Cadastrar</a>
-  </div>
+      <div>
+        {{ formulario_login.senha }}
+      </div>
+
+      <div>
+      <button type="button" class="btn btn-primary submit form-control" ng-click="logar_usuario()">Entrar</button>
+    </div>
+
+    </form>
+   </div>
 
   <div class="clearfix"></div>
 
@@ -35,8 +45,9 @@
       <p>©2016 All Rights Reserved. Privacy and Terms</p>
     </div>
   </div>
-</form>
 {% endblock %}
 
 {% block recursos_complementares %}
+<script src="{% static 'modules/usuario/usuario_controller.js' %}"></script>
+<script src="{% static 'modules/usuario/usuario.js' %}"></script>
 {% endblock %}

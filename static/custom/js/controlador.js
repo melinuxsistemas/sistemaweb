@@ -1,28 +1,22 @@
+ alert("Controlador.js");
  var app = angular.module('NovaApp', []);
- var esta_adicionando = null;
- var tipo_operacao = null
 
 
  app.controller('MeuController', function($scope) {
-    $scope.tipo_operacao = null;
-    $scope.esta_adicionando = true;
-    $scope.registro_selecionado = null;
-
-    $scope.registro_marcado = "desabilitado";
+    alert('Entrou no controlador');
 
     $scope.incluir_usuario = function() {
         var email= $scope.email;
         var senha = $scope.senha;
-        alert('Vai incluir usuario '+email);
+        alert("vai incluir "+email);
+
+        var csrftoken = $("[name=csrfmiddlewaretoken]").val();
+        alert(csftoken);
         if(email){
             $.ajax({
                 type: "POST",
                 url: "/usuario/grava_novo/",
-                data: {
-                    email: email,
-                    senha: senha,
-                    csrfmiddlewaretoken: '{{ csrf_token }}'
-                },
+                data: { csrfmiddlewaretoken: csrf_token },
 
                 success: function (data) {
                     var resultado = $.parseJSON(data);
@@ -55,16 +49,17 @@
     $scope.alterar_usuario = function() {
         var email = $scope.email;
         var senha = $scope.senha;
-
+        var csrftoken = {$("[email=csrfmiddlewaretoken]").val(),$("[senha=csrfmiddlewaretoken]").val()};
+        alert(csrftoken);
         if(email){
            if (confirm('Confirma alteraçoes desse Usuario?')) {
               $.ajax({
                     type: "POST",
                     url: "/alterar/" + $scope.registro_selecionado.id + "/",
-                    data: {
-                        email: email,
-                        senha: senha,
-                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    data: { csrfmiddlewaretoken: csrftoken,
+                        //email: email,
+                        //senha: senha,
+                        //csrfmiddlewaretoken: '{{ csrf_token }}'
 
                     },
                     success: function (data) {
