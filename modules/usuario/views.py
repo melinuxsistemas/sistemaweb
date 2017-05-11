@@ -20,7 +20,7 @@ def register_save(request):
             email = request.POST['email'].lower()
             senha = request.POST['senha']
 
-            if Usuario.objects.verificar_email_disponivel(email):
+            if Usuario.objects.check_available_email(email):
                 usuario = Usuario.objects.criar_usuario_contratante(email,senha)
                 response_dict = response_format_success(usuario,['email','joined_date'])
 
@@ -36,4 +36,4 @@ def register_save(request):
 
 
 def login_page(request):
-    return render("usuario/login.html")
+    return render(request,"usuario/login.html")
