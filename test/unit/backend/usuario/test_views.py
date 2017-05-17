@@ -1,10 +1,6 @@
 import json
 
-from django.contrib.auth import login
-
 from django.test import TestCase, Client
-from django.utils.http import urlencode
-
 from modules.usuario.models import Usuario
 
 
@@ -25,4 +21,20 @@ class UsuarioViewsTests(TestCase):
             response_content = json.loads(response.content.decode())
             self.assertEqual(response.status_code, 200)
             self.assertEqual(response_content['success'], resultado)
+            self.client.get('/logout')
+
+    def test_register_with_valid_user(self):
+        casos_testes = [
+            ['testeteste.com.br', '1q2w3e4r', '1q2w3', False],
+            ['teste@teste.com.br', '1234', '123', False],
+            ['teste@teste.com.br', '1q2w3e4r', '1q2w3e4r', True]
+        ]
+
+        for email, senha, confirma_senha, retorno in casos_testes:
+            response = self.client.post('/api/usuario/register/save',
+                                        data={'email': email, 'senha': senha, 'confirma_senha' : confirma_senha },
+                                        HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+            response_content = json.loads(response.content.decode())
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response_content['success'], retorno)
             self.client.get('/logout')
