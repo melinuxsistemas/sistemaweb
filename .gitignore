@@ -6,6 +6,8 @@
 /static/compress
 *.pyc
 *.sqlite3
+.coverage
+coverage.xml
 modules/__pycache__/
 modules/core/__pycache__/
 modules/core/migrations/__pycache__/

@@ -1,10 +1,5 @@
 from django.test import TestCase
 from modules.usuario.models import *
-#modules.usuario.models import Usuario
-#from django.utils import timezone
-#from django.core.urlresolvers import reverse
-#from whatever.forms import WhateverForm
-
 
 class UsuarioTest(TestCase):
 

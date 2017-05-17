@@ -55,7 +55,6 @@ def login_autentication(request):
                 response_dict = response_format_success(usuario, ['email'])
             else:
                 response_dict = response_format_error("Erro! Usuário ou senha incorreto.")
-
         else:
             response_dict = response_format_error("Erro! Formulário com dados inválidos.")
 

@@ -7,6 +7,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseU
 
 from modules.core.config import MENSAGENS_ERROS
 #from django.contrib.auth.hashers import check_password,make_password,is_password_usable
+from modules.usuario.validators import email_format_validator, email_unique_validator
 
 opcoes_tipos_usuarios = (
         ('A', 'ADMIN'),
@@ -75,7 +76,7 @@ class GerenciadorUsuario(BaseUserManager):
 
 
 class Usuario(PermissionsMixin, AbstractBaseUser):
-    email             = models.EmailField(_('Email'), max_length=255, unique=True)
+    email             = models.EmailField(_('Email'), max_length=255, unique=True,validators=[email_format_validator, email_unique_validator],error_messages=MENSAGENS_ERROS)
     type_user         = models.CharField("Tipo de Usuário:",max_length=1,null=False,default='F',error_messages=MENSAGENS_ERROS)
     joined_date       = models.DateTimeField(null=True, auto_now_add=True)
     last_update       = models.DateTimeField(null=True, auto_now=True)
