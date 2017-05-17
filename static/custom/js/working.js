@@ -14,6 +14,9 @@ function working_qunit(){
             title: "WorkingAPI was updated",
             addclass: 'visible',
             text: '',
+            hide: true,
+            delay: 2000,
+            mouse_reset: false,
             type: 'success',
             styling: 'bootstrap3'
         });
@@ -39,6 +42,9 @@ function working(){
             title: "WorkingAPI was updated",
             text: texto,
             type: 'success',
+            hide: true,
+            delay: 2000,
+            mouse_reset: false,
             styling: 'bootstrap3'
         });
       }

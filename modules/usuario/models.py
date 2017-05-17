@@ -63,7 +63,6 @@ class GerenciadorUsuario(BaseUserManager):
     def get_user_email(self,email):
         try:
             result = Usuario.objects.get(email=email)
-            print("Resultado ",result)
             return result
         except Usuario.DoesNotExist:
             return None

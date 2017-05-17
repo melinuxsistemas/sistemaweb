@@ -6,7 +6,9 @@ function notify(type,title,description){
     title: title,
     text: description,
     //auto_display: false,
-
+    hide: true,
+    delay: type=='error' ? 5000 : 2000,
+    mouse_reset: false,
     type: type,
     styling: 'bootstrap3' // bootstrap3 , fontawesome
   });

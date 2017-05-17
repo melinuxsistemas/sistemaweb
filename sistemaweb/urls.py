@@ -30,8 +30,8 @@ urlpatterns = [
     url(r'^login/$', view_usuario.login_page),
     url(r'^logout/$', view_usuario.logout_page),
     url(r'^register/$', view_usuario.register_page),
-
     url(r'^api/usuario/', include('modules.usuario.urls')),
+
 
     url(r'^api/working/register/$', view_core.working),
 ]#+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

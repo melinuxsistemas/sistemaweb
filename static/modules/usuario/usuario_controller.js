@@ -53,8 +53,10 @@ application.controller('login_controller', function($scope) {
 
   $scope.login_autentication = function () {
     var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+
     NProgress.start();
     if (validate_form_login()){
+
       $.ajax({
         type: "POST",
         url: "/api/usuario/login/autentication",

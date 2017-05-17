@@ -13,6 +13,14 @@ class UsuarioTest(TestCase):
         self.assertTrue(isinstance(usuario, Usuario), 'Usuario Contratante instanciado corretamente (OK)')
         self.assertEqual(usuario.__unicode__(), usuario.email,"Representacao do objeto com unicode (OK)")
 
+    def test_autenticar_usuario(self):
+        usuario = Usuario.objects.criar_usuario_contratante('teste@teste.com', '1q2w3e4r')
+        usuario_autenticado = Usuario.objects.authenticate(None, email='teste@teste.com', password='1234567')
+        self.assertNotEqual(usuario.__unicode__(), usuario_autenticado,"Teste autenticação de usuário com senha incorreta (OK)")
+
+        usuario_autenticado = Usuario.objects.authenticate(None, email='teste@teste.com', password='1q2w3e4r')
+        self.assertEqual(usuario.__unicode__(), usuario_autenticado.__unicode__(),"Teste de autenticação com usuário e senha corretos (OK)")
+
     def test_verificar_email_valido(self):
         variacoes = [
             ['teste@teste.com', True],
