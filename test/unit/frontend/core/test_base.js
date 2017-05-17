@@ -47,7 +47,16 @@ QUnit.test("contains_alpha", function( assert ) {
   assert.ok(contains_alpha(teste_id) == true, "Teste: Verificar em um campo contendo letras e números (OK) " );
 
   document.getElementById(teste_id).value = 'ABCDEFGHIJK';
-  assert.ok(contains_alpha(teste_id) == true, "Teste: Verificar em um campo somente com palavras (OK) " );
+  assert.ok(contains_alpha(teste_id) == true, "Teste: Verificar em um campo somente com palavras maiusculas (OK) " );
+
+  document.getElementById(teste_id).value = 'abcdefghijk';
+  assert.ok(contains_alpha(teste_id) == true, "Teste: Verificar em um campo somente com palavras minusculas (OK) " );
+
+  document.getElementById(teste_id).value = '1601helder';
+  assert.ok(contains_alpha(teste_id) == true, "Teste: Verificar em um campo somente com palavras minusculas comecando com numeros (OK) " );
+
+  document.getElementById(teste_id).value = 'helder1601';
+  assert.ok(contains_alpha(teste_id) == true, "Teste: Verificar em um campo somente com palavras minusculas terminando com numeros (OK) " );
 });
 
 QUnit.test("is_empty", function( assert ) {

@@ -24,7 +24,7 @@ class formulario_register(forms.Form):
                                        'type': "password",
                                        'autocomplete': "off",
                                        'ng-model': 'senha',
-                                       'placeholder': "Confirme a Senha..",
+                                       'placeholder': "Senha..",
                                        'required': ""
                                     }
                                 )
@@ -38,7 +38,7 @@ class formulario_register(forms.Form):
                                                'type': "password",
                                                'autocomplete': "off",
                                                'ng-model': 'confirma_senha',
-                                               'placeholder': "Senha..",
+                                               'placeholder': "Repita a Senha..",
                                                'required': ""
                                             }
                                         )
@@ -61,7 +61,7 @@ class formulario_login(forms.Form):
                                         'placeholder': "Email..",
                                         'required': "true"
                                         }
-                             )
+                                )
                              )
     senha = forms.CharField(label="Senha", max_length=50, required=True, error_messages=MENSAGENS_ERROS,
                             widget=forms.TextInput(
@@ -72,5 +72,5 @@ class formulario_login(forms.Form):
                                        'placeholder': "Senha..",
                                        'required': ""
                                        }
-                            )
+                                )
                             )

@@ -6,6 +6,7 @@ function notify(type,title,description){
     title: title,
     text: description,
     //auto_display: false,
+
     type: type,
     styling: 'bootstrap3' // bootstrap3 , fontawesome
   });
@@ -40,7 +41,7 @@ function contains_numeric(id){
 }
 
 function contains_alpha(id) {
-  var letters = /[a-zA-Z]+$/;
+  var letters = /[a-zA-Z]+/;
   return (document.getElementById(id).value.match(letters) ? true : false);
 }
 

@@ -6,7 +6,6 @@ var application = angular.module('modules.usuario', []);
 application.controller('register_controller', function($scope) {
 
   $scope.save_user = function () {
-    alert("Salvando...");
     var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
     NProgress.start();
     if (validate_form_register()){
@@ -52,15 +51,13 @@ application.controller('register_controller', function($scope) {
 
 application.controller('login_controller', function($scope) {
 
-  $scope.logar_usuario = function () {
+  $scope.login_autentication = function () {
     var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
     NProgress.start();
-    alert("Vai validar email "+$scope.email);
     if (validate_form_login()){
-
       $.ajax({
         type: "POST",
-        url: "/api/usuario/login/save",
+        url: "/api/usuario/login/autentication",
         data: {
           email: $scope.email,
           senha: $scope.senha,
@@ -68,26 +65,24 @@ application.controller('login_controller', function($scope) {
         },
 
         success: function (data) {
-          alert(data);
           var response = $.parseJSON(data);
           var message = response['message']
           var resultado = response['success']
           if (resultado == true) {
             var data_object = $.parseJSON(response['data-object'])
             //alert("Veja o model: "+data_object['fields']['joined_date'])
-            alert("Usuario logado")
-            //success_notify("Usuário Cadastrado","Você receberá um email em instantes. \n<sub>"+moment_date+"</sub>")
+            NProgress.done();
+            window.location.replace("/");
           }
-
           else {
             error_notify('email',"Falha na operação",message)
           }
         },
         failure: function (data) {
+          NProgress.done();
           error_notify('email',"Falha na operação","Erro na requisição ao servidor.")
         }
       });
-
 
       NProgress.done();
       return true;

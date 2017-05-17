@@ -5,6 +5,6 @@ from modules.usuario import views
 urlpatterns = [
     #url(r'', views.index),
     url(r'register/save$', views.register_save),
-    url(r'login/save$', views.login_save),
+    url(r'login/autentication$', views.login_autentication),
 
 ]

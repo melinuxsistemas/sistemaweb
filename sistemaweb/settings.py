@@ -25,10 +25,10 @@ SECRET_KEY = '23%z1-@0*fbsjm2b^vpst-x0f8zbb30-69*2jpz%@!!f@l!a)c'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 AUTH_USER_MODEL = 'usuario.Usuario'
-
+AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',)
 
 # Application definition
 
@@ -160,3 +160,6 @@ STATICFILES_DIRS = [ BASE_DIR+os.path.join('/static/'), ]
 
 WORKING_CONFIGURATION = os.path.join(BASE_DIR, 'conf/working.json')
 WORKING_SERVER = "http://192.168.1.116:8010"
+
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'

@@ -1,14 +1,16 @@
 import requests
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.shortcuts import render
 from django.conf import settings
 from django.http.response import Http404
 import json
 
 from django.shortcuts import render_to_response
 
-
+@login_required
 def index(request):
-    return render_to_response("base_page.html")
+    return render(request,"base_page.html")
 
 def working(request):
     #if request.is_ajax():

@@ -1,3 +1,4 @@
+from django.core.validators import EmailValidator
 from django.db import models
 from django.utils import timezone
 from django.core.mail import send_mail
@@ -11,9 +12,9 @@ opcoes_tipos_usuarios = (
         ('A', 'ADMIN'),
         ('D', 'DESENVOLVEDOR'),
         ('S', 'SUPORTE'),
-		('C', 'CONTRATANTE'),
-		('F', 'FUNCIONARIO'),
-	)
+        ('C', 'CONTRATANTE'),
+        ('F', 'FUNCIONARIO'),
+)
 
 class GerenciadorUsuario(BaseUserManager):
 
@@ -49,13 +50,14 @@ class GerenciadorUsuario(BaseUserManager):
         else:
             return False
 
-    def authenticate(self, email=None, password=None):
+    def authenticate(self,request, email=None, password=None):
         try:
             user = Usuario.objects.get_user_email(email)
-            print("usuario",user)
             if user.check_password(password):
                 return user
-        except Usuario.DoesNotExist:
+            return None
+
+        except: #Usuario.DoesNotExist
             return None
 
     def get_user_email(self,email):
@@ -85,6 +87,8 @@ class Usuario(PermissionsMixin, AbstractBaseUser):
     REQUIRED_FIELDS = []
 
     objects = GerenciadorUsuario()
+
+
 
     class Meta:
         db_table = 'usuario'

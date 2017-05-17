@@ -1,6 +1,6 @@
+from django.contrib.auth import login, logout
 from django.shortcuts import render,HttpResponse
 from django.http import Http404
-#from django.contrib.auth import ticate, login
 import json
 
 from modules.core.utils import response_format_success,response_format_error
@@ -35,27 +35,26 @@ def register_save(request):
     else:
         raise Http404
 
-def login_save(request):
+
+def login_page(request):
+    form = formulario_login(request.POST)
+    return render(request,"usuario/login.html",{'formulario_login': form })
+
+
+def login_autentication(request):
     if request.is_ajax():
         form = formulario_login(request.POST)
 
         if form.is_valid():
             email = request.POST['email'].lower()
             senha = request.POST['senha']
+            usuario = Usuario.objects.authenticate(request,email=email, password=senha)
 
-            usuario = Usuario.objects.authenticate(email=email, password=senha)
-
-            print(usuario)
-            if usuario is not None:
-                if usuario.is_active:
-                    print("Você forneceu um email e senha corretos!")
-                    response_dict = response_format_success(usuario, ['email', 'joined_date','password'])
-                else:
-                    print("Email nao cadastrado!")
-                    response_dict = response_format_error("Erro! Formulário com dados inválidos.")
+            if usuario is not None and usuario.is_active:
+                login(request,usuario)
+                response_dict = response_format_success(usuario, ['email'])
             else:
-                print("Seu email e senha estavam incorretos.")
-                response_dict = response_format_error("email ou senha invalidos.")
+                response_dict = response_format_error("Erro! Usuário ou senha incorreto.")
 
         else:
             response_dict = response_format_error("Erro! Formulário com dados inválidos.")
@@ -65,6 +64,7 @@ def login_save(request):
         raise Http404
 
 
-def login_page(request):
-    form = formulario_login(request.POST)
-    return render(request,"usuario/login.html",{'formulario_login': form })
+def logout_page(request):
+    form = formulario_login()
+    logout(request)
+    return render(request,"usuario/login.html",{'formulario_login': form})
