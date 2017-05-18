@@ -18,7 +18,7 @@ def response_format(result,message,object,list_fields):
     else:
         response_dict['data-object'] = None
     return response_dict
-
+"""
 def executar_operacao(registro,operacao):
     response_dict = {}
     if operacao == "save":
@@ -42,8 +42,8 @@ def executar_operacao(registro,operacao):
         response_dict['message'] = menssage_falha+str(e)+")."
         response_dict['data-object'] = None
     return response_dict
-
-def enviaemail(email):
+"""
+def envia_email(email):
    html_content = "<strong>CONFIRMAÇÃO DE REGISTRO</strong><br>" \
                   "<p>Para ter acesso ao Sistema clique no link e informe" \
                   "o numero de registro abcbd12345789</>"
