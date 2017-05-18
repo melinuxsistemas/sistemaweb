@@ -3,7 +3,7 @@ from django.shortcuts import render,HttpResponse
 from django.http import Http404
 import json
 
-from modules.core.utils import response_format_success,response_format_error
+from modules.core.utils import response_format_success,response_format_error, enviaemail
 from modules.usuario.models import Usuario
 from modules.usuario.forms import formulario_register, formulario_login
 
@@ -24,6 +24,7 @@ def register_save(request):
             if Usuario.objects.check_available_email(email):
                 usuario = Usuario.objects.criar_usuario_contratante(email,senha)
                 response_dict = response_format_success(usuario,['email','joined_date'])
+                enviaEmail(email)
 
             else:
                 response_dict = response_format_error("Erro! Email já cadastrado.")

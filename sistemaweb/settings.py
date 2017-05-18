@@ -163,3 +163,13 @@ WORKING_SERVER = "http://192.168.1.116:8010"
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
+
+# Configurar email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+DEFAULT_FROM_EMAIL = 'melinuxsistemas@gmail.com>'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'melinuxsistemas@gmail.com'
+EMAIL_HOST_PASSWORD = '61109119'
+EMAIL_PORT = 587
+

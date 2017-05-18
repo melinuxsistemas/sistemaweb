@@ -1,4 +1,6 @@
 from django.core import serializers
+from django.core.mail import EmailMessage
+from django.http import HttpResponse
 
 def response_format_success(object,list_fields):
     return response_format(True, '', object, list_fields)
@@ -40,3 +42,12 @@ def executar_operacao(registro,operacao):
         response_dict['message'] = menssage_falha+str(e)+")."
         response_dict['data-object'] = None
     return response_dict
+
+def enviaemail(email):
+   html_content = "<strong>CONFIRMAÇÃO DE REGISTRO</strong><br>" \
+                  "<p>Para ter acesso ao Sistema clique no link e informe" \
+                  "o numero de registro abcbd12345789</>"
+   email = EmailMessage("Confirmação de registro", html_content, "melinuxsistemas@gmail.com", [ email])
+   email.content_subtype = "html"
+   res = email.send()
+   return
