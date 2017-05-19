@@ -46,6 +46,7 @@ class formulario_register(forms.Form):
 
     def clean(self):
         form_data = self.cleaned_data
+        #print ("VEJA O FORM DATA: ",form_data)
         if form_data['senha'] != form_data['confirma_senha']:
             self._errors["senha"] = ["Senha nao confere"]  # Will raise a error message
             del form_data['senha']

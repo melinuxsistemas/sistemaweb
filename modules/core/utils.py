@@ -43,7 +43,7 @@ def executar_operacao(registro,operacao):
         response_dict['data-object'] = None
     return response_dict
 
-def enviaemail(email):
+def envia_email(email):
    html_content = "<strong>CONFIRMAÇÃO DE REGISTRO</strong><br>" \
                   "<p>Para ter acesso ao Sistema clique no link e informe" \
                   "o numero de registro abcbd12345789</>"
