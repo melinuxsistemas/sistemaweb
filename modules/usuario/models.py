@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.core.validators import EmailValidator
 from django.db import models
 from django.utils import timezone
@@ -7,7 +8,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseU
 
 from modules.core.config import MENSAGENS_ERROS
 #from django.contrib.auth.hashers import check_password,make_password,is_password_usable
-from modules.usuario.validators import email_format_validator, email_unique_validator
+from modules.usuario.validators import email_format_validator,email_dangerous_symbols_validator
 
 opcoes_tipos_usuarios = (
         ('A', 'ADMIN'),
@@ -24,8 +25,17 @@ class GerenciadorUsuario(BaseUserManager):
         email = self.normalize_email(email)
         user = self.model(email=email, account_activated=conta_ativada, active_user=ativo,type_user=tipo,is_superuser=super_user, last_update=now, joined_date=now)#, **extra_fields)
         user.set_password(senha)
-        user.save(using=self._db)
-        return user
+        try:
+            user.full_clean()
+            user.save(using=self._db)
+            return user
+
+        except Exception as e:
+            #print(e)
+            return e
+
+
+
 
     def criar_usuario_contratante(self, email,senha):
         return self._create_user(email, senha,False,False, False,"C")
@@ -76,7 +86,7 @@ class GerenciadorUsuario(BaseUserManager):
 
 
 class Usuario(PermissionsMixin, AbstractBaseUser):
-    email             = models.EmailField(_('Email'), max_length=255, unique=True,validators=[email_format_validator, email_unique_validator],error_messages=MENSAGENS_ERROS)
+    email             = models.EmailField(_('Email'), max_length=255, unique=True,validators=[email_format_validator, email_dangerous_symbols_validator],error_messages=MENSAGENS_ERROS)
     type_user         = models.CharField("Tipo de Usuário:",max_length=1,null=False,default='F',error_messages=MENSAGENS_ERROS)
     joined_date       = models.DateTimeField(null=True, auto_now_add=True)
     last_update       = models.DateTimeField(null=True, auto_now=True)

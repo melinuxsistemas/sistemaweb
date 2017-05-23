@@ -6,7 +6,7 @@ from modules.usuario.models import Usuario
 
 class UsuarioViewsTests(TestCase):
     def setUp(self):
-            self.client = Client()
+        self.client = Client()
 
     def test_login_with_valid_user(self):
         casos_testes = [
@@ -31,9 +31,7 @@ class UsuarioViewsTests(TestCase):
         ]
 
         for email, senha, confirma_senha, retorno in casos_testes:
-            response = self.client.post('/api/usuario/register/save',
-                                        data={'email': email, 'senha': senha, 'confirma_senha' : confirma_senha },
-                                        HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+            response = self.client.post('/api/usuario/register/save',data={'email': email, 'senha': senha, 'confirma_senha' : confirma_senha },HTTP_X_REQUESTED_WITH='XMLHttpRequest')
             response_content = json.loads(response.content.decode())
             self.assertEqual(response.status_code, 200)
             self.assertEqual(response_content['success'], retorno)
