@@ -1,41 +1,17 @@
-import requests
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
 from django.shortcuts import render
-from django.conf import settings
+from modules.core.working_api import WorkingApi
 from django.http.response import Http404
-import json
 
-from django.shortcuts import render_to_response
 
 @login_required
 def index(request):
     return render(request,"base_page.html")
 
+
 def working(request):
-    #if request.is_ajax():
-    request_page = request.GET['request_page']
-    working_key = get_working_key()
-    data = post_request(request_page, working_key)
-    data = json.dumps(data)
-    return HttpResponse(data, content_type='application/json')
-    #else:
-    #    print ("vim no else")
-    #    raise Http404
-
-
-def post_request(request_page, working_key):
-    headers = {'content-type': 'application/json'}
-    url = settings.WORKING_SERVER+"/api/work/register"
-    data = {"request_page": request_page, "working_key": working_key}
-    response = requests.get(url, data, headers=headers)
-    return response.json()#json.loads(response.text)['msg'])
-
-
-def get_working_key():
-    config = json.loads(open(settings.WORKING_CONFIGURATION).read())
-    if config:
-        working_key = config['project_key'] + "&" + config['user_key'] + "&" + config['task']
+    if request.is_ajax():
+        working_api = WorkingApi()
+        return working_api.register_programming(request)
     else:
-        working_key = None
-    return working_key
+        raise Http404

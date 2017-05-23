@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "compressor",
-    'djangobower',
+    'djangobower','django_nose',
     'modules.core','modules.usuario',
 ]
 
@@ -102,7 +102,11 @@ BOWER_INSTALLED_APPS = (
     'nprogress',
     'pnotify',
     'qunit',
-    'blanket'
+    'blanket',
+    'unittest-xml-reporting#2.1.0',
+    'junit-xml#1.7',
+    'nose#1.3.7',
+    'django-nose#1.4.4'
 
 )
 
@@ -153,6 +157,22 @@ LOGIN_REDIRECT_URL = "/"
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 TEST_URL = BASE_DIR+os.path.join('/test/')
+#TEST_RUNNER = 'xmlrunner.extra.djangotestrunner.XMLTestRunner'
+#TEST_OUTPUT_DIR = "test/unit/report/backend_unit_report"
+
+
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+NOSE_ARGS = [
+    '--verbosity=2',  # verbose output
+    '--with-coverage',
+    '--cover-inclusive',
+    '--cover-xml',  # produle XML coverage info
+    '--cover-xml-file=coverage.xml',  # the coverage info file
+    '--with-xunit',  # enable XUnit plugin
+    '--xunit-file=xunittest.xml'#test/unit/report/backend_unit_report/xunittest.xml',  # the XUnit report file
+]
+
 
 STATIC_ROOT = ''
 STATIC_URL = '/static/'
