@@ -24,12 +24,12 @@ omit =
     *factories.py
 
     *netrc.py*
-    *encodings\idna.py*
-    *http*\client.py*
-    *http\cookiejar.py*
+    *encodings/idna.py*
+    *http*/client.py*
+    *http/cookiejar.py*
     *stringprep.py*
-    *xml\dom\pulldom.py*
-    *xml\sax\expatreader.py*
+    *xml/dom/pulldom.py*
+    *xml/sax/expatreader.py*
 
 
 [report]

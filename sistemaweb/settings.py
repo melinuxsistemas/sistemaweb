@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 import sys
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -103,10 +105,8 @@ BOWER_INSTALLED_APPS = (
     'pnotify',
     'qunit',
     'blanket',
-    'unittest-xml-reporting#2.1.0',
-    'junit-xml#1.7',
-    'nose#1.3.7',
-    'django-nose#1.4.4'
+
+    'https://github.com/yairEO/validator.git'
 
 )
 
@@ -193,3 +193,5 @@ EMAIL_HOST_USER = 'melinuxsistemas@gmail.com'
 EMAIL_HOST_PASSWORD = '61109119'
 EMAIL_PORT = 587
 
+from modules.core.working_api import WorkingManager
+WorkingManager().register_programming_backend()

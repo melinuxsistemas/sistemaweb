@@ -75,7 +75,7 @@
               <div class="menu_section">
                 <!--<h3>General</h3>-->
                 <ul class="nav side-menu">
-                  <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
+                  <li id="menu_home" class="menu-item"><a><i class="fa fa-homes"></i> Home <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li>
                         <a href="index.html">Dashboard
@@ -86,6 +86,7 @@
                       <li><a href="index3.html">Dashboard3</a></li>-->
                     </ul>
                   </li>
+
                   <!--
                   <li><a><i class="fa fa-edit"></i> Forms <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
@@ -228,6 +229,7 @@
                     <li><a href="javascript:;">Help</a></li>
                     -->
                      {% if user.is_authenticated %}
+                       <li><a href="/profile">Perfil</a></li>
                        <li><a href="/logout">Logout</a></li>
                      {% else %}
                        <li><a href="/login">Login</a></li>
@@ -311,7 +313,10 @@
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                <h3 id="porcaria">Plain Page</h3>
+                <h3>
+                  {% block titulo_cabecalho %}
+                  {% endblock %}
+                </h3>
               </div>
 
               <div class="title_right">
@@ -335,31 +340,6 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
 
                 {% block conteudo_principal %}
-
-                <div class="x_panel">
-                  <div class="x_title">
-                    <h2>Plain Page</h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                      </li>
-                      <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                        <ul class="dropdown-menu" role="menu">
-                          <li><a href="#">Settings 1</a>
-                          </li>
-                          <li><a href="#">Settings 2</a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li><a class="close-link"><i class="fa fa-close"></i></a>
-                      </li>
-                    </ul>
-                    <div class="clearfix"></div>
-                  </div>
-                  <div class="x_content">
-                      Add content to the page ...
-                  </div>
-                </div>
 
                 {% endblock %}
               </div>
@@ -399,6 +379,7 @@
     <link href="% static 'bower/pnotify/dist/dist/pnotify.nonblock.css'%}" rel="stylesheet">-->
 
     <script src="{% static 'bower/pnotify/dist/pnotify.js'%}"></script>
+    <script src="{% static 'modules/core/base.js'%}"></script>
     <!--<script src="% static 'bower/pnotify/pnotify.buttons.js'%}"></script>
     <script src="% static 'bower/pnotify/dist/pnotify.nonblock.js'%}"></script>-->
 
@@ -422,8 +403,7 @@
   -->
 
     <script>
-        NProgress.done();
-        working();
-        setTimeout(function(){ $(".label_new").addClass('label_fade') }, 4000);
+      NProgress.done();
+      working();
     </script>
 </html>

@@ -13,17 +13,6 @@ class WorkingApi:
     working_key = None
     task_id = None
 
-    def register_programming(self,request):
-        request_page = request.GET['request_page']
-        data = self.save(request_page)
-        data = json.dumps(data)
-        return HttpResponse(data, content_type='application/json')
-
-    def register_test(self):
-        data = self.save('test')
-        data = json.dumps(data)
-        return HttpResponse(data, content_type='application/json')
-
     def get_working_key(self):
         config = json.loads(open(settings.WORKING_CONFIGURATION).read())
         self.user_key = config['user_key']
@@ -36,8 +25,40 @@ class WorkingApi:
             self.working_key = None
         return self.working_key
 
-    def save(self,workon):
+    def save(self, tipo, request_page=None):
         headers = {'content-type': 'application/json'}
-        data = {"request_page": workon, "working_key": self.get_working_key()}
-        response = requests.get(self.server_api, data, headers=headers)
-        return response.json()  # json.loads(response.text)['msg'])
+        data = {"tipo":tipo, "request_page": request_page, "working_key": self.get_working_key()}
+        response = requests.get(self.server_api, data, headers=headers).json()
+        data = json.dumps(response)
+        return HttpResponse(data, content_type='application/json')
+
+
+class WorkingManager():
+
+    def register(self,tag,request_page=None):
+        workin_api = WorkingApi()
+        response = workin_api.save(tag,request_page)
+        if response.status_code == 200:
+            response_data = json.loads(response.content.decode())
+            if response_data['success'] == True:
+                data = response_data['data']['date']
+                user = response_data['data']['user_name']
+                project = response_data['data']['project_name']
+                print(data + " > WorkingApi was updated -", user, "working on", project, )
+            else:
+                print("WorkingApi not update!")
+        else:
+            print("WorkingApi not Running at moment.")
+
+        return response
+
+
+    def register_programming_backend(self):
+        return self.register(tag="PROG-BACK")
+
+    def register_programming_frontend(self, page):
+        return self.register(tag="PROG-FRONT",request_page=page)
+
+    def register_test_backend(self):
+        return self.register(tag="TEST-BACK")
+

@@ -1,10 +1,9 @@
 from django.conf import settings
 from django.conf.urls import url
 from modules.usuario import views
+from modules.usuario.api import UsuarioAPI
 
 urlpatterns = [
-    #url(r'', views.index),
-    url(r'register/save$', views.register_save),
-    url(r'login/autentication$', views.login_autentication),
-
+    url(r'register/save$', UsuarioAPI.register_save),
+    url(r'login/autentication$', UsuarioAPI.login_autentication),
 ]

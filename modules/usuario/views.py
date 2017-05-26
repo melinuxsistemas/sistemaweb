@@ -22,9 +22,10 @@ def register_save(request):
             senha = request.POST['senha']
 
             if Usuario.objects.check_available_email(email):
+
                 usuario = Usuario.objects.criar_usuario_contratante(email,senha)
                 response_dict = response_format_success(usuario,['email','joined_date'])
-                envia_email(email)
+                #envia_email(email)
 
             else:
                 response_dict = response_format_error("Erro! Email já cadastrado.")
@@ -32,7 +33,7 @@ def register_save(request):
         else:
             response_dict = response_format_error("Erro! Formulário com dados inválidos.")
 
-        return HttpResponse(json.dumps(response_dict))#
+        return HttpResponse(json.dumps(response_dict))
     else:
         raise Http404
 
