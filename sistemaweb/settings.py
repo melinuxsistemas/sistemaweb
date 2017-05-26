@@ -105,7 +105,6 @@ BOWER_INSTALLED_APPS = (
     'pnotify',
     'qunit',
     'blanket',
-
     'https://github.com/yairEO/validator.git'
 
 )
