@@ -2,7 +2,7 @@ from modules.usuario.forms import FormRegister, FormLogin, FormChangePassword
 from django.contrib.auth import logout
 from django.shortcuts import render
 
-
+#
 def profile_page(request):
     form_change_password = FormChangePassword()
     return render(request, "usuario/profile.html",{'form_change_password':form_change_password})
