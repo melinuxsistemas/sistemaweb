@@ -1,0 +1,17 @@
+{% extends 'base_page.html' %}
+{% block titulo_pagina %}SistemaWeb - Perfil do Usuário {% endblock %}
+
+{% block recursos_necessarios %}
+{% endblock %}
+
+{% block conteudo_principal %}
+<div ng-controller="register_controller">
+
+</div>
+{% endblock %}
+
+{% block recursos_complementares %}
+  {% load static %}
+  <script src="{% static 'modules/usuario/usuario_controller.js' %}"></script>
+  <script src="{% static 'modules/usuario/usuario.js' %}"></script>
+{% endblock %}

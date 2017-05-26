@@ -65,3 +65,11 @@ function email_is_valid(id) {
     return false;
   }
 }
+
+$(".menu-item").click(function(){
+  $(this).find('.label_new').each(function(index,object) {
+    if (object.className.indexOf("label_fade") == -1){
+      setTimeout(function(){ object = object.className+=' label_fade'; }, 3000);
+    }
+  })
+});

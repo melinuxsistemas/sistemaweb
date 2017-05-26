@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from modules.core.working_api import WorkingApi
+from modules.core.working_api import WorkingApi, WorkingManager
 from django.http.response import Http404
 
 
@@ -11,7 +11,6 @@ def index(request):
 
 def working(request):
     if request.is_ajax():
-        working_api = WorkingApi()
-        return working_api.register_programming(request)
+        return WorkingManager().register_programming_frontend(request.GET['request_page'])
     else:
         raise Http404
