@@ -68,7 +68,7 @@ class GerenciadorUsuario(BaseUserManager):
                 return user
             return None
 
-        except: #Usuario.DoesNotExist
+        except:
             return None
 
     def get_user_email(self,email):
@@ -98,8 +98,6 @@ class Usuario(PermissionsMixin, AbstractBaseUser):
 
     objects = GerenciadorUsuario()
 
-
-
     class Meta:
         db_table = 'usuario'
         verbose_name = _('Usuário')
@@ -107,6 +105,11 @@ class Usuario(PermissionsMixin, AbstractBaseUser):
 
     def __unicode__(self):
         return self.email
+
+    def change_password(self,value):
+        self.set_password(value)
+        self.save()
+        return True
 
     def email_user(self, subject, message, from_email=None):
         send_mail(subject, message, from_email, [self.email])

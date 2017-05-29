@@ -6,7 +6,7 @@
 
 {% block conteudo_principal %}
 <div ng-controller="register_controller">
-  <form id='form_register' method="POST" autocomplete="off"><!--ng-submit="salvar_usuario()"-->
+  <form id='form_register' method="POST" autocomplete="off" ng-submit="save_user()">
     {% csrf_token %}
     <h1><!--<i class="fa fa-paw></i>--> SistemaWeb</h1>
     <div>
@@ -24,7 +24,7 @@
     <br>
 
     <div>
-      <button type="button" class="btn btn-primary submit form-control" ng-click="save_user()">Cadastrar</button>
+      <button type="submit" class="btn btn-primary submit form-control">Cadastrar</button>
     </div>
 
     <div class="clearfix"></div>
@@ -43,8 +43,6 @@
       </div>
     </div>
   </form>
-
-<p id="hora_teste"></p>
 </div>
 {% endblock %}
 

@@ -15,14 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from django.conf.urls.static import static
-from django.conf import settings
 from modules.usuario import views as view_usuario
 from modules.core import views as view_core
-
-
-#from modules import usuario
-#from modules.usuario import views
 
 urlpatterns = [
     url(r'^$', view_core.index),

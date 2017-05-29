@@ -193,4 +193,7 @@ EMAIL_HOST_PASSWORD = '61109119'
 EMAIL_PORT = 587
 
 from modules.core.working_api import WorkingManager
-WorkingManager().register_programming_backend()
+try:
+    WorkingManager().register_programming_backend()
+except:
+    pass
