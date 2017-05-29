@@ -1,5 +1,5 @@
 from modules.core.utils import response_format_success, response_format_error
-from modules.usuario.forms import FormRegister, FormLogin
+from modules.usuario.forms import FormRegister, FormLogin, FormChangePassword
 from modules.usuario.models import Usuario
 from django.contrib.auth import login
 from django.http import HttpResponse
@@ -11,11 +11,11 @@ class AbstractAPI:
 
     def filter_request(request, formulary):
         if request.is_ajax():
-            form = formulary(request.POST).is_valid()
-            if form:
-                return True,form
+            form = formulary(request.POST)
+            if form.is_valid():
+                return True, form
             else:
-                return False,form
+                return False, form
         else:
             raise Http404
 
@@ -55,6 +55,24 @@ class UsuarioAPI:
                 response_dict = response_format_error("Erro! Usuário ou senha incorreto.")
         else:
             response_dict = response_format_error("Erro! Formulário com dados inválidos.")
+
+        return HttpResponse(json.dumps(response_dict))
+
+    def change_password(request):
+        print("REQUEST: ",request.POST)
+        result, form = AbstractAPI.filter_request(request, FormChangePassword)
+        if result:
+            if request.user.check_password(form.cleaned_data['old_password']):
+                request.user.change_password(form.cleaned_data['password'])
+                print("SENHA ALTERADA!")
+                response_dict = response_format_success(request.user,"Usuário alterado com sucesso.")
+
+            else:
+
+                print("SENHA INCORRETA!")
+                response_dict = response_format_error("Erro! Senha antiga está incorreta.")
+        else:
+            response_dict = response_format_error(form.format_validate_response())
 
         return HttpResponse(json.dumps(response_dict))
 

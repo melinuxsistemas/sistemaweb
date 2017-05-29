@@ -2,6 +2,25 @@
  * Created by diego on 05/05/2017.
  */
 var application = angular.module('modules.usuario', []);
+application.controller('change_password_controller', function($scope) {
+  //$scope.confirm_password = "";
+  //$scope.old_password = "";
+  //$scope.password = "";
+
+  $scope.save_password = function () {
+    var data_paramters = {
+      //old_password: $("#old_password").val(),//$scope.old_password,
+      //password:  $("#password").val(),///
+      //confirm_password:  $("#confirm_password").val()//
+
+      old_password: $scope.old_password, //$("#old_password").val(),//$scope.old_password,
+      password:  $scope.password,//$("#password").val(),///
+      confirm_password:  $scope.confirm_password,//$("#confirm_password").val()//
+    }
+
+    request_api("/api/usuario/change_password",data_paramters,validate_form_change_password,null,null)
+  }
+});
 
 application.controller('register_controller', function($scope) {
 
@@ -30,7 +49,7 @@ application.controller('register_controller', function($scope) {
           }
 
           else {
-            error_notify('email',"Falha na operação",message)
+            error_notify('email',"Falha na operação",message+typeof(message))
           }
         },
         failure: function (data) {
@@ -47,7 +66,6 @@ application.controller('register_controller', function($scope) {
     }
   }
 });
-
 
 application.controller('login_controller', function($scope) {
 

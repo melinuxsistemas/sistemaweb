@@ -19,6 +19,9 @@ class form_abstract_password(forms.Form):
         )
     )
 
+    def clean(self):
+        print("vim no clean do pai")
+
 class form_abstract_confirm_password(forms.Form):
     confirm_password = forms.CharField(
         label="Confirme a Senha",
@@ -33,14 +36,6 @@ class form_abstract_confirm_password(forms.Form):
             }
         )
     )
-
-    def clean_confirm_password(self):
-        password = self.clean_data.get('password', '')
-        password_repeat = self.clean_data.get('confirm_password', '')
-
-        if password != password_repeat:
-            raise forms.ValidationError("The passwords don't match.")
-
 
 class form_abstract_email(forms.Form):
     email = forms.EmailField(

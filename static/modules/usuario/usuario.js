@@ -1,3 +1,8 @@
+function validate_form_change_password(){
+  //alert("Hora de validar?!")
+  return true;//(email_is_valid("email") && validate_password("senha"));
+}
+
 function validate_form_login(){
   return (email_is_valid("email") && validate_password("senha"));
 }

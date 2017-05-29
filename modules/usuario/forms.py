@@ -47,7 +47,6 @@ class FormRegister(forms.Form):
 
     def clean(self):
         form_data = self.cleaned_data
-        print ("VEJA O FORM DATA: ",form_data)
         if form_data['senha'] != form_data['confirma_senha']:
             self._errors["senha"] = ["Senha nao confere"]  # Will raise a error message
             del form_data['senha']
@@ -90,7 +89,7 @@ class FormChangePassword(form_abstract_password, form_abstract_confirm_password)
         widget=forms.TextInput(
             attrs={
                 'id': 'old_password', 'class': "form-control",'type': "password",'autocomplete': "off", 'ng-model': 'old_password',
-                'required': "required", 'data-validate-length-range': '8', 'pattern': '(\d+[a-zA-Z]+)|([a-zA-Z]+\d+)'
+                'required': "required", 'data-validate-length-range': '8', 'ng-pattern': '(\d+[a-zA-Z]+)|([a-zA-Z]+\d+)'
             }
         )
     )
@@ -99,3 +98,32 @@ class FormChangePassword(form_abstract_password, form_abstract_confirm_password)
         super(form_abstract_password, self).__init__(*args, **kwargs)
         super(form_abstract_confirm_password, self).__init__(*args, **kwargs)
         self.fields['password'].label = "Nova Senha"
+
+    def clean(self):
+        form_data = self.cleaned_data
+
+        """if form_data['password'] != form_data['confirm_password']:
+            self._errors["password"] = ["Confirme a Senha: Precisa ser igual ao campo Senha"]  # Will raise a error message
+            del form_data['password']
+
+        if form_data['old_password'] == form_data['password']:
+            self._errors["password"] = ["Nova Senha: Precisa ser diferente da senha antiga."]  # Will raise a error message
+            del form_data['password']
+        """
+        return form_data
+
+    def format_validate_response(self):
+        errors = str(self.errors)
+        for item in self.fields:
+            errors = errors.replace("<li>" + str(item), "<li>" + self.fields[item].label)
+        return errors
+
+
+[
+'__class__', '__contains__', '__delattr__', '__delitem__', '__dict__', '__dir__', '__doc__',
+ '__eq__', '__format__', '__ge__', '__getattribute__', '__getitem__', '__gt__', '__hash__',
+    '__html__', '__init__', '__init_subclass__', '__iter__', '__le__', '__len__', '__lt__',
+    '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__',
+    '__setitem__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', 'as_data', 'as_json',
+    'as_text', 'as_ul', 'clear', 'copy', 'fromkeys', 'get', 'items', 'keys', 'pop', 'popitem',
+    'setdefault', 'update', 'values']

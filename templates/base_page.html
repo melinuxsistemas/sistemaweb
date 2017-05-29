@@ -32,6 +32,9 @@
     <!-- Font Awesome -->
     <link href="{% static 'bower/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
 
+    <!-- Angular -->
+    <script src="{% static 'bower/angular/angular.min.js' %}"></script>
+
     <!-- Custom Theme Style -->
     <link href="{% static 'custom/gentelella/custom.css' %}" rel="stylesheet">
     <!-- SistemaWeb Custom Styles -->
@@ -338,7 +341,6 @@
             <div class="page_content">
               <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
-
                 {% block conteudo_principal %}
 
                 {% endblock %}
@@ -379,6 +381,9 @@
     <link href="% static 'bower/pnotify/dist/dist/pnotify.nonblock.css'%}" rel="stylesheet">-->
 
     <script src="{% static 'bower/pnotify/dist/pnotify.js'%}"></script>
+    <script src="{% static 'bower/validator/validator.js' %}"></script>
+    <script src="{% static 'modules/core/validator.js'%}"></script>
+    <script src="{% static 'modules/core/base_api.js'%}"></script>
     <script src="{% static 'modules/core/base.js'%}"></script>
     <!--<script src="% static 'bower/pnotify/pnotify.buttons.js'%}"></script>
     <script src="% static 'bower/pnotify/dist/pnotify.nonblock.js'%}"></script>-->
