@@ -83,7 +83,10 @@ TEMPLATES = [
 if sys.platform == 'linux':
     BOWER_PATH = '/usr/local/bin/bower'
 else:
-    BOWER_PATH = 'C:/Users/diego/AppData/Roaming/npm/bower.cmd'
+    if "lucas" in BASE_DIR:
+        BOWER_PATH = 'C:/Users/lucas/AppData/Roaming/npm/bower.cmd'
+    else:
+        BOWER_PATH = 'C:/Users/diego/AppData/Roaming/npm/bower.cmd'
 
 #BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'static/bower')
 
