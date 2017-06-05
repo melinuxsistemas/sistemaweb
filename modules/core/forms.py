@@ -50,3 +50,17 @@ class form_abstract_email(forms.Form):
             }
         )
     )
+
+class form_abstract_cod_register(forms.Form):
+    email = forms.CharField(
+        label="Chave Registro ",
+        max_length=150,
+        required=True,
+        error_messages=MENSAGENS_ERROS,
+        widget=forms.TextInput(
+            attrs={
+                'type': "text", 'class': "form-control text-lowercase", 'id': 'cod_register',
+                'ng-model': 'cod_register', 'autocomplete': "off", 'placeholder': "Registro..",'required': "true"
+            }
+        )
+    )

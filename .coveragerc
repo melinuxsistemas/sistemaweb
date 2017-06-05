@@ -31,6 +31,9 @@ omit =
     *xml/dom/pulldom.py*
     *xml/sax/expatreader.py*
 
+    *django*
+    *requests*
+    *compressor*
 
 [report]
 [html]

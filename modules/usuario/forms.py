@@ -52,6 +52,34 @@ class FormRegister(forms.Form):
             del form_data['senha']
         return form_data
 
+class FormConfRegister(forms.Form):
+
+    email = forms.EmailField(label="Email", max_length=256, required=True, error_messages=MENSAGENS_ERROS,
+                             widget=forms.TextInput(
+                                 attrs={'type': "text",
+                                        'class': "form-control text-lowercase",
+                                        'id': 'email',
+                                        'ng-model': 'email',
+                                        'autocomplete': "off",
+                                        'placeholder': "Email..",
+                                        'required':"true"
+                                    }
+                                )
+                             )
+    chave = forms.CharField(label="Registro", max_length=200, required=True, error_messages=MENSAGENS_ERROS,
+                            widget=forms.TextInput(
+                                attrs={'id': 'chave',
+                                       'class': "form-control ",
+                                       'type': "text",
+                                       'autocomplete': "off",
+                                       'ng-model': 'chave',
+                                       'placeholder': "Registro..",
+                                       'required': "true"
+                                    }
+                                )
+                            )
+
+
 
 class FormLogin(forms.Form):
     email = forms.EmailField(label="Email", max_length=256, required=False, error_messages=MENSAGENS_ERROS,

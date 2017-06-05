@@ -1,4 +1,4 @@
-from modules.core.utils import response_format_success, response_format_error
+from modules.core.utils import response_format_success, response_format_error, envia_email
 from modules.usuario.forms import FormRegister, FormLogin, FormChangePassword
 from modules.usuario.models import Usuario
 from django.contrib.auth import login
@@ -22,6 +22,7 @@ class AbstractAPI:
 
 class UsuarioAPI:
 
+
     def register_save(request):
         resultado, form = AbstractAPI.filter_request(request,FormRegister)
         if resultado:
@@ -29,9 +30,11 @@ class UsuarioAPI:
             senha = request.POST['senha']
 
             if Usuario.objects.check_available_email(email):
-                usuario = Usuario.objects.criar_usuario_contratante(email,senha)
-                response_dict = response_format_success(usuario,['email','joined_date'])
-                #envia_email(email)
+                usuario = Usuario.objects.criar_usuario_contratante(email, senha)
+                response_dict = response_format_success(usuario, ['email', 'joined_date'])
+
+                if envia_email(email) is None:
+                    response_dict = response_format_error("Erro! ao enviar email para "+email)
 
             else:
                 response_dict = response_format_error("Erro! Email já cadastrado.")
@@ -66,9 +69,7 @@ class UsuarioAPI:
                 request.user.change_password(form.cleaned_data['password'])
                 print("SENHA ALTERADA!")
                 response_dict = response_format_success(request.user,"Usuário alterado com sucesso.")
-
             else:
-
                 print("SENHA INCORRETA!")
                 response_dict = response_format_error("Erro! Senha antiga está incorreta.")
         else:
