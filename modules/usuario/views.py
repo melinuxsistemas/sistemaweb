@@ -1,4 +1,5 @@
-from modules.usuario.forms import FormRegister, FormLogin, FormChangePassword, FormConfRegister
+from modules.usuario.forms import FormRegister, FormLogin, FormChangePassword, FormConfRegister, FormActivationCode
+from modules.usuario.models import Usuario
 from modules.core.utils import valida_chave, gera_hash_md5, envia_email
 from django.contrib.auth import logout
 from django.shortcuts import render
@@ -21,11 +22,24 @@ def activate_register_page(request,email,chave):
     hash_chave = gera_hash_md5(email)
     chave_register,data_register = valida_chave(chave)
     data_atual = datetime.now()
+    activation_form = FormActivationCode({'activation_code': chave})
 
-    if chave_register != hash_chave or (chave_register == hash_chave and data_register > data_atual+timedelta(1)):
+    usuario = Usuario.objects.get_user_email(email)
+    chave_existente = Usuario.objects.filter(activation_code = chave)
+
+    if len(chave_existente) > 0 or chave_register != hash_chave or (chave_register == hash_chave and data_register > data_atual+timedelta(1)):
         return render(request, "usuario/register_error.html", {'email_activate': email })
+    else:
 
-    return render(request, "usuario/activate_register.html", {'email_activate': email,'chave_register': chave })
+        if usuario is not None:
+            usuario.activation_code = chave
+            usuario.account_activated = True
+            try:
+                usuario.save()
+            except:
+                print("Erro na ativação da Conta")
+
+        return render(request, "usuario/activate_register.html", {'email_activate': email,'chave_register': chave })
 
 def new_register_page(request,email):
     envia_email(email)

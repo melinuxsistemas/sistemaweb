@@ -9,13 +9,16 @@ import json
 
 class AbstractAPI:
 
-    def filter_request(request, formulary):
+    def filter_request(request, formulary=None):
         if request.is_ajax():
-            form = formulary(request.POST)
-            if form.is_valid():
-                return True, form
+            if formulary is not None:
+                form = formulary(request.POST)
+                if form.is_valid():
+                    return True, form
+                else:
+                    return False, form
             else:
-                return False, form
+                return True,True
         else:
             raise Http404
 
@@ -77,5 +80,12 @@ class UsuarioAPI:
 
         return HttpResponse(json.dumps(response_dict))
 
+    def activate_account(request):
+        print("REQUEST :", request.POST)
+        result, form = AbstractAPI.filter_request(request)
+        print("Resultado", result)
+        if result:
+            usuario = Usuario.objects.activate_account(True)
+            response_dict = response_format_success(usuario, ['account_activated'])
 
-
+        return HttpResponse(json.dumps(response_dict))

@@ -146,6 +146,21 @@ class FormChangePassword(form_abstract_password, form_abstract_confirm_password)
             errors = errors.replace("<li>" + str(item), "<li>" + self.fields[item].label)
         return errors
 
+class FormActivationCode(forms.Form):
+
+    activation_code = forms.CharField(
+        label="Chave de Ativação",
+        max_length=46,
+        required=True,
+        error_messages=MENSAGENS_ERROS,
+        widget=forms.TextInput(
+            attrs={
+                'id': 'activation_code', 'class': "form-control",'readonly': True,'ng-model': 'activation_code',
+                'required': "required", 'data-validate-length-range': '46'
+            }
+        )
+    )
+
 
 [
 '__class__', '__contains__', '__delattr__', '__delitem__', '__dict__', '__dir__', '__doc__',

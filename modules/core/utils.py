@@ -14,8 +14,10 @@ def response_format(result,message,object,list_fields):
     response_dict['success'] = result
     response_dict['message'] = message
     if result:
-        response_dict['data-object'] = serializers.serialize('json', [object], fields=tuple(list_fields))
+        print("Campos",list_fields)
+        response_dict['data-object'] = serializers.serialize('json', [object], list_fields)
         response_dict['data-object'] = response_dict['data-object'][1:-1]
+
     else:
         response_dict['data-object'] = None
     return response_dict
