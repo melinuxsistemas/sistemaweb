@@ -6,18 +6,21 @@ from modules.usuario.validators import password_format_validator
 
 class FormRegister(forms.Form):
 
-    email = forms.EmailField(label="Email", max_length=256, required=False, error_messages=MENSAGENS_ERROS,
-                             widget=forms.TextInput(
-                                 attrs={'type': "text",
-                                        'class': "form-control text-lowercase",
-                                        'id': 'email',
-                                        'ng-model': 'email',
-                                        'autocomplete': "off",
-                                        'placeholder': "Email..",
-                                        'required':"true"
-                                    }
-                                )
-                             )
+    email = forms.EmailField(
+        label="Email", max_length=256, required=False, error_messages=MENSAGENS_ERROS,
+            widget=forms.TextInput(
+                attrs={
+                    'type': "text",
+                    'class': "form-control text-lowercase",
+                    'id': 'email',
+                    'ng-model': 'email',
+                    'autocomplete': "off",
+                    'placeholder': "Email..",
+                    'required':"true"
+                }
+            )
+        )
+
     senha = forms.CharField(label="Senha", max_length=50, required=True, error_messages=MENSAGENS_ERROS,
                             widget=forms.TextInput(
                                 attrs={'id': 'senha',

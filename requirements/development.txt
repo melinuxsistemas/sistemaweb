@@ -6,13 +6,18 @@ pyparsing==2.2.0
 pytz==2017.2
 six==1.10.0
 requests==2.13.0
-django-lint
+
+# Se der erro no django-lint comentar ele
+#django-lint==2.0.4
 
 # Requirements para permitir que o django minifique e utilize
 # arquivos estaticos no cache (codificado) quando em producao.
 rjsmin --install-option="--without-c-extensions"
 rcssmin --install-option="--without-c-extensions"
-django-compressor --install-option="--upgrade"
+
+# Se dar erro no django-compressar, tentar com ou sem o parametro: --install-option="--upgrade"
+# Ex: django-compressor --install-option="--upgrade"
+django-compressor
 
 dj-static==0.0.6
 static3==0.6.1
@@ -20,3 +25,4 @@ wheel==0.24.0
 
 nose==1.3.7
 django-nose==1.4.4
+rebar==0.1
