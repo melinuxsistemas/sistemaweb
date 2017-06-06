@@ -1,9 +1,25 @@
 from django import forms
 from modules.core.config import MENSAGENS_ERROS
-from modules.usuario.validators import email_dangerous_symbols_validator, password_format_validator
+from modules.usuario.validators import email_dangerous_symbols_validator, password_format_validator, email_format_validator
 
 
-class form_abstract_password(forms.Form):
+class FormAbstractEmail(forms.Form):
+
+    email = forms.EmailField(
+        label="Email",
+        max_length=256,
+        required=True,
+        validators=[email_format_validator, email_dangerous_symbols_validator],
+        error_messages=MENSAGENS_ERROS,
+        widget=forms.TextInput(
+            attrs={
+                'type': "text", 'class': "form-control text-lowercase", 'id': 'email',
+                'ng-model': 'email', 'autocomplete': "off", 'placeholder': "Email..",'required': "true"
+            }
+        )
+    )
+
+class FormAbstractPassword(forms.Form):
     password = forms.CharField(
         label="Senha",
         max_length=50,
@@ -22,11 +38,13 @@ class form_abstract_password(forms.Form):
     def clean(self):
         print("vim no clean do pai")
 
-class form_abstract_confirm_password(forms.Form):
+class FormAbstractConfirmPassword(forms.Form):
+
     confirm_password = forms.CharField(
         label="Confirme a Senha",
         max_length=50,
-        required=True, validators=[password_format_validator],
+        required=True,
+        validators=[password_format_validator],
         error_messages=MENSAGENS_ERROS,
         widget=forms.TextInput(
             attrs={
@@ -37,16 +55,3 @@ class form_abstract_confirm_password(forms.Form):
         )
     )
 
-class form_abstract_email(forms.Form):
-    email = forms.EmailField(
-        label="Email",
-        max_length=256,
-        required=False,
-        error_messages=MENSAGENS_ERROS,
-        widget=forms.TextInput(
-            attrs={
-                'type': "text", 'class': "form-control text-lowercase", 'id': 'email',
-                'ng-model': 'email', 'autocomplete': "off", 'placeholder': "Email..",'required': "true"
-            }
-        )
-    )

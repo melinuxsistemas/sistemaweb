@@ -2,10 +2,12 @@ import unittest
 
 from rebar.testing import flatten_to_dict
 from django.test import TestCase
-from modules.usuario.forms import form_abstract_password
-from modules.usuario.forms import form_abstract_confirm_password
+from modules.core.forms import FormAbstractPassword
+from modules.core.forms import FormAbstractConfirmPassword
+from modules.core.forms import FormAbstractEmail
+from modules.usuario.forms import FormChangePassword
 
-
+"""
 class AbstractPasswordFormTests(TestCase):
 
     lst_fields = []
@@ -26,82 +28,137 @@ class AbstractPasswordFormTests(TestCase):
             self.form_data[field] = value
             self.assertFalse(self.form.is_valid(), 'Testar se a senha possui tamanho minimo de 8 caracteres')
 
-
 class TestPassword (AbstractPasswordFormTests):
     def __init__(self, *args):
         unittest.TestCase.__init__(self, *args)
         self.set_form(form_abstract_password)
         self.lst_fields = [['password','1234567890']]
+        
+"""
 
 
 class PasswordFormTests(TestCase):
 
     def test_form_password_valid_size(self):
-        form_data = flatten_to_dict(form_abstract_password())
+        form_data = flatten_to_dict(FormAbstractPassword())
         form_data['password'] = '7caract'
-        form = form_abstract_password(data=form_data)
+        form = FormAbstractPassword(data=form_data)
         self.assertFalse(form.is_valid(), 'Testar se a senha possui tamanho minimo de 8 caracteres')
 
         form_data['password'] = '0123456789012345678901234567890123456789012345678ab'
-        form = form_abstract_password(data=form_data)
+        form = FormAbstractPassword(data=form_data)
         self.assertEquals(form.is_valid(), False, 'Testas se a senha contem mais de 50 caracteres (OK)')
 
     def test_form_password_valid_format(self):
-        form_data = flatten_to_dict(form_abstract_password())
+        form_data = flatten_to_dict(FormAbstractPassword())
         form_data['password'] = '1234a$bc'
-        form = form_abstract_password(data=form_data)
+        form = FormAbstractPassword(data=form_data)
         self.assertEquals(form.is_valid(), False, 'Testar se a senha contem caracters especiais (OK)')
 
         form_data['password'] = '1234abcd'
-        form = form_abstract_password(data=form_data)
+        form = FormAbstractPassword(data=form_data)
         self.assertEquals(form.is_valid(),True, 'Testar se a senha atende todos os requisitos (OK)')
 
         form_data['password'] = ''
-        form = form_abstract_password(data=form_data)
+        form = FormAbstractPassword(data=form_data)
         self.assertEquals(form.is_valid(), False, 'Testar se a senha é string vazia (OK)')
 
         form_data['password'] = '789654123'
-        form = form_abstract_password(data=form_data)
+        form = FormAbstractPassword(data=form_data)
         self.assertEquals(form.is_valid(),False, 'Testar se a senha contem letras alem de numeros (OK)')
 
         form_data['password'] = 'abcdefgh'
-        form = form_abstract_password(data=form_data)
+        form = FormAbstractPassword(data=form_data)
         self.assertEquals(form.is_valid(),False, 'Testar se a senha contem numeros alem de letras (OK)')
 
 
 class ConfirmPasswordFormTests(TestCase):
 
     def test_form_password_confirm_valid_size(self):
-        form_data = flatten_to_dict(form_abstract_confirm_password())
+        form_data = flatten_to_dict(FormAbstractConfirmPassword())
         form_data['confirm_password'] = '7caract'
-        form = form_abstract_confirm_password(data=form_data)
+        form = FormAbstractConfirmPassword(data=form_data)
         self.assertFalse(form.is_valid(), 'Testar se a senha possui tamanho minimo de 8 caracteres')
 
         form_data['confirm_password'] = '0123456789012345678901234567890123456789012345678ab'
-        form = form_abstract_confirm_password(data=form_data)
+        form = FormAbstractConfirmPassword(data=form_data)
         self.assertEquals(form.is_valid(), False, 'Testas se a senha contem mais de 50 caracteres (OK)')
 
     def test_form_password_confirm_valid_format(self):
-        form_data = flatten_to_dict(form_abstract_confirm_password())
+        form_data = flatten_to_dict(FormAbstractConfirmPassword())
         form_data['confirm_password'] = '1234a$bc'
-        form = form_abstract_confirm_password(data=form_data)
+        form = FormAbstractConfirmPassword(data=form_data)
         self.assertEquals(form.is_valid(), False, 'Testar se a senha contem caracters especiais (OK)')
 
         form_data['confirm_password'] = '1234abcd'
-        form = form_abstract_confirm_password(data=form_data)
+        form = FormAbstractConfirmPassword(data=form_data)
         self.assertEquals(form.is_valid(),True, 'Testar se a senha atende todos os requisitos (OK)')
 
         form_data['confirm_password'] = ''
-        form = form_abstract_confirm_password(data=form_data)
+        form = FormAbstractConfirmPassword(data=form_data)
         self.assertEquals(form.is_valid(), False, 'Testar se a senha é string vazia (OK)')
 
         form_data['confirm_password'] = '789654123'
-        form = form_abstract_confirm_password(data=form_data)
+        form = FormAbstractConfirmPassword(data=form_data)
         self.assertEquals(form.is_valid(),False, 'Testar se a senha contem letras alem de numeros (OK)')
 
         form_data['confirm_password'] = 'abcdefgh'
-        form = form_abstract_confirm_password(data=form_data)
+        form = FormAbstractConfirmPassword(data=form_data)
         self.assertEquals(form.is_valid(),False, 'Testar se a senha contem numeros alem de letras (OK)')
+
+
+class EmailFromTests (TestCase):
+
+    def test_form_email_valid (self):
+        form = FormAbstractEmail()
+        form_data = flatten_to_dict(form)
+        print('form',form_data)
+        variacoes = [
+            [None, False],
+            ['', False],
+            ['@teste.com', False],
+            ['teste2@.com', False],
+            ['teste2@teste@.com', False],
+            ['teste2.com', False],
+            ['teste+001@gmail.com', False],
+            ['teste@teste.com', True],
+            ['teste2@gmail.com', True],
+            ['teste_teste@teste.com', True]
+        ]
+
+        for item in variacoes:
+            form_data = flatten_to_dict(FormAbstractEmail())
+            form_data["email"] = item[0]
+            form = FormAbstractEmail(data=form_data)
+            print('formulario form_data', form_data)
+            print('variavel form:', form)
+            resultado = form.is_valid()
+            print(resultado)
+            if resultado != item[1] :
+                print ("erros:",form.errors )
+            print(item[0],item[1], resultado)
+            self.assertEquals(resultado, item[1],'Usuario Contratante instanciado corretamente (OK)')
+
+class ChangePasswordFormTest(TestCase):
+
+    def test_form_password_change_valid(self):
+        form_data = flatten_to_dict(FormChangePassword())
+
+        form_data['old_password'] = 'abcd1234'
+        form_data['password'] = '1q2w3e4r'
+        form_data['confirm_password'] = '1q2w3e4r'
+        print(form_data)
+        form = FormChangePassword(data=form_data)
+        self.assertEquals(form.is_valid(),True, 'Testar se a senha possui tamanho minimo de 8 caracteres')
+
+        form_data['old_password'] = '123'
+        form_data['password'] = '12345'
+        form_data['confirm_password'] = '12345'
+        print(form_data)
+        form = FormChangePassword(data=form_data)
+        self.assertEquals(form.is_valid(), False, 'Testar se a senha possui tamanho minimo de 8 caracteres')
+
+
 
 
 

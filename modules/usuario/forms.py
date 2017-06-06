@@ -1,6 +1,6 @@
 from django import forms
 from modules.core.config import MENSAGENS_ERROS
-from modules.core.forms import form_abstract_password,form_abstract_confirm_password
+from modules.core.forms import FormAbstractPassword,FormAbstractConfirmPassword
 from modules.usuario.validators import password_format_validator
 
 
@@ -81,7 +81,7 @@ class FormLogin(forms.Form):
                             )
 
 
-class FormChangePassword(form_abstract_password, form_abstract_confirm_password):
+class FormChangePassword(FormAbstractPassword, FormAbstractConfirmPassword):
 
     old_password = forms.CharField(
         label="Senha Antiga",
@@ -98,8 +98,8 @@ class FormChangePassword(form_abstract_password, form_abstract_confirm_password)
     )
 
     def __init__(self, *args, **kwargs):
-        super(form_abstract_password, self).__init__(*args, **kwargs)
-        super(form_abstract_confirm_password, self).__init__(*args, **kwargs)
+        super(FormAbstractPassword, self).__init__(*args, **kwargs)
+        super(FormAbstractConfirmPassword, self).__init__(*args, **kwargs)
         self.fields['password'].label = "Nova Senha"
 
     def clean(self):

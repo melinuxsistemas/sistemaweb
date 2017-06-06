@@ -10,6 +10,7 @@ class UsuarioTest(TestCase):
 
     def test_validation_create_user(self):
         variacoes = [
+            [None, False],
             ['', False],
             ['@teste.com', False],
             ['teste2@.com', False],
@@ -18,8 +19,7 @@ class UsuarioTest(TestCase):
             ['teste+001@gmail.com', False],
             ['teste@teste.com', True],
             ['teste2@teste.com', True],
-            ['teste_teste@teste.com', True],
-            ['teste_teste@teste.com', False],
+            ['teste_teste@teste.com', True]
         ]
 
         for item in variacoes:
