@@ -1,0 +1,39 @@
+{% extends 'usuario/base.html' %}
+{% block Titulo %}SistemaWeb - Adicionar Usuário{% endblock %}
+
+{% block recursos_necessarios %}
+{% endblock %}
+
+{% block conteudo_principal %}
+<div ng-controller="register_controller" style="background-color:#eee;border: 1px solid #ccc;border-radius:4px;">
+
+  <form id='form_new_register' method="POST" autocomplete="off" >
+    {% csrf_token %}
+    <h1><!--<i class="fa fa-paw></i>--> SistemaWeb</h1>
+    <div>
+        <strong>Chave de registro para o email {{ email_activate }}, incorreta ou expirou!</strong>
+    </div>
+
+    <br>
+
+
+    <div class="clearfix"></div>
+
+    <div class="separator">
+        <a href="/register" class=""> Registre-se aqui.</a><br>
+        <a href={% url 'new_register' email_activate %} >Reenviar Chave</a>
+    </div>
+
+    <div>
+       <p>©2016 All Rights Reserved. Privacy and Terms</p>
+    </div>
+  </form>
+</div>
+{% endblock %}
+
+{% block recursos_complementares %}
+  {% load static %}
+  <script src="{% static 'modules/usuario/usuario_controller.js' %}"></script>
+  <script src="{% static 'modules/usuario/usuario.js' %}"></script>
+{% endblock %}
+

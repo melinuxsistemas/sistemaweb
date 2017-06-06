@@ -32,7 +32,9 @@ omit =
     *xml/sax/expatreader.py*
 
     *django*
+    *requests*
     *compressor*
+
 
 
 

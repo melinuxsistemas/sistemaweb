@@ -55,6 +55,34 @@ class FormRegister(forms.Form):
             del form_data['senha']
         return form_data
 
+class FormConfRegister(forms.Form):
+
+    email = forms.EmailField(label="Email", max_length=256, required=True, error_messages=MENSAGENS_ERROS,
+                             widget=forms.TextInput(
+                                 attrs={'type': "text",
+                                        'class': "form-control text-lowercase",
+                                        'id': 'email',
+                                        'ng-model': 'email',
+                                        'autocomplete': "off",
+                                        'placeholder': "Email..",
+                                        'required':"true"
+                                    }
+                                )
+                             )
+    chave = forms.CharField(label="Registro", max_length=200, required=True, error_messages=MENSAGENS_ERROS,
+                            widget=forms.TextInput(
+                                attrs={'id': 'chave',
+                                       'class': "form-control ",
+                                       'type': "text",
+                                       'autocomplete': "off",
+                                       'ng-model': 'chave',
+                                       'placeholder': "Registro..",
+                                       'required': "False"
+                                    }
+                                )
+                            )
+
+
 
 class FormLogin(forms.Form):
     email = forms.EmailField(label="Email", max_length=256, required=False, error_messages=MENSAGENS_ERROS,
@@ -120,6 +148,21 @@ class FormChangePassword(FormAbstractPassword, FormAbstractConfirmPassword):
         for item in self.fields:
             errors = errors.replace("<li>" + str(item), "<li>" + self.fields[item].label)
         return errors
+
+class FormActivationCode(forms.Form):
+
+    activation_code = forms.CharField(
+        label="Chave de Ativação",
+        max_length=46,
+        required=False,
+        error_messages=MENSAGENS_ERROS,
+        widget=forms.TextInput(
+            attrs={
+                'id': 'activation_code', 'class': "form-control",'readonly': True,'ng-model': 'activation_code',
+                'required': "required", 'data-validate-length-range': '46'
+            }
+        )
+    )
 
 
 [
