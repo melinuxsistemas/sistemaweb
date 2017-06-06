@@ -3,6 +3,7 @@ from django.core.mail import EmailMessage
 import hashlib
 import datetime
 
+
 def response_format_success(object,list_fields):
     return response_format(True, '', object, list_fields)
 
@@ -14,8 +15,10 @@ def response_format(result,message,object,list_fields):
     response_dict['success'] = result
     response_dict['message'] = message
     if result:
-        print("Campos",list_fields)
-        response_dict['data-object'] = serializers.serialize('json', [object], list_fields)
+        print("Campos",tuple(list_fields))
+        print("Objeto",[object] )
+        print("Result", result)
+        response_dict['data-object'] = serializers.serialize('json', [object], fields=tuple(list_fields))
         response_dict['data-object'] = response_dict['data-object'][1:-1]
 
     else:

@@ -74,7 +74,7 @@ class FormConfRegister(forms.Form):
                                        'autocomplete': "off",
                                        'ng-model': 'chave',
                                        'placeholder': "Registro..",
-                                       'required': "true"
+                                       'required': "False"
                                     }
                                 )
                             )
@@ -151,7 +151,7 @@ class FormActivationCode(forms.Form):
     activation_code = forms.CharField(
         label="Chave de Ativação",
         max_length=46,
-        required=True,
+        required=False,
         error_messages=MENSAGENS_ERROS,
         widget=forms.TextInput(
             attrs={

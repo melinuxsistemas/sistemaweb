@@ -91,7 +91,7 @@ class Usuario(PermissionsMixin, AbstractBaseUser):
     joined_date       = models.DateTimeField(null=True, auto_now_add=True)
     last_update       = models.DateTimeField(null=True, auto_now=True)
     account_activated = models.BooleanField(default=False)
-    activation_code   = models.CharField("Chave de Ativação:",max_length=46,null=True,error_messages=MENSAGENS_ERROS)
+    activation_code   = models.CharField(max_length=46,null=True,blank=True,error_messages=MENSAGENS_ERROS)
     active_user       = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
