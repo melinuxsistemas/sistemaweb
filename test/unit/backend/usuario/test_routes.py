@@ -80,5 +80,5 @@ class UsuarioRoutesTests(BaseRoutesTests):
         unittest.TestCase.__init__(self, *args)
         self.add_public_route_list(['/login/', '/logout/', '/register/'])
         self.add_private_route_list(['/'])
-        self.add_private_api('/api/usuario/register/save', {'email': 'teste@teste.com', 'senha': '1q2w3e4r', 'confirma_senha': '1q2w3e4r'})
+        self.add_private_api('/api/usuario/register/save', {'email': 'teste@teste.com', 'password': '1q2w3e4r', 'confirm_password': '1q2w3e4r'})
         self.add_private_api('/api/usuario/login/autentication',{'email': 'teste@teste.com', 'senha': '1q2w3e4r'})

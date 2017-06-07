@@ -30,7 +30,7 @@ class UsuarioAPI:
         resultado, form = AbstractAPI.filter_request(request,FormRegister)
         if resultado:
             email = request.POST['email'].lower()
-            senha = request.POST['senha']
+            senha = request.POST['password']
 
             if Usuario.objects.check_available_email(email):
                 usuario = Usuario.objects.criar_usuario_contratante(email, senha)

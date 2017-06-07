@@ -1,12 +1,31 @@
 from django import forms
 from modules.core.config import MENSAGENS_ERROS
-from modules.core.forms import FormAbstractPassword,FormAbstractConfirmPassword
+from modules.core.forms import FormAbstractPassword,FormAbstractConfirmPassword,FormAbstractEmail
 from modules.usuario.validators import password_format_validator
 
 
-class FormRegister(forms.Form):
+class FormRegister(FormAbstractPassword,FormAbstractConfirmPassword,FormAbstractEmail):
 
-    email = forms.EmailField(
+
+
+    def __init__(self, *args, **kwargs):
+        super(FormAbstractPassword, self).__init__(*args, **kwargs)
+        super(FormAbstractConfirmPassword, self).__init__(*args, **kwargs)
+        super(FormAbstractEmail, self).__init__(*args,**kwargs)
+        print('Olha os campos',self.fields)
+
+    def clean(self):
+        form_data = self.cleaned_data
+        print("Valore recebidos:    ", self.data)
+        print('erros->', self.errors)
+        print('formulario',form_data)
+        if form_data['password'] != form_data['confirm_password']:
+            self._errors["password"] = ["Senha nao confere"]  # Will raise a error message
+            del form_data['password']
+        return form_data
+
+
+        '''email = forms.EmailField(
         label="Email", max_length=256, required=False, error_messages=MENSAGENS_ERROS,
             widget=forms.TextInput(
                 attrs={
@@ -20,8 +39,8 @@ class FormRegister(forms.Form):
                 }
             )
         )
-
-    senha = forms.CharField(label="Senha", max_length=50, required=True, error_messages=MENSAGENS_ERROS,
+        
+        senha = forms.CharField(label="Senha", max_length=50, required=True, error_messages=MENSAGENS_ERROS,
                             widget=forms.TextInput(
                                 attrs={'id': 'senha',
                                        'class': "form-control ",
@@ -46,14 +65,8 @@ class FormRegister(forms.Form):
                                                'required': ""
                                             }
                                         )
-                                     )
+                                     )'''
 
-    def clean(self):
-        form_data = self.cleaned_data
-        if form_data['senha'] != form_data['confirma_senha']:
-            self._errors["senha"] = ["Senha nao confere"]  # Will raise a error message
-            del form_data['senha']
-        return form_data
 
 class FormConfRegister(forms.Form):
 

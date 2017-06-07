@@ -38,7 +38,7 @@ class FormAbstractPassword(forms.Form):
     def clean(self):
         print("vim no clean do pai")
 
-class form_abstract_confirm_password(forms.Form):
+class FormAbstractConfirmPassword(forms.Form):
     confirm_password = forms.CharField(
         label="Confirme a Senha",
         max_length=50,
@@ -46,14 +46,14 @@ class form_abstract_confirm_password(forms.Form):
         error_messages=MENSAGENS_ERROS,
         widget=forms.TextInput(
             attrs={
-                'id': 'confirm_password','name':'confir_password', 'class': "form-control", 'type': "password",
+                'id': 'confirm_password','name':'confirm_password', 'class': "form-control", 'type': "password",
                 'autocomplete': "off",'ng-model': 'confirm_password','required': "required",
                 'data-validate-length-range': '8', 'pattern': '(\d+[a-zA-Z]+)|([a-zA-Z]+\d+)','data-validate-linked':'password'
             }
         )
     )
 
-class form_abstract_email(forms.Form):
+'''class form_abstract_email(forms.Form):
     email = forms.EmailField(
         label="Email",
         max_length=256,
@@ -65,4 +65,4 @@ class form_abstract_email(forms.Form):
                 'ng-model': 'email', 'autocomplete': "off", 'placeholder': "Email..",'required': "true"
             }
         )
-    )
+    )'''
