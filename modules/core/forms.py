@@ -19,6 +19,7 @@ class FormAbstractEmail(forms.Form):
         )
     )
 
+
 class FormAbstractPassword(forms.Form):
     password = forms.CharField(
         label="Senha",

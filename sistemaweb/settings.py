@@ -163,7 +163,7 @@ TEST_URL = BASE_DIR+os.path.join('/test/')
 #TEST_OUTPUT_DIR = "test/unit/report/backend_unit_report"
 
 
-TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+'''TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 NOSE_ARGS = [
     '--verbosity=2',  # verbose output
@@ -174,7 +174,7 @@ NOSE_ARGS = [
     '--with-xunit',  # enable XUnit plugin
     '--xunit-file=xunittest.xml'#test/unit/report/backend_unit_report/xunittest.xml',  # the XUnit report file
 ]
-
+'''
 
 STATIC_ROOT = ''
 STATIC_URL = '/static/'

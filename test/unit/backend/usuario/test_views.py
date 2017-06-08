@@ -34,8 +34,8 @@ class UsuarioViewsTests(TestCase):
         for email, senha, confirma_senha, retorno in casos_testes:
             response = self.client.post('/api/usuario/register/save',data={'email': email, 'password': senha, 'confirm_password' : confirma_senha },HTTP_X_REQUESTED_WITH='XMLHttpRequest')
             response_content = json.loads(response.content.decode())
-            print("Status code: ",response.status_code, 200)
+            #print("Status code: ",response.status_code, 200)
             self.assertEqual(response.status_code, 200)
-            print('Teste Respons:   ',response_content['success'], retorno)
+            #print('Teste Respons:   ',response_content['success'], retorno)
             self.assertEqual(response_content['success'], retorno)
             self.client.get('/logout')

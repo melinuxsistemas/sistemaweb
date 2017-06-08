@@ -107,7 +107,7 @@ class ConfirmPasswordFormTests(TestCase):
         self.assertEquals(form.is_valid(),False, 'Testar se a senha contem numeros alem de letras (OK)')
 
 
-class EmailFromTests (TestCase):
+class EmailFormTests (TestCase):
 
     def test_form_email_valid (self):
         variacoes = [
@@ -127,13 +127,13 @@ class EmailFromTests (TestCase):
             form_data = flatten_to_dict(FormAbstractEmail())
             form_data["email"] = item[0]
             form = FormAbstractEmail(data=form_data)
-            print('formulario form_data', form_data)
-            print('variavel form:', form)
+            #print('formulario form_data', form_data)
+            #print('variavel form:', form)
             resultado = form.is_valid()
-            print(resultado)
-            if resultado != item[1] :
-                print ("erros:",form.errors )
-            print(item[0],item[1], resultado)
+            #print(resultado)
+            #if resultado != item[1] :
+            #    print ("erros:",form.errors )
+            #print(item[0],item[1], resultado)
             self.assertEquals(resultado, item[1],'Usuario Contratante instanciado corretamente (OK)')
 
 class ChangePasswordFormTest(TestCase):

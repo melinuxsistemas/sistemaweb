@@ -6,26 +6,38 @@ from modules.usuario.validators import password_format_validator
 
 class FormRegister(FormAbstractPassword,FormAbstractConfirmPassword,FormAbstractEmail):
 
-
-
     def __init__(self, *args, **kwargs):
         super(FormAbstractPassword, self).__init__(*args, **kwargs)
         super(FormAbstractConfirmPassword, self).__init__(*args, **kwargs)
         super(FormAbstractEmail, self).__init__(*args,**kwargs)
-        print('Olha os campos',self.fields)
 
     def clean(self):
+        data = self.data
         form_data = self.cleaned_data
+        #print('form data', len(form_data), form_data)
+        #print('data', len(data), data)
+        if len(form_data) < len(data):
+            #print("criar limpador de form")
+            pass
+            '''limpar campos e deletar form igual esta na outra'''
+
+        return form_data
+
+
+
+    '''def clean(self):
+        form_data = self.data
         print("Valore recebidos:    ", self.data)
         print('erros->', self.errors)
         print('formulario',form_data)
         if form_data['password'] != form_data['confirm_password']:
             self._errors["password"] = ["Senha nao confere"]  # Will raise a error message
+            form_data = self.cleaned_data
             del form_data['password']
-        return form_data
+        return form_data'''
 
 
-        '''email = forms.EmailField(
+    '''email = forms.EmailField(
         label="Email", max_length=256, required=False, error_messages=MENSAGENS_ERROS,
             widget=forms.TextInput(
                 attrs={
@@ -95,8 +107,6 @@ class FormConfRegister(forms.Form):
                                 )
                             )
 
-
-
 class FormLogin(forms.Form):
     email = forms.EmailField(label="Email", max_length=256, required=False, error_messages=MENSAGENS_ERROS,
                              widget=forms.TextInput(
@@ -120,7 +130,6 @@ class FormLogin(forms.Form):
                                        }
                                 )
                             )
-
 
 class FormChangePassword(FormAbstractPassword, FormAbstractConfirmPassword):
 
