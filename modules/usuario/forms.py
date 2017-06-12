@@ -129,12 +129,12 @@ class FormLogin(forms.Form):
                                         }
                                 )
                              )
-    senha = forms.CharField(label="Senha", max_length=50, required=True, error_messages=MENSAGENS_ERROS,
+    password = forms.CharField(label="Senha", max_length=50, required=True, error_messages=MENSAGENS_ERROS,
                             widget=forms.TextInput(
-                                attrs={'id': 'senha',
+                                attrs={'id': 'password',
                                        'class': "form-control ",
                                        'type': "password",
-                                       'ng-model': 'senha',
+                                       'ng-model': 'password',
                                        'placeholder': "Senha..",
                                        'required': ""
                                        }
@@ -181,6 +181,20 @@ class FormChangePassword(FormAbstractPassword, FormAbstractConfirmPassword):
             for erro in errors[item]:
                 erro['label'] = self.fields[item].label
         return errors
+
+class FormSendPassword(forms.Form):
+    email = forms.EmailField(label="Seu email", max_length=256, required=True, error_messages=MENSAGENS_ERROS,
+                             widget=forms.TextInput(
+                                 attrs={'type': "email",
+                                        'class': "form-control text-lowercase",
+                                        'id': 'email',
+                                        'ng-model': 'email',
+                                        'placeholder': "Email..",
+                                        'required': "True"
+                                        }
+                                )
+                             )
+
 
 class FormActivationCode(forms.Form):
 
