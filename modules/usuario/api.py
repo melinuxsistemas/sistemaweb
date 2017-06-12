@@ -66,9 +66,9 @@ class UsuarioAPI:
         resultado, form = AbstractAPI.filter_request(request, FormLogin)
         if resultado:
             email = request.POST['email'].lower()
-            senha = request.POST['senha']
+            senha = request.POST['password']
             usuario = Usuario.objects.authenticate(request, email=email, password=senha)
-
+            #print('email :', email, "senha :",senha)
             if usuario is not None and usuario.is_active:
                 login(request, usuario)
                 response_dict = response_format_success(usuario, ['email'])
@@ -80,7 +80,7 @@ class UsuarioAPI:
         return HttpResponse(json.dumps(response_dict))
 
     def change_password(request):
-        print("REQUEST: ",request.POST)
+
         result, form = AbstractAPI.filter_request(request, FormChangePassword)
         if result:
             if request.user.check_password(form.cleaned_data['old_password']):
@@ -96,9 +96,7 @@ class UsuarioAPI:
         return HttpResponse(json.dumps(response_dict))
 
     def activate_account(request):
-        print("REQUEST :", request.POST)
         result, form = AbstractAPI.filter_request(request)
-        print("Resultado", result)
         if result:
             usuario = Usuario.objects.activate_account(True)
             response_dict = response_format_success(usuario, ['account_activated'])

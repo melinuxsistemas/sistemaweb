@@ -85,13 +85,12 @@ application.controller('login_controller', function($scope) {
 
     NProgress.start();
     if (validate_form_login()){
-
       $.ajax({
         type: "POST",
         url: "/api/usuario/login/autentication",
         data: {
           email: $scope.email,
-          senha: $scope.senha,
+          password: $scope.password,
           csrfmiddlewaretoken: csrftoken
         },
 

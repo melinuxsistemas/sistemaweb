@@ -6,6 +6,38 @@ from modules.core.forms import FormAbstractEmail
 from modules.usuario.forms import FormChangePassword
 from rebar.testing import flatten_to_dict
 
+from test.unit.backend.core.test_forms import TestAbstractForm
+
+
+class ChangePasswordFormTest(TestAbstractForm):
+
+    def __init__(self, *args, **kwargs):
+        super(ChangePasswordFormTest, self).__init__()
+        unittest.TestCase.__init__(self, *args, **kwargs)
+        self.set_formulary(FormChangePassword)
+
+        self.add_case_invalid_format({'old_password': None,'password': None,'confirm_password': None}, "Test not acepted null values for all fields (OK)")
+        self.add_case_invalid_format({'old_password': '1q2w3e4r', 'password': '1234qwer', 'confirm_password': '1234qwerp'},"Test not acepted password and confirm password diferents (OK)")
+        """
+        self.add_case_invalid_format({'email': ""}, "Test empty email values (OK)")
+        self.add_case_invalid_format({'email': '@teste.com'}, "Test email without user email (OK)")
+        self.add_case_invalid_format({'email': 'teste2@.com'}, "Test email without domain (OK)")
+        self.add_case_invalid_format({'email': 'teste2@teste@.com'}, "Test email with two '@' character (OK)")
+        self.add_case_invalid_format({'email': 'teste2.com'}, "Test email without '@' character (OK)")
+        self.add_case_invalid_format({'email': 'teste+001@gmail.com'}, "Test email with dangerous symbols (OK)")
+
+        self.add_case_valid_format({'email': 'teste@teste.com'}, "Test valid format email values (OK)")
+        self.add_case_valid_format({'email': 'teste_testes@teste.com'},
+                                   "Test valid format email with '_' character (OK)")
+        self.add_case_valid_format({'email': 'teste5@teste.com'}, "Test valid format email with number (OK)")
+        self.add_case_valid_format({'email': '10teste@teste.com'},
+                                   "Test valid format email initialized by with number (OK)")
+
+        big_value_email = '1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t@1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t.com.br'
+        self.add_case_valid_size({'email': 'teste@teste.com'}, "Test email with normal size values (OK)")
+        self.add_case_invalid_size({'email': big_value_email}, "Test email with exceded size values (OK)")
+        """
+
 
 """
 class EmailFormTests (TestCase):

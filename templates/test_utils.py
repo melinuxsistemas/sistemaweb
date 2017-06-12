@@ -1,36 +1,31 @@
 from django.test import TestCase
-import json
+from modules.core import utils
 
-"""
-Desenvolver mecanismo para certificar o envio dos emails.
-class EmailTest(TestCase):
+class ActivationTests(TestCase):
 
-    def test_emtpy_validator(self):
-        self.assertEqual(is_empty(""), True, "Testar Validacao de valor vazio para campo vazio (OK)")
-        self.assertEqual(is_empty("teste"), False, "Testar Validacao de valor vazio para campo preenchido (OK)")
+    def test_gera_chave(self):
+        lista_opcoes = [
+            ['123456',False],
+            ['', False],
+            ['abcdefghijk', False],
+            ['1q2we45tfg76789bggg', False],
+            [None, False],
+            ['teste@teste.com', True],
 
-    def test_send_email(self):
-        # Envia mensagem.
-        mail.send_mail('Assunto aqui', 'Aqui vai a mensagem.',
-            'from@example.com', ['to@example.com'],
-            fail_silently=False)
+        ]
+        for item in lista_opcoes:
+            chave = utils.gera_chave(item[0])
+            self.assertEqual(len(chave) == 46,True,"Testar Validacao do tamanho da chave (OK)")
 
-        # Verifica se uma mensagem foi enviada.
-        self.assertEqual(len(mail.outbox), 1)
-
-        # Verifica se o assunto da mensagem é igual
-        self.assertEqual(mail.outbox[0].subject, 'Assunto aqui')
-
-"""
-
-class ActivationCodeTest(TestCase):
-
-    def test_create_hash_email(self):
-        #self.assertEqual(is_empty(""), True, "Testar Validacao de valor vazio para campo vazio (OK)")
-        #self.assertEqual(is_empty("teste"), False, "Testar Validacao de valor vazio para campo preenchido (OK)")
-        pass
-
-    def test_create_activation_code(self):
-        pass
-
-
+    def test_valida_chave(self):
+        lista_chave = [
+            ['abcdfefrghukjkkkkkkk',False],
+            ['1234566gv67hhhh89yy456rt79895',False],
+            ['', False],
+            ['476377102576206035580602d7ae44c47d894f0153418c', False],
+            ['476377102576206035280602d7ae75c47d894f0153416c',True],
+        ]
+        for item in lista_chave:
+            data, chave = utils.valida_chave(item[0])
+            dta_ok, chave_ok = utils.valida_chave('476377102576206035280602d7ae75c47d894f0153416c')
+            self.assertEqual((data == dta_ok and chave == chave_ok), item[1],"Teste de validação de chave (OK)")

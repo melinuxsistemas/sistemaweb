@@ -2,6 +2,9 @@ from rebar.testing import flatten_to_dict
 from unittest import TestCase
 import unittest
 
+from modules.core.forms import FormAbstractPassword, FormAbstractConfirmPassword, FormAbstractEmail
+
+
 class TestAbstractForm(TestCase):
 
     formulary = None
@@ -71,9 +74,13 @@ class TestAbstractForm(TestCase):
             form_data = self.populate_form_data(item)
             form = self.formulary(data=form_data)
             result = form.is_valid()
+            #print("VEJA O CLEANED:", form.cleaned_data)
+            #print("VEJA O ERRORS:", form.errors)
+            #print("VEJA ASSERTS: ",item['expected_result'], item['success_message'])
             self.assertEquals(form.is_valid(), item['expected_result'], item['success_message'])
 
 
+"""
 class PasswordFormTests(TestAbstractForm):
 
     def __init__(self, *args, **kwargs):
@@ -136,5 +143,5 @@ class EmailFormTests(TestAbstractForm):
         self.add_case_valid_size({'email': 'teste@teste.com'},"Test email with normal size values (OK)")
         self.add_case_invalid_size({'email': big_value_email}, "Test email with exceded size values (OK)")
 
-
-del(TestAbstractForm)
+#del(TestAbstractForm)
+"""
