@@ -196,6 +196,7 @@ EMAIL_HOST_PASSWORD = '61109119'
 EMAIL_PORT = 587
 
 from modules.core.working_api import WorkingManager
+
 try:
     if "runserver" in sys.argv:
         WorkingManager().register_programming_backend()
@@ -205,5 +206,6 @@ try:
 
     else:
         pass
+
 except:
     pass

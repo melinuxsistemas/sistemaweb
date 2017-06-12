@@ -31,3 +31,13 @@ function compare_passwords(id_senha, id_confirma_senha){
   return (senha === confirma_senha ? true : error_notify("confirm_password","Senhas não conferem","Verifique as senhas informadas."));
 }
 
+$('#envia').on('click',function() {
+	var vazios = $("input[type=email]").filter(function() {
+    return !this.value;
+  }).get();
+
+  if(vazios.length){
+    error_notify('email',"Falha na operação","Informe um email válido para gerar senha.")
+    return false;
+  }
+});

@@ -1,9 +1,10 @@
-from modules.usuario.forms import FormRegister, FormLogin, FormChangePassword, FormSendPassword, FormActivationCode
+from modules.usuario.forms import FormRegister, FormLogin, FormChangePassword, FormResetPassword, FormActivationCode
 from modules.usuario.models import Usuario
 from modules.core.utils import valida_chave, gera_hash_md5, envia_email,gera_nova_senha
 from django.contrib.auth import logout
-from django.shortcuts import render, HttpResponseRedirect
+from django.shortcuts import render, HttpResponseRedirect, redirect
 from datetime import datetime, timedelta
+
 
 def profile_page(request):
     form_change_password = FormChangePassword()
@@ -13,13 +14,11 @@ def profile_page(request):
 def register_page(request):
     form_register = FormRegister()
     return render(request, "usuario/register.html", {'formulario_register': form_register})
-"""
-def confirm_register_page(request):
-    form_confirm_reg = FormConfRegister()
-    return render(request, "usuario/confirm_register.html", {'formulario_conf_register': form_confirm_reg})
-"""
 
-def activate_register_page(request,email,chave):
+def confirm_valid_email(request,email,chave):
+    return redirect('activate_user',email,chave)
+
+def activate_user(request, email, chave):
     hash_chave = gera_hash_md5(email)
     chave_register,data_register = valida_chave(chave)
     data_atual = datetime.now()
@@ -40,20 +39,16 @@ def activate_register_page(request,email,chave):
             except:
                 print("Erro na ativação da Conta")
 
-        return render(request, "usuario/activate_register.html", {'email_activate': email,'chave_register': chave })
+        return render(request, "usuario/activate_register.html", {'email_activate': email,'chave_register': chave})
+
 
 def new_register_page(request,email):
     envia_email(email)
+    return render(request, "usuario/email_ok.html", {'email_activate': email})
 
-    return render(request, "usuario/email_ok.html", {'email_activate': email })
-
-def login_page(request):
-    form = FormLogin()
-    return render(request,"usuario/login.html",{'formulario_login': form})
 
 def new_password_page(request):
     if request.method == "POST":
-
        email =  request.POST['email']
        print("Voltou com email ",email)
        nova_senha = gera_nova_senha(email)
@@ -66,8 +61,14 @@ def new_password_page(request):
 
            return HttpResponseRedirect("/")
     else:
-       form = FormSendPassword()
-       return render(request,"usuario/send_password.html",{'formulario_send': form})
+       form = FormResetPassword()
+       return render(request, "usuario/reset_password.html", {'formulario_send': form})
+
+
+def login_page(request):
+    form = FormLogin()
+    return render(request,"usuario/login.html",{'formulario_login': form})
+
 
 def logout_page(request):
     form = FormLogin()

@@ -164,16 +164,16 @@ class FormChangePassword(FormAbstractPassword, FormAbstractConfirmPassword):
 
     def clean(self):
         form_data = self.cleaned_data
+        if len(self.cleaned_data) == len(self.fields):
+            if form_data['password'] != form_data['confirm_password']:
+                self._errors["password"] = ["Confirme a Senha: Precisa ser igual ao campo Senha"]  # Will raise a error message
+                del form_data['password']
 
-        """if form_data['password'] != form_data['confirm_password']:
-            self._errors["password"] = ["Confirme a Senha: Precisa ser igual ao campo Senha"]  # Will raise a error message
-            del form_data['password']
-
-        if form_data['old_password'] == form_data['password']:
-            self._errors["password"] = ["Nova Senha: Precisa ser diferente da senha antiga."]  # Will raise a error message
-            del form_data['password']
-        """
+            elif form_data['old_password'] == form_data['password']:
+                self._errors["password"] = ["Nova Senha: Precisa ser diferente da senha antiga."]  # Will raise a error message
+                del form_data['password']
         return form_data
+
 
     def format_validate_response(self):
         errors = json.loads(self.errors.as_json())
@@ -182,18 +182,23 @@ class FormChangePassword(FormAbstractPassword, FormAbstractConfirmPassword):
                 erro['label'] = self.fields[item].label
         return errors
 
-class FormSendPassword(forms.Form):
-    email = forms.EmailField(label="Seu email", max_length=256, required=True, error_messages=MENSAGENS_ERROS,
-                             widget=forms.TextInput(
-                                 attrs={'type': "email",
-                                        'class': "form-control text-lowercase",
-                                        'id': 'email',
-                                        'ng-model': 'email',
-                                        'placeholder': "Email..",
-                                        'required': "True"
-                                        }
-                                )
-                             )
+class FormResetPassword(forms.Form):
+    email = forms.EmailField(
+        label="Email",
+        max_length=256,
+        required=True,
+        error_messages=MENSAGENS_ERROS,
+        widget=forms.TextInput(
+            attrs={
+                'type': "email",
+                'class': "form-control text-lowercase",
+                'id': 'email',
+                'ng-model': 'email',
+                'placeholder': "Email..",
+                'required': "True"
+                }
+            )
+        )
 
 
 class FormActivationCode(forms.Form):
