@@ -9,13 +9,9 @@ application.controller('change_password_controller', function($scope) {
 
   $scope.save_password = function () {
     var data_paramters = {
-      //old_password: $("#old_password").val(),//$scope.old_password,
-      //password:  $("#password").val(),///
-      //confirm_password:  $("#confirm_password").val()//
-
-      old_password: $scope.old_password, //$("#old_password").val(),//$scope.old_password,
-      password:  $scope.password,//$("#password").val(),///
-      confirm_password:  $scope.confirm_password,//$("#confirm_password").val()//
+      old_password: $scope.old_password,
+      password:  $scope.password,
+      confirm_password:  $scope.confirm_password
     }
 
     request_api("/api/usuario/change_password",data_paramters,validate_form_change_password,null,null)
@@ -24,7 +20,20 @@ application.controller('change_password_controller', function($scope) {
 
 application.controller('register_controller', function($scope) {
 
+  $scope.email = "";
+  $scope.password = "";
+  $scope.confirm_password = "";
+
   $scope.save_user = function () {
+    var data_paramters = {
+      email: $scope.email,
+      senha: $scope.password,
+      confirma_senha: $scope.confirm_password,
+    }
+    request_api("/api/usuario/register/save",data_paramters,validate_form_register,null,null)
+  }
+
+  $scope.save_users = function () {
     var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
     NProgress.start();
     if (validate_form_register()){
@@ -49,7 +58,8 @@ application.controller('register_controller', function($scope) {
           }
 
           else {
-            error_notify('email',"Falha na operação",message+typeof(message))
+            alert("MENSAGEM "+message)
+            error_notify('email',"Falha na operação",message)
           }
         },
         failure: function (data) {
@@ -65,6 +75,7 @@ application.controller('register_controller', function($scope) {
       return false;
     }
   }
+
 });
 
 application.controller('login_controller', function($scope) {

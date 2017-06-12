@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 import sys
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 
 
@@ -186,7 +187,6 @@ WORKING_SERVER = "http://192.168.1.116:8010"
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 
-# Configurar email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 DEFAULT_FROM_EMAIL = 'melinuxsistemas@gmail.com>'
 EMAIL_USE_TLS = True
@@ -197,6 +197,13 @@ EMAIL_PORT = 587
 
 from modules.core.working_api import WorkingManager
 try:
-    WorkingManager().register_programming_backend()
+    if "runserver" in sys.argv:
+        WorkingManager().register_programming_backend()
+
+    elif "test" in sys.argv:
+        WorkingManager().register_test_backend()
+
+    else:
+        pass
 except:
     pass

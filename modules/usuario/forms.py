@@ -1,3 +1,5 @@
+import json
+
 from django import forms
 from modules.core.config import MENSAGENS_ERROS
 from modules.core.forms import FormAbstractPassword,FormAbstractConfirmPassword,FormAbstractEmail
@@ -10,7 +12,15 @@ class FormRegister(FormAbstractPassword,FormAbstractConfirmPassword,FormAbstract
         super(FormAbstractPassword, self).__init__(*args, **kwargs)
         super(FormAbstractConfirmPassword, self).__init__(*args, **kwargs)
         super(FormAbstractEmail, self).__init__(*args,**kwargs)
+        self.fields['email'].widget.attrs['placeholder'] = "Email.."
+        self.fields['password'].widget.attrs['placeholder'] = "Senha.."
+        self.fields['confirm_password'].widget.attrs['placeholder'] = "Confirme a senha.."
+        #self.fields['password'].label = "Nova Senha"
+        #print("VEJA OS ATRIBUTOS DE REGISTER: ",self.fields['email'].widget.attrs['placeholder'])
 
+
+
+    """
     def clean(self):
         data = self.data
         form_data = self.cleaned_data
@@ -22,7 +32,7 @@ class FormRegister(FormAbstractPassword,FormAbstractConfirmPassword,FormAbstract
             '''limpar campos e deletar form igual esta na outra'''
 
         return form_data
-
+    """
 
 
     '''def clean(self):
@@ -166,9 +176,10 @@ class FormChangePassword(FormAbstractPassword, FormAbstractConfirmPassword):
         return form_data
 
     def format_validate_response(self):
-        errors = str(self.errors)
+        errors = json.loads(self.errors.as_json())
         for item in self.fields:
-            errors = errors.replace("<li>" + str(item), "<li>" + self.fields[item].label)
+            for erro in errors[item]:
+                erro['label'] = self.fields[item].label
         return errors
 
 class FormActivationCode(forms.Form):

@@ -14,7 +14,7 @@ class FormAbstractEmail(forms.Form):
         widget=forms.TextInput(
             attrs={
                 'type': "text", 'class': "form-control text-lowercase", 'id': 'email',
-                'ng-model': 'email', 'autocomplete': "off", 'placeholder': "Email..",'required': "true"
+                'ng-model': 'email', 'autocomplete': "off", 'placeholder': "",'required': "true"
             }
         )
     )
@@ -36,8 +36,6 @@ class FormAbstractPassword(forms.Form):
         )
     )
 
-    def clean(self):
-        print("vim no clean do pai")
 
 class FormAbstractConfirmPassword(forms.Form):
     confirm_password = forms.CharField(
@@ -53,17 +51,3 @@ class FormAbstractConfirmPassword(forms.Form):
             }
         )
     )
-
-'''class form_abstract_email(forms.Form):
-    email = forms.EmailField(
-        label="Email",
-        max_length=256,
-        required=False,
-        error_messages=MENSAGENS_ERROS,
-        widget=forms.TextInput(
-            attrs={
-                'type': "text", 'class': "form-control text-lowercase", 'id': 'email',
-                'ng-model': 'email', 'autocomplete': "off", 'placeholder': "Email..",'required': "true"
-            }
-        )
-    )'''

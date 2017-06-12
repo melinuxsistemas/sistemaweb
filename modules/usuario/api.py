@@ -37,15 +37,30 @@ class UsuarioAPI:
                 response_dict = response_format_success(usuario, ['email', 'joined_date'])
 
                 if envia_email(email) is None:
-                    response_dict = response_format_error("Erro! ao enviar email para "+email)
+                    response_dict = response_format_error("Erro! Não foi possivel enviar email para "+email)
 
             else:
                 response_dict = response_format_error("Erro! Email já cadastrado.")
 
         else:
-            response_dict = response_format_error("Erro! Formulário com dados inválidos.")
+            response_dict = response_format_error("Erro! Formulário com dados inválidos."+str(form.errors))
+
+            """
+                Erro! Formulário com dados inválidos.
+
+                email
+                    Este campo é obrigatório.
+                confirm_password
+                    Este campo é obrigatório.
+                password
+                    Este campo é obrigatório.
+
+            string
+            """
 
         return HttpResponse(json.dumps(response_dict))
+
+
 
     def login_autentication(request):
         resultado, form = AbstractAPI.filter_request(request, FormLogin)

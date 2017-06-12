@@ -13,6 +13,7 @@ class BaseRoutesTests(TestCase):
 
     def __init__(self, *args, **kwargs):
         unittest.TestCase.__init__(self, *args, **kwargs)
+        print("TO VINDO NO TEST ROUTES BASE")
 
     def setUp(self):
         self.client = Client()
@@ -78,7 +79,10 @@ class UsuarioRoutesTests(BaseRoutesTests):
 
     def __init__(self, *args):
         unittest.TestCase.__init__(self, *args)
+        print("TO VINDO NO TEST USUARIO ROUTES")
         self.add_public_route_list(['/login/', '/logout/', '/register/'])
+
+        print("OLHA AS ROTAS PUBLICAS: ",self.public_routes)
         self.add_private_route_list(['/'])
         self.add_private_api('/api/usuario/register/save', {'email': 'teste@teste.com', 'password': '1q2w3e4r', 'confirm_password': '1q2w3e4r'})
         self.add_private_api('/api/usuario/login/autentication',{'email': 'teste@teste.com', 'senha': '1q2w3e4r'})

@@ -7,7 +7,6 @@
 
 {% block titulo_cabecalho %} Perfil {% endblock %}
 {% block conteudo_principal %}
-
 <div id="angular_content" ng-cloak ng-app="modules.usuario">
   <div ng-controller="change_password_controller">
     <div class="x_panel">
@@ -37,41 +36,33 @@
         <form id="form_change_password" autocomplete="off" ng-submit="save_password()" novalidate>
           {% csrf_token %}
           <fieldset>
-            <div class="field">
+            <div id="field_old_password" class="field">
               <label for="old_password">{{ form_change_password.old_password.label }}</label>
               {{ form_change_password.old_password }}
-
-              <div class='tooltip help'>
-                <span>?</span>
-                <div class='content'>
-                  <b></b>
-                  <p>Name must be at least 2 words</p>
-                </div>
+              <div class="alert">
               </div>
-
             </div>
+
             <br>
 
-            <div class="field">
+            <div id="field_password" class="field">
               <label for="password">{{ form_change_password.password.label }}</label>
               {{ form_change_password.password }}
-            </div>
-            <br>
-
-            <div class="field">
-              <label for="password">{{ form_change_password.confirm_password.label }}</label>
-              {{ form_change_password.confirm_password }}
-              <div class='tooltip help'>
-                <span>?</span>
-                <div class='content'>
-                  <b></b>
-                  <p>Name must be at least 2 words</p>
-                </div>
+              <div class="alert">
               </div>
             </div>
 
-            <br><br>
+            <br>
 
+            <div id="field_confirm_password" class="field">
+              <label for="confirm_password">{{ form_change_password.confirm_password.label }}</label>
+              {{ form_change_password.confirm_password }}
+              <div class="alert">
+              </div>
+            </div>
+
+
+            <br><br>
 
             {% verbatim %}
             {{ old_password }}
@@ -81,26 +72,6 @@
 
             <button type="submit" class="submit btn btn-success pull-right">Enviar</button>
           </fieldset>
-
-          <ul class="errorlist">
-            <li>confirm_password
-              <ul class="errorlist">
-                <li>Este campo é obrigatório.</li>
-              </ul>
-            </li>
-
-            <li>password
-              <ul class="errorlist">
-                <li>Este campo é obrigatório.</li>
-              </ul>
-            </li>
-
-            <li>old_password
-              <ul class="errorlist">
-                <li>Este campo é obrigatório.</li>
-              </ul>
-            </li>
-          </ul>
 
           <!--<input type="text" id="fullname" class="form-control" name="fullname" required />-->
 
@@ -159,8 +130,8 @@
   {% load static %}
   <script src="{% static 'modules/usuario/usuario_controller.js' %}"></script>
   <script src="{% static 'modules/usuario/usuario.js' %}"></script>
-
-  <!--<script>
+  <!--
+  <script>
     $('#form_change_password').submit(function(e){
       e.preventDefault();
       var submit = false;
