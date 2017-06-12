@@ -1,4 +1,4 @@
-import unittest
+'''import unittest
 from django.test import TestCase
 from modules.core.forms import FormAbstractPassword
 from modules.core.forms import FormAbstractConfirmPassword
@@ -6,9 +6,9 @@ from modules.core.forms import FormAbstractEmail
 from modules.usuario.forms import FormChangePassword
 from rebar.testing import flatten_to_dict
 
-from test.unit.backend.core.test_forms import TestAbstractForm
+from test.unit.backend.core.test_forms import TestAbstractForm'''
 
-
+'''
 class ChangePasswordFormTest(TestAbstractForm):
 
     def __init__(self, *args, **kwargs):
@@ -37,6 +37,8 @@ class ChangePasswordFormTest(TestAbstractForm):
         self.add_case_valid_size({'email': 'teste@teste.com'}, "Test email with normal size values (OK)")
         self.add_case_invalid_size({'email': big_value_email}, "Test email with exceded size values (OK)")
         """
+
+
 
 
 """
@@ -99,7 +101,8 @@ class ChangePasswordFormTest(TestCase):
 
 
 
-''' def test_combined_fields(self):
+'''
+'''def test_combined_fields(self):
         variacoes_de_teste = [
             ['abcd1234','1234abcd','1234abcd', True ,'Testar se atente todos requesitos (OK)'],
             ['abcd1234','abcd1234','abcd1234', False,'Testar se senha antiga é igual a nova (OK)'],

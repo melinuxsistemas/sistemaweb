@@ -119,12 +119,12 @@ class FormLogin(forms.Form):
                                         }
                                 )
                              )
-    password = forms.CharField(label="Senha", max_length=50, required=True, error_messages=MENSAGENS_ERROS,
+    senha = forms.CharField(label="Senha", max_length=50, required=True, error_messages=MENSAGENS_ERROS,
                             widget=forms.TextInput(
-                                attrs={'id': 'password',
+                                attrs={'id': 'senha',
                                        'class': "form-control ",
                                        'type': "password",
-                                       'ng-model': 'password',
+                                       'ng-model': 'senha',
                                        'placeholder': "Senha..",
                                        'required': ""
                                        }
