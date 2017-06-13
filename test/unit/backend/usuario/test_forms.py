@@ -1,125 +1,67 @@
-'''import unittest
-from django.test import TestCase
-from modules.core.forms import FormAbstractPassword
-from modules.core.forms import FormAbstractConfirmPassword
-from modules.core.forms import FormAbstractEmail
-from modules.usuario.forms import FormChangePassword
-from rebar.testing import flatten_to_dict
+import unittest
+from modules.usuario.forms import FormChangePassword, FormLogin, FormRegister
+from test.unit.backend.core.test_forms import TestAbstractForm
 
-from test.unit.backend.core.test_forms import TestAbstractForm'''
 
-'''
-class ChangePasswordFormTest(TestAbstractForm):
-
+class ChangePasswordFormTest (TestAbstractForm):
     def __init__(self, *args, **kwargs):
         super(ChangePasswordFormTest, self).__init__()
         unittest.TestCase.__init__(self, *args, **kwargs)
         self.set_formulary(FormChangePassword)
 
-        self.add_case_invalid_format({'old_password': None,'password': None,'confirm_password': None}, "Test not acepted null values for all fields (OK)")
-        self.add_case_invalid_format({'old_password': '1q2w3e4r', 'password': '1234qwer', 'confirm_password': '1234qwerp'},"Test not acepted password and confirm password diferents (OK)")
-        """
-        self.add_case_invalid_format({'email': ""}, "Test empty email values (OK)")
-        self.add_case_invalid_format({'email': '@teste.com'}, "Test email without user email (OK)")
-        self.add_case_invalid_format({'email': 'teste2@.com'}, "Test email without domain (OK)")
-        self.add_case_invalid_format({'email': 'teste2@teste@.com'}, "Test email with two '@' character (OK)")
-        self.add_case_invalid_format({'email': 'teste2.com'}, "Test email without '@' character (OK)")
-        self.add_case_invalid_format({'email': 'teste+001@gmail.com'}, "Test email with dangerous symbols (OK)")
+        #Valors de tamanho invalido
+        self.add_case_invalid_size({'old_password': 'abcd1234', 'password': '', 'confirm_password': ''}, "Test empyt size is invalid (OK)")
+        self.add_case_invalid_size({'old_password': '1234abcd', 'password': '123', 'confirm_password': 'abdc1234'}, "Test new password is invalid (OK)")
+        self.add_case_invalid_size({'old_password': '1234abcd', 'password': 'abcd1234', 'confirm_password': '123'}, "Test new confirm password is invalid (OK)")
 
-        self.add_case_valid_format({'email': 'teste@teste.com'}, "Test valid format email values (OK)")
-        self.add_case_valid_format({'email': 'teste_testes@teste.com'},
-                                   "Test valid format email with '_' character (OK)")
-        self.add_case_valid_format({'email': 'teste5@teste.com'}, "Test valid format email with number (OK)")
-        self.add_case_valid_format({'email': '10teste@teste.com'},
-                                   "Test valid format email initialized by with number (OK)")
+        #valores de formato invalido
+        self.add_case_invalid_format({'old_password':'abdc1234', 'password': None , 'confirm_password':None }, "Test newp password is invalid (OK)")
+        self.add_case_invalid_format({'old_password':'1234abcd', 'password':'12345678', 'confirm_password': 'abdc1234'}, "Test new password is invalid (OK)")
+        self.add_case_invalid_format({'old_password': '1234abcd', 'password': '!1@2#3$4%5', 'confirm_password': 'abdc1234'},"Test new password is invalid (OK)")
+        self.add_case_invalid_format({'old_password': '1234abcd', 'password': 'abdc1234', 'confirm_password': '1@2#3$4%5'},"Test new confirm password is invalid (OK)")
+        self.add_case_invalid_format({'old_password': '1234abcd', 'password': '1234abcd', 'confirm_password': '1234abcd'},"Test new_password and confirm_new_password is equal to old_passwaod (OK)")
+        self.add_case_invalid_format({'old_password': '1234abcd', 'password': '1234abcd', 'confirm_password': '1a2b3c4d'},"Test new_password and confirm_new_password is not equal(OK)")
 
-        big_value_email = '1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t@1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t.com.br'
-        self.add_case_valid_size({'email': 'teste@teste.com'}, "Test email with normal size values (OK)")
-        self.add_case_invalid_size({'email': big_value_email}, "Test email with exceded size values (OK)")
-        """
+        #valor de formato e tamanho valido
+        self.add_case_valid_format({'old_password': '1234abcd', 'password': 'abcd1234', 'confirm_password': 'abcd1234'},"Test change password is valid (OK)")
 
 
+class LoginFormTest (TestAbstractForm):
+
+    def __init__(self, *args, **kwargs):
+        super(LoginFormTest, self).__init__()
+        unittest.TestCase.__init__(self, *args, **kwargs)
+        self.set_formulary(FormLogin)
+
+        #Valores invalidos
+        self.add_case_invalid_format({'email': None, 'password': None,}, "Test email and password are Null Value (OK)")
+        self.add_case_invalid_format({'email': '','password': ''}, "Test email and password are empty string (OK)")
+        self.add_case_invalid_format({'email': 'MuitoGrandeMuitoGrandeMuitoGrandeMuitoGrandeMuitoGrandeMuitoGrandeMuitoGrandeMuitoGrandeMuitoGrandeMuitoGrandeMuitoGrandeMuitoGrandeMuitoGrandeMuitoGrandeMuitoGrandeMuitoGrandeMuitoGrandeMuitoGrandeMuitoGrandeMuitoGrandeMuitoGrandeMuitoGrandeMuitoGrandeMuitoGrandeMuitoGrandeMuitoGrandeMuitoGrandeMuitoGrandeMuitoGrande@gmail.com', 'password': '1234abcd'}, "Test email is very large (OK)")
+        self.add_case_invalid_format({'email': 'teste@teste@gmail.com', 'password': '1234abcd'}, "Test email have two or more '@' (OK)")
+        self.add_case_invalid_format({'email': 'testa@test', 'password': '1234abcd'}, "Test email have . something (OK)")
+        self.add_case_invalid_format({'email': 'teste@teste.com', 'password': 'SenhaGrandeSenhaGrandeSenhaGrandeSenhaGrandeSenhaGrandeSenhaGrande'}, "Test password is very large (OK)")
+
+        #Valores de Campos aceitos
+        self.add_case_valid_format({'email': 'Teste@test.com','password': '1234abcd'},"Email and Password are valid (OK)")
 
 
-"""
-class EmailFormTests (TestCase):
+class FormRegisterTest (TestAbstractForm):
 
-    def test_form_email_valid (self):
-        variacoes = [
-            [None, False],
-            ['', False],
-            ['@teste.com', False],
-            ['teste2@.com', False],
-            ['teste2@teste@.com', False],
-            ['teste2.com', False],
-            ['teste+001@gmail.com', False],
-            ['teste@teste.com', True],
-            ['teste2@gmail.com', True],
-            ['teste_teste@teste.com', True]
-        ]
+    def __init__(self, *args, **kwargs):
+        super(FormRegisterTest, self).__init__()
+        unittest.TestCase.__init__(self, *args, **kwargs)
+        self.set_formulary(FormRegister)
 
-        for item in variacoes:
-            form_data = flatten_to_dict(())
-            form_data["email"] = item[0]
-            form = FormAbstractEmail(data=form_data)
-            #print('formulario form_data', form_data)
-            #print('variavel form:', form)
-            resultado = form.is_valid()
-            #print(resultado)
-            #if resultado != item[1] :
-            #    print ("erros:",form.errors )
-            #print(item[0],item[1], resultado)
-            self.assertEquals(resultado, item[1],'Usuario Contratante instanciado corretamente (OK)')
+        #Valores de tamanho Invalidos:
+        self.add_case_invalid_size({'email': 'test@test.com', 'password': '123', 'confirm_password': '123'},"Test password and confirm_new_password are too small (OK)")
+        self.add_case_invalid_size({'email': '', 'password': 'test1234', 'confirm_password': 'test1234'}, "Test email is empty (OK")
+        self.add_case_invalid_size({'email': 'test@test.com', 'password': '', 'confirm_password': ''}, "Test password and confirm_passwor are empty (OK")
 
+        #Valores de formato Invalido:
+        self.add_case_invalid_format({'email': None, 'password': None, 'confirm_password': None}, "Test all fields are Null value (OK")
+        self.add_case_invalid_format({'email': 'test@test.com', 'password': None, 'confirm_password': None}, "Test password and confirm_password are Null value (OK")
+        self.add_case_invalid_format({'email': 'teste@@test.com', 'password': 'test1234', 'confirm_password': 'test1234'}, "Test Email is inValid (OK")
+        self.add_case_invalid_format({'email': 'teste@test.com', 'password': 'test1234', 'confirm_password': '1234test'}, "Test Password is different from confirm_password(OK")
 
-class ChangePasswordFormTest(TestCase):
-
-    def test_form_old_password_valid(self):
-
-        
-        set_fields = '1q2w3e4r'
-        variacoes_old_password = [
-            [None, False],
-            ['', False],
-            ['f4ltaum', False],
-            ['0123456789012345678901234567890123456789012345678ab', False],
-            ['1234a$bc', False],
-            ['789654123', False],
-            ['abcdefgh',False],
-            ['1234abcd',True]
-            
-        ]   
-        
-        for item in variacoes_old_password:
-            form_data = flatten_to_dict(FormChangePassword())
-            form_data['old_password'] = set_fields
-            form_data['password'] = set_fields
-            form_data['confirm_password'] = item[0]
-            form = FormChangePassword(data=form_data)
-            self.assertEquals(form.is_valid(),item[1], 'Testar se old passwor é valido (OK)')
-"""
-
-
-
-'''
-'''def test_combined_fields(self):
-        variacoes_de_teste = [
-            ['abcd1234','1234abcd','1234abcd', True ,'Testar se atente todos requesitos (OK)'],
-            ['abcd1234','abcd1234','abcd1234', False,'Testar se senha antiga é igual a nova (OK)'],
-            ['abcd1234','1234abcd','1234dife', False,'Testar se as senhas novas são diferente'],
-            ['abcd1234','invalido','1234abcd', False,'Testa se a nova senha é invalida']
-        ]
-
-        for item in variacoes_de_teste:
-            form_data = flatten_to_dict(FormChangePassword())
-
-            form_data['old_password'] = item[0]
-            form_data['password'] = item[1]
-            form_data['confirm_password'] = item[2]
-            form = FormChangePassword(data=form_data)
-            self.assertEquals(form.is_valid(),item[3], item[4])'''
-
-
-
-
-
+        #Formato Valido:
+        self.add_case_valid_format({'email': 'teste@test.com', 'password': 'test1234', 'confirm_password': 'test1234'},"All fields are equals (OK")

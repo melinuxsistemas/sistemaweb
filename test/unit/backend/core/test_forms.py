@@ -1,9 +1,7 @@
+import unittest
 from rebar.testing import flatten_to_dict
 from unittest import TestCase
-import unittest
-
 from modules.core.forms import FormAbstractConfirmPassword, FormAbstractEmail, FormAbstractPassword
-from modules.usuario.forms import FormChangePassword
 
 
 class TestAbstractForm(TestCase):
@@ -141,24 +139,3 @@ class EmailFormTests(TestAbstractForm):
         self.add_case_invalid_size({'email': big_value_email}, "Test email with exceded size values (OK)")
 
 
-class ChangePasswordFormTest (TestAbstractForm):
-    def __init__(self, *args, **kwargs):
-        super(ChangePasswordFormTest, self).__init__()
-        unittest.TestCase.__init__(self, *args, **kwargs)
-        self.set_formulary(FormChangePassword)
-        #Valors de tamanho invalido
-        self.add_case_invalid_size({'old_password': 'abcd1234', 'password': '', 'confirm_password': ''}, "Test empyt size is invalid (OK)")
-        self.add_case_invalid_size({'old_password': '1234abcd', 'password': '123', 'confirm_password': 'abdc1234'}, "Test new password is invalid (OK)")
-        self.add_case_invalid_size({'old_password': '1234abcd', 'password': 'abcd1234', 'confirm_password': '123'}, "Test new confirm password is invalid (OK)")
-        #valores de formato invalido
-        self.add_case_invalid_format({'old_password':'abdc1234', 'password': None , 'confirm_password':None }, "Test newp password is invalid (OK)")
-        self.add_case_invalid_format({'old_password':'1234abcd', 'password':'12345678', 'confirm_password': 'abdc1234'}, "Test new password is invalid (OK)")
-        self.add_case_invalid_format({'old_password': '1234abcd', 'password': '!1@2#3$4%5', 'confirm_password': 'abdc1234'},"Test new password is invalid (OK)")
-        self.add_case_invalid_format({'old_password': '1234abcd', 'password': 'abdc1234', 'confirm_password': '1@2#3$4%5'},"Test new confirm password is invalid (OK)")
-        self.add_case_invalid_format({'old_password': '1234abcd', 'password': '1234abcd', 'confirm_password': '1234abcd'},"Test new_password and confirm_new_password is equal to old_passwaod (OK)")
-        self.add_case_invalid_format({'old_password': '1234abcd', 'password': '1234abcd', 'confirm_password': '1a2b3c4d'},"Test new_password and confirm_new_password is not equal(OK)")
-        #valor de formato e tamanho valido
-        self.add_case_valid_format({'old_password': '1234abcd', 'password': 'abcd1234', 'confirm_password': 'abcd1234'},"Test change password is valid (OK)")
-
-
-del(TestAbstractForm)
