@@ -48,7 +48,7 @@ def executar_operacao(registro,operacao):
 
 
 def envia_email(email):
-   chave = gera_chave(email)
+   chave = create_activation_code(email)
    html_content = "<strong>CONFIRMAÇÃO DE REGISTRO</strong><br>" \
                   "<p>Para ter acesso ao Sistema acesse o link abaixo e informe " \
                   "o numero de registro :</p><br><a href='http://localhost:8000/activate/"+email+"/"+chave+"/'"+">Clique aqui</a>"
@@ -57,7 +57,7 @@ def envia_email(email):
    result = email.send()
    return result
 
-def gera_chave(email):
+def create_activation_code(email):
 
     data_reg = datetime.datetime.now()
     ano_reg = str(data_reg.year)[::-1]
@@ -66,38 +66,38 @@ def gera_chave(email):
     hora_reg = str(data_reg.hour)[::-1] if data_reg.hour >= 10 else str(data_reg.hour * 10)
     min_reg  = str(data_reg.minute)[::-1] if data_reg.minute >= 10 else str(data_reg.minute * 10)
     seg_reg  = str(data_reg.second)[::-1] if data_reg.second >= 10 else str(data_reg.second * 10)
-
-    email_md5 = gera_hash_md5(email)
-
+    email_md5 = encode_hash_email(email)
     hash_final = str(email_md5[0:5] + ano_reg + email_md5[5:5 + 5] + mes_reg + email_md5[10:10 + 5] + dia_reg
                      + email_md5[15:15 + 5] + seg_reg + email_md5[20:20 + 5] + min_reg + email_md5[25:25 + 5]
                      + hora_reg + email_md5[30:])
     return hash_final
 
 
-def valida_chave(chave):
-    ano = str(chave[5:5 +4])
-    mes = str(chave[14:14 +2])
-    dia = str(chave[21:21 +2])
-    hora = str(chave[42:42 +2])
-    minutos = str(chave[35:35 +2])
-    segundos = str(chave[28:28 +2])
-    chave = str(chave[:5]+chave[9:9 +5]+chave[16:16 +5]+chave[23:23 +5]+chave[30:30 +5]+chave[37:37 +5]+chave[44:])
-    data = datetime.datetime(int(ano[::-1]),int(mes[::-1]),int(dia[::-1]),int(hora[::-1]),int(minutos[::-1]),int(segundos[::-1]))
-    return chave, data
+def decode_activation_code(activation_code):
+    year = str(activation_code[5:5 + 4])
+    month = str(activation_code[14:14 + 2])
+    day = str(activation_code[21:21 + 2])
+    hours = str(activation_code[42:42 + 2])
+    minutes = str(activation_code[35:35 + 2])
+    seconds = str(activation_code[28:28 + 2])
+    hash_email = str(activation_code[:5] + activation_code[9:9 + 5] + activation_code[16:16 + 5] + activation_code[23:23 + 5] + activation_code[30:30 + 5] + activation_code[37:37 + 5] + activation_code[44:])
+    date = datetime.datetime(int(year[::-1]),int(month[::-1]),int(day[::-1]),int(hours[::-1]),int(minutes[::-1]),int(seconds[::-1]))
+    return hash_email, date
 
 
-def gera_hash_md5(email):
+def encode_hash_email(email):
     hash_email = hashlib.md5()
     hash_email.update(email.encode('utf-8'))
     return hash_email.hexdigest()
 
-def gera_nova_senha(email):
-    nova_senha = gera_hash_md5(str(email)+str(datetime.datetime.now()))[15:15 +8]
-    envia_nova_senha(nova_senha,email)
+
+def generate_random_password(email):
+    nova_senha = encode_hash_email(str(email) + str(datetime.datetime.now()))[15:15 + 8]
+    send_reset_password(nova_senha, email)
     return nova_senha
 
-def envia_nova_senha(senha,email):
+
+def send_reset_password(senha, email):
    html_content = "<strong>NOVA SENHA GERADA COM SUCESSO</strong><br>" \
                   "<p>Uma nova senha provisória foi gerada para acessar o Sistema, após o login " \
                   "acesse seu perfil e troque sua senha .</p><br><p>Sua nova senha :"+senha+"</p><br>"

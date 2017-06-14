@@ -25,15 +25,16 @@ application.controller('register_controller', function($scope) {
   $scope.confirm_password = "";
 
   $scope.save_user = function () {
+    alert("eh aqui que eu to indo.. kk")
     var data_paramters = {
       email: $scope.email,
-      senha: $scope.password,
-      confirma_senha: $scope.confirm_password,
+      password: $scope.password,
+      confirm_password: $scope.confirm_password,
     }
     request_api("/api/usuario/register/save",data_paramters,validate_form_register,null,null)
   }
 
-  $scope.save_users = function () {
+  /*$scope.save_users = function () {
     var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
     NProgress.start();
     if (validate_form_register()){
@@ -75,7 +76,7 @@ application.controller('register_controller', function($scope) {
       return false;
     }
   }
-
+  */
 });
 
 application.controller('login_controller', function($scope) {

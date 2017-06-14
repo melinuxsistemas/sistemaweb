@@ -85,3 +85,7 @@ button[type="submit"] {
   margin-left: 8px;
 }
 
+.panel-options a{
+  color: #5A738E;
+  font-weight: bold ;
+}

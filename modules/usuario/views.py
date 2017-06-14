@@ -1,7 +1,7 @@
 from modules.usuario.forms import FormRegister, FormLogin, FormChangePassword, FormResetPassword, FormActivationCode
 from modules.usuario.models import Usuario
-from modules.core.utils import valida_chave, gera_hash_md5, envia_email,gera_nova_senha
-from django.contrib.auth import logout
+from modules.core.utils import decode_activation_code, encode_hash_email, envia_email,generate_random_password
+from django.contrib.auth import logout, login
 from django.shortcuts import render, HttpResponseRedirect, redirect
 from datetime import datetime, timedelta
 
@@ -13,33 +13,60 @@ def profile_page(request):
 
 def register_page(request):
     form_register = FormRegister()
-    return render(request, "usuario/register.html", {'formulario_register': form_register})
+    return render(request, "usuario/register/register.html", {'formulario_register': form_register})
 
 def confirm_valid_email(request,email,chave):
     return redirect('activate_user',email,chave)
 
+
 def activate_user(request, email, chave):
-    hash_chave = gera_hash_md5(email)
-    chave_register,data_register = valida_chave(chave)
-    data_atual = datetime.now()
     activation_form = FormActivationCode({'activation_code': chave})
+    user = Usuario.objects.get_user_email(email)
 
-    usuario = Usuario.objects.get_user_email(email)
-    chave_existente = Usuario.objects.filter( activation_code = chave )
-
-    if len(chave_existente) > 0 or chave_register != hash_chave or (chave_register == hash_chave and data_register > data_atual+timedelta(1)):
-        return render(request, "usuario/register_error.html", {'email_activate': email })
+    if check_valid_activation_code(email, chave) and user is not None:
+        user.activation_code = chave
+        user.account_activated = True
+        try:
+            user.save()
+            login(request, user)
+        except:
+            print("Erro na ativação da Conta")
+        return render(request, "usuario/register/activate.html", {'email_activate': email, 'chave_register': chave})
     else:
+        return render(request, "usuario/register/register_error.html", {'email_activate': email})
 
-        if usuario is not None:
-            usuario.activation_code = chave
-            usuario.account_activated = True
-            try:
-                usuario.save()
-            except:
-                print("Erro na ativação da Conta")
 
-        return render(request, "usuario/activate_register.html", {'email_activate': email,'chave_register': chave})
+def check_valid_activation_code(email,activation_code):
+    email_code, date_code = decode_activation_code(activation_code)
+    hash_email_test = encode_hash_email(email)
+    current_date = datetime.now()
+    email_code_is_valid = email_code == hash_email_test
+    activation_code_is_unique = Usuario.objects.activation_code_is_unique(activation_code)
+    date_code_is_expired = date_code > (current_date + timedelta(1))
+
+    if email_code_is_valid and activation_code_is_unique and not date_code_is_expired:
+        return True
+    else:
+        return False
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 def new_register_page(request,email):
@@ -51,7 +78,7 @@ def new_password_page(request):
     if request.method == "POST":
        email =  request.POST['email']
        print("Voltou com email ",email)
-       nova_senha = gera_nova_senha(email)
+       nova_senha = generate_random_password(email)
 
        print("Nova senha", nova_senha)
        usuario = Usuario.objects.get_user_email(email)

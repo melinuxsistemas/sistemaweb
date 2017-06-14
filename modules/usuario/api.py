@@ -25,57 +25,51 @@ class AbstractAPI:
 
 class UsuarioAPI:
 
-
     def register_save(request):
         resultado, form = AbstractAPI.filter_request(request,FormRegister)
         if resultado:
             email = request.POST['email'].lower()
             senha = request.POST['password']
-
             if Usuario.objects.check_available_email(email):
                 usuario = Usuario.objects.criar_usuario_contratante(email, senha)
                 response_dict = response_format_success(usuario, ['email', 'joined_date'])
 
-                if envia_email(email) is None:
-                    response_dict = response_format_error("Erro! Não foi possivel enviar email para "+email)
+                ##
+                ## PRECISA PROVIDENCIAR UMA FORMA DE FAZER O ENVIO DO EMAIL
+                ## EM UMA THREAD SEPARADA PARA QUE O SISTEMA NAO FIQUE AGUARDANDO
+                ## A OPERACAO SER CONCLUIDA PARA RETORNAR A PAGINA
+                ##
+                post_email = envia_email(email)
 
+                if post_email is None:
+                    response_dict = response_format_error("Não foi possivel enviar o email de ativação para "+email)
             else:
-                response_dict = response_format_error("Erro! Email já cadastrado.")
-
+                response_dict = response_format_error("Email já cadastrado.")
         else:
-            response_dict = response_format_error("Erro! Formulário com dados inválidos."+str(form.errors))
-
-            """
-                Erro! Formulário com dados inválidos.
-
-                email
-                    Este campo é obrigatório.
-                confirm_password
-                    Este campo é obrigatório.
-                password
-                    Este campo é obrigatório.
-
-            string
-            """
-
+            response_dict = response_format_error("Erro! Formulário com dados inválidos.")
         return HttpResponse(json.dumps(response_dict))
-
-
 
     def login_autentication(request):
         resultado, form = AbstractAPI.filter_request(request, FormLogin)
         if resultado:
             email = request.POST['email'].lower()
             senha = request.POST['password']
-            usuario = Usuario.objects.authenticate(request, email=email, password=senha)
-            #print('email :', email, "senha :",senha)
-            if usuario is not None and usuario.is_active:
-                login(request, usuario)
-                response_dict = response_format_success(usuario, ['email'])
+            usuario = Usuario.objects.get_user_email(email=email)
+            if usuario != None:
+                if usuario.account_activated:
+                    usuario = Usuario.objects.authenticate(request, email=email, password=senha)
+                    if usuario is not None and usuario.is_active:
+                        login(request, usuario)
+                        response_dict = response_format_success(usuario, ['email'])
+                    else:
+                        response_dict = response_format_error("Usuário não permitido.")
+                else:
+                    response_dict = response_format_error("Usuário não confirmado.")
             else:
-                response_dict = response_format_error("Erro! Usuário ou senha incorreto.")
+                response_dict = response_format_error("Usuário não existe.")
         else:
-            response_dict = response_format_error("Erro! Formulário com dados inválidos.")
+            print("VEJA OS ERROS: ",form.errors)
+            response_dict = response_format_error("Formulário com dados inválidos.")
 
         return HttpResponse(json.dumps(response_dict))
 
