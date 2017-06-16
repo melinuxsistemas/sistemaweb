@@ -68,7 +68,7 @@ class UsuarioAPI:
             else:
                 response_dict = response_format_error("Usuário não existe.")
         else:
-            print("VEJA OS ERROS: ",form.errors)
+            #print("VEJA OS ERROS: ",form.errors)
             response_dict = response_format_error("Formulário com dados inválidos.")
 
         return HttpResponse(json.dumps(response_dict))
@@ -79,10 +79,10 @@ class UsuarioAPI:
         if result:
             if request.user.check_password(form.cleaned_data['old_password']):
                 request.user.change_password(form.cleaned_data['password'])
-                print("SENHA ALTERADA!")
+                #print("SENHA ALTERADA!")
                 response_dict = response_format_success(request.user,"Usuário alterado com sucesso.")
             else:
-                print("SENHA INCORRETA!")
+                #print("SENHA INCORRETA!")
                 response_dict = response_format_error("Erro! Senha antiga está incorreta.")
         else:
             response_dict = response_format_error(form.format_validate_response())

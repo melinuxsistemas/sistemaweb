@@ -1,0 +1,19 @@
+{% extends 'base_page.html' %}
+{% block titulo_pagina %}SistemaWeb - Configurando Ambiente {% endblock %}
+
+{% block recursos_necessarios %}
+{% endblock %}
+
+{% block titulo_cabecalho %} Configurando um novo Ambiente.. Aguarde.. {% endblock %}
+
+{% block conteudo_principal %}
+<div ng-controller="register_controller">
+
+</div>
+{% endblock %}
+
+{% block recursos_complementares %}
+  {% load static %}
+  <script src="{% static 'modules/usuario/usuario_controller.js' %}"></script>
+  <script src="{% static 'modules/usuario/usuario.js' %}"></script>
+{% endblock %}

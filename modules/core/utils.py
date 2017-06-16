@@ -51,26 +51,28 @@ def envia_email(email):
    chave = create_activation_code(email)
    html_content = "<strong>CONFIRMAÇÃO DE REGISTRO</strong><br>" \
                   "<p>Para ter acesso ao Sistema acesse o link abaixo e informe " \
-                  "o numero de registro :</p><br><a href='http://localhost:8000/activate/"+email+"/"+chave+"/'"+">Clique aqui</a>"
+                  "o numero de registro :</p><br><a href='http://localhost:8000/register/activate/"+email+"/"+chave+"/'"+">Clique aqui</a>"
    email = EmailMessage("Confirmação de registro", html_content, "melinuxsistemas@gmail.com", [ email])
    email.content_subtype = "html"
    result = email.send()
    return result
 
 def create_activation_code(email):
-
-    data_reg = datetime.datetime.now()
-    ano_reg = str(data_reg.year)[::-1]
-    mes_reg = str(data_reg.month)[::-1] if data_reg.month >= 10 else str(data_reg.month*10)
-    dia_reg = str(data_reg.day)[::-1] if data_reg.day >= 10 else str(data_reg.day*10)
-    hora_reg = str(data_reg.hour)[::-1] if data_reg.hour >= 10 else str(data_reg.hour * 10)
-    min_reg  = str(data_reg.minute)[::-1] if data_reg.minute >= 10 else str(data_reg.minute * 10)
-    seg_reg  = str(data_reg.second)[::-1] if data_reg.second >= 10 else str(data_reg.second * 10)
-    email_md5 = encode_hash_email(email)
-    hash_final = str(email_md5[0:5] + ano_reg + email_md5[5:5 + 5] + mes_reg + email_md5[10:10 + 5] + dia_reg
-                     + email_md5[15:15 + 5] + seg_reg + email_md5[20:20 + 5] + min_reg + email_md5[25:25 + 5]
-                     + hora_reg + email_md5[30:])
-    return hash_final
+    if email is not None:
+        data_reg = datetime.datetime.now()
+        ano_reg = str(data_reg.year)[::-1]
+        mes_reg = str(data_reg.month)[::-1] if data_reg.month >= 10 else str(data_reg.month*10)
+        dia_reg = str(data_reg.day)[::-1] if data_reg.day >= 10 else str(data_reg.day*10)
+        hora_reg = str(data_reg.hour)[::-1] if data_reg.hour >= 10 else str(data_reg.hour * 10)
+        min_reg  = str(data_reg.minute)[::-1] if data_reg.minute >= 10 else str(data_reg.minute * 10)
+        seg_reg  = str(data_reg.second)[::-1] if data_reg.second >= 10 else str(data_reg.second * 10)
+        email_md5 = encode_hash_email(email)
+        hash_final = str(email_md5[0:5] + ano_reg + email_md5[5:5 + 5] + mes_reg + email_md5[10:10 + 5] + dia_reg
+                         + email_md5[15:15 + 5] + seg_reg + email_md5[20:20 + 5] + min_reg + email_md5[25:25 + 5]
+                         + hora_reg + email_md5[30:])
+        return hash_final
+    else:
+        return None
 
 
 def decode_activation_code(activation_code):

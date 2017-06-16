@@ -63,12 +63,9 @@ class GerenciadorUsuario(BaseUserManager):
 
     def activation_code_is_unique(self, activation_code):
         result = Usuario.objects.filter(activation_code=activation_code)
-        print("VEJA A QUANTIDADE DE CONTAS ATIVADAS COM ESSA CHAVE: ",result)
         if len(result) == 0:
-            print("NAO TEM NENHUA CHAVE ATIVADA")
             return True
         else:
-            print("JA FOI USADA")
             return False
 
 

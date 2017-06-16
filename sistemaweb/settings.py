@@ -195,7 +195,12 @@ EMAIL_HOST_USER = 'melinuxsistemas@gmail.com'
 EMAIL_HOST_PASSWORD = '61109119'
 EMAIL_PORT = 587
 
+
+from conf import configuration
 from modules.core.working_api import WorkingManager
+
+SELENIUM_GECKODRIVER_MOZILLA = configuration.geckodriver_path
+SELENIUM_URL_PROJECT_TEST = "http://127.0.0.1:8000"
 
 try:
     if "runserver" in sys.argv:

@@ -24,12 +24,15 @@ urlpatterns = [
     url(r'^login/$', view_usuario.login_page),
     url(r'^logout/$', view_usuario.logout_page),
     url(r'^register/$', view_usuario.register_page),
-    url(r'^activate/(?P<email>[^/]+)/(?P<chave>\w{0,46})/$', view_usuario.activate_user),
+    url(r'^register/activate/(?P<email>[^/]+)/(?P<activation_code>\w{0,46})/$', view_usuario.activate_user),
+
     url(r'^new_register/(?P<email>[^/]+)/$',view_usuario.new_register_page, name="new_register"),
     url(r'^new_password/$',view_usuario.new_password_page, name="new_password"),
     url(r'^profile/$', view_usuario.profile_page),
     url(r'^api/usuario/', include('modules.usuario.urls')),
 
+
+    url(r'^system/environment', view_core.configure_environment),
 
     url(r'^api/working/register/$', view_core.working),
 ]#+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -2,6 +2,8 @@
 .idea/
 .sonar/
 /conf/working.json
+/conf/configuration.py
+
 /static/bower
 /static/compress
 *.pyc
