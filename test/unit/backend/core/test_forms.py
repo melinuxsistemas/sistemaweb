@@ -4,6 +4,9 @@ from unittest import TestCase
 from modules.core.forms import FormAbstractConfirmPassword, FormAbstractEmail, FormAbstractPassword
 
 
+from modules.core.forms import FormAbstractPassword, FormAbstractConfirmPassword, FormAbstractEmail
+
+
 class TestAbstractForm(TestCase):
 
     formulary = None

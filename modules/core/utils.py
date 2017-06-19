@@ -2,6 +2,7 @@ from django.core import serializers
 from django.core.mail import EmailMessage
 import hashlib
 import datetime
+import threading
 
 
 def response_format_success(object,list_fields):
@@ -46,6 +47,14 @@ def executar_operacao(registro,operacao):
         response_dict['data-object'] = None
     return response_dict
 
+class envia_processo(threading.Thread):
+    def __init__(self, threadID,process):
+      threading.Thread.__init__(self)
+      self.threadID = threadID
+      self.name = process
+
+    def run(self):
+      self.name
 
 def envia_email(email):
    chave = create_activation_code(email)
@@ -54,7 +63,9 @@ def envia_email(email):
                   "o numero de registro :</p><br><a href='http://localhost:8000/register/activate/"+email+"/"+chave+"/'"+">Clique aqui</a>"
    email = EmailMessage("Confirmação de registro", html_content, "melinuxsistemas@gmail.com", [ email])
    email.content_subtype = "html"
-   result = email.send()
+   result = envia_processo(1, email.send())
+   result.start()
+
    return result
 
 def create_activation_code(email):
@@ -105,5 +116,6 @@ def send_reset_password(senha, email):
                   "acesse seu perfil e troque sua senha .</p><br><p>Sua nova senha :"+senha+"</p><br>"
    email = EmailMessage("Solicitação de nova senha", html_content, "melinuxsistemas@gmail.com", [email])
    email.content_subtype = "html"
-   result = email.send()
+   result = envia_processo(1, email.send())
+   result.start()
    return result
