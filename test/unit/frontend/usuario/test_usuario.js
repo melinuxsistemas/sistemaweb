@@ -18,7 +18,7 @@ QUnit.test("email_is_valid", function( assert ) {
   assert.ok(email_is_valid('email') == true, "Teste: Permitir email válido (OK) ");
 });
 
-QUnit.module('usuario.register.validations.email', {
+QUnit.module('usuario.register.validations.password', {
 });
 
 QUnit.test("validar_senhas", function( assert ) {

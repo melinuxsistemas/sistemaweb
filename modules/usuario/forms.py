@@ -109,6 +109,9 @@ class FormRegister(FormAbstractPassword,FormAbstractConfirmPassword,FormAbstract
         super(FormAbstractPassword, self).__init__(*args, **kwargs)
         super(FormAbstractConfirmPassword, self).__init__(*args, **kwargs)
         super(FormAbstractEmail, self).__init__(*args,**kwargs)
+        self.fields['email'].widget.attrs['placeholder'] = 'Email..'
+        self.fields['password'].widget.attrs['placeholder'] = 'Senha..'
+        self.fields['confirm_password'].widget.attrs['placeholder'] = 'Repita a Senha..'
 
     def clean(self):
         form_data = self.cleaned_data
