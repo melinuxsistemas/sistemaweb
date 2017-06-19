@@ -21,6 +21,13 @@ class DjangoWebTest:
     web_controller = None
     project_url = None
 
+    def login(self,email,password):
+        if self.web_controller.enter_text('email',email) and self.web_controller.enter_text('password', password) and self.web_controller.click('button_send'):
+            print("CONSEGUI ESCREVER")
+        else:
+            print("NAO CONSEGUI ESCREVER")
+
+
     def __init__(self,project_url=None):
         if project_url is not None:
             self.project_url = project_url

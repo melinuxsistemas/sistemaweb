@@ -6,23 +6,26 @@ from modules.usuario.validators import password_format_validator
 
 class FormConfRegister(FormAbstractEmail):
 
-    chave = forms.CharField(label="Registro", max_length=200, required=True, error_messages=MENSAGENS_ERROS,
-                            widget=forms.TextInput(
-                                attrs={'id': 'chave',
-                                       'class': "form-control ",
-                                       'type': "text",
-                                       'autocomplete': "off",
-                                       'ng-model': 'chave',
-                                       'placeholder': "Registro..",
-                                       'required': "False"
-                                    }
-                                )
-                            )
+    activation_code = forms.CharField(
+        label="Código de Ativação",
+        max_length=200,
+        required=True,
+        error_messages=MENSAGENS_ERROS,
+        widget=forms.TextInput(
+            attrs={
+                'id': 'activation_code',
+                'class': "form-control ",
+                'type': "text",
+                'autocomplete': "off",
+                'ng-model': 'chave',
+                'placeholder': "Código de Ativação..",
+                'required': "False"
+            }
+        )
+    )
 
     def __init__(self, *args, **kwargs):
         super(FormAbstractEmail, self).__init__(*args,**kwargs)
-
-    '''A def clean tem q conferir se a chava digitada é igual a recebida no email'''
 
 
 class FormResetPassword(FormAbstractEmail):
@@ -34,14 +37,18 @@ class FormResetPassword(FormAbstractEmail):
 class FormActivationCode(forms.Form):
 
     activation_code = forms.CharField(
-        label="Chave de Ativação",
+        label="Código de Ativação",
         max_length=46,
         required=False,
         error_messages=MENSAGENS_ERROS,
         widget=forms.TextInput(
             attrs={
-                'id': 'activation_code', 'class': "form-control",'readonly': True,'ng-model': 'activation_code',
-                'required': "required", 'data-validate-length-range': '46'
+                'id': 'activation_code',
+                'class': "form-control",
+                'readonly': True,
+                'ng-model': 'activation_code',
+                'required': "required",
+                'data-validate-length-range': '46'
             }
         )
     )
@@ -52,6 +59,8 @@ class FormLogin(FormAbstractEmail, FormAbstractPassword):
     def __init__(self, *args, **kwargs):
         super(FormAbstractPassword, self).__init__(*args, **kwargs)
         super(FormAbstractEmail, self).__init__(*args,**kwargs)
+        self.fields['email'].widget.attrs['placeholder'] = 'Email..'
+        self.fields['password'].widget.attrs['placeholder'] = 'Senha..'
 
 
 class FormChangePassword(FormAbstractPassword, FormAbstractConfirmPassword):
@@ -74,6 +83,7 @@ class FormChangePassword(FormAbstractPassword, FormAbstractConfirmPassword):
         super(FormAbstractPassword, self).__init__(*args, **kwargs)
         super(FormAbstractConfirmPassword, self).__init__(*args, **kwargs)
         self.fields['password'].label = "Nova Senha"
+
     def clean(self):
         form_data = self.cleaned_data
         if len(self.cleaned_data) == len(self.fields):

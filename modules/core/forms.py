@@ -31,7 +31,7 @@ class FormAbstractPassword(forms.Form):
             attrs={
                 'id': 'password','name': 'password', 'class': "form-control ", 'type': "password",
                 'autocomplete': "off", 'ng-model': 'password','required': "required",
-                'data-validate-length-range': '8', 'pattern': '(\d+[a-zA-Z]+)|([a-zA-Z]+\d+)'
+                'data-validate-length-range': '8',
             }
         )
     )

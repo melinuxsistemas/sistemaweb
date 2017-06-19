@@ -25,7 +25,8 @@ function execute_ajax(url,request_method,data_paramters,success_function,fail_fu
       if (resultado == true) {
         var data_object = $.parseJSON(response['data-object'])
         var moment_date = moment(data_object['fields']['joined_date']).format("DD/MM/YYYY - HH:mm:ss")
-        success_notify("Operação realizada com sucesso!",moment_date)
+        success_function();
+        //success_notify("Operação realizada com sucesso!",moment_date)
       }
 
       else {

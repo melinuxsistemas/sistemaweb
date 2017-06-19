@@ -13,8 +13,8 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url, include
 from django.contrib import admin
+from django.conf.urls import url, include
 from modules.usuario import views as view_usuario
 from modules.core import views as view_core
 
@@ -24,9 +24,10 @@ urlpatterns = [
     url(r'^login/$', view_usuario.login_page),
     url(r'^logout/$', view_usuario.logout_page),
     url(r'^register/$', view_usuario.register_page),
+    url(r'^register/confirm/(?P<email>[^/]+)$', view_usuario.register_confirm_page),
     url(r'^register/activate/(?P<email>[^/]+)/(?P<activation_code>\w{0,46})/$', view_usuario.activate_user),
 
-    url(r'^new_register/(?P<email>[^/]+)/$',view_usuario.new_register_page, name="new_register"),
+    url(r'^register/resend_email/(?P<email>[^/]+)/$', view_usuario.generate_activation_code, name="generate_activation_code"),
     url(r'^new_password/$',view_usuario.new_password_page, name="new_password"),
     url(r'^profile/$', view_usuario.profile_page),
     url(r'^api/usuario/', include('modules.usuario.urls')),

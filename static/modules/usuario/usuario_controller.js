@@ -25,13 +25,16 @@ application.controller('register_controller', function($scope) {
   $scope.confirm_password = "";
 
   $scope.save_user = function () {
-    alert("eh aqui que eu to indo.. kk")
     var data_paramters = {
       email: $scope.email,
       password: $scope.password,
       confirm_password: $scope.confirm_password,
     }
-    request_api("/api/usuario/register/save",data_paramters,validate_form_register,null,null)
+    success_function = function(){
+      alert("VEJA O EMAIL: "+$scope.email)
+      window.location = "/register/confirm/"+$scope.email;
+    }
+    request_api("/api/usuario/register/save",data_paramters,validate_form_register,success_function,null)
   }
 
   /*$scope.save_users = function () {

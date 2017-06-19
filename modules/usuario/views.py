@@ -6,24 +6,25 @@ from django.contrib.auth import logout, login
 from django.shortcuts import render, HttpResponseRedirect, redirect
 from datetime import datetime, timedelta
 
-from test.functional.selenium_controller.web_controller import DjangoWebTest
-
 
 def profile_page(request):
     form_change_password = FormChangePassword()
     return render(request, "usuario/profile.html",{'form_change_password':form_change_password})
 
+
 def register_page(request):
     form_register = FormRegister()
     return render(request, "usuario/register/register.html", {'formulario_register': form_register})
 
-def register_created_page(request):
-    form_register = FormRegister()
-    return render(request, "usuario/register/register.html", {'formulario_register': form_register})
+
+def register_confirm_page(request,email):
+    return render(request, "usuario/register/register_confirm.html",{'email':email})
 
 
-def confirm_valid_email(request,email,chave):
-    return redirect('activate_user',email,chave)
+def generate_activation_code(request, email):
+    envia_email(email)
+    return render(request, "usuario/email_ok.html", {'email': email})
+
 
 def activate_user(request, email, activation_code):
     activation_form = FormActivationCode({'activation_code': activation_code})
@@ -61,25 +62,6 @@ def check_valid_activation_code(email,activation_code):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-def new_register_page(request,email):
-    envia_email(email)
-    return render(request, "usuario/email_ok.html", {'email_activate': email})
-
-
 def new_password_page(request):
     if request.method == "POST":
        email =  request.POST['email']
@@ -104,7 +86,5 @@ def login_page(request):
 
 
 def logout_page(request):
-    form = FormLogin()
     logout(request)
-    return render(request,"usuario/login.html",{'formulario_login': form})
-
+    return redirect("/login")

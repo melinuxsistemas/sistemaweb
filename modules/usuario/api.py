@@ -1,3 +1,5 @@
+from django.shortcuts import render
+
 from modules.core.utils import response_format_success, response_format_error, envia_email
 from modules.usuario.forms import FormRegister, FormLogin, FormChangePassword
 from modules.usuario.models import Usuario
@@ -42,12 +44,13 @@ class UsuarioAPI:
                 post_email = envia_email(email)
 
                 if post_email is None:
-                    response_dict = response_format_error("Não foi possivel enviar o email de ativação para "+email)
+                    response_dict = response_format_error("Não foi possivel enviar o email para " + email)
             else:
                 response_dict = response_format_error("Email já cadastrado.")
         else:
-            response_dict = response_format_error("Erro! Formulário com dados inválidos.")
+            response_dict = response_format_error("Formulário com dados inválidos.")
         return HttpResponse(json.dumps(response_dict))
+
 
     def login_autentication(request):
         resultado, form = AbstractAPI.filter_request(request, FormLogin)
