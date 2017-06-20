@@ -4,9 +4,12 @@ Created on 20 de jan de 2016
 @author: Diego
 '''
 import time
+from telnetlib import EC
 
 from django.conf import settings
+from logilab.common import configuration
 from selenium import webdriver
+from selenium.webdriver import DesiredCapabilities
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 from selenium.webdriver.support.select import Select
@@ -26,6 +29,19 @@ class DjangoWebTest:
             print("CONSEGUI ESCREVER")
         else:
             print("NAO CONSEGUI ESCREVER")
+
+    def register (self, email, password, confirm_password):
+        clicar_register = self.web_controller.click('button_register')
+        digitar_email = self.web_controller.enter_text('email',email)
+        digitar_password = self.web_controller.enter_text('password',password)
+        digitar_confirm_password = self.web_controller.enter_text('confirm_password',confirm_password)
+        clicar_enviar = self.web_controller.click('button_register')
+
+        preencher_formulario = clicar_register and digitar_email and digitar_password and digitar_confirm_password
+        if preencher_formulario and clicar_enviar:
+            pass
+
+
 
 
     def __init__(self,project_url=None):

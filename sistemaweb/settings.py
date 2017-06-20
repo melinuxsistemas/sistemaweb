@@ -14,7 +14,7 @@ import os
 import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-
+from selenium.webdriver.firefox import webdriver
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -198,6 +198,7 @@ EMAIL_PORT = 587
 
 from conf import configuration
 from modules.core.working_api import WorkingManager
+
 
 SELENIUM_GECKODRIVER_MOZILLA = configuration.geckodriver_path
 MOZILLA_FIREFOX_TEST_PATH = configuration.mozilla_firefox_path

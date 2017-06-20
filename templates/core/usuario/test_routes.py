@@ -1,9 +1,11 @@
 import unittest
+from unittest import skip
+
 from django.test import TestCase, Client
 from modules.usuario.models import Usuario
 import json
 
-
+@skip
 class BaseRoutesTests(TestCase):
     public_routes = []
     private_routes = []

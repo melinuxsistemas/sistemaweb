@@ -6,9 +6,8 @@ class UserTest(TestCase):
 
     def test_create_user(self):
         web_client = DjangoWebTest(SELENIUM_URL_PROJECT_TEST)
-        print(web_client.get_title(), "SistemaWeb - Login", "Test login page")
+        web_client.register('gianordolilucas@gmail.com','1q2w3e4r','1q2w3e4r')
+        #web_client.login('gianordolilucas@gmail.com','1q2w3e4r')
 
-        web_client.login('diegopasti@gmail.com','1q2w3e4r')
-
-        self.assertEqual(web_client.get_title(),"SistemaWeb - Login", "Test login page")
-        #web_client.close()
+        if self.assertEqual(web_client.get_title(),"SistemaWeb - Login", "Test login page"):
+            web_client.close()
