@@ -31,7 +31,6 @@ application.controller('register_controller', function($scope) {
       confirm_password: $scope.confirm_password,
     }
     success_function = function(){
-      alert("VEJA O EMAIL: "+$scope.email)
       window.location = "/register/confirm/"+$scope.email;
     }
     request_api("/api/usuario/register/save",data_paramters,validate_form_register,success_function,null)

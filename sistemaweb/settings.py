@@ -202,7 +202,7 @@ from modules.core.working_api import WorkingManager
 
 SELENIUM_GECKODRIVER_MOZILLA = configuration.geckodriver_path
 MOZILLA_FIREFOX_TEST_PATH = configuration.mozilla_firefox_path
-SELENIUM_URL_PROJECT_TEST = "http://127.0.0.1:8000"
+SELENIUM_URL_PROJECT_TEST = "http://127.0.0.1:8000/"
 
 try:
     if "runserver" in sys.argv:

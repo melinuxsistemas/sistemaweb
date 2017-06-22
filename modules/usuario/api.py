@@ -27,6 +27,17 @@ class AbstractAPI:
 
 class UsuarioAPI:
 
+    def register_delete(request, email):
+        user = Usuario.objects.get_user_email(email)
+        if user is not None:
+            user.delete()
+            response_dict = response_format_error("Usuario deletado com sucesso.")
+        else:
+            response_dict = response_format_error("Usuario nao existe.")
+        return HttpResponse(json.dumps(response_dict))
+
+
+
     def register_save(request):
         resultado, form = AbstractAPI.filter_request(request,FormRegister)
         if resultado:

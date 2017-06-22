@@ -25,10 +25,10 @@ class DjangoWebTest:
     project_url = None
 
     def login(self,email,password):
-        if self.web_controller.enter_text('email',email) and self.web_controller.enter_text('password', password) and self.web_controller.click('button_send'):
-            print("CONSEGUI ESCREVER")
-        else:
-            print("NAO CONSEGUI ESCREVER")
+        self.web_controller.enter_text('email',email)
+        self.web_controller.enter_text('password', password)
+        self.web_controller.click('button_send')
+
 
     def register (self, email, password, confirm_password):
         clicar_register = self.web_controller.click('button_register')
@@ -41,6 +41,23 @@ class DjangoWebTest:
         if preencher_formulario and clicar_enviar:
             pass
 
+    def trocar_senha (self, email, password, new_password, confirm_password):
+        self.login(email,password)
+        time.sleep(5)   #timer por conta da caixa de mng q fica no mesmo lugar no botão MUDAR
+        self.web_controller.click('field_user')
+        self.web_controller.click('profile')
+        self.web_controller.enter_text('old_password', password)
+        self.web_controller.enter_text('password', new_password)
+        self.web_controller.enter_text('confirm_password', confirm_password)
+        self.web_controller.click('button_send')
+
+    def logout (self):
+        time.sleep(3)
+        self.web_controller.click('field_user')
+        self.web_controller.click('logout')
+
+    def excluir_usuario (self, email):
+        self.load_page('http://127.0.0.1:8000/api/usuario/register/delete/'+email)
 
 
 

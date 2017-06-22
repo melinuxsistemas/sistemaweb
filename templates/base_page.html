@@ -217,7 +217,7 @@
 
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
-                  <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                  <a id="field_user" href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                     <img src="{% static 'images/img.jpg' %}" alt=""> {{ request.user.email }}
                     <span class=" fa fa-angle-down"></span>
                   </a>
@@ -232,8 +232,8 @@
                     <li><a href="javascript:;">Help</a></li>
                     -->
                      {% if user.is_authenticated %}
-                       <li><a href="/profile">Perfil</a></li>
-                       <li><a href="/logout">Logout</a></li>
+                       <li><a id='profile' href="/profile">Perfil</a></li>
+                       <li><a id="logout" href="/logout">Logout</a></li>
                      {% else %}
                        <li><a href="/login">Login</a></li>
                      {% endif %}
@@ -242,7 +242,7 @@
                 </li>
 
                 <li role="presentation" class="dropdown">
-                  <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                  <a  href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-envelope-o"></i>
                     <span class="badge bg-green">6</span>
                   </a>
