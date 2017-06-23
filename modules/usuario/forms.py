@@ -1,5 +1,3 @@
-import json
-
 from django import forms
 from modules.core.config import MENSAGENS_ERROS
 from modules.core.forms import FormAbstractPassword,FormAbstractConfirmPassword,FormAbstractEmail
@@ -39,6 +37,7 @@ class FormConfirmRegister(FormAbstractEmail):
     def __init__(self, *args, **kwargs):
         super(FormAbstractEmail, self).__init__(*args,**kwargs)
         self.fields['email'].widget.input_type = 'hidden'
+
 
 class FormResetPassword(FormAbstractEmail):
 
