@@ -30,11 +30,9 @@ class UserTest(TestCase):
             continue
         time.sleep(2)
         self.assertEquals(self.web_client.get_title(),'Sistemaweb - Base Page', 'Test login register (OK)')
-    '''
+    '''FALTA ALGUMA CONFIRMAÇÃO DE SENHA ALTERADA
     def test_trocar_senha (self):
         self.web_client.trocar_senha('gianordolilucas@gmail.com', '1q2w3e4r', 'abcd1234', 'abcd1234')
-        
-
         self.web_client.logout()
         self.assertEquals(self.web_client.get_title(),'SistemaWeb - Login', 'Test Troca senha (OK)')
         self.web_client.trocar_senha('gianordolilucas@gmail.com', 'abcd1234', '1q2w3e4r', '1q2w3e4r')
