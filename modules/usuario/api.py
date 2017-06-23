@@ -28,7 +28,7 @@ class AbstractAPI:
 
 class UsuarioAPI:
 
-<<<<<<< HEAD
+
     def register_delete(request, email):
         user = Usuario.objects.get_user_email(email)
         if user is not None:
@@ -40,12 +40,8 @@ class UsuarioAPI:
 
 
 
-    def register_save(request):
-        resultado, form = AbstractAPI.filter_request(request,FormRegister)
-=======
     def register_user(request):
         resultado, form = AbstractAPI.filter_request(request, FormRegister)
->>>>>>> origin/master
         if resultado:
             email = request.POST['email'].lower()
             senha = request.POST['password']
