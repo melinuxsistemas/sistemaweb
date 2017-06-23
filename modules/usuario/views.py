@@ -1,15 +1,11 @@
 from conf import configuration
-from modules.usuario.forms import FormRegister, FormLogin, FormChangePassword, FormResetPassword, FormActivationCode
+from modules.usuario.forms import FormRegister, FormLogin, FormChangePassword, FormResetPassword, FormActivationCode, \
+    FormConfirmRegister
 from modules.usuario.models import Usuario
-from modules.core.utils import decode_activation_code, encode_hash_email, envia_email,generate_random_password
+from modules.core.utils import decode_activation_code, encode_hash_email, send_email,generate_random_password
 from django.contrib.auth import logout, login
 from django.shortcuts import render, HttpResponseRedirect, redirect
 from datetime import datetime, timedelta
-
-
-def profile_page(request):
-    form_change_password = FormChangePassword()
-    return render(request, "usuario/profile.html",{'form_change_password':form_change_password})
 
 
 def register_page(request):
@@ -17,13 +13,16 @@ def register_page(request):
     return render(request, "usuario/register/register.html", {'formulario_register': form_register})
 
 
-def register_confirm_page(request,email):
-    return render(request, "usuario/register/register_confirm.html",{'email':email})
+def register_confirm_page(request, email):
+    form = FormConfirmRegister()
+    return render(request, "usuario/register/register_confirm.html",{'formulary_confirm_register': form, 'email': email})
 
 
-def generate_activation_code(request, email):
-    envia_email(email)
-    return render(request, "usuario/email_ok.html", {'email': email})
+def profile_page(request):
+    form_change_password = FormChangePassword()
+    return render(request, "usuario/profile.html",{'form_change_password':form_change_password})
+
+
 
 
 def activate_user(request, email, activation_code):
@@ -57,27 +56,9 @@ def check_valid_activation_code(email,activation_code):
         return False
 
 
-
-
-
-
-
-def new_password_page(request):
-    if request.method == "POST":
-       email =  request.POST['email']
-       print("Voltou com email ",email)
-       nova_senha = generate_random_password(email)
-
-       print("Nova senha", nova_senha)
-       usuario = Usuario.objects.get_user_email(email)
-       if usuario is not None:
-           usuario.set_password(nova_senha)
-           usuario.save()
-
-           return HttpResponseRedirect("/")
-    else:
-       form = FormResetPassword()
-       return render(request, "usuario/reset_password.html", {'formulario_send': form})
+def reset_password_page(request):
+    form = FormResetPassword()
+    return render(request, "usuario/reset_password.html", {'formulario_send': form})
 
 
 def login_page(request):

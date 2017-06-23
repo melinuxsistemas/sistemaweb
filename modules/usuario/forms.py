@@ -1,57 +1,9 @@
+import json
+
 from django import forms
 from modules.core.config import MENSAGENS_ERROS
 from modules.core.forms import FormAbstractPassword,FormAbstractConfirmPassword,FormAbstractEmail
 from modules.usuario.validators import password_format_validator
-
-
-class FormConfRegister(FormAbstractEmail):
-
-    activation_code = forms.CharField(
-        label="Código de Ativação",
-        max_length=200,
-        required=True,
-        error_messages=MENSAGENS_ERROS,
-        widget=forms.TextInput(
-            attrs={
-                'id': 'activation_code',
-                'class': "form-control ",
-                'type': "text",
-                'autocomplete': "off",
-                'ng-model': 'chave',
-                'placeholder': "Código de Ativação..",
-                'required': "False"
-            }
-        )
-    )
-
-    def __init__(self, *args, **kwargs):
-        super(FormAbstractEmail, self).__init__(*args,**kwargs)
-
-
-class FormResetPassword(FormAbstractEmail):
-
-    def __init__(self, *args, **kwargs):
-        super(FormAbstractEmail, self).__init__(*args,**kwargs)
-
-
-class FormActivationCode(forms.Form):
-
-    activation_code = forms.CharField(
-        label="Código de Ativação",
-        max_length=46,
-        required=False,
-        error_messages=MENSAGENS_ERROS,
-        widget=forms.TextInput(
-            attrs={
-                'id': 'activation_code',
-                'class': "form-control",
-                'readonly': True,
-                'ng-model': 'activation_code',
-                'required': "required",
-                'data-validate-length-range': '46'
-            }
-        )
-    )
 
 
 class FormLogin(FormAbstractEmail, FormAbstractPassword):
@@ -61,6 +13,38 @@ class FormLogin(FormAbstractEmail, FormAbstractPassword):
         super(FormAbstractEmail, self).__init__(*args,**kwargs)
         self.fields['email'].widget.attrs['placeholder'] = 'Email..'
         self.fields['password'].widget.attrs['placeholder'] = 'Senha..'
+
+
+class FormRegister(FormAbstractPassword,FormAbstractConfirmPassword,FormAbstractEmail):
+
+    def __init__(self, *args, **kwargs):
+        super(FormAbstractPassword, self).__init__(*args, **kwargs)
+        super(FormAbstractConfirmPassword, self).__init__(*args, **kwargs)
+        super(FormAbstractEmail, self).__init__(*args,**kwargs)
+        self.fields['email'].widget.attrs['placeholder'] = 'Email..'
+        self.fields['password'].widget.attrs['placeholder'] = 'Senha..'
+        self.fields['confirm_password'].widget.attrs['placeholder'] = 'Repita a Senha..'
+
+    def clean(self):
+        form_data = self.cleaned_data
+        if len(self.cleaned_data) == len(self.fields):
+            if form_data['password'] != form_data['confirm_password']:
+                self._errors["password"] = ["Confirme a Senha: Precisa ser igual ao campo Senha"]  # Will raise a error message
+                del form_data['password']
+        return form_data
+
+
+class FormConfirmRegister(FormAbstractEmail):
+
+    def __init__(self, *args, **kwargs):
+        super(FormAbstractEmail, self).__init__(*args,**kwargs)
+        self.fields['email'].widget.input_type = 'hidden'
+
+class FormResetPassword(FormAbstractEmail):
+
+    def __init__(self, *args, **kwargs):
+        super(FormAbstractEmail, self).__init__(*args,**kwargs)
+        self.fields['email'].widget.attrs['placeholder'] = 'Informe seu Email..'
 
 
 class FormChangePassword(FormAbstractPassword, FormAbstractConfirmPassword):
@@ -97,26 +81,34 @@ class FormChangePassword(FormAbstractPassword, FormAbstractConfirmPassword):
         return form_data
 
     def format_validate_response(self):
-        errors = str(self.errors)
-        for item in self.fields:
-            errors = errors.replace("<li>" + str(item), "<li>" + self.fields[item].label)
-        return errors
+        errors = self.errors.as_data()
+        response_errors = {}
+        for campo in errors:
+            response_errors[campo] = []
+            for erro in errors[campo]:
+                erro_format = str(erro)
+                erro_format = erro_format.replace("['","")
+                erro_format = erro_format.replace("']", "")
+                response_errors[campo].append(erro_format)
+        print(response_errors)
+        return response_errors
 
 
-class FormRegister(FormAbstractPassword,FormAbstractConfirmPassword,FormAbstractEmail):
+class FormActivationCode(forms.Form):
 
-    def __init__(self, *args, **kwargs):
-        super(FormAbstractPassword, self).__init__(*args, **kwargs)
-        super(FormAbstractConfirmPassword, self).__init__(*args, **kwargs)
-        super(FormAbstractEmail, self).__init__(*args,**kwargs)
-        self.fields['email'].widget.attrs['placeholder'] = 'Email..'
-        self.fields['password'].widget.attrs['placeholder'] = 'Senha..'
-        self.fields['confirm_password'].widget.attrs['placeholder'] = 'Repita a Senha..'
-
-    def clean(self):
-        form_data = self.cleaned_data
-        if len(self.cleaned_data) == len(self.fields):
-            if form_data['password'] != form_data['confirm_password']:
-                self._errors["password"] = ["Confirme a Senha: Precisa ser igual ao campo Senha"]  # Will raise a error message
-                del form_data['password']
-        return form_data
+    activation_code = forms.CharField(
+        label="Código de Ativação",
+        max_length=46,
+        required=False,
+        error_messages=MENSAGENS_ERROS,
+        widget=forms.TextInput(
+            attrs={
+                'id': 'activation_code',
+                'class': "form-control",
+                'readonly': True,
+                'ng-model': 'activation_code',
+                'required': "required",
+                'data-validate-length-range': '46'
+            }
+        )
+    )

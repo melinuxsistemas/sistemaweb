@@ -1,12 +1,12 @@
 {% extends 'usuario/base.html' %}
 {% load static %}
-{% block titulo_pagina %}SistemaWeb - Login{% endblock %}
+{% block titulo_pagina %}SistemaWeb - Verifique seu email{% endblock %}
 
 {% block recursos_necessarios %}
 {% endblock %}
 
 {% block conteudo_principal %}
-<div ng-controller="login_controller">
+<div ng-controller="register_controller" ng-init="email='{{ email }}'">
     <form>
       {% csrf_token %}
       <h1><!--<i class="fa fa-paw"></i>--> SistemaWeb</h1>
@@ -27,8 +27,9 @@
 
   <div class="separator">
     <p class="text-center">Não recebeu nosso email?
-      <a href="/register/resend_email/{{ email }}">Reenviar email</a><br>
+      <a ng-click="resend_activation_code()" style="cursor: pointer">Reenviar email</a><br>
       Voltar para o <a href="/login">Login</a>
+      {{ formulary_confirm_register.email }}
     </p>
 
     <div class="clearfix"></div>

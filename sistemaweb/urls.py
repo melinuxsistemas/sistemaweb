@@ -27,8 +27,7 @@ urlpatterns = [
     url(r'^register/confirm/(?P<email>[^/]+)$', view_usuario.register_confirm_page),
     url(r'^register/activate/(?P<email>[^/]+)/(?P<activation_code>\w{0,46})/$', view_usuario.activate_user),
 
-    url(r'^register/resend_email/(?P<email>[^/]+)/$', view_usuario.generate_activation_code, name="generate_activation_code"),
-    url(r'^new_password/$',view_usuario.new_password_page, name="new_password"),
+    url(r'^reset_password/$', view_usuario.reset_password_page),
     url(r'^profile/$', view_usuario.profile_page),
     url(r'^api/usuario/', include('modules.usuario.urls')),
 

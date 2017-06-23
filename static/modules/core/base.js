@@ -5,14 +5,19 @@ function notify(type,title,description){
   new PNotify({
     title: title,
     text: description,
-    //auto_display: false,
-    hide: true,
-    delay: type=='error' ? 5000 : 3000,
+    width: type=='confirm' ? '400px' : "300px",
+    hide: type=='confirm' ? false : true,
+    delay: type=='error' ? 5000 : 4000,
     mouse_reset: false,
-    type: type,
+    type: type=='confirm' ? 'success' : type,
     styling: 'bootstrap3' // bootstrap3 , fontawesome
-  });
+  }
+  );
   return (type=='error' ? false : true);
+}
+
+function confirm_notify(title,description){
+  return notify("confirm",title,description);
 }
 
 function info_notify(title,description){

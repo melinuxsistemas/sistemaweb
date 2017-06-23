@@ -2,10 +2,24 @@
  * Created by diego on 05/05/2017.
  */
 var application = angular.module('modules.usuario', []);
+
+application.controller('reset_password_controller', function($scope) {
+
+  var data_paramters = {email: $scope.email}
+  success_function = function(){
+      confirm_notify("Operação realizada com Sucesso!","Verifique seu email, você receberá um email em instantes.<br><a href='/login'>Clique aqui para acessar sistema.</a>")
+  }
+
+  $scope.reset_password = function () {
+    request_api("/api/usuario/reset_password",data_paramters,validate_form_reset_password,success_function,null)
+  }
+
+  $scope.resend_activation_code = function () {
+    request_api("/api/usuario/reactivate",data_paramters,validate_form_reset_password,success_function,null)
+  }
+});
+
 application.controller('change_password_controller', function($scope) {
-  //$scope.confirm_password = "";
-  //$scope.old_password = "";
-  //$scope.password = "";
 
   $scope.save_password = function () {
     var data_paramters = {
@@ -31,10 +45,18 @@ application.controller('register_controller', function($scope) {
       confirm_password: $scope.confirm_password,
     }
     success_function = function(){
-      alert("VEJA O EMAIL: "+$scope.email)
       window.location = "/register/confirm/"+$scope.email;
     }
     request_api("/api/usuario/register/save",data_paramters,validate_form_register,success_function,null)
+  }
+
+  $scope.resend_activation_code = function () {
+    var data_paramters = {email: $scope.email}
+    $("#email").val($scope.email)
+    success_function = function(){
+      confirm_notify("Operação realizada com Sucesso!","Verifique seu email, você receberá um email em instantes.<br><a href='/login'>Clique aqui para acessar sistema.</a>")
+    }
+    request_api("/api/usuario/reactivate",data_paramters,validate_form_confirm_register,success_function,null)
   }
 
   /*$scope.save_users = function () {
@@ -85,6 +107,13 @@ application.controller('register_controller', function($scope) {
 application.controller('login_controller', function($scope) {
 
   $scope.login_autentication = function () {
+    var data_paramters = {email: $scope.email, password: $scope.password}
+    success_function = function(){
+      window.location = "/";
+    }
+    request_api("/api/usuario/login/autentication",data_paramters,validate_form_login,success_function,null)
+
+    /*
     var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
 
     NProgress.start();
@@ -125,5 +154,6 @@ application.controller('login_controller', function($scope) {
       NProgress.done();
       return false;
     }
+  */
   }
 });
