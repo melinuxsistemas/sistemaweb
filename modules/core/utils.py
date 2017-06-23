@@ -1,8 +1,8 @@
 from django.core import serializers
 from django.core.mail import EmailMessage
 import hashlib
-import datetime
 import threading
+import datetime
 
 
 def response_format_success(object,list_fields):
@@ -22,7 +22,7 @@ def response_format(result,message,object,list_fields):
     else:
         response_dict['data-object'] = None
     return response_dict
-
+"""
 def executar_operacao(registro,operacao):
     response_dict = {}
     if operacao == "save":
@@ -46,29 +46,32 @@ def executar_operacao(registro,operacao):
         response_dict['message'] = menssage_falha+str(e)+")."
         response_dict['data-object'] = None
     return response_dict
+"""
 
-class envia_processo(threading.Thread):
-    def __init__(self, threadID,process):
-      threading.Thread.__init__(self)
-      self.threadID = threadID
-      self.name = process
 
-    def run(self):
-      self.name
+def send_email(to_address, title, message):
+    from_address = 'melinuxsistemas@gmail.com'
+    email = EmailMessage(title, message, from_address, [to_address])
+    email.content_subtype = "html"
+    thread = threading.Thread(name='send_email', target=email.send)
+    thread.start()
+    return True
 
-def envia_email(email):
+"""
+def sends_email(email):
    chave = create_activation_code(email)
    html_content = "<strong>CONFIRMAÇÃO DE REGISTRO</strong><br>" \
                   "<p>Para ter acesso ao Sistema acesse o link abaixo e informe " \
                   "o numero de registro :</p><br><a href='http://localhost:8000/register/activate/"+email+"/"+chave+"/'"+">Clique aqui</a>"
    email = EmailMessage("Confirmação de registro", html_content, "melinuxsistemas@gmail.com", [ email])
    email.content_subtype = "html"
-   result = envia_processo(1, email.send())
-   result.start()
+   thread = threading.Thread(name='envia_email', target=email.send)
+   thread.start()
+   return True
+"""
 
-   return result
 
-def create_activation_code(email):
+def generate_activation_code(email):
     if email is not None:
         data_reg = datetime.datetime.now()
         ano_reg = str(data_reg.year)[::-1]
@@ -106,16 +109,18 @@ def encode_hash_email(email):
 
 def generate_random_password(email):
     nova_senha = encode_hash_email(str(email) + str(datetime.datetime.now()))[15:15 + 8]
-    send_reset_password(nova_senha, email)
     return nova_senha
 
 
+def send_generate_activation_code(email,activation_code):
+    html_content = "<strong>Cadastro realizado com Sucesso!</strong><br>" \
+                   "<p>Para começar <a href='http://localhost:8000/register/activate/"+email+"/"+activation_code+"/'"+">Clique aqui</a></p>"
+    return send_email(to_address=email, title="Melinux Sistema - Confirmação de email", message=html_content)
+
+
 def send_reset_password(senha, email):
-   html_content = "<strong>NOVA SENHA GERADA COM SUCESSO</strong><br>" \
-                  "<p>Uma nova senha provisória foi gerada para acessar o Sistema, após o login " \
-                  "acesse seu perfil e troque sua senha .</p><br><p>Sua nova senha :"+senha+"</p><br>"
-   email = EmailMessage("Solicitação de nova senha", html_content, "melinuxsistemas@gmail.com", [email])
-   email.content_subtype = "html"
-   result = envia_processo(1, email.send())
-   result.start()
-   return result
+   html_content = "<strong>Senha de acesso redefinida com Sucesso!</strong><br>" \
+                  "<p>Uma nova senha provisória foi gerada para permitir o acesso à sua conta.<br>" \
+                  "A troca por uma senha de sua preferência é altamente recomendado, para isso acesse a pàgina do seu perfil.</p>" \
+                  "<br><p>Senha de Acesso:"+senha+"</p><br>"
+   return send_email(to_address=email,title="Melinux Sistema - Recuperar senha de Acesso", message=html_content)

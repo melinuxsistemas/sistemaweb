@@ -1,5 +1,13 @@
+function validate_form_confirm_register(){
+  return (email_is_valid("email"));
+}
+
+function validate_form_reset_password(){
+  return (email_is_valid("email"));
+}
+
 function validate_form_change_password(){
-  return true;//(email_is_valid("email") && validate_password("senha"));
+  //return true;//(email_is_valid("email") && validate_password("senha"));
 }
 
 function validate_form_login(){

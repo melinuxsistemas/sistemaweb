@@ -24,9 +24,10 @@ function execute_ajax(url,request_method,data_paramters,success_function,fail_fu
       var resultado = response['success']
       if (resultado == true) {
         var data_object = $.parseJSON(response['data-object'])
-        var moment_date = moment(data_object['fields']['joined_date']).format("DD/MM/YYYY - HH:mm:ss")
-        success_function();
-        //success_notify("Operação realizada com sucesso!",moment_date)
+        //var moment_date = moment(data_object['fields']['joined_date']).format("DD/MM/YYYY - HH:mm:ss")
+        if (success_function != null) {
+          success_function();
+        }
       }
 
       else {
@@ -34,22 +35,19 @@ function execute_ajax(url,request_method,data_paramters,success_function,fail_fu
           notify('error',"Falha na operação",message)
         }
         else {
-          for (var key in message){
-            for(var error_key in message[key]){
-              $("#field_"+key).addClass('bad')
-              $("#field_"+key+" .alert").html(message[key][error_key]['message'])
-              error_notify(key,message[key][error_key]['label'], message[key][error_key]['message'])
-              //alert("KEY: "+key+":"+message[key][error_key]['label'])
-            }
+          for (var field in message){
+            erro_value = message[field]
+            $("#field_"+field).addClass('bad')
+            $("#field_"+field+" .alert").html(erro_value);
+            var label =  $("#field_"+field+" label").html()
+            error_notify(field,label,erro_value)
           }
         }
-
       }
       NProgress.done();
       return true;
     },
     failure: function(data){
-      alert("deu erro!"+data)
       NProgress.done();
       return notify('error','Falha na Operação',"Erro na requisição assincrona ao servidor.")
     }
