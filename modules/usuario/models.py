@@ -9,6 +9,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseU
 from modules.core.config import MENSAGENS_ERROS
 #from django.contrib.auth.hashers import check_password,make_password,is_password_usable
 from modules.core.utils import generate_activation_code
+from modules.core.validators import check_password_format
 from modules.usuario.validators import email_format_validator,email_dangerous_symbols_validator
 
 opcoes_tipos_usuarios = (
@@ -21,18 +22,22 @@ opcoes_tipos_usuarios = (
 
 class GerenciadorUsuario(BaseUserManager):
 
-    def _create_user(self,email,senha,super_user,conta_ativada,ativo,tipo):
-        now = timezone.now()
-        email = self.normalize_email(email)
-        user = self.model(email=email, account_activated=conta_ativada, active_user=ativo,type_user=tipo,is_superuser=super_user, last_update=now, joined_date=now)#, **extra_fields)
-        user.set_password(senha)
-        try:
-            user.full_clean()
-            user.save(using=self._db)
-            return user
+    def _create_user(self, email, password, super_user, account_activated, active, tipo):
+        if check_password_format(password):
+            now = timezone.now()
+            email = self.normalize_email(email)
+            user = self.model(email=email, account_activated=account_activated, active_user=active,type_user=tipo,is_superuser=super_user, last_update=now, joined_date=now)#, **extra_fields)
+            user.set_password(password)
+            try:
+                user.full_clean()
+                user.save(using=self._db)
+                return user
 
-        except Exception as e:
-            return e
+            except Exception as e:
+                return e
+        else:
+            #raise ValueError('Passwords there are 8 or more characters, including letters and numbers.')
+            return None
 
     def create_contracting_user(self, email, senha):
         return self._create_user(email, senha,False,False, False,"C")
@@ -48,11 +53,17 @@ class GerenciadorUsuario(BaseUserManager):
 
     def create_test_user(self, email, senha):
         user = self._create_user(email, senha, False, False, False, "T")
-        activation_code = generate_activation_code(email)
-        user.account_activated = True
-        user.activation_code = activation_code
-        user.save()
-        return user
+        if user is not None:
+            activation_code = generate_activation_code(email)
+            user.account_activated = True
+            user.activation_code = activation_code
+            try:
+                user.save()
+                return user
+            except:
+                return None
+        return None
+
 
     def create_superuser(self, email, password):
         user = self._create_user(email, password, True,True, True, "A")
@@ -120,9 +131,12 @@ class Usuario(PermissionsMixin, AbstractBaseUser):
         return self.email
 
     def change_password(self,value):
-        self.set_password(value)
-        self.save()
-        return True
+        if check_password_format(value):
+            self.set_password(value)
+            self.save()
+            return True
+        else:
+            return False
 
     def activate_account(self):
         self.account_activated(True)

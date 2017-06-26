@@ -83,14 +83,14 @@ class UsuarioAPI:
         resultado, form = AbstractAPI.filter_request(request, FormLogin)
         if resultado:
             email = request.POST['email'].lower()
-            senha = request.POST['password']
-            usuario = Usuario.objects.get_user_email(email=email)
-            if usuario != None:
-                if usuario.account_activated:
-                    auth = Usuario.objects.authenticate(request, email=email, password=senha)
-                    if auth is not None and usuario.is_active:
-                        login(request, usuario)
-                        response_dict = response_format_success(usuario, ['email'])
+            password = request.POST['password']
+            user = Usuario.objects.get_user_email(email=email)
+            if user != None:
+                if user.account_activated:
+                    auth = Usuario.objects.authenticate(request, email=email, password=password)
+                    if auth is not None and user.is_active:
+                        login(request, user)
+                        response_dict = response_format_success(user, ['email'])
                     else:
                         response_dict = response_format_error("Usuário não permitido.")
                 else:
