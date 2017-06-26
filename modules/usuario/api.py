@@ -44,9 +44,12 @@ class UsuarioAPI:
             senha = request.POST['password']
             if Usuario.objects.check_available_email(email):
                 usuario = Usuario.objects.create_contracting_user(email, senha)
-                activation_code = generate_activation_code(email)
-                send_generate_activation_code(email, activation_code)
-                response_dict = response_format_success(usuario, ['email'])
+                if usuario is not None:
+                    activation_code = generate_activation_code(email)
+                    send_generate_activation_code(email, activation_code)
+                    response_dict = response_format_success(usuario, ['email'])
+                else:
+                    response_dict = response_format_error("Email já cadastrado.")
             else:
                 response_dict = response_format_error("Email já cadastrado.")
         else:

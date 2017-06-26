@@ -1,10 +1,11 @@
 from django.core import serializers
 from django.core.mail import EmailMessage
+from modules.usuario.validators import check_email_format
 import hashlib
 import threading
 import datetime
 
-from modules.usuario.validators import email_format_validator
+
 
 
 def response_format_success(object,list_fields):
@@ -55,15 +56,17 @@ def executar_operacao(registro,operacao):
 
 def send_email(to_address, title, message):
     from_address = 'melinuxsistemas@gmail.com'
-    print("VEJJA O RETORNO DISSO: ", email_format_validator(from_address))
     email = EmailMessage(title, message, from_address, [to_address])
     email.content_subtype = "html"
+    if check_email_format(from_address):
+        try:
+            thread = threading.Thread(name='send_email', target=email.send)
+            thread.start()
+            return True
 
-    try:
-        thread = threading.Thread(name='send_email', target=email.send)
-        thread.start()
-        return True
-    except:
+        except Exception as e:
+            return False
+    else:
         return False
 
 
