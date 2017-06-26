@@ -8,6 +8,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseU
 
 from modules.core.config import MENSAGENS_ERROS
 #from django.contrib.auth.hashers import check_password,make_password,is_password_usable
+from modules.core.utils import generate_activation_code
 from modules.usuario.validators import email_format_validator,email_dangerous_symbols_validator
 
 opcoes_tipos_usuarios = (
@@ -33,17 +34,25 @@ class GerenciadorUsuario(BaseUserManager):
         except Exception as e:
             return e
 
-    def criar_usuario_contratante(self, email,senha):
+    def create_contracting_user(self, email, senha):
         return self._create_user(email, senha,False,False, False,"C")
 
-    def criar_usuario_funcionario(self, email,senha):
+    def create_functionary_user(self, email, senha):
         return self._create_user(email, senha,False,False,False,"F")
 
-    def criar_usuario_suporte(self, email, senha):
+    def create_suport_user(self, email, senha):
         return self._create_user(email, senha,False,False,False, "S")
 
-    def criar_usuario_desenvolvedor(self, email, senha):
+    def create_developer_user(self, email, senha):
         return self._create_user(email, senha,False, False, False, "D")
+
+    def create_test_user(self, email, senha):
+        user = self._create_user(email, senha, False, False, False, "T")
+        activation_code = generate_activation_code(email)
+        user.account_activated = True
+        user.activation_code = activation_code
+        user.save()
+        return user
 
     def create_superuser(self, email, password):
         user = self._create_user(email, password, True,True, True, "A")

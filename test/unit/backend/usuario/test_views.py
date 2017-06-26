@@ -14,7 +14,7 @@ class UsuarioViewsTests(TestCase):
             ['teste@teste.com.br', '1q2w3e4r', True]
         ]
 
-        usuario = Usuario.objects.criar_usuario_contratante('teste@teste.com.br', '1q2w3e4r')
+        usuario = Usuario.objects.create_contracting_user('teste@teste.com.br', '1q2w3e4r')
         """
         for email,senha,resultado in casos_testes:
             response = self.client.post('/api/usuario/login/autentication',data={'email': email, 'senha': senha},HTTP_X_REQUESTED_WITH='XMLHttpRequest')

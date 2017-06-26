@@ -21,7 +21,7 @@ class BaseRoutesTests(TestCase):
         self.client = Client()
 
     def login_user_client(self, email, senha):
-        self.user = Usuario.objects.criar_usuario_contratante(email, senha)
+        self.user = Usuario.objects.create_contracting_user(email, senha)
         self.client.login(username=email, password=senha)
 
     def add_public_route(self, route):
