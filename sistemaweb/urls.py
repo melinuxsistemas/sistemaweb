@@ -26,13 +26,11 @@ urlpatterns = [
     url(r'^register/$', view_usuario.register_page),
     url(r'^register/confirm/(?P<email>[^/]+)$', view_usuario.register_confirm_page),
     url(r'^register/activate/(?P<email>[^/]+)/(?P<activation_code>\w{0,46})/$', view_usuario.activate_user),
-
     url(r'^reset_password/$', view_usuario.reset_password_page),
     url(r'^profile/$', view_usuario.profile_page),
-    url(r'^api/usuario/', include('modules.usuario.urls')),
-
 
     url(r'^system/environment', view_core.configure_environment),
 
-    url(r'^api/working/register/$', view_core.working),
+    url(r'^api/usuario/', include('modules.usuario.urls')),
+    url(r'^api/working/register', view_core.working),
 ]#+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

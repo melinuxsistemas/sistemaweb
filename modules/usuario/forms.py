@@ -80,16 +80,20 @@ class FormChangePassword(FormAbstractPassword, FormAbstractConfirmPassword):
         return form_data
 
     def format_validate_response(self):
-        errors = self.errors.as_data()
         response_errors = {}
-        for campo in errors:
-            response_errors[campo] = []
-            for erro in errors[campo]:
-                erro_format = str(erro)
-                erro_format = erro_format.replace("['","")
-                erro_format = erro_format.replace("']", "")
-                response_errors[campo].append(erro_format)
-        print(response_errors)
+        #print("VEJA OS ERROS: ",self.errors.as_data)
+        if self.errors:
+            errors = self.errors
+            for campo in errors:
+                response_errors[campo] = []
+                for erro in errors[campo]:
+                    erro_format = str(erro)
+                    erro_format = erro_format.replace("['","")
+                    erro_format = erro_format.replace("']", "")
+                    response_errors[campo].append(erro_format)
+            print(response_errors)
+        else:
+            print("TEM NADA DE ERRO EU AXO")
         return response_errors
 
 

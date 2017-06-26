@@ -109,6 +109,11 @@ class WebController:
     def load_controllers(self, extensoes=[]):
         binary = FirefoxBinary(settings.MOZILLA_FIREFOX_TEST_PATH)
         capabilities = webdriver.DesiredCapabilities().FIREFOX
+        FirefoxOptions
+        options = new
+        FirefoxOptions();
+        options.addPreference("--log", "error");
+
         capabilities["marionette"] = True
         try:
             self.driver = webdriver.Firefox(firefox_binary=binary,executable_path=settings.SELENIUM_GECKODRIVER_MOZILLA,capabilities=capabilities)

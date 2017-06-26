@@ -1,3 +1,5 @@
+from django.contrib.auth.decorators import login_required
+
 from conf import configuration
 from modules.usuario.forms import FormRegister, FormLogin, FormChangePassword, FormResetPassword, FormActivationCode, \
     FormConfirmRegister
@@ -17,12 +19,10 @@ def register_confirm_page(request, email):
     form = FormConfirmRegister()
     return render(request, "usuario/register/register_confirm.html",{'formulary_confirm_register': form, 'email': email})
 
-
+@login_required()
 def profile_page(request):
     form_change_password = FormChangePassword()
     return render(request, "usuario/profile.html",{'form_change_password':form_change_password})
-
-
 
 
 def activate_user(request, email, activation_code):

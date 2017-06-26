@@ -4,7 +4,6 @@
 {% block recursos_necessarios %}
 {% endblock %}
 
-
 {% block titulo_cabecalho %} Perfil {% endblock %}
 {% block conteudo_principal %}
 <div id="angular_content" ng-cloak ng-app="modules.usuario">
@@ -31,7 +30,6 @@
       </div>
 
       <div class="x_content">
-
         <!-- start form for validation -->
         <form id="form_change_password" autocomplete="off" ng-submit="save_password()" novalidate>
           {% csrf_token %}
@@ -61,7 +59,7 @@
               </div>
             </div>
             <br><br>
-            <button id="button_send" type="submit" class="submit btn btn-success pull-right">Enviar</button>
+            <button type="submit" class="submit btn btn-success pull-right">Enviar</button>
           </fieldset>
         </form>
       </div>
@@ -71,51 +69,7 @@
 {% endblock %}
 
 {% block recursos_complementares %}
-  {% load static %}
-  <script src="{% static 'modules/usuario/usuario_controller.js' %}"></script>
-  <script src="{% static 'modules/usuario/usuario.js' %}"></script>
-
-  <script>
-    $('#form_change_password').submit(function(e){
-      e.preventDefault();
-      var submit = false;
-
-      var messages = {
-        invalid         : 'Informe numeros e letras!',
-        short           : 'Informe pelo menos 8 caracteres!',
-        long            : 'Informe no máximo x caracteres!',
-        checked         : 'must be checked',
-        empty           : 'Campo obrigatório!',
-        select          : 'Please select an option',
-        number_min      : 'too low',
-        number_max      : 'too high',
-        url             : 'invalid URL',
-        number          : 'not a number',
-        email           : 'email address is invalid',
-        email_repeat    : 'emails do not match',
-        date            : 'invalid date',
-        time            : 'invalid time',
-        password_repeat : 'Senhas não conferem!',
-        no_match        : 'no match',
-        complete        : 'input is not complete'
-      }
-
-      var validator = new FormValidator();
-      validator.texts = messages;
-      validator.settings.alerts = true;
-
-      if(!validator.checkAll($(this))) {
-        submit = false;
-      }
-
-      if(submit){
-        this.submit();
-      }
-      else{
-        return false;
-      }
-    }
-  )
-  </script>
-
+{% load static %}
+<script src="{% static 'modules/usuario/usuario_controller.js' %}"></script>
+<script src="{% static 'modules/usuario/usuario.js' %}"></script>
 {% endblock %}

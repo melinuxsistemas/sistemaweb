@@ -51,17 +51,10 @@ function working(){
       else{
         alert("Erro! WorkingApi failed to register job.")
       }
-    }
-
-    /*success: function (data){
-      $("#porcaria").html(data)
-      alert(data)
-      //var resultado = data;//$.parseJSON(data);
-
     },
     failure: function (data) {
       alert('Erro! Falha na execução do ajax');
-    }*/
+    }
   });
 }
 
@@ -81,21 +74,5 @@ function register(working_key,request_page){
       $("#porcaria").html = "Cade?";
       alert("Erro! WorkingApi does not have this key registered.")
     }
-
   });
-
-  /*$.ajax({
-    type: "GET",
-    url: "/api/working/register",
-    data: {
-      request_page: request_page,
-    },
-    success: function (data) {
-      $("#porcaria").html = data;
-    },
-    failure: function (data) {
-      alert("Erro! Configuration for WorkingApi not avaible.");
-    }
-  });
-  */
 }

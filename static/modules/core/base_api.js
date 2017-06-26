@@ -39,8 +39,9 @@ function execute_ajax(url,request_method,data_paramters,success_function,fail_fu
             erro_value = message[field]
             $("#field_"+field).addClass('bad')
             $("#field_"+field+" .alert").html(erro_value);
-            var label =  $("#field_"+field+" label").html()
-            error_notify(field,label,erro_value)
+            //var label =  $("#field_"+field+" label").html()
+            error_notify(field,"Formulário inválido",erro_value)
+            $("#field_"+field).focus()
           }
         }
       }

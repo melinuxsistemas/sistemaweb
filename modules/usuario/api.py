@@ -87,8 +87,8 @@ class UsuarioAPI:
             usuario = Usuario.objects.get_user_email(email=email)
             if usuario != None:
                 if usuario.account_activated:
-                    usuario = Usuario.objects.authenticate(request, email=email, password=senha)
-                    if usuario is not None and usuario.is_active:
+                    auth = Usuario.objects.authenticate(request, email=email, password=senha)
+                    if auth is not None and usuario.is_active:
                         login(request, usuario)
                         response_dict = response_format_success(usuario, ['email'])
                     else:
@@ -124,9 +124,17 @@ class UsuarioAPI:
     def change_password(request):
         result, form = AbstractAPI.filter_request(request, FormChangePassword)
         if result:
+            usuario = request.user
+            if usuario.check_password(form.cleaned_data['old_password']):
+                usuario.change_password(form.cleaned_data['password'])
+                auth = Usuario.objects.authenticate(request, email=usuario.email, password=usuario.password)
+                auth_user = Usuario.objects.get_user_email(usuario.email)
+                if auth is not None and usuario.is_active:
+                    #login(request, auth_user)
+                    pass
+                else:
+                    response_dict = response_format_error("Não foi possivel autenticar seu usuário<br>com a senha redefinida.")
 
-            if request.user.check_password(form.cleaned_data['old_password']):
-                request.user.change_password(form.cleaned_data['password'])
                 response_dict = response_format_success(request.user,"Usuário alterado com sucesso.")
             else:
                 response_dict = response_format_error("Erro! Senha antiga está incorreta.")

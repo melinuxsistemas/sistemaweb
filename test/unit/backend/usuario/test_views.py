@@ -1,7 +1,6 @@
-import json
-
 from django.test import TestCase, Client
 from modules.usuario.models import Usuario
+import json
 
 
 class UsuarioViewsTests(TestCase):
@@ -36,7 +35,7 @@ class UsuarioViewsTests(TestCase):
         for email, senha, confirma_senha, retorno in casos_testes:
             response = self.client.post('/api/usuario/register/save',data={'email': email, 'password': senha, 'confirm_password' : confirma_senha },HTTP_X_REQUESTED_WITH='XMLHttpRequest')
             response_content = json.loads(response.content.decode())
-            #print("Status code: ",response.status_code, 200)
+            print("Status code: ",response_content)
             self.assertEqual(response.status_code, 200)
             #print('Teste Respons:   ',response_content['success'], retorno)
             self.assertEqual(response_content['success'], retorno)

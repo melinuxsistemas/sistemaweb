@@ -14,8 +14,8 @@ class BaseRoutesTests(TestCase):
     private_api = []
 
     def __init__(self, *args, **kwargs):
+        print("VIM AQUI")
         unittest.TestCase.__init__(self, *args, **kwargs)
-        print("TO VINDO NO TEST ROUTES BASE")
 
     def setUp(self):
         self.client = Client()
@@ -77,18 +77,20 @@ class BaseRoutesTests(TestCase):
         # self.assertEqual(self.test_route_list(self.client.get, self.private_api, 404), True)
 
 
-class UsuarioRoutesTests(BaseRoutesTests):
+"""class UsuarioRoutesTests(BaseRoutesTests):
 
     def __init__(self, *args):
         unittest.TestCase.__init__(self, *args)
-        print("TO VINDO NO TEST USUARIO ROUTES")
+        print("VEJA SE TENHO COISAS DO PAI: ",dir(self))
+        #super(BaseRoutesTests).__init__(self,*args)
         self.add_public_route_list(['/login/', '/logout/', '/register/'])
 
-        print("OLHA AS ROTAS PUBLICAS: ",self.public_routes)
-        self.add_private_route_list(['/'])
+
+        self.add_private_route_list(['/','/profile'])
         self.add_private_api('/api/usuario/register/save', {'email': 'teste@teste.com', 'password': '1q2w3e4r', 'confirm_password': '1q2w3e4r'})
         self.add_private_api('/api/usuario/new_register',  {'email': 'teste@teste.com'})
         self.add_private_api('/api/usuario/login/autentication',{'email': 'teste@teste.com', 'senha': '1q2w3e4r'})
         self.add_private_api('/api/usuario/change_password',{'old_password':'r4e3w2q1' , 'password': '1q2w3e4r', 'confirm_password': '1q2w3e4r'})
         self.add_private_api('/api/usuario/activate',{'email': 'teste@teste.com','chave' : 'ce11f7102ce87660c93ed415d2a7102da6625049645173'})
         self.add_private_api('/api/usuario/reset_password',{'email': 'teste@teste.com'})
+"""

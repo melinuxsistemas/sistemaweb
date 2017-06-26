@@ -31,11 +31,7 @@ class GerenciadorUsuario(BaseUserManager):
             return user
 
         except Exception as e:
-            #print(e)
             return e
-
-
-
 
     def criar_usuario_contratante(self, email,senha):
         return self._create_user(email, senha,False,False, False,"C")
@@ -67,7 +63,6 @@ class GerenciadorUsuario(BaseUserManager):
             return True
         else:
             return False
-
 
     def authenticate(self,request, email=None, password=None):
         try:
@@ -127,9 +122,3 @@ class Usuario(PermissionsMixin, AbstractBaseUser):
 
     def email_user(self, subject, message, from_email=None):
         send_mail(subject, message, from_email, [self.email])
-
-    """def set_password(self, raw_password):
-        senha = make_password(raw_password)
-        print ("Veja a senha:", senha," - TAMANHO:",len(senha))
-        return senha
-    """

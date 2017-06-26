@@ -22,6 +22,8 @@ def response_format(result,message,object,list_fields):
     else:
         response_dict['data-object'] = None
     return response_dict
+
+
 """
 def executar_operacao(registro,operacao):
     response_dict = {}
@@ -53,22 +55,12 @@ def send_email(to_address, title, message):
     from_address = 'melinuxsistemas@gmail.com'
     email = EmailMessage(title, message, from_address, [to_address])
     email.content_subtype = "html"
-    thread = threading.Thread(name='send_email', target=email.send)
-    thread.start()
-    return True
-
-"""
-def sends_email(email):
-   chave = create_activation_code(email)
-   html_content = "<strong>CONFIRMAÇÃO DE REGISTRO</strong><br>" \
-                  "<p>Para ter acesso ao Sistema acesse o link abaixo e informe " \
-                  "o numero de registro :</p><br><a href='http://localhost:8000/register/activate/"+email+"/"+chave+"/'"+">Clique aqui</a>"
-   email = EmailMessage("Confirmação de registro", html_content, "melinuxsistemas@gmail.com", [ email])
-   email.content_subtype = "html"
-   thread = threading.Thread(name='envia_email', target=email.send)
-   thread.start()
-   return True
-"""
+    try:
+        thread = threading.Thread(name='send_email', target=email.send)
+        thread.start()
+        return True
+    except:
+        return False
 
 
 def generate_activation_code(email):

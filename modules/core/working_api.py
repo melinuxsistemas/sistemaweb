@@ -33,7 +33,7 @@ class WorkingApi:
         return HttpResponse(data, content_type='application/json')
 
 
-class WorkingManager():
+class WorkingManager:
 
     def register(self,tag,request_page=None):
         workin_api = WorkingApi()
@@ -49,7 +49,6 @@ class WorkingManager():
                 print("WorkingApi not update!")
         else:
             print("WorkingApi not Running at moment.")
-
         return response
 
 

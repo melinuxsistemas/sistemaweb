@@ -1,10 +1,7 @@
-import unittest
-from rebar.testing import flatten_to_dict
 from unittest import TestCase
-from modules.core.forms import FormAbstractConfirmPassword, FormAbstractEmail, FormAbstractPassword
-
-
+from rebar.testing import flatten_to_dict
 from modules.core.forms import FormAbstractPassword, FormAbstractConfirmPassword, FormAbstractEmail
+import unittest
 
 
 class TestAbstractForm(TestCase):
@@ -140,5 +137,3 @@ class EmailFormTests(TestAbstractForm):
         big_value_email = '1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t@1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t1q2w3e4r5t.com.br'
         self.add_case_valid_size({'email': 'teste@teste.com'},"Test email with normal size values (OK)")
         self.add_case_invalid_size({'email': big_value_email}, "Test email with exceded size values (OK)")
-
-
