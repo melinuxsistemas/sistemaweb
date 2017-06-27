@@ -42,6 +42,6 @@ class UsuarioViewsTests(TestCase):
             response_content = json.loads(response.content.decode())
             self.assertEqual(response.status_code, 200)
             self.assertEqual(response_content['success'], retorno)
-            #print("RESPONSE CONTENT: ",response_content)
-
-            #self.client.get('/logout')
+            if response_content['success'] == True:
+                user = Usuario.objects.get_user_email(email)
+                user.delete()

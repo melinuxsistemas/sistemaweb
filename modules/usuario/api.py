@@ -39,20 +39,27 @@ class UsuarioAPI:
 
     def register_user(request):
         resultado, form = AbstractAPI.filter_request(request, FormRegister)
+        #print("VAMOS LA.. VEJA OS TESTS: ",request.POST)
         if resultado:
+            #print("TA VALIDO")
             email = request.POST['email'].lower()
             senha = request.POST['password']
             if Usuario.objects.check_available_email(email):
+                #print("EMAIL TA DISPONIVEL")
                 usuario = Usuario.objects.create_contracting_user(email, senha)
                 if usuario is not None:
+                    #print("USUARIO TA AE: ",usuario)
                     activation_code = generate_activation_code(email)
                     send_generate_activation_code(email, activation_code)
                     response_dict = response_format_success(usuario, ['email'])
                 else:
-                    response_dict = response_format_error("Email já cadastrado.")
+                    #print("USUARIO NAO TA CADASTRADO")
+                    response_dict = response_format_error("Nao foi possivel criar objeto")
             else:
+                #print("EMAIL TA INDISPONIVEL")
                 response_dict = response_format_error("Email já cadastrado.")
         else:
+            #print("FORMULARIO INCORRETO")
             response_dict = response_format_error("Formulário com dados inválidos.")
         return HttpResponse(json.dumps(response_dict))
 

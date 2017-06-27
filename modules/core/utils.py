@@ -6,8 +6,6 @@ import threading
 import datetime
 
 
-
-
 def response_format_success(object,list_fields):
     return response_format(True, '', object, list_fields)
 

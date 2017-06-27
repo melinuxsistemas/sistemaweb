@@ -12,6 +12,7 @@ from modules.core.utils import generate_activation_code
 from modules.core.validators import check_password_format
 from modules.usuario.validators import email_format_validator,email_dangerous_symbols_validator
 
+
 opcoes_tipos_usuarios = (
         ('A', 'ADMIN'),
         ('D', 'DESENVOLVEDOR'),
@@ -19,6 +20,7 @@ opcoes_tipos_usuarios = (
         ('C', 'CONTRATANTE'),
         ('F', 'FUNCIONARIO'),
 )
+
 
 class GerenciadorUsuario(BaseUserManager):
 
@@ -63,7 +65,6 @@ class GerenciadorUsuario(BaseUserManager):
             except:
                 return None
         return None
-
 
     def create_superuser(self, email, password):
         user = self._create_user(email, password, True,True, True, "A")
