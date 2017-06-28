@@ -13,3 +13,4 @@ def autenticate_user(context,email,password):
 def check_notify(context, notify_message):
     alert_value = context.browser.check_error_notify()
     assert notify_message in alert_value
+

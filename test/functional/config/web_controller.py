@@ -64,6 +64,7 @@ class DjangoWebTest:
 
     def check_error_notify(self):
         component = self.web_controller.get_component(By.CLASS_NAME,'alert-danger')
+        print ("COMPONENTE",component)
         if component is not None:
             return component.text
         else:
@@ -136,7 +137,7 @@ class WebController:
         from selenium.webdriver.support import expected_conditions as EC
         from selenium.webdriver.support.ui import WebDriverWait
 
-        #print "Buscando Elemento: ",valor
+
         wait = WebDriverWait(self.driver, 5)
         try:
             element = wait.until(EC.element_to_be_clickable((metodo,valor)))
