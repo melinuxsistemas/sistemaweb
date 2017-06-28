@@ -21,26 +21,26 @@
     {% compress css %}
     <link rel="shortcut icon" href="{% static 'images/favicon_sistema.png' %}">
     <!-- NProgress -->
-    <script src="{% static 'bower/nprogress/nprogress.js' %}"></script>
-    <link href="{% static 'bower/nprogress/nprogress.css' %}" rel="stylesheet">
+    <script src="{% static 'bower_components/nprogress/nprogress.js' %}"></script>
+    <link href="{% static 'bower_components/nprogress/nprogress.css' %}" rel="stylesheet">
 
     <script>
       NProgress.start();
     </script>
 
-    <link href="{% static 'bower/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
     <!-- Font Awesome -->
-    <link href="{% static 'bower/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'bower_components/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
     <!-- Animate.css -->
-    <link href="{% static 'bower/animate.css/animate.min.css' %}" rel="stylesheet">
+    <link href="{% static 'bower_components/animate.css/animate.min.css' %}" rel="stylesheet">
     <!-- Custom Theme Style -->
     <link href="{% static 'custom/gentelella/custom.css' %}" rel="stylesheet">
     <!-- Custom Theme Style -->
     <link href="{% static 'modules/core/base.css' %}" rel="stylesheet">
     <!-- Angular -->
-    <script src="{% static 'bower/angular/angular.min.js' %}"></script>
+    <script src="{% static 'bower_components/angular/angular.min.js' %}"></script>
 
-    <script src="{% static 'bower/moment/min/moment-with-locales.min.js' %}"></script>
+    <script src="{% static 'bower_components/moment/min/moment-with-locales.min.js' %}"></script>
 
 
     {% block recursos_necessarios %}
@@ -71,9 +71,9 @@
   </body>
   {% compress css %}
   <!-- jQuery -->
-  <script src="{% static 'bower/jquery/dist/jquery.min.js' %}"></script>
+  <script src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
   <!-- PNotify -->
-  <link href="{% static 'bower/pnotify/dist/pnotify.css' %}" rel="stylesheet">
+  <link href="{% static 'bower_components/pnotify/dist/pnotify.css' %}" rel="stylesheet">
   {% endcompress %}
 
   {% compress js %}
@@ -82,8 +82,8 @@
   <script src="{% static 'custom/js/working.js' %}"></script>
 
   <!-- PNotify -->
-  <script src="{% static 'bower/pnotify/dist/pnotify.js'%}"></script>
-  <script src="{% static 'bower/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'bower_components/pnotify/dist/pnotify.js' %}"></script>
+  <script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
   {% block recursos_complementares %}
 
   {% endblock %}

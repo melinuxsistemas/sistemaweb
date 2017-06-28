@@ -12,10 +12,6 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 import sys
-
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-from selenium.webdriver.firefox import webdriver
-
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -90,8 +86,7 @@ else:
     else:
         BOWER_PATH = 'C:/Users/diego/AppData/Roaming/npm/bower.cmd'
 
-#BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'static/bower')
-
+BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'static')
 BOWER_INSTALLED_APPS = (
     'angular#1.6.4',
     'jquery#3.2.1',
@@ -164,19 +159,22 @@ TEST_URL = BASE_DIR+os.path.join('/test/')
 #TEST_RUNNER = 'xmlrunner.extra.djangotestrunner.XMLTestRunner'
 #TEST_OUTPUT_DIR = "test/unit/report/backend_unit_report"
 
-
-'''TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+"""
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 NOSE_ARGS = [
     '--verbosity=2',  # verbose output
     '--with-coverage',
-    '--cover-inclusive',
+    #'--exclude-dir=django/*',
+    #'--ignore-files=django/*',
+    #'cover-package=../modules/*'
+    #'--cover-inclusive',
     '--cover-xml',  # produle XML coverage info
-    '--cover-xml-file=coverage.xml',  # the coverage info file
+    '--cover-xml-file=test/unit/report/backend_unit_report/coverage.xml',  # the coverage info file
     '--with-xunit',  # enable XUnit plugin
-    '--xunit-file=xunittest.xml'#test/unit/report/backend_unit_report/xunittest.xml',  # the XUnit report file
-]
-'''
+    '--xunit-file=test/unit/report/backend_unit_report/xunittest.xml',  # the XUnit report file
+]"""
+
 
 STATIC_ROOT = ''
 STATIC_URL = '/static/'

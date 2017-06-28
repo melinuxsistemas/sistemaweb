@@ -4,12 +4,11 @@
 /conf/working.json
 /conf/configuration.py
 
-/static/bower
+/static/bower_components
 /static/compress
 *.pyc
 *.sqlite3
 .coverage
-coverage.xml
 modules/__pycache__/
 modules/core/__pycache__/
 modules/core/migrations/__pycache__/
@@ -17,3 +16,18 @@ modules/usuario/__pycache__/
 modules/usuario/migrations/__pycache__/
 sistemaweb/__pycache__/
 test/unit/report/
+__pycache__/
+conf/__pycache__/
+modules/usuario/migrations/0003_auto_20170530_1015.py
+modules/usuario/migrations/0004_usuario_activation_code.py
+test/__pycache__/
+test/functional/__pycache__/
+test/functional/core/__pycache__/
+test/functional/selenium_controller/__pycache__/
+test/functional/usuario/__pycache__/
+test/integration/__pycache__/
+test/unit/__pycache__/
+test/unit/backend/__pycache__/
+test/unit/backend/core/__pycache__/
+test/unit/backend/usuario/__pycache__/
+static/bower_components/pnotify/libtests/requirejs/

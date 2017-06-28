@@ -5,6 +5,7 @@ omit =
     conf/*
     data/*
     logs/*
+    *test/*
     media/*
     requirements/*
     sistemaweb/*
@@ -22,7 +23,7 @@ omit =
     *__init__.py*
     *migrations*
     *factories.py
-
+    *telnetlib*
     *netrc.py*
     *encodings/idna.py*
     *http*/client.py*

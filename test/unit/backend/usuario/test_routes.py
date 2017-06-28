@@ -88,10 +88,11 @@ class UsuarioRoutesTests(BaseRoutesTests):
         self.add_private_route_list(['/', '/profile'])
 
         self.add_private_api('/api/usuario/register/save',{'email': 'teste@teste.com', 'password': '1q2w3e4r', 'confirm_password': '1q2w3e4r'})
+        self.add_private_api('/api/usuario/reactivate', {'email': 'teste@teste.com'})
         """
 
 
-        self.add_private_api('/api/usuario/new_register',  {'email': 'teste@teste.com'})
+
         self.add_private_api('/api/usuario/login/autentication',{'email': 'teste@teste.com', 'senha': '1q2w3e4r'})
         self.add_private_api('/api/usuario/change_password',{'old_password':'r4e3w2q1' , 'password': '1q2w3e4r', 'confirm_password': '1q2w3e4r'})
         self.add_private_api('/api/usuario/activate',{'email': 'teste@teste.com','chave' : 'ce11f7102ce87660c93ed415d2a7102da6625049645173'})
