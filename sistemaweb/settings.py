@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'compressor','djangobower',
     'django_nose','modules.core',
     'modules.usuario',
+    'behave_django',
 ]
 
 MIDDLEWARE = [
