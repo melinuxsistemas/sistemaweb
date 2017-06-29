@@ -1,6 +1,5 @@
 Feature: Usuario
-
-  Scenario Outline: O usuario precisa se autenticar para entrar no sistema
+    Scenario Outline: O usuario precisa se autenticar para entrar no sistema
     Given O usuario esta no site do sistema
     When Eu informo "<email>" e "<password>"
     Then O sistema notifica "<notify_message>"
@@ -22,7 +21,6 @@ Feature: Usuario
       |teste@teste.com            |1234abcd |1q2w3e4r         |Senhas não conferem        |
 
 
-
   Scenario Outline: O usuario pode trocar a senha de sua conta
 
     Given O usuario esta na pagina de login do sistema
@@ -32,7 +30,7 @@ Feature: Usuario
       | old_password | password | confirm_password | notify_message_change |
       |1q2w3e4r      |abcd1234  |1234abcd          |Senhas não conferem                   |
       |abcd1234      |11111111  |11111111          |Informe numeros e letras            |
-      |1q2w3e4r      |1q2w3e4r  |1q2w3e4r          |Precisa ser diferente da senha antiga.|
+      |1q2w3e4r      |1q2w3e4r  |1q2w3e4r          |Nova Senha: Precisa ser diferente da senha antiga.|
 
 
 

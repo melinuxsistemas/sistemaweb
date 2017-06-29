@@ -43,7 +43,6 @@ class DjangoWebTest:
 
     def change_password_behave (self, password ,new_password, confirm_password):
         while self.get_title() != 'SistemaWeb - Perfil do Usuário':
-            print (self.get_title())
             time.sleep(1)
             self.web_controller.click('field_user')
             self.web_controller.click('profile')
@@ -80,6 +79,16 @@ class DjangoWebTest:
 
     def check_error_notify(self):
         component = self.web_controller.get_component(By.CLASS_NAME,'alert-danger')
+        if component is not None:
+            return component.text
+        else:
+            return None
+
+    def check_error_form (self):
+        component = self.web_controller.get_component(By.CLASS_NAME,'field')
+        print('OLHA O COMPONENT',component)
+        component = self.web_controller.get_component(By.CLASS_NAME, 'field bad')
+        print(component)
         if component is not None:
             return component.text
         else:
