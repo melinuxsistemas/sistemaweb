@@ -1,12 +1,9 @@
 from django.contrib.auth.decorators import login_required
-
-from conf import configuration
-from modules.usuario.forms import FormRegister, FormLogin, FormChangePassword, FormResetPassword, FormActivationCode, \
-    FormConfirmRegister
+from modules.usuario.forms import FormRegister, FormLogin, FormChangePassword, FormResetPassword, FormActivationCode, FormConfirmRegister
 from modules.usuario.models import Usuario
-from modules.core.utils import decode_activation_code, encode_hash_email, send_email,generate_random_password
+from modules.core.utils import decode_activation_code, encode_hash_email
 from django.contrib.auth import logout, login
-from django.shortcuts import render, HttpResponseRedirect, redirect
+from django.shortcuts import render
 from datetime import datetime, timedelta
 
 
@@ -19,6 +16,7 @@ def register_confirm_page(request, email):
     form = FormConfirmRegister()
     return render(request, "usuario/register/register_confirm.html",{'formulary_confirm_register': form, 'email': email})
 
+
 @login_required()
 def profile_page(request):
     form_change_password = FormChangePassword()
@@ -28,18 +26,33 @@ def profile_page(request):
 def activate_user(request, email, activation_code):
     activation_form = FormActivationCode({'activation_code': activation_code})
     user = Usuario.objects.get_user_email(email)
+    return render("/login")
+    #return render(request, "usuario/register/register.html", {'formulario_register': form_register})
 
-    if check_valid_activation_code(email, activation_code) and user is not None:
-        user.activation_code = activation_code
-        user.account_activated = True
-        try:
-            user.save()
-            login(request, user)
-            return redirect("/system/environment")
-        except:
-            return render(request, "usuario/register/register_error.html", {'email_activate': email})
+    """
+    if user is not None:
+        if user.activation_code is not None:
+            if check_valid_activation_code(email, activation_code) and user is not None:
+                user.activation_code = activation_code
+                user.account_activated = True
+                try:
+                    user.save()
+                    login(request, user)
+                    return render(request, "usuario/register/register_error_activation_code.html", {'email': email})
+                    #return redirect("/system/environment")
+                except:
+                    print("ERRO,NAO CONSEGUIMOS SALVAR A CHAVE NO USUARIO")
+                    return render(request, "usuario/register/register_error_activation_code.html", {'email': email})
+            else:
+                print("ERRO, CHAVE INVALIDA OU EXPIROU")
+                return render(request, "usuario/register/register_error_activation_code.html", {'email': email})
+        else:
+            print("ESSE EMAIL JA FOI ATIVADO CARA..")
+            return render(request, "usuario/register/register_error_activated_user.html", {'email': email})
     else:
-        return render(request, "usuario/register/register_error.html", {'email_activate': email})
+        print("ESSE CARA NAO FOI CADASTRADO..")
+        return render(request, "usuario/register/register_error_unexist_user.html", {'email': email})
+    """
 
 
 def check_valid_activation_code(email,activation_code):

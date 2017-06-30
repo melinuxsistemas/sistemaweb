@@ -5,16 +5,18 @@ var application = angular.module('modules.usuario', []);
 
 application.controller('reset_password_controller', function($scope) {
 
-  var data_paramters = {email: $scope.email}
   success_function = function(){
       confirm_notify("Operação realizada com Sucesso!","Verifique seu email, você receberá um email em instantes.<br><a href='/login'>Clique aqui para acessar sistema.</a>")
   }
 
   $scope.reset_password = function () {
+    var data_paramters = {email: $scope.email}
+    validate_form_reset_password()
     request_api("/api/usuario/reset_password",data_paramters,validate_form_reset_password,success_function,null)
   }
 
   $scope.resend_activation_code = function () {
+    var data_paramters = {email: $scope.email}
     request_api("/api/usuario/reactivate",data_paramters,validate_form_reset_password,success_function,null)
   }
 });

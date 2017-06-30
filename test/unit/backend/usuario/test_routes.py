@@ -76,25 +76,78 @@ class BaseRoutesTests(TestCase):
         user.delete()
 
     def test_get_public_api(self):
-        self.test_get_route_list(self.public_api, 200)
-        # self.assertEqual(self.test_route_list(self.client.get, self.private_api, 404), True)
+        for item in self.public_api:
+            self.assertNotEqual(self.client.get(item).status_code, 200)
 
 
 class UsuarioRoutesTests(BaseRoutesTests):
 
     def __init__(self, *args):
         unittest.TestCase.__init__(self, *args)
-        self.add_public_route_list(['/login/', '/logout', '/register/','/reset_password/'])
+
+        self.add_public_route_list(['/login/', '/logout', '/register/', '/reset_password/'])
         self.add_private_route_list(['/', '/profile'])
+        self.add_public_api('/api/usuario/reactivate', {'email': 'teste@teste.com'})
 
         self.add_private_api('/api/usuario/register/save',{'email': 'teste@teste.com', 'password': '1q2w3e4r', 'confirm_password': '1q2w3e4r'})
-        self.add_private_api('/api/usuario/reactivate', {'email': 'teste@teste.com'})
+        self.add_private_api('/api/usuario/login/autentication', {'email': 'teste@teste.com', 'senha': '1q2w3e4r'})
+        self.add_private_api('/api/usuario/change_password',{'old_password': 'r4e3w2q1', 'password': '1q2w3e4r', 'confirm_password': '1q2w3e4r'})
+
+
+    def test_valid_activation_page(self):
+        test_user = Usuario.objects.create_test_user('teste@teste.com.br', '1q2w3e4r')
+        if test_user is not None:
+            activation_code_route = '/register/activate/'+test_user.email+'/'+test_user.activation_code
+            response = self.client.get(activation_code_route)
+            print("VEJA O RESPONSE: ",response.status_code)
+            self.assertEqual(response.status_code, 301)
+            test_user.delete()
+        else:
+            pass
+
+
+    def test_invalid_activationcode_page(self):
+        test_user = Usuario.objects.create_test_user('teste@teste.com.br', '1q2w3e4r')
+        if test_user is not None:
+            activation_code_route = '/register/activate/' + test_user.email + '/10b9271023120060e584492f48557272e2c313ae1451b1'
+            response = self.client.get(activation_code_route)
+            print("VEJA O RESPONSE: ",response)
+            #self.assertEqual(response.status_code, 404)
+        else:
+            pass
         """
 
+        <HttpResponseNotFound status_code=404, "text/html">
+        <HttpResponsePermanentRedirect status_code=301, "text/html; charset=utf-8", url="/logout/">
+        <HttpResponse status_code=200, "text/html; charset=utf-8">
 
 
-        self.add_private_api('/api/usuario/login/autentication',{'email': 'teste@teste.com', 'senha': '1q2w3e4r'})
-        self.add_private_api('/api/usuario/change_password',{'old_password':'r4e3w2q1' , 'password': '1q2w3e4r', 'confirm_password': '1q2w3e4r'})
-        self.add_private_api('/api/usuario/activate',{'email': 'teste@teste.com','chave' : 'ce11f7102ce87660c93ed415d2a7102da6625049645173'})
-        self.add_private_api('/api/usuario/reset_password',{'email': 'teste@teste.com'})
+        ['__bytes__', '__class__', '__contains__', '__delattr__', '__delitem__', '__dict__', '__dir__', '__doc__', '__eq__',
+         '__format__', '__ge__', '__getattribute__', '__getitem__', '__gt__', '__hash__', '__init__', '__init_subclass__',
+         '__iter__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__',
+         '__setattr__', '__setitem__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', '_charset',
+         '_closable_objects', '_container', '_content_type_for_repr', '_convert_to_charset', '_handler_class', '_headers',
+         '_reason_phrase', 'allowed_schemes', 'charset', 'client', 'close', 'closed', 'content', 'context', 'cookies',
+         'delete_cookie', 'flush', 'get', 'getvalue', 'has_header', 'items', 'json', 'make_bytes', 'readable',
+         'reason_phrase', 'request', 'resolver_match', 'seekable', 'serialize', 'serialize_headers', 'set_cookie',
+         'set_signed_cookie', 'setdefault', 'status_code', 'streaming', 'tell', 'templates', 'url', 'writable', 'write',
+         'writelines', 'wsgi_request']
         """
+
+    """
+    def test_invalid_activation_email_page(self):
+        activation_code_route = '/register/activate/' + 'testeteste.com.br' + '/10b9271023120060e584492f48557272e2c313ae1451b1'
+        response = self.client.get(activation_code_route)
+        print("VEJA O RESPONSE: ", response.content)
+        self.assertEqual(response.status_code, 200)
+
+    def test_invalid_non_created_activation_email_page(self):
+        test_user = Usuario.objects.create_test_user('testeteste.com.br', '1q2w3e4r')
+        if test_user is not None:
+            activation_code_route = '/register/activate/' + test_user.email + '/10b9271023120060e584492f48557272e2c313ae1451b1'
+            response = self.client.get(activation_code_route)
+            print("VEJA O RESPONSE: ", response.content)
+            self.assertEqual(response.status_code, 200)
+        else:
+            pass
+    """

@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block conteudo_principal %}
-<div ng-controller="register_controller">
+<div ng-controller="register_controller" ng-init="email='{{ email }}'">
   <form id='form_new_register' method="POST" autocomplete="off" >
     {% csrf_token %}
     <h1><!--<i class="fa fa-paw></i>--> SistemaWeb</h1>
@@ -18,29 +18,19 @@
     <div class="clearfix"></div>
 
     <div class="separator">
-    <p class="text-center panel-options">Problemas para ativar sua conta?
-      <a href={% url 'new_register' email_activate %}>Reenviar email</a><br>
-      Se já possui uma conta <a href="/login">Acesse aqui</a><br>
-      ou <a href="/login">Cadastre-se</a>
-    </p>
+      <p class="text-center panel-options">Problemas para ativar sua conta?
+        <a style="cursor: pointer;" ng-click="resend_activation_code()">Solicite nova chave</a><br>
+        Se já possui uma conta <a href="/login">Acesse aqui</a><br>
+        ou <a href="/login">Cadastre-se</a>
+      </p>
 
-    <div class="clearfix"></div>
-    <br />
+      <div class="clearfix"></div>
+      <br />
 
-    <div>
-      <p>©2016 All Rights Reserved. Privacy and Terms</p>
+      <div>
+        <p>©2016 All Rights Reserved. Privacy and Terms</p>
+      </div>
     </div>
-  </div>
-
-
-    <!--<div class="separator">
-        <a href="/register" > Registre-se aqui.</a><br>
-        <a href={% url 'new_register' email_activate %} class="pull-right">Reenviar Chave</a>
-    </div>
-
-    <div>
-       <p>©2016 All Rights Reserved. Privacy and Terms</p>
-    </div>-->
   </form>
 </div>
 {% endblock %}
