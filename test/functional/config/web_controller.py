@@ -4,6 +4,7 @@ Created on 20 de jan de 2016
 @author: Diego
 '''
 import time
+from telnetlib import EC
 
 from django.conf import settings
 from selenium import webdriver
@@ -30,13 +31,27 @@ class DjangoWebTest:
 
     def change_password(self, email, password, new_password, confirm_password):
         self.login(email,password)
-        time.sleep(5)   #timer por conta da caixa de mng q fica no mesmo lugar no botão MUDAR
-        self.web_controller.click('field_user')
-        self.web_controller.click('profile')
+        while self.get_title() != 'SistemaWeb - Perfil do Usuário':
+            print (self.get_title())
+            time.sleep(1)
+            self.web_controller.click('field_user')
+            self.web_controller.click('profile')
         self.web_controller.enter_text('old_password', password)
         self.web_controller.enter_text('password', new_password)
         self.web_controller.enter_text('confirm_password', confirm_password)
         self.web_controller.click('button_send')
+
+    def change_password_behave (self, password ,new_password, confirm_password):
+        while self.get_title() != 'SistemaWeb - Perfil do Usuário':
+            time.sleep(1)
+            self.web_controller.click('field_user')
+            self.web_controller.click('profile')
+        self.web_controller.enter_text('old_password', password)
+        self.web_controller.enter_text('password', new_password)
+        self.web_controller.enter_text('confirm_password', confirm_password)
+        self.web_controller.click('button_send')
+
+
 
     def register(self, email, password, confirm_password):
         clicar_register = self.web_controller.click('button_register')
@@ -64,6 +79,14 @@ class DjangoWebTest:
 
     def check_error_notify(self):
         component = self.web_controller.get_component(By.CLASS_NAME,'alert-danger')
+        if component is not None:
+            return component.text
+        else:
+            return None
+
+    def check_error_form(self):
+        component = self.web_controller.get_component(By.CLASS_NAME,'alert')
+        print(component)
         if component is not None:
             return component.text
         else:
@@ -133,10 +156,11 @@ class WebController:
             exit(0)
 
     def get_component(self, metodo, valor):
+        global EC
         from selenium.webdriver.support import expected_conditions as EC
         from selenium.webdriver.support.ui import WebDriverWait
 
-        #print "Buscando Elemento: ",valor
+
         wait = WebDriverWait(self.driver, 5)
         try:
             element = wait.until(EC.element_to_be_clickable((metodo,valor)))
