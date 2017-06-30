@@ -113,8 +113,10 @@ class UsuarioAPI:
 
     def reset_password(request):
         resultado, form = AbstractAPI.filter_request(request, FormResetPassword)
+        print("VEJA OS ERROS",form.errors)
         if resultado:
             email = request.POST['email'].lower()
+            print("VEJA O EMAIL:",email)
             usuario = Usuario.objects.get_user_email(email)
             if usuario is not None:
                 try:

@@ -4,7 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from modules.core.validators import is_empty, contain_alpha, contain_numbers, contain_minimal_size
 
 
-email_format_validator = EmailValidator()#message="Erro! Email inválido.")
+email_format_validator = EmailValidator(message="Erro! Email inválido.")
 
 
 def check_email_format(email):

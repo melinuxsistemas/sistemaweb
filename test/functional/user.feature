@@ -28,12 +28,22 @@ Feature: Usuario
     When O usuario digita senha atual "<old_password>" e "<password>" e "<confirm_password>"
     Then O sistema informa "<notify_message_change>".
     Examples:
-      | old_password | password | confirm_password | notify_message_change |
-      |1q2w3e4r      |abcd1234  |1234abcd          |Senhas não conferem                   |
-      |1q2w3e4r      |11111111  |11111111          |Informe numeros e letras            |
+      | old_password | password | confirm_password | notify_message_change|
+      |1q2w3e4r      |abcd1234  |1234abcd          |Senhas não conferem|
+      |1q2w3e4r      |11111111  |11111111          |Informe numeros e letras|
       |1q2w3e4r      |1q2w3e4r  |1q2w3e4r          |Nova Senha: Precisa ser diferente da senha antiga.|
-      |abcd1234      |1q2w3e4r  |1q2w3e4r          |Falha na operação                                 |
+      |abcd1234      |1q2w3e4r  |1q2w3e4r          |Falha na operação|
+      |1q2w3e4r      |######    |######            |Campo obrigatório|
+      |######        |1q2w3e4r  |1q2w3e4r          |Campo obrigatório|
 
 
+  Scenario Outline: O usuario precisa reenviar senha
 
+    Given O usuario precisa acessar /reset_password
+    When  O usuario digita seu email "<email>"
+    Then  O Sistema notifica ao usuario "<notify_message>"
 
+    Examples:
+      |email  |notify_message|
+      |test@test.|Email Inválido|
+      |teste@testes.com|Email não cadastrado.|

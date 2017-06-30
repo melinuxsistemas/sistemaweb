@@ -9,7 +9,13 @@ def open_site(context):
 
 @when('O usuario digita senha atual "{old_password}" e "{password}" e "{confirm_password}"')
 def change (context, old_password, password, confirm_password):
-   context.browser.change_password_behave( old_password, password, confirm_password)
+    if (old_password == '######'):
+        old_password = ''
+    if (password == '######'):
+        password = ''
+    if (confirm_password == '######'):
+        confirm_password = ''
+    context.browser.change_password_behave( old_password, password, confirm_password)
 
 
 @then('O sistema informa "{notify_message_change}".')
