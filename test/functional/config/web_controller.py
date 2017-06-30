@@ -84,10 +84,8 @@ class DjangoWebTest:
         else:
             return None
 
-    def check_error_form (self):
-        component = self.web_controller.get_component(By.CLASS_NAME,'field')
-        print('OLHA O COMPONENT',component)
-        component = self.web_controller.get_component(By.CLASS_NAME, 'field bad')
+    def check_error_form(self):
+        component = self.web_controller.get_component(By.CLASS_NAME,'alert')
         print(component)
         if component is not None:
             return component.text

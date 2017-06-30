@@ -14,14 +14,11 @@ def change (context, old_password, password, confirm_password):
 
 @then('O sistema informa "{notify_message_change}".')
 def check_notify(context, notify_message_change):
-
     alert_value = context.browser.check_error_notify()
-    if alert_value is None:
-        assert notify_message_change in alert_value
-        return
-
     form_value = context.browser.check_error_form()
-    if form_value is not None:
+    if alert_value is not None :
+        assert notify_message_change in alert_value
+    else:
         assert notify_message_change in form_value
 
 
