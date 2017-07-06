@@ -1,5 +1,6 @@
 from django.core import serializers
 from django.core.mail import EmailMessage
+from conf.vars.messages.email import reset_email
 from modules.usuario.validators import check_email_format
 import hashlib
 import threading
@@ -87,15 +88,18 @@ def generate_activation_code(email):
 
 
 def decode_activation_code(activation_code):
-    year = str(activation_code[5:5 + 4])
-    month = str(activation_code[14:14 + 2])
-    day = str(activation_code[21:21 + 2])
-    hours = str(activation_code[42:42 + 2])
-    minutes = str(activation_code[35:35 + 2])
-    seconds = str(activation_code[28:28 + 2])
-    hash_email = str(activation_code[:5] + activation_code[9:9 + 5] + activation_code[16:16 + 5] + activation_code[23:23 + 5] + activation_code[30:30 + 5] + activation_code[37:37 + 5] + activation_code[44:])
-    date = datetime.datetime(int(year[::-1]),int(month[::-1]),int(day[::-1]),int(hours[::-1]),int(minutes[::-1]),int(seconds[::-1]))
-    return hash_email, date
+    if len(activation_code) == 46:
+        year = str(activation_code[5:5 + 4])
+        month = str(activation_code[14:14 + 2])
+        day = str(activation_code[21:21 + 2])
+        hours = str(activation_code[42:42 + 2])
+        minutes = str(activation_code[35:35 + 2])
+        seconds = str(activation_code[28:28 + 2])
+        hash_email = str(activation_code[:5] + activation_code[9:9 + 5] + activation_code[16:16 + 5] + activation_code[23:23 + 5] + activation_code[30:30 + 5] + activation_code[37:37 + 5] + activation_code[44:])
+        date = datetime.datetime(int(year[::-1]),int(month[::-1]),int(day[::-1]),int(hours[::-1]),int(minutes[::-1]),int(seconds[::-1]))
+        return hash_email, date
+    else:
+        return None, None
 
 
 def encode_hash_email(email):
@@ -104,20 +108,41 @@ def encode_hash_email(email):
     return hash_email.hexdigest()
 
 
+def check_valid_activation_code(email,activation_code):
+    from modules.usuario.models import Usuario
+    email_code, date_code = decode_activation_code(activation_code)
+    if email_code is not None and date_code is not None:
+        hash_email_test = encode_hash_email(email)
+        current_date = datetime.datetime.now()
+        email_code_is_valid = email_code == hash_email_test
+        activation_code_is_unique = Usuario.objects.activation_code_is_unique(activation_code)
+        date_code_is_expired = date_code > (current_date + datetime.timedelta(1))
+
+        if email_code_is_valid and activation_code_is_unique and not date_code_is_expired:
+            return True
+        else:
+            return False
+    else:
+        return False
+
 def generate_random_password(email):
     nova_senha = encode_hash_email(str(email) + str(datetime.datetime.now()))[15:15 + 8]
     return nova_senha
 
 
 def send_generate_activation_code(email,activation_code):
-    html_content = "<strong>Cadastro realizado com Sucesso!</strong><br>" \
-                   "<p>Para começar <a href='http://localhost:8000/register/activate/"+email+"/"+activation_code+"/'"+">Clique aqui</a></p>"
+    html_content = reset_email
+    #"<strong>Cadastro realizado com Sucesso!</strong><br>" \
+    #"<p>Para começar <a href='http://localhost:8000/register/activate/"+email+"/"+activation_code+"/'"+">Clique aqui</a></p>"
     return send_email(to_address=email, title="Melinux Sistema - Confirmação de email", message=html_content)
 
 
 def send_reset_password(senha, email):
-   html_content = "<strong>Senha de acesso redefinida com Sucesso!</strong><br>" \
-                  "<p>Uma nova senha provisória foi gerada para permitir o acesso à sua conta.<br>" \
-                  "A troca por uma senha de sua preferência é altamente recomendado, para isso acesse a pàgina do seu perfil.</p>" \
-                  "<br><p>Senha de Acesso:"+senha+"</p><br>"
-   return send_email(to_address=email,title="Melinux Sistema - Recuperar senha de Acesso", message=html_content)
+    html_content = reset_email
+    #print("VEJA O EMAIL QUE VAI PRO CARA: ",html_content)
+    #<strong>Senha de acesso redefinida com Sucesso!</strong><br>" \
+    #              "<p>Uma nova senha provisória foi gerada para permitir o acesso à sua conta.<br>" \
+    #              "A troca por uma senha de sua preferência é altamente recomendado, para isso acesse a pàgina do seu perfil.</p>" \
+    #              "<br><p>Senha de Acesso:"+senha+"</p><br>"
+    #
+    return send_email(to_address=email,title="Melinux Sistema - Recuperar senha de Acesso", message=html_content)

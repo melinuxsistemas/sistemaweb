@@ -181,7 +181,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [ BASE_DIR+os.path.join('/static/'), ]
 
 WORKING_CONFIGURATION = os.path.join(BASE_DIR, 'conf/working.json')
-WORKING_SERVER = "http://192.168.1.116:8010"
+WORKING_SERVER = "http://192.168.1.117:8010"
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'

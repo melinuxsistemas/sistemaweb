@@ -6,7 +6,7 @@ urlpatterns = [
     url(r'login/autentication$', UsuarioAPI.login_autentication),
     url(r'change_password$', UsuarioAPI.change_password),
     url(r'reset_password$', UsuarioAPI.reset_password),
-    url(r'^reactivate$', UsuarioAPI.generate_activation_code),
+    url(r'^reactivate$', UsuarioAPI.generate_new_activation_code),
 
     # APIs administrativas
     url(r'register/delete/(?P<email>[^/]+)/', UsuarioAPI.register_delete),

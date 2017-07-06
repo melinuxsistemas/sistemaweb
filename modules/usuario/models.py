@@ -1,13 +1,9 @@
-#from django.core.exceptions import ValidationError
-#from django.core.validators import EmailValidator
 from django.db import models
 from django.utils import timezone
 from django.core.mail import send_mail
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
-
 from modules.core.config import MENSAGENS_ERROS
-#from django.contrib.auth.hashers import check_password,make_password,is_password_usable
 from modules.core.utils import generate_activation_code
 from modules.core.validators import check_password_format
 from modules.usuario.validators import email_format_validator,email_dangerous_symbols_validator
@@ -81,6 +77,8 @@ class GerenciadorUsuario(BaseUserManager):
     def activation_code_is_unique(self, activation_code):
         result = Usuario.objects.filter(activation_code=activation_code)
         if len(result) == 0:
+            return True
+        elif len(result) == 1 and result[0].type_user == 'T':
             return True
         else:
             return False

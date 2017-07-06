@@ -1,19 +1,18 @@
-from django.shortcuts import render
-
-from modules.core.utils import response_format_success, response_format_error, send_email, generate_random_password, \
-    send_reset_password, generate_activation_code, send_generate_activation_code
+from modules.core.utils import response_format_success, response_format_error, generate_activation_code, send_generate_activation_code, \
+    generate_random_password, send_reset_password
 from modules.usuario.forms import FormRegister, FormLogin, FormChangePassword, FormResetPassword
 from modules.usuario.models import Usuario
 from django.contrib.auth import login
 from django.http import HttpResponse
 from django.http import Http404
+from sistemaweb import settings
 import json
 
 
 class AbstractAPI:
 
     def filter_request(request, formulary=None):
-        if request.is_ajax():
+        if request.is_ajax() or settings.DEBUG:
             if formulary is not None:
                 form = formulary(request.POST)
                 if form.is_valid():
@@ -63,7 +62,7 @@ class UsuarioAPI:
             response_dict = response_format_error("Formulário com dados inválidos.")
         return HttpResponse(json.dumps(response_dict))
 
-    def generate_activation_code(request):
+    def generate_new_activation_code(request):
         resultado, form = AbstractAPI.filter_request(request, FormResetPassword)
         if resultado:
             email = request.POST['email'].lower()
@@ -86,7 +85,6 @@ class UsuarioAPI:
         if result:
             usuario = Usuario.objects.activate_account(True)
             response_dict = response_format_success(usuario, ['account_activated'])
-
         return HttpResponse(json.dumps(response_dict))
 
     def login_autentication(request):
@@ -113,10 +111,8 @@ class UsuarioAPI:
 
     def reset_password(request):
         resultado, form = AbstractAPI.filter_request(request, FormResetPassword)
-        print("VEJA OS ERROS",form.errors)
         if resultado:
             email = request.POST['email'].lower()
-            print("VEJA O EMAIL:",email)
             usuario = Usuario.objects.get_user_email(email)
             if usuario is not None:
                 try:
