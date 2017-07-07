@@ -68,7 +68,7 @@ class TestAbstractForm(TestCase):
             form_data[field] = item['fields_value'][field]
         return form_data
 
-    def execute_test_list_cases(self, list_cases):
+    def execute_test_list_cases(self, list_cases=[]):
         for item in list_cases:
             form_data = self.populate_form_data(item)
             form = self.formulary(data=form_data)

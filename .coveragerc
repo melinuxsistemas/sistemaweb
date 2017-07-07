@@ -36,9 +36,6 @@ omit =
     *requests*
     *compressor*
 
-
-
-
 [report]
 [html]
 directory = /test/unit/report/backend_coverage_report

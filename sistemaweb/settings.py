@@ -159,7 +159,7 @@ TEST_URL = BASE_DIR+os.path.join('/test/')
 #TEST_RUNNER = 'xmlrunner.extra.djangotestrunner.XMLTestRunner'
 #TEST_OUTPUT_DIR = "test/unit/report/backend_unit_report"
 
-"""
+
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 NOSE_ARGS = [
@@ -173,7 +173,7 @@ NOSE_ARGS = [
     '--cover-xml-file=test/unit/report/backend_unit_report/coverage.xml',  # the coverage info file
     '--with-xunit',  # enable XUnit plugin
     '--xunit-file=test/unit/report/backend_unit_report/xunittest.xml',  # the XUnit report file
-]"""
+]
 
 
 STATIC_ROOT = ''

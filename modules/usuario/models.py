@@ -18,7 +18,7 @@ opcoes_tipos_usuarios = (
 )
 
 
-class GerenciadorUsuario(BaseUserManager):
+class UserManager(BaseUserManager):
 
     def _create_user(self, email, password, super_user, account_activated, active, tipo):
         if check_password_format(password):
@@ -116,10 +116,10 @@ class Usuario(PermissionsMixin, AbstractBaseUser):
     activation_code   = models.CharField(max_length=46,null=True,blank=True,error_messages=MENSAGENS_ERROS)
     active_user       = models.BooleanField(default=False)
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    USERNAME_FIELD    = 'email'
+    REQUIRED_FIELDS   = []
 
-    objects = GerenciadorUsuario()
+    objects = UserManager()
 
     class Meta:
         db_table = 'usuario'
