@@ -5,9 +5,11 @@ from behave import given, when, then
 def open_site(context):
     context.browser.load_page("127.0.0.1:8000/profile")
 
+
 @when('Eu informo "{email}" e "{password}"')
 def autenticate_user(context,email,password):
     context.browser.login(email,password)
+
 
 @then('O sistema notifica "{notify_message}"')
 def check_notify(context, notify_message):
