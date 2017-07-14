@@ -144,3 +144,42 @@ class Usuario(PermissionsMixin, AbstractBaseUser):
 
     def email_user(self, subject, message, from_email=None):
         send_mail(subject, message, from_email, [self.email])
+
+"""class Entidade ():
+
+    choices_TIPO = (
+        (0,"Pessoa Física"),
+        (1,"Pessoa Jurídica"),
+        (2,"Órgão Público")
+    )
+
+    choices_DESTINO = (
+        (0,"Consumo")
+        (1,"Revenda")
+    )
+
+    choices_RELACAO = (
+
+    )
+    #campos obrigatorios
+    cpf_cnpj          = models.CharField(max_length=14, unique=True,error_messages=MENSAGENS_ERROS)
+    nome_razao        = models.CharField(max_length=50,error_messages=MENSAGENS_ERROS)
+    nome_fantasia     = models.CharField(max_length=25,error_messages=MENSAGENS_ERROS)
+    data_nasc_fund    = models.DateTimeField(validators=[],error_messages=MENSAGENS_ERROS)
+    tipo_entidade     = models.IntegerField(max_length=1, choices=choices_TIPO, default=0)
+
+    #campos não obrigatorios
+    #regime_tributario   = models.IntegerField(max_length=1,null=True,blank=True,default=None)
+    #destino_compra      = models.SelectMultipleField(max_length=46,null=True,blank=True,choices=choices_DESTINO,error_messages=MENSAGENS_ERROS)
+    #natureza_juridica   = models.CharField(max_length=46,null=True,blank=True,error_messages=MENSAGENS_ERROS)
+    #atividade           = models.CharField(max_length=46,null=True,blank=True,error_messages=MENSAGENS_ERROS)
+    #tipo_relacao        = models.CharField(max_length=46,null=True,blank=True,choices=choices_RELACAO,error_messages=MENSAGENS_ERROS)
+    #segmento_mercado    = models.BooleanField(blank=True,default=False)
+    #observacoes         = models.CharField(max_length=46,null=True,blank=True,error_messages=MENSAGENS_ERROS)
+    #obs_tributaria_NF   = models.CharField(max_length=46,null=True,blank=True,error_messages=MENSAGENS_ERROS)
+    #rota_entrega        = models.CharField(max_length=46,null=True,blank=True,error_messages=MENSAGENS_ERROS)
+
+    USERNAME_FIELD    = 'email'
+    REQUIRED_FIELDS   = []
+
+"""
