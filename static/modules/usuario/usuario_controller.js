@@ -64,7 +64,7 @@ application.controller('register_controller', function($scope) {
   $scope.resend_activation_code = function () {
     var data_paramters = {email: $scope.email}
     $("#email").val($scope.email)
-      success_function = function(){
+    success_function = function(){
       confirm_notify("Operação realizada com Sucesso!","Verifique seu email, você receberá um email em instantes.<br><a href='/login'>Clique aqui para acessar sistema.</a>")
     }
     request_api("/api/usuario/reactivate",data_paramters,validate_form_confirm_register,success_function,null)

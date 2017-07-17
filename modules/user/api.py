@@ -1,5 +1,5 @@
 from modules.core.utils import response_format_success, response_format_error, generate_activation_code, generate_random_password
-from modules.core.comunications import send_generate_activation_code, send_reset_password
+from modules.core.comunications import send_generate_activation_code, resend_generate_activation_code ,send_reset_password
 from modules.user.forms import FormRegister, FormLogin, FormChangePassword, FormResetPassword
 from modules.user.models import User
 from django.contrib.auth import login
@@ -39,7 +39,6 @@ class UsuarioAPI:
     def register_user(request):
         resultado, form = AbstractAPI.filter_request(request, FormRegister)
         #print("VAMOS LA.. VEJA OS TESTS: ",request.POST)
-        print("VEJA OS ERROS: ",form.errors)
         if resultado:
             #print("TA VALIDO")
             email = request.POST['email'].lower()
@@ -70,7 +69,7 @@ class UsuarioAPI:
             if usuario is not None:
                 if not usuario.account_activated:
                     activation_code = generate_activation_code(email)
-                    send_generate_activation_code(email, activation_code)
+                    resend_generate_activation_code(email, activation_code)
                     response_dict = response_format_success(usuario, ['email'])
                 else:
                     response_dict = response_format_error("Essa conta já foi ativada.")

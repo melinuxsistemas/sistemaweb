@@ -5,6 +5,7 @@ from modules.user.forms import FormRegister, FormLogin, FormChangePassword, Form
 from django.contrib.auth import logout, login
 from django.shortcuts import render, redirect
 from modules.user.models import User
+from modules.user.validators import check_email_format
 
 
 def register_page(request):
@@ -14,7 +15,15 @@ def register_page(request):
 
 def register_confirm_page(request, email):
     form = FormConfirmRegister()
-    return render(request, "usuario/register/register_confirm.html",{'formulary_confirm_register': form, 'email': email})
+    if check_email_format(email):
+        user = User.objects.get_user_email(email)
+        if user is None:
+            return render(request, "usuario/register/register_error_unexist_user.html",{'formulary_confirm_register': form, 'email': email})
+        else:
+            return render(request, "usuario/register/register_confirm.html",{'formulary_confirm_register': form, 'email': email})
+    else:
+        return render(request, "usuario/register/register_error_invalid_email.html",{'formulary_confirm_register': form, 'email': email})
+
 
 
 @login_required()
