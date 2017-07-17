@@ -23,16 +23,15 @@ class DjangoWebTest:
 
     web_controller = None
     project_url = "http://127.0.0.1:8000/"
+    temp = {}
 
     def __init__(self):
         self.web_controller = WebController()
         #self.load_page(self.project_url)
 
-
     def change_password(self, email, password, new_password, confirm_password):
         self.login(email,password)
         while self.get_title() != 'SistemaWeb - Perfil do Usuário':
-            print (self.get_title())
             time.sleep(1)
             self.web_controller.click('field_user')
             self.web_controller.click('profile')
@@ -51,16 +50,14 @@ class DjangoWebTest:
         self.web_controller.enter_text('confirm_password', confirm_password)
         self.web_controller.click('button_send')
 
-
-
     def register(self, email, password, confirm_password):
-        clicar_register = self.web_controller.click('button_register')
+        self.web_controller.load_page(self.project_url+'register')
         digitar_email = self.web_controller.enter_text('email', email)
         digitar_password = self.web_controller.enter_text('password', password)
         digitar_confirm_password = self.web_controller.enter_text('confirm_password', confirm_password)
         clicar_enviar = self.web_controller.click('button_register')
 
-        preencher_formulario = clicar_register and digitar_email and digitar_password and digitar_confirm_password
+        preencher_formulario = digitar_email and digitar_password and digitar_confirm_password
         if preencher_formulario and clicar_enviar:
             pass
 
@@ -160,7 +157,6 @@ class WebController:
         from selenium.webdriver.support import expected_conditions as EC
         from selenium.webdriver.support.ui import WebDriverWait
 
-
         wait = WebDriverWait(self.driver, 5)
         try:
             element = wait.until(EC.element_to_be_clickable((metodo,valor)))
@@ -184,7 +180,7 @@ class WebController:
         
     def click(self, identificador):
         self.component = self.get_component(By.ID, identificador)
-        if self.component != None:
+        if self.component is not None:
             try:
                 self.component.click()
                 return True

@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.conf.urls import url, include
-from modules.usuario import views as view_usuario
+from modules.user import views as view_usuario
 from modules.core import views as view_core
 
 urlpatterns = [
@@ -31,6 +31,6 @@ urlpatterns = [
 
     url(r'^system/environment', view_core.configure_environment),
 
-    url(r'^api/usuario/', include('modules.usuario.urls')),
+    url(r'^api/usuario/', include('modules.user.urls')),
     url(r'^api/working/register', view_core.working),
 ]#+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -1,6 +1,6 @@
 from django import forms
 from modules.core.config import MENSAGENS_ERROS
-from modules.usuario.validators import email_dangerous_symbols_validator, password_format_validator, email_format_validator
+from modules.user.validators import email_dangerous_symbols_validator, password_format_validator, email_format_validator
 
 
 class FormAbstractEmail(forms.Form):

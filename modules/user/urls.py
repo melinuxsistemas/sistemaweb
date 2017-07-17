@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from modules.usuario.api import UsuarioAPI
+from modules.user.api import UsuarioAPI
 
 urlpatterns = [
     url(r'register/save$', UsuarioAPI.register_user),

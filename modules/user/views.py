@@ -1,10 +1,10 @@
 from django.contrib.auth.decorators import login_required
 
 from modules.core.utils import check_valid_activation_code
-from modules.usuario.forms import FormRegister, FormLogin, FormChangePassword, FormResetPassword, FormActivationCode, FormConfirmRegister
+from modules.user.forms import FormRegister, FormLogin, FormChangePassword, FormResetPassword, FormActivationCode, FormConfirmRegister
 from django.contrib.auth import logout, login
 from django.shortcuts import render, redirect
-from modules.usuario.models import Usuario
+from modules.user.models import User
 
 
 def register_page(request):
@@ -25,9 +25,9 @@ def profile_page(request):
 
 def activate_user(request, email, activation_code):
     activation_form = FormActivationCode({'activation_code': activation_code})
-    user = Usuario.objects.get_user_email(email)
+    user = User.objects.get_user_email(email)
     if user is not None:
-        if user.activation_code is not None:
+        if user.activation_code is None:
             if check_valid_activation_code(email, activation_code):
                 user.activation_code = activation_code
                 user.account_activated = True

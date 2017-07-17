@@ -6,7 +6,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseU
 from modules.core.config import MENSAGENS_ERROS
 from modules.core.utils import generate_activation_code
 from modules.core.validators import check_password_format
-from modules.usuario.validators import email_format_validator,email_dangerous_symbols_validator
+from modules.user.validators import email_format_validator,email_dangerous_symbols_validator
 
 
 opcoes_tipos_usuarios = (
@@ -75,7 +75,7 @@ class UserManager(BaseUserManager):
             return False
 
     def activation_code_is_unique(self, activation_code):
-        result = Usuario.objects.filter(activation_code=activation_code)
+        result = User.objects.filter(activation_code=activation_code)
         if len(result) == 0:
             return True
         elif len(result) == 1 and result[0].type_user == 'T':
@@ -85,7 +85,7 @@ class UserManager(BaseUserManager):
 
     def authenticate(self,request, email=None, password=None):
         try:
-            user = Usuario.objects.get_user_email(email)
+            user = User.objects.get_user_email(email)
             if user.check_password(password):
                 return user
             return None
@@ -95,19 +95,19 @@ class UserManager(BaseUserManager):
 
     def get_user_email(self,email):
         try:
-            result = Usuario.objects.get(email=email)
+            result = User.objects.get(email=email)
             return result
-        except Usuario.DoesNotExist:
+        except User.DoesNotExist:
             return None
 
     def get_user(self, user_id):
         try:
-            return Usuario.objects.get(pk=user_id)
-        except Usuario.DoesNotExist:
+            return User.objects.get(pk=user_id)
+        except User.DoesNotExist:
             return None
 
 
-class Usuario(PermissionsMixin, AbstractBaseUser):
+class User(PermissionsMixin, AbstractBaseUser):
     email             = models.EmailField(_('Email'), max_length=255, unique=True,validators=[email_format_validator, email_dangerous_symbols_validator],error_messages=MENSAGENS_ERROS)
     type_user         = models.CharField("Tipo de Usuário:",max_length=1,null=False,default='F',error_messages=MENSAGENS_ERROS)
     joined_date       = models.DateTimeField(null=True, auto_now_add=True)
@@ -122,7 +122,7 @@ class Usuario(PermissionsMixin, AbstractBaseUser):
     objects = UserManager()
 
     class Meta:
-        db_table = 'usuario'
+        db_table = 'user'
         verbose_name = _('Usuário')
         verbose_name_plural = _('Usuários')
 

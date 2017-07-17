@@ -6,7 +6,7 @@ def open_site(context):
     context.browser.load_page("127.0.0.1:8000/profile")
 
 
-@when('Eu informo "{email}" e "{password}"')
+@when('O usuario informar"{email}" e "{password}"')
 def autenticate_user(context,email,password):
     context.browser.login(email,password)
 

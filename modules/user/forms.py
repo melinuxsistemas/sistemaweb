@@ -1,7 +1,7 @@
 from django import forms
 from modules.core.config import MENSAGENS_ERROS
 from modules.core.forms import FormAbstractPassword,FormAbstractConfirmPassword,FormAbstractEmail
-from modules.usuario.validators import password_format_validator
+from modules.user.validators import password_format_validator
 
 
 class FormLogin(FormAbstractEmail, FormAbstractPassword):
