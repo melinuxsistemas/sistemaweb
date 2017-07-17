@@ -1,6 +1,6 @@
 import unittest
 
-from modules.usuario.forms import FormChangePassword, FormLogin, FormRegister
+from modules.user.forms import FormChangePassword, FormLogin, FormRegister
 from test.unit.backend.core.test_forms import TestAbstractForm
 
 

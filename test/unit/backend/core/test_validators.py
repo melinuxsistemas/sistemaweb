@@ -1,5 +1,5 @@
 from django.test import TestCase
-from modules.usuario.models import *
+from modules.user.models import *
 from modules.core.validators import *
 #from django.utils import timezone
 #from django.core.urlresolvers import reverse

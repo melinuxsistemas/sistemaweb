@@ -33,12 +33,16 @@ def activate_user(request, email, activation_code):
                 user.account_activated = True
                 user.save()
                 login(request, user)
+                print("TUDO CERTO NA ATIVACAO, DIRECIONAR PARA O SISTEMA")
                 return redirect("/system/environment")
             else:
+                print("CHAVE NAO EH VALIDA")
                 return render(request, "usuario/register/register_error_activation_code.html", {'email': email})
         else:
+            print("REGISTRO JA ATIVADO")
             return render(request, "usuario/register/register_error_activated_user.html", {'email': email})
     else:
+        print("USUARIO NAO EXISTE")
         return render(request, "usuario/register/register_error_unexist_user.html", {'email': email})
 
 

@@ -1,5 +1,5 @@
 from django.test import TestCase, Client
-from modules.usuario.models import Usuario
+from modules.user.models import User
 import json
 
 
@@ -17,7 +17,7 @@ class UsuarioViewsTests(TestCase):
         ]
 
         for email, password, resultado in casos_testes:
-            user = Usuario.objects.create_test_user(email, password)
+            user = User.objects.create_test_user(email, password)
             response = self.client.post('/api/usuario/login/autentication', data={'email': email, 'password': password},HTTP_X_REQUESTED_WITH='XMLHttpRequest')
             response_content = json.loads(response.content.decode())
             self.assertEqual(response.status_code, 200)
@@ -43,5 +43,5 @@ class UsuarioViewsTests(TestCase):
             self.assertEqual(response.status_code, 200)
             self.assertEqual(response_content['success'], retorno)
             if response_content['success'] == True:
-                user = Usuario.objects.get_user_email(email)
+                user = User.objects.get_user_email(email)
                 user.delete()
