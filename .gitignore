@@ -12,14 +12,14 @@
 modules/__pycache__/
 modules/core/__pycache__/
 modules/core/migrations/__pycache__/
-modules/usuario/__pycache__/
-modules/usuario/migrations/__pycache__/
+modules/user/__pycache__/
+modules/user/migrations/__pycache__/
 sistemaweb/__pycache__/
 test/unit/report/
 __pycache__/
 conf/__pycache__/
-modules/usuario/migrations/0003_auto_20170530_1015.py
-modules/usuario/migrations/0004_usuario_activation_code.py
+modules/user/migrations/0003_auto_20170530_1015.py
+modules/user/migrations/0004_usuario_activation_code.py
 test/__pycache__/
 test/functional/__pycache__/
 test/functional/core/__pycache__/
@@ -31,3 +31,6 @@ test/unit/backend/__pycache__/
 test/unit/backend/core/__pycache__/
 test/unit/backend/usuario/__pycache__/
 static/bower_components/pnotify/libtests/requirejs/
+geckodriver.log
+modules/user/migrations/0001_initial.py
+xunittest.xml

@@ -1,7 +1,8 @@
 from django.core import serializers
 from django.core.mail import EmailMessage
-from conf.vars.messages.email import reset_email
-from modules.usuario.validators import check_email_format
+
+from conf.configuration import SystemVariables
+from modules.user.validators import check_email_format
 import hashlib
 import threading
 import datetime
@@ -109,13 +110,13 @@ def encode_hash_email(email):
 
 
 def check_valid_activation_code(email,activation_code):
-    from modules.usuario.models import Usuario
+    from modules.user.models import User
     email_code, date_code = decode_activation_code(activation_code)
     if email_code is not None and date_code is not None:
         hash_email_test = encode_hash_email(email)
         current_date = datetime.datetime.now()
         email_code_is_valid = email_code == hash_email_test
-        activation_code_is_unique = Usuario.objects.activation_code_is_unique(activation_code)
+        activation_code_is_unique = User.objects.activation_code_is_unique(activation_code)
         date_code_is_expired = date_code > (current_date + datetime.timedelta(1))
 
         if email_code_is_valid and activation_code_is_unique and not date_code_is_expired:
@@ -131,14 +132,15 @@ def generate_random_password(email):
 
 
 def send_generate_activation_code(email,activation_code):
-    html_content = reset_email
-    #"<strong>Cadastro realizado com Sucesso!</strong><br>" \
+    html_content = SystemVariables.messages_email.confirmation_user_email
+    url_confirmation = "http://localhost:8000/register/activate/"+email+"/"+activation_code+"/"
+    html_content = html_content.replace('#CONFIRMATION_URL',url_confirmation)
     #"<p>Para começar <a href='http://localhost:8000/register/activate/"+email+"/"+activation_code+"/'"+">Clique aqui</a></p>"
     return send_email(to_address=email, title="Melinux Sistema - Confirmação de email", message=html_content)
 
 
 def send_reset_password(senha, email):
-    html_content = reset_email
+    html_content = ""#confirmation_personal_email
     #print("VEJA O EMAIL QUE VAI PRO CARA: ",html_content)
     #<strong>Senha de acesso redefinida com Sucesso!</strong><br>" \
     #              "<p>Uma nova senha provisória foi gerada para permitir o acesso à sua conta.<br>" \
