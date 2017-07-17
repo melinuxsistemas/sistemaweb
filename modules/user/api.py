@@ -39,6 +39,7 @@ class UsuarioAPI:
     def register_user(request):
         resultado, form = AbstractAPI.filter_request(request, FormRegister)
         #print("VAMOS LA.. VEJA OS TESTS: ",request.POST)
+        print("VEJA OS ERROS: ",form.errors)
         if resultado:
             #print("TA VALIDO")
             email = request.POST['email'].lower()
