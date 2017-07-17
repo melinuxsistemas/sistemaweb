@@ -26,7 +26,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-AUTH_USER_MODEL = 'usuario.Usuario'
+AUTH_USER_MODEL = 'user.User'
 AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',)
 
 # Application definition
@@ -39,9 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'compressor','djangobower',
-    'django_nose','modules.core',
-    'modules.usuario',
-    'behave_django',
+    'django_nose','behave_django',
+    'modules.core',
+    'modules.user','modules.entity',
+
 ]
 
 MIDDLEWARE = [

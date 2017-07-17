@@ -57,6 +57,7 @@ application.controller('register_controller', function($scope) {
     success_function = function(){
       window.location = "/register/confirm/"+$scope.email;
     }
+    //alert("VEJA OS PARAMETROS: "+$scope.email+" - "+$scope.password)
     request_api("/api/usuario/register/save",data_paramters,validate_form_register,success_function,null)
   }
 

@@ -1,7 +1,7 @@
 from modules.core.utils import response_format_success, response_format_error, generate_activation_code, send_generate_activation_code, \
     generate_random_password, send_reset_password
-from modules.usuario.forms import FormRegister, FormLogin, FormChangePassword, FormResetPassword
-from modules.usuario.models import Usuario
+from modules.user.forms import FormRegister, FormLogin, FormChangePassword, FormResetPassword
+from modules.user.models import User
 from django.contrib.auth import login
 from django.http import HttpResponse
 from django.http import Http404
@@ -28,7 +28,7 @@ class AbstractAPI:
 class UsuarioAPI:
 
     def register_delete(request, email):
-        user = Usuario.objects.get_user_email(email)
+        user = User.objects.get_user_email(email)
         if user is not None:
             user.delete()
             response_dict = response_format_error("Usuario deletado com sucesso.")
@@ -43,9 +43,9 @@ class UsuarioAPI:
             #print("TA VALIDO")
             email = request.POST['email'].lower()
             senha = request.POST['password']
-            if Usuario.objects.check_available_email(email):
+            if User.objects.check_available_email(email):
                 #print("EMAIL TA DISPONIVEL")
-                usuario = Usuario.objects.create_contracting_user(email, senha)
+                usuario = User.objects.create_contracting_user(email, senha)
                 if usuario is not None:
                     #print("USUARIO TA AE: ",usuario)
                     activation_code = generate_activation_code(email)
@@ -66,7 +66,7 @@ class UsuarioAPI:
         resultado, form = AbstractAPI.filter_request(request, FormResetPassword)
         if resultado:
             email = request.POST['email'].lower()
-            usuario = Usuario.objects.get_user_email(email)
+            usuario = User.objects.get_user_email(email)
             if usuario is not None:
                 if not usuario.account_activated:
                     activation_code = generate_activation_code(email)
@@ -83,7 +83,7 @@ class UsuarioAPI:
     def activate_account(request):
         result, form = AbstractAPI.filter_request(request)
         if result:
-            usuario = Usuario.objects.activate_account(True)
+            usuario = User.objects.activate_account(True)
             response_dict = response_format_success(usuario, ['account_activated'])
         return HttpResponse(json.dumps(response_dict))
 
@@ -92,10 +92,10 @@ class UsuarioAPI:
         if resultado:
             email = request.POST['email'].lower()
             password = request.POST['password']
-            user = Usuario.objects.get_user_email(email=email)
+            user = User.objects.get_user_email(email=email)
             if user != None:
                 if user.account_activated:
-                    auth = Usuario.objects.authenticate(request, email=email, password=password)
+                    auth = User.objects.authenticate(request, email=email, password=password)
                     if auth is not None and user.is_active:
                         login(request, user)
                         response_dict = response_format_success(user, ['email'])
@@ -113,7 +113,7 @@ class UsuarioAPI:
         resultado, form = AbstractAPI.filter_request(request, FormResetPassword)
         if resultado:
             email = request.POST['email'].lower()
-            usuario = Usuario.objects.get_user_email(email)
+            usuario = User.objects.get_user_email(email)
             if usuario is not None:
                 try:
                     nova_senha = generate_random_password(email)
@@ -135,8 +135,8 @@ class UsuarioAPI:
             usuario = request.user
             if usuario.check_password(form.cleaned_data['old_password']):
                 usuario.change_password(form.cleaned_data['password'])
-                auth = Usuario.objects.authenticate(request, email=usuario.email, password=usuario.password)
-                auth_user = Usuario.objects.get_user_email(usuario.email)
+                auth = User.objects.authenticate(request, email=usuario.email, password=usuario.password)
+                auth_user = User.objects.get_user_email(usuario.email)
                 if auth is not None and usuario.is_active:
                     #login(request, auth_user)
                     pass
