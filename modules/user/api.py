@@ -1,5 +1,5 @@
-from modules.core.utils import response_format_success, response_format_error, generate_activation_code, send_generate_activation_code, \
-    generate_random_password, send_reset_password
+from modules.core.utils import response_format_success, response_format_error, generate_activation_code, generate_random_password
+from modules.core.comunications import send_generate_activation_code, send_reset_password
 from modules.user.forms import FormRegister, FormLogin, FormChangePassword, FormResetPassword
 from modules.user.models import User
 from django.contrib.auth import login
@@ -47,7 +47,6 @@ class UsuarioAPI:
                 #print("EMAIL TA DISPONIVEL")
                 usuario = User.objects.create_contracting_user(email, senha)
                 if usuario is not None:
-                    #print("USUARIO TA AE: ",usuario)
                     activation_code = generate_activation_code(email)
                     send_generate_activation_code(email, activation_code)
                     response_dict = response_format_success(usuario, ['email'])

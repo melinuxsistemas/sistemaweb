@@ -97,28 +97,31 @@
 
 		<hr style='color: #DDD; width:580px; opacity: 0.4; margin-left: 10px;'>
 		
-		<div style="max-width:600px;background:rgb(255,255,255); margin-top:-20px;">
-			<table style="font-size:0px;width:100%;background:rgb(255,255,255)" cellspacing="0" cellpadding="0" border="0" align="center">
+		<div style="max-width:600px;background:rgb(255,255,255);">
+			<table style="font-size:11px;width:100%;background:rgb(255,255,255);font-family:Helvetica,Arial,sans-serif;line-height:1.6;color:rgb(153,153,153);">
 				<tbody>
 					<tr>
 						<td style="text-align:center;vertical-align:top;font-size:0px">
 							<div>
-								<table width="100%" cellspacing="0" cellpadding="0" border="0">
+								<table width="100%" border="1">
 									<tbody>
 										<tr>
-											<td style="font-size:11px; padding:15px; text-align:center">
-												<div style="margin-left:auto;margin-right:auto">													
+											<td style="padding-left:5px; text-align:center; ">
+												<div style="margin-left:auto;margin-right:auto;">
+
 													<p style="text-align:left;font-family:Helvetica,Arial,sans-serif;padding:0px;margin:5px 0px 0px;line-height:1.6;color:rgb(153,153,153);font-size:11px">
 														{{ COMPANY_NAME }}<br>
 														{{ COMPANY_ADDRESS_STREET }},<br>{{ COMPANY_ADDRESS_CITY }}.
-														<ul style="float: right; text-align: right; margin-top: -51px;">
-                              <li style="list-style:none;font-family: sans-serif;padding-bottom: 5px;">
-                                <a style="color:rgb(153,153,153);cursor: pointer;">{{ COMPANY_SITE }}</a></li>
-															<li style="list-style:none;font-family: sans-serif;padding-bottom: 5px;">
-                                <a style="text-decoration:none;color:rgb(153,153,153);cursor: pointer;">Comercial: {{ COMPANY_COMERCIAL_NUMBER }}</a></li>
-															<li style="margin-left: 20px;list-style:none;font-family: sans-serif;">
-                                <a style="text-decoration:none;color:rgb(153,153,153);cursor: pointer;">Suporte: {{ COMPANY_SUPORT_NUMBER }}</a></li>
-														</ul>
+													</p>
+												</div>
+											</td>
+
+                      <td style="width: 250px;font-size:11px; padding-right:5px; text-align:center">
+												<div style="margin-left:auto;margin-right:auto;">
+													<p style="text-align:right;padding:0px;margin:5px 0px 0px;">
+                            <a style="text-decoration:none;cursor: pointer;">{{ COMPANY_SITE }}</a><br>
+                            <a style="text-decoration:none;cursor: pointer;">Comercial: {{ COMPANY_COMERCIAL_NUMBER }}</a><br>
+                            <a style="text-decoration:none;cursor: pointer;">Suporte: {{ COMPANY_SUPORT_NUMBER }}</a>
 													</p>
 												</div>
 											</td>
@@ -127,6 +130,8 @@
 								</table>
 							</div>
 						</td>
+
+
 					</tr>
 				</tbody>
 			</table>

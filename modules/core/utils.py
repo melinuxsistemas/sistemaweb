@@ -126,25 +126,7 @@ def check_valid_activation_code(email,activation_code):
     else:
         return False
 
+
 def generate_random_password(email):
     nova_senha = encode_hash_email(str(email) + str(datetime.datetime.now()))[15:15 + 8]
     return nova_senha
-
-
-def send_generate_activation_code(email,activation_code):
-    html_content = SystemVariables.messages_email.confirmation_user_email
-    url_confirmation = "http://localhost:8000/register/activate/"+email+"/"+activation_code+"/"
-    html_content = html_content.replace('#CONFIRMATION_URL',url_confirmation)
-    #"<p>Para começar <a href='http://localhost:8000/register/activate/"+email+"/"+activation_code+"/'"+">Clique aqui</a></p>"
-    return send_email(to_address=email, title="Melinux Sistema - Confirmação de email", message=html_content)
-
-
-def send_reset_password(senha, email):
-    html_content = ""#confirmation_personal_email
-    #print("VEJA O EMAIL QUE VAI PRO CARA: ",html_content)
-    #<strong>Senha de acesso redefinida com Sucesso!</strong><br>" \
-    #              "<p>Uma nova senha provisória foi gerada para permitir o acesso à sua conta.<br>" \
-    #              "A troca por uma senha de sua preferência é altamente recomendado, para isso acesse a pàgina do seu perfil.</p>" \
-    #              "<br><p>Senha de Acesso:"+senha+"</p><br>"
-    #
-    return send_email(to_address=email,title="Melinux Sistema - Recuperar senha de Acesso", message=html_content)

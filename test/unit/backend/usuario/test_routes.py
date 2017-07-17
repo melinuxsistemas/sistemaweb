@@ -2,7 +2,7 @@ import unittest
 from unittest import skip
 
 from django.test import TestCase, Client
-from modules.usuario.models import Usuario
+from modules.user.models import User
 import json
 
 
@@ -65,7 +65,7 @@ class BaseRoutesTests(TestCase):
         self.client = Client()
 
     def login_user_client(self, email, senha):
-        self.user = Usuario.objects.create_test_user(email, senha)
+        self.user = User.objects.create_test_user(email, senha)
         self.client.login(username=email, password=senha)
         return self.user
 
@@ -138,15 +138,19 @@ class UsuarioRoutesTests(BaseRoutesTests):
         self.add_private_api('/api/usuario/change_password',{'old_password': 'r4e3w2q1', 'password': '1q2w3e4r', 'confirm_password': '1q2w3e4r'})
 
     def test_valid_activation_page(self):
-        test_user = Usuario.objects.create_test_user('outroteste@teste.com.br', '1q2w3e4r')
+        test_user = User.objects.create_test_user('outroteste@teste.com.br', '1q2w3e4r')
+        activation_code = test_user.activation_code
+        test_user.activation_code = None
+        test_user.account_activated = False
+        test_user.save()
         if test_user is not None:
-            activation_code_route = '/register/activate/'+test_user.email+'/'+test_user.activation_code+"/"
+            activation_code_route = '/register/activate/'+test_user.email+'/'+activation_code+"/"
             response = self.client.get(activation_code_route)
             self.assertEqual(response.status_code, StatusCode.request_redirected)
-            test_user.delete()
+        test_user.delete()
 
     def test_invalid_activation_code_page(self):
-        test_user = Usuario.objects.create_test_user('teste@teste.com.br', '1q2w3e4r')
+        test_user = User.objects.create_test_user('teste@teste.com.br', '1q2w3e4r')
         if test_user is not None:
             activation_code_route = '/register/activate/' + test_user.email + '/10b9271023120060e584492f48557272e2c313ae1451b1/'
             response = self.client.get(activation_code_route)
@@ -159,7 +163,7 @@ class UsuarioRoutesTests(BaseRoutesTests):
         self.assertEqual(response.status_code, StatusCode.request_success)
 
     def test_invalid_non_registered_email_page(self):
-        test_user = Usuario.objects.create_test_user('teste@teste.com.br', '1q2w3e4r')
+        test_user = User.objects.create_test_user('teste@teste.com.br', '1q2w3e4r')
         if test_user is not None:
             activation_code_route = '/register/activate/teste@outroteste.com/'+test_user.activation_code+"/"
             response = self.client.get(activation_code_route)
@@ -167,7 +171,7 @@ class UsuarioRoutesTests(BaseRoutesTests):
         test_user.delete()
 
     def test_reset_password_valid_email(self):
-        test_user = Usuario.objects.create_test_user('teste@teste.com.br', '1q2w3e4r')
+        test_user = User.objects.create_test_user('teste@teste.com.br', '1q2w3e4r')
         response = self.client.post('/api/usuario/reset_password',data={'email':test_user.email})
         self.assertEqual(json.loads(response.content)['success'] , True)
         self.assertEqual(response.status_code, StatusCode.request_success)
@@ -194,7 +198,7 @@ class UsuarioRoutesTests(BaseRoutesTests):
         self.assertEqual(response.status_code, StatusCode.request_success)
 
     def test_resend_activation_valid_email(self):
-        test_user = Usuario.objects.create_contracting_user('teste@teste.com.br', '1q2w3e4r')
+        test_user = User.objects.create_contracting_user('teste@teste.com.br', '1q2w3e4r')
         response = self.client.post('/api/usuario/reactivate', data={'email': test_user.email})
         self.assertEqual(json.loads(response.content)['success'], True)
         self.assertEqual(response.status_code, StatusCode.request_success)
