@@ -5,31 +5,13 @@
 {% endblock %}
 
 {% block conteudo_principal %}
-<div ng-controller="register_controller">
-    <form id='form_register' method="POST" autocomplete="off" ng-submit="save_entity()" novalidate>
-        <div class="entity_panel">
-            <label>CPF/CNPJ: </label>
-            <br/>
-            <input id='cpf_cnpj' class='base-component' type='text'  required="true" maxlength="14"/>
-            <br/>
-            <br/>
-            <label>Nome ou Razao: </label>
-            <br/>
-            <input id='nome_razao' class='base-component' type='text' required="true" maxlength="50"/>
-            <br/>
-            <br/>
-            <label>Nome Fantasia: </label>
-            <br/>
-            <input id='nome_fantasia' class='base-component' type='text' required="true" maxlength="20"/>
-            <br/>
-            <br/>
-            <label>Tipo de Entidade: </label>
-            <input type="radio" name="tipo_relacao" required="true">Pessoa Fisica
-            <input type="radio"name="tipo_relacao" required="true">Pessoa Jurídica
-            <input type="radio" name="tipo_relacao" required="true">Órgão Publico
-            <br/>
-            <button type='button' class='base-component pull-right' onclick="save_user();">Salvar</button>
+<div ng-controller="entity_controller">
+    <form id='form_entity' method="POST" autocomplete="off" ng-submit="save_user()" novalidate>
+        {% csrf_token %}
+        <div>
+          {{ formulario_entidade.entity }}
         </div>
+
     </form>
 
 </div>

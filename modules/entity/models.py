@@ -20,7 +20,7 @@ class Entidade ():
     cpf_cnpj           = models.CharField           ("CPF/CNPJ",max_length=14, unique=True,validators=[], error_messages=MENSAGENS_ERROS)
     nome_razao         = models.CharField           ("Nome/Razão",max_length=50,error_messages=MENSAGENS_ERROS)
     nome_fantasia      = models.CharField           ("Nome Fantasia",max_length=25,error_messages=MENSAGENS_ERROS)
-    data_nasc_fund     = models.DateTimeField       ("Data de Nascimento/Fundação",validators=[],error_messages=MENSAGENS_ERROS)
+    nascimento_fundacao= models.DateTimeField       ("Data de Nascimento/Fundação",validators=[],error_messages=MENSAGENS_ERROS)
     tipo_entidade      = models.PositiveIntegerField("Tipo de Entidade:",max_length=1,null=False,choices=opcoes_tipos_entidade,error_messages=MENSAGENS_ERROS)
     tipo_relacao       = models.CharField           ("Tipo de Relação",max_length=4,null=True,blank=True,error_messages=MENSAGENS_ERROS)
     natureza_juridica  = models.CharField           ("Natureza Juridica",max_length=4,null=True,blank=True,validators=[],error_messages=MENSAGENS_ERROS)
