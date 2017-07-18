@@ -139,6 +139,7 @@ class WebController:
             self.driver = webdriver.Firefox(firefox_binary=binary,executable_path=settings.SELENIUM_GECKODRIVER_MOZILLA,capabilities=capabilities)
             #self.driver.maximize_window()
 
+
             """ Especificando extensoes
             profile = webdriver.FirefoxProfile()
             for item in extensoes:
