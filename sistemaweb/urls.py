@@ -31,6 +31,6 @@ urlpatterns = [
 
     url(r'^system/environment', view_core.configure_environment),
 
-    url(r'^api/usuario/', include('modules.user.urls')),
+    url(r'^api/user/', include('modules.user.urls')),
     url(r'^api/working/register', view_core.working),
 ]#+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

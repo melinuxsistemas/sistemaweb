@@ -5,7 +5,6 @@ from bs4 import BeautifulSoup
 class BaseTypeEmail:
 
     data_paramters = {}
-
     data_paramters['COMPANY_BANNER_URL'] = 'https://ci3.googleusercontent.com/proxy/9AGMizj1Zdqm3GSmAi0SCLgk026ggZ8Wds2JDwo0_-3LR-sgKEsn1s8ZHbtsCzEJ2rcIdUmtyk4c5CQTRGZX1bk0vfVW_s2phamLthtoKTLq4QOvRuesz9rDY-mq4_wI0dwOAwt9b_0f=s0-d-e1-ft#https://d1yoaun8syyxxt.cloudfront.net/in333-bee68639-1ed2-4593-9f0b-2f991304b828-v2'
     data_paramters['COMPANY_BANNER_ALT'] = 'Melinux'
     data_paramters['COMPANY_NAME'] = "MelinuxWeb - Soluções em Tecnologias e Consultorias LTDA"
@@ -18,7 +17,6 @@ class BaseTypeEmail:
 
     title = None
     message = None
-
 
     def ConvertTemplate(self,template):
         path = os.path.abspath(__file__).replace("email.py", "/templates/" + template)

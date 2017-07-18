@@ -126,16 +126,16 @@ class BaseRoutesTests(TestCase):
             self.assertNotEqual(response.status_code, StatusCode.request_success)
 
 
-class UsuarioRoutesTests(BaseRoutesTests):
+class UserRoutesTests(BaseRoutesTests):
 
     def __init__(self, *args):
         unittest.TestCase.__init__(self, *args)
 
         self.add_public_route_list(['/login/', '/logout', '/register/', '/reset_password/'])
         self.add_private_route_list(['/', '/profile'])
-        self.add_private_api('/api/usuario/register/save',{'email': 'teste@teste.com', 'password': '1q2w3e4r', 'confirm_password': '1q2w3e4r'})
-        self.add_private_api('/api/usuario/login/autentication', {'email': 'teste@teste.com', 'senha': '1q2w3e4r'})
-        self.add_private_api('/api/usuario/change_password',{'old_password': 'r4e3w2q1', 'password': '1q2w3e4r', 'confirm_password': '1q2w3e4r'})
+        self.add_private_api('/api/user/register/save',{'email': 'teste@teste.com', 'password': '1q2w3e4r', 'confirm_password': '1q2w3e4r'})
+        self.add_private_api('/api/user/login/autentication', {'email': 'teste@teste.com', 'senha': '1q2w3e4r'})
+        self.add_private_api('/api/user/change_password',{'old_password': 'r4e3w2q1', 'password': '1q2w3e4r', 'confirm_password': '1q2w3e4r'})
 
     def test_valid_activation_page(self):
         test_user = User.objects.create_test_user('outroteste@teste.com.br', '1q2w3e4r')
@@ -172,54 +172,54 @@ class UsuarioRoutesTests(BaseRoutesTests):
 
     def test_reset_password_valid_email(self):
         test_user = User.objects.create_test_user('teste@teste.com.br', '1q2w3e4r')
-        response = self.client.post('/api/usuario/reset_password',data={'email':test_user.email})
+        response = self.client.post('/api/user/reset_password',data={'email':test_user.email})
         self.assertEqual(json.loads(response.content)['success'] , True)
         self.assertEqual(response.status_code, StatusCode.request_success)
         test_user.delete()
 
     def test_reset_password_without_email(self):
-        response = self.client.post('/api/usuario/reset_password', data={})
+        response = self.client.post('/api/user/reset_password', data={})
         self.assertEqual(json.loads(response.content)['success'], False)
         self.assertEqual(response.status_code, StatusCode.request_success)
 
     def test_reset_password_with_empty_email(self):
-        response = self.client.post('/api/usuario/reset_password', data={'email':''})
+        response = self.client.post('/api/user/reset_password', data={'email':''})
         self.assertEqual(json.loads(response.content)['success'], False)
         self.assertEqual(response.status_code, StatusCode.request_success)
 
     def test_reset_password_with_invalid_email(self):
-        response = self.client.post('/api/usuario/reset_password', data={'email': 'teste.com.br'})
+        response = self.client.post('/api/user/reset_password', data={'email': 'teste.com.br'})
         self.assertEqual(json.loads(response.content)['success'], False)
         self.assertEqual(response.status_code, StatusCode.request_success)
 
     def test_reset_password_with_inexist_user(self):
-        response = self.client.post('/api/usuario/reset_password', data={'email': 'teste@teste.com.br'})
+        response = self.client.post('/api/user/reset_password', data={'email': 'teste@teste.com.br'})
         self.assertEqual(json.loads(response.content)['success'], False)
         self.assertEqual(response.status_code, StatusCode.request_success)
 
     def test_resend_activation_valid_email(self):
         test_user = User.objects.create_contracting_user('teste@teste.com.br', '1q2w3e4r')
-        response = self.client.post('/api/usuario/reactivate', data={'email': test_user.email})
+        response = self.client.post('/api/user/reactivate', data={'email': test_user.email})
         self.assertEqual(json.loads(response.content)['success'], True)
         self.assertEqual(response.status_code, StatusCode.request_success)
         test_user.delete()
 
     def test_resend_activation_without_email(self):
-        response = self.client.post('/api/usuario/reactivate', data={})
+        response = self.client.post('/api/user/reactivate', data={})
         self.assertEqual(json.loads(response.content)['success'], False)
         self.assertEqual(response.status_code, StatusCode.request_success)
 
     def test_resend_activation_empty_email(self):
-        response = self.client.post('/api/usuario/reactivate', data={'email': ''})
+        response = self.client.post('/api/user/reactivate', data={'email': ''})
         self.assertEqual(json.loads(response.content)['success'], False)
         self.assertEqual(response.status_code, StatusCode.request_success)
 
     def test_resend_activation_invalid_email(self):
-        response = self.client.post('/api/usuario/reactivate', data={'email': 'testeteste.com.br'})
+        response = self.client.post('/api/user/reactivate', data={'email': 'testeteste.com.br'})
         self.assertEqual(json.loads(response.content)['success'], False)
         self.assertEqual(response.status_code, StatusCode.request_success)
 
     def test_resend_activation_inexist_email(self):
-        response = self.client.post('/api/usuario/reactivate', data={'email': 'teste@teste.com.br'})
+        response = self.client.post('/api/user/reactivate', data={'email': 'teste@teste.com.br'})
         self.assertEqual(json.loads(response.content)['success'], False)
         self.assertEqual(response.status_code, StatusCode.request_success)

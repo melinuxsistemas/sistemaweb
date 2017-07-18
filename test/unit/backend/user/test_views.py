@@ -18,7 +18,7 @@ class UsuarioViewsTests(TestCase):
 
         for email, password, resultado in casos_testes:
             user = User.objects.create_test_user(email, password)
-            response = self.client.post('/api/usuario/login/autentication', data={'email': email, 'password': password},HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+            response = self.client.post('/api/user/login/autentication', data={'email': email, 'password': password},HTTP_X_REQUESTED_WITH='XMLHttpRequest')
             response_content = json.loads(response.content.decode())
             self.assertEqual(response.status_code, 200)
             self.assertEqual(response_content['success'], resultado)
@@ -38,7 +38,7 @@ class UsuarioViewsTests(TestCase):
         ]
 
         for email, password, confirm_password, retorno in casos_testes:
-            response = self.client.post('/api/usuario/register/save',data={'email': email, 'password': password, 'confirm_password' : confirm_password },HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+            response = self.client.post('/api/user/register/save',data={'email': email, 'password': password, 'confirm_password' : confirm_password },HTTP_X_REQUESTED_WITH='XMLHttpRequest')
             response_content = json.loads(response.content.decode())
             self.assertEqual(response.status_code, 200)
             self.assertEqual(response_content['success'], retorno)

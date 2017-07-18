@@ -1,5 +1,5 @@
-{% extends 'usuario/base.html' %}
-{% block Titulo %}SistemaWeb{% endblock %}
+{% extends 'user/base.html' %}
+{% block Titulo %}SistemaWeb - Adicionar Usuário{% endblock %}
 
 {% block recursos_necessarios %}
 {% endblock %}
@@ -10,7 +10,7 @@
     {% csrf_token %}
     <h1><!--<i class="fa fa-paw></i>--> SistemaWeb</h1>
     <div>
-        <strong>Usuário {{ email_activate }} já foi ativado no sistema!</strong>
+        <strong>Chave de registro para o email {{ email_activate }}, incorreta ou expirou!</strong>
     </div>
 
     <br>
@@ -37,7 +37,7 @@
 
 {% block recursos_complementares %}
   {% load static %}
-  <script src="{% static 'modules/usuario/usuario_controller.js' %}"></script>
-  <script src="{% static 'modules/usuario/usuario.js' %}"></script>
+  <script src="{% static 'modules/user/usuario_controller.js' %}"></script>
+  <script src="{% static 'modules/user/usuario.js' %}"></script>
 {% endblock %}
 
