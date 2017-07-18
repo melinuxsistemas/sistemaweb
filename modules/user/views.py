@@ -25,7 +25,6 @@ def register_confirm_page(request, email):
         return render(request, "usuario/register/register_error_invalid_email.html",{'formulary_confirm_register': form, 'email': email})
 
 
-
 @login_required()
 def profile_page(request):
     form_change_password = FormChangePassword()

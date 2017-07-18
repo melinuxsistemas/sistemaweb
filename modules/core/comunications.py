@@ -18,6 +18,5 @@ def resend_generate_activation_code(email,activation_code):
 
 def send_reset_password(senha, email):
     html_content = SystemVariables.messages_email.reset_password_email
-    url_confirmation = "http://localhost:8000/register/activate/" + email + "/" + senha + "/"
-    html_content = html_content.replace('{{ CONFIRMATION_URL }}', url_confirmation)
+    html_content = html_content.replace('{{ NEW_PASSWORD }}', senha)
     return send_email(to_address=email, title="Melinux Sistema - Recuperar Acesso", message=html_content)

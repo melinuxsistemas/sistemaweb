@@ -6,7 +6,7 @@ var application = angular.module('modules.usuario', []);
 application.controller('reset_password_controller', function($scope) {
 
   success_function = function(){
-      confirm_notify("Operação realizada com Sucesso!","Verifique seu email, você receberá um email em instantes.<br><a href='/login'>Clique aqui para acessar sistema.</a>")
+      success_notify("Operação realizada com Sucesso!","Verifique seu email, você receberá um email em instantes.")
   }
 
   $scope.reset_password = function () {
@@ -31,12 +31,13 @@ application.controller('change_password_controller', function($scope) {
 
     success_function = function(){
       success_notify("Operação realizada com Sucesso!","Senha de acesso redefinida.")
+      $("#old_password").val("")
+      $("#password").val("")
+      $("#confirm_password").val("")
       $scope.old_password = "";
       $scope.password = "";
       $scope.confirm_password = "";
     }
-
-    //validate_form_change_password()
 
     request_api("/api/usuario/change_password",data_paramters,validate_form_change_password,success_function,null)
   }

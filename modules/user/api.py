@@ -92,14 +92,17 @@ class UsuarioAPI:
             email = request.POST['email'].lower()
             password = request.POST['password']
             user = User.objects.get_user_email(email=email)
-            if user != None:
+            if user is not None:
                 if user.account_activated:
-                    auth = User.objects.authenticate(request, email=email, password=password)
-                    if auth is not None and user.is_active:
-                        login(request, user)
-                        response_dict = response_format_success(user, ['email'])
+                    if user.is_active:
+                        auth = User.objects.authenticate(request, email=email, password=password)
+                        if auth is not None:
+                            login(request, user)
+                            response_dict = response_format_success(user, ['email'])
+                        else:
+                            response_dict = response_format_error("Usuário ou senha incorreta.")
                     else:
-                        response_dict = response_format_error("Usuário não permitido.")
+                        response_dict = response_format_error("Usuário não autorizado.")
                 else:
                     response_dict = response_format_error("Usuário não confirmado.")
             else:
