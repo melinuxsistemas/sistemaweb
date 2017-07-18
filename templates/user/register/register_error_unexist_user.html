@@ -1,5 +1,5 @@
-{% extends 'usuario/base.html' %}
-{% block Titulo %}SistemaWeb - Adicionar Usuário{% endblock %}
+{% extends 'user/base.html' %}
+{% block Titulo %}SistemaWeb - Usuário não Cadastrado{% endblock %}
 
 {% block recursos_necessarios %}
 {% endblock %}
@@ -10,7 +10,7 @@
     {% csrf_token %}
     <h1><!--<i class="fa fa-paw></i>--> SistemaWeb</h1>
     <div>
-        <strong>Chave de registro para o email {{ email_activate }}, incorreta ou expirou!</strong>
+        <strong>Usuário {{ email_activate }} não cadastrado!</strong>
     </div>
 
     <br>
@@ -18,10 +18,9 @@
     <div class="clearfix"></div>
 
     <div class="separator">
-      <p class="text-center panel-options">Problemas para ativar sua conta?
-        <a style="cursor: pointer;" ng-click="resend_activation_code()">Solicite nova chave</a><br>
+      <p class="text-center panel-options">
         Se já possui uma conta <a href="/login">Acesse aqui</a><br>
-        ou <a href="/login">Cadastre-se</a>
+        ou <a href="/register">Cadastre-se</a>
       </p>
 
       <div class="clearfix"></div>
@@ -37,7 +36,7 @@
 
 {% block recursos_complementares %}
   {% load static %}
-  <script src="{% static 'modules/usuario/usuario_controller.js' %}"></script>
-  <script src="{% static 'modules/usuario/usuario.js' %}"></script>
+  <script src="{% static 'modules/user/usuario_controller.js' %}"></script>
+  <script src="{% static 'modules/user/usuario.js' %}"></script>
 {% endblock %}
 

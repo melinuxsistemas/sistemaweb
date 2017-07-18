@@ -1,4 +1,4 @@
-{% extends 'usuario/base.html' %}
+{% extends 'user/base.html' %}
 {% block Titulo %}SistemaWeb{% endblock %}
 
 {% block recursos_necessarios %}
@@ -10,7 +10,7 @@
     {% csrf_token %}
     <h1><!--<i class="fa fa-paw></i>--> SistemaWeb</h1>
     <div>
-        <strong>Conta de email inválida!</strong>
+        <strong>Usuário {{ email_activate }} já foi ativado no sistema!</strong>
     </div>
 
     <br>
@@ -18,9 +18,10 @@
     <div class="clearfix"></div>
 
     <div class="separator">
-      <p class="text-center panel-options">
+      <p class="text-center panel-options">Problemas para ativar sua conta?
+        <a style="cursor: pointer;" ng-click="resend_activation_code()">Solicite nova chave</a><br>
         Se já possui uma conta <a href="/login">Acesse aqui</a><br>
-        ou <a href="/register">Cadastre-se</a>
+        ou <a href="/login">Cadastre-se</a>
       </p>
 
       <div class="clearfix"></div>
@@ -36,7 +37,7 @@
 
 {% block recursos_complementares %}
   {% load static %}
-  <script src="{% static 'modules/usuario/usuario_controller.js' %}"></script>
-  <script src="{% static 'modules/usuario/usuario.js' %}"></script>
+  <script src="{% static 'modules/user/usuario_controller.js' %}"></script>
+  <script src="{% static 'modules/user/usuario.js' %}"></script>
 {% endblock %}
 

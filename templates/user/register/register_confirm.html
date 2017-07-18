@@ -1,4 +1,4 @@
-{% extends 'usuario/base.html' %}
+{% extends 'user/base.html' %}
 {% load static %}
 {% block titulo_pagina %}SistemaWeb - Verifique seu Email{% endblock %}
 {% block recursos_necessarios %}
@@ -42,6 +42,6 @@
 {% endblock %}
 
 {% block recursos_complementares %}
-<script src="{% static 'modules/usuario/usuario_controller.js' %}"></script>
-<script src="{% static 'modules/usuario/usuario.js' %}"></script>
+<script src="{% static 'modules/user/usuario_controller.js' %}"></script>
+<script src="{% static 'modules/user/usuario.js' %}"></script>
 {% endblock %}

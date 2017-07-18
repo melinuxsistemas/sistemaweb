@@ -72,7 +72,7 @@ class DjangoWebTest:
         self.web_controller.click('logout')
 
     def delete_user (self, email):
-        self.load_page('http://127.0.0.1:8000/api/usuario/register/delete/'+email)
+        self.load_page('http://127.0.0.1:8000/api/user/register/delete/'+email)
 
     def check_error_notify(self):
         component = self.web_controller.get_component(By.CLASS_NAME,'alert-danger')
@@ -137,7 +137,8 @@ class WebController:
 
         try:
             self.driver = webdriver.Firefox(firefox_binary=binary,executable_path=settings.SELENIUM_GECKODRIVER_MOZILLA,capabilities=capabilities)
-            self.driver.maximize_window()
+            #self.driver.maximize_window()
+
 
             """ Especificando extensoes
             profile = webdriver.FirefoxProfile()

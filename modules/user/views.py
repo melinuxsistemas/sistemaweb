@@ -10,7 +10,7 @@ from modules.user.validators import check_email_format
 
 def register_page(request):
     form_register = FormRegister()
-    return render(request, "usuario/register/register.html", {'formulario_register': form_register})
+    return render(request, "user/register/register.html", {'formulario_register': form_register})
 
 
 def register_confirm_page(request, email):
@@ -18,18 +18,17 @@ def register_confirm_page(request, email):
     if check_email_format(email):
         user = User.objects.get_user_email(email)
         if user is None:
-            return render(request, "usuario/register/register_error_unexist_user.html",{'formulary_confirm_register': form, 'email': email})
+            return render(request, "user/register/register_error_unexist_user.html", {'formulary_confirm_register': form, 'email': email})
         else:
-            return render(request, "usuario/register/register_confirm.html",{'formulary_confirm_register': form, 'email': email})
+            return render(request, "user/register/register_confirm.html", {'formulary_confirm_register': form, 'email': email})
     else:
-        return render(request, "usuario/register/register_error_invalid_email.html",{'formulary_confirm_register': form, 'email': email})
-
+        return render(request, "user/register/register_error_invalid_email.html", {'formulary_confirm_register': form, 'email': email})
 
 
 @login_required()
 def profile_page(request):
     form_change_password = FormChangePassword()
-    return render(request, "usuario/profile.html",{'form_change_password':form_change_password})
+    return render(request, "user/profile.html", {'form_change_password':form_change_password})
 
 
 def activate_user(request, email, activation_code):
@@ -45,23 +44,23 @@ def activate_user(request, email, activation_code):
                 return redirect("/system/environment")
             else:
                 print("CHAVE NAO EH VALIDA")
-                return render(request, "usuario/register/register_error_activation_code.html", {'email': email})
+                return render(request, "user/register/register_error_activation_code.html", {'email': email})
         else:
             print("REGISTRO JA ATIVADO")
-            return render(request, "usuario/register/register_error_activated_user.html", {'email': email})
+            return render(request, "user/register/register_error_activated_user.html", {'email': email})
     else:
         print("USUARIO NAO EXISTE")
-        return render(request, "usuario/register/register_error_unexist_user.html", {'email': email})
+        return render(request, "user/register/register_error_unexist_user.html", {'email': email})
 
 
 def reset_password_page(request):
     form = FormResetPassword()
-    return render(request, "usuario/reset_password.html", {'formulario_send': form})
+    return render(request, "user/reset_password.html", {'formulario_send': form})
 
 
 def login_page(request):
     form = FormLogin()
-    return render(request,"usuario/login.html",{'formulario_login': form})
+    return render(request, "user/login.html", {'formulario_login': form})
 
 
 def logout_page(request):

@@ -6,17 +6,17 @@ var application = angular.module('modules.usuario', []);
 application.controller('reset_password_controller', function($scope) {
 
   success_function = function(){
-      confirm_notify("Operação realizada com Sucesso!","Verifique seu email, você receberá um email em instantes.<br><a href='/login'>Clique aqui para acessar sistema.</a>")
+      success_notify("Operação realizada com Sucesso!","Verifique seu email, você receberá um email em instantes.")
   }
 
   $scope.reset_password = function () {
     var data_paramters = {email: $scope.email}
-    request_api("/api/usuario/reset_password",data_paramters,validate_form_reset_password,success_function,null)
+    request_api("/api/user/reset_password",data_paramters,validate_form_reset_password,success_function,null)
   }
 
   $scope.resend_activation_code = function () {
     var data_paramters = {email: $scope.email}
-    request_api("/api/usuario/reactivate",data_paramters,validate_form_reset_password,success_function,null)
+    request_api("/api/user/reactivate",data_paramters,validate_form_reset_password,success_function,null)
   }
 });
 
@@ -31,14 +31,15 @@ application.controller('change_password_controller', function($scope) {
 
     success_function = function(){
       success_notify("Operação realizada com Sucesso!","Senha de acesso redefinida.")
+      $("#old_password").val("")
+      $("#password").val("")
+      $("#confirm_password").val("")
       $scope.old_password = "";
       $scope.password = "";
       $scope.confirm_password = "";
     }
 
-    //validate_form_change_password()
-
-    request_api("/api/usuario/change_password",data_paramters,validate_form_change_password,success_function,null)
+    request_api("/api/user/change_password",data_paramters,validate_form_change_password,success_function,null)
   }
 });
 
@@ -58,7 +59,7 @@ application.controller('register_controller', function($scope) {
       window.location = "/register/confirm/"+$scope.email;
     }
     //alert("VEJA OS PARAMETROS: "+$scope.email+" - "+$scope.password)
-    request_api("/api/usuario/register/save",data_paramters,validate_form_register,success_function,null)
+    request_api("/api/user/register/save",data_paramters,validate_form_register,success_function,null)
   }
 
   $scope.resend_activation_code = function () {
@@ -67,7 +68,7 @@ application.controller('register_controller', function($scope) {
     success_function = function(){
       confirm_notify("Operação realizada com Sucesso!","Verifique seu email, você receberá um email em instantes.<br><a href='/login'>Clique aqui para acessar sistema.</a>")
     }
-    request_api("/api/usuario/reactivate",data_paramters,validate_form_confirm_register,success_function,null)
+    request_api("/api/user/reactivate",data_paramters,validate_form_confirm_register,success_function,null)
   }
 });
 
@@ -78,6 +79,6 @@ application.controller('login_controller', function($scope) {
     success_function = function(){
       window.location = "/";
     }
-    request_api("/api/usuario/login/autentication",data_paramters,validate_form_login,success_function,null)
+    request_api("/api/user/login/autentication",data_paramters,validate_form_login,success_function,null)
   }
 });

@@ -29,7 +29,7 @@ test/integration/__pycache__/
 test/unit/__pycache__/
 test/unit/backend/__pycache__/
 test/unit/backend/core/__pycache__/
-test/unit/backend/usuario/__pycache__/
+test/unit/backend/user/__pycache__/
 static/bower_components/pnotify/libtests/requirejs/
 geckodriver.log
 modules/user/migrations/0001_initial.py
