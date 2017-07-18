@@ -31,6 +31,7 @@ class ConfirmationsTypeEmail(BaseTypeEmail):
 
     def __init__(self):
         self.confirmation_user_email = self.ConvertTemplate('confirm_email.html')
-        self.resend_activation_code_email = self.ConvertTemplate('resend_activation_code.html')
+        self.resend_activation_code_email = self.ConvertTemplate('resend_activation_code_email.html')
+        self.reset_password_email = self.ConvertTemplate('reset_password_email.html')
 
 

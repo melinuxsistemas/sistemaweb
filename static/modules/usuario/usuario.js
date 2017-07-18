@@ -3,7 +3,6 @@ function validate_form_confirm_register(){
 }
 
 function validate_form_reset_password(){
-    alert($("#email").val())
   return (email_is_valid("email"));
 }
 
