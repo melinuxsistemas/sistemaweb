@@ -36,17 +36,16 @@ class FormEntity (forms.Form):
         (2, "Desabilitado"),
         (9, "Falecido/Encerrou Atividade"),
     )
-    tipo_entidade = forms.ChoiceField(
+
+    tipo_entidade = forms.MultipleChoiceField(
         label="Tipo de Entidade:",
         choices= options_entity_type,
-        max_length=1,
-        null=False,
         required=True,
         error_messages=MENSAGENS_ERROS,
         widget= forms.Select(
             attrs= {
-                'id': 'tipo_entidade','name': 'tipo_entidade', 'class': "form-control ", 'type': "text",
-                'autocomplete': "off", 'ng-model': 'tipo_entidade','required': "required",
+                'id': 'tipo_entidade','name': 'tipo_entidade', 'class': "form-control ",
+                'ng-model': 'tipo_entidade','required': "required",
             }
         )
     )
@@ -54,7 +53,8 @@ class FormEntity (forms.Form):
     cpf_cnpj = forms.CharField(
         label="CPF/CNPJ",
         max_length=14,
-        unique=True, validators=[],required=True,
+        validators=[],
+        required=True,
         error_messages=MENSAGENS_ERROS,
         widget=forms.TextInput(
             attrs={
@@ -90,7 +90,7 @@ class FormEntity (forms.Form):
         )
     )
 
-    nascimento_fundacao = forms.DateTimeField(
+    nasc_fundacao = forms.DateTimeField(
         label="Nascimento/Fundação",
         error_messages=MENSAGENS_ERROS,
         required=True,
@@ -98,7 +98,7 @@ class FormEntity (forms.Form):
         widget=forms.DateInput(
             format='%d/%m/%Y',
             attrs= {
-                'id': 'nascimento_fundacao', 'name': 'nascimento_fundacao', 'class': "form-control ", 'type': "datetime",
+                'id': 'nascimento_fundacao', 'name': 'nascimento_fundacao', 'class': "form-control ", 'type':'date',
                 'ng-model': 'nascimento_fundacao', 'required': "required",
             }
         )
@@ -107,75 +107,54 @@ class FormEntity (forms.Form):
 
     relation_type = forms.MultipleChoiceField(
         label="Tipo de Relação",
-        max_length=4,
         choices= options_relation_type,
-        null=True,
-        blank=True,
         error_messages=MENSAGENS_ERROS,
-        widget= forms.Select(
-            attrs={
-                'id': 'relation_type', 'name': 'relation_type', 'class': "form-control ",
-                'autocomplete': "off", 'ng-model': 'relation_type',
-            }
+        widget= forms.CheckboxSelectMultiple(
+            attrs= {'id':'relation_type', 'class':'form-contro', 'name':'relation_type', 'ng-model' : 'relation_type'}
         )
     )
 
     activity = forms.MultipleChoiceField(
         label="Atividade:",
-        max_length=2,
         choices=options_activity,
-        null=True,
-        blank=True,
         error_messages=MENSAGENS_ERROS,
-        widget= forms.Select(
-            attrs={
-                'id': 'activity','name': 'activity', 'activity': "form-control ", 'ng-model': 'activity'
-            }
+        widget= forms.CheckboxSelectMultiple(
+            attrs={'id': 'activity', 'class': 'form-contro', 'name': 'activity', 'ng-model': 'activity'}
         )
     )
 
-    natureza_juridica = forms.CharField(
+    '''natureza_juridica = forms.CharField(
         label="Natureza Juridica",
         max_length=4,
-        null=True,
-        blank=True,
         validators=[],
         error_messages=MENSAGENS_ERROS,
         widget= forms.TextInput(
             attrs={
                 'id': 'natureza_juridica','name': 'natureza_juridica', 'class': "form-control ", 'type': "text",
-                'autocomplete': "off", 'ng-model': 'natureza_juridica','required': "required"
+                'autocomplete': "off", 'ng-model': 'natureza_juridica'
             }
         )
-    )
+    )'''
 
     segmento_mercado = forms.CharField(
         label="Segmento de Mercado",
         max_length=20,
-        null=True,
-        blank=True
-    )
-
-    obs_tributaria_NF = forms.CharField(
-        label="Observações Tributarias na Nota Fiscal",
-        max_length=128,
-        null=True,
-        blank=True,
         widget= forms.TextInput(
-            attrs={
-                'id': 'obs_tributaria_NF','name': 'obs_tributaria_NF', 'class': "form-control ", 'type': "text",
-                'autocomplete': "off", 'ng-model': 'obs_tributaria_NF'
+            attrs= {
+                'id': 'segmento_mercado', 'name':'segmento_mercado','class':'form-control', 'type':'text',
+                'ng-model':'segmento_mercado'
             }
         )
+
     )
 
     registration_status = forms.ChoiceField(
-        default='0',
         choices= options_status_register,
         error_messages=MENSAGENS_ERROS,
         widget= forms.Select(
             attrs={
-                'id': 'registration_status','name': 'registration_status', 'class': "form-control ", 'type': "text",'ng-model': 'registration_status',
+                'id': 'registration_status','name': 'registration_status', 'class': "form-control ",
+                'type': "text",'ng-model': 'registration_status','hidden':'true'
             }
         )
 
@@ -183,19 +162,16 @@ class FormEntity (forms.Form):
 
     observations = forms.CharField(
         label="Observações",
-        null=True,
-        blank=True,
-        widget=forms.TextInput(
+        max_length= 500,
+        widget=forms.Textarea(
             attrs={
-                'id': 'observations','name': 'observations', 'class': "form-control ", 'type': "text",
-                'autocomplete': "off", 'ng-model': 'observations',
+                'id': 'observations', 'name': 'observations', 'class': "form-control ",
+                'type': "text", 'ng-model': 'observations'
             }
         )
     )
 
     detalhes = forms.CharField(
-        null=True,
-        blank=True,
         widget = forms.TextInput(
             attrs={
                 'id': 'detalhes','name': 'detalhes', 'class': "form-control ",'hidden':'true', 'type': "detalhes",
@@ -205,10 +181,12 @@ class FormEntity (forms.Form):
     )
 
 
-    def __init__(self):
-        super().__init__()
-        self.fields['tipo_entidade'] = "Tipo Entidade.."
+    def __init__(self, *args, **kwargs):
+        super(FormEntity,self).__init__(*args, **kwargs)
         self.fields['cpf_cnpj'].widget.attrs['placeholder'] = 'CPF/CNPJ..'
         self.fields['nome_razao'].widget.attrs['placeholder'] = 'Nome ou Razao..'
         self.fields['nome_fantasia'].widget.attrs['placeholder'] = 'Nome Fantasia..'
-        self.fields['data_nasc_fund'] = "Data Nascimento/Fundação.."
+        self.fields['nasc_fundacao'].widget.attrs['plaseholder']= "Data Nascimento/Fundação.."
+        self.fields['segmento_mercado'].widget.attrs['placeholder'] = "Segmento Mercado"
+        self.fields['observations'].widget.attrs['placeholder'] = 'Obervações'
+        self.fields['registration_status'].widget = forms.HiddenInput()

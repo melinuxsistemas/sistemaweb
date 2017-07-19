@@ -30,7 +30,7 @@ urlpatterns = [
     url(r'^reset_password/$', view_usuario.reset_password_page),
     url(r'^profile/$', view_usuario.profile_page),
     #url(r'^entidade/$', view_entity.entity_page),
-    url(r'^entidade/$', view_entity.register_entity),
+    url(r'^entidade/register$', view_entity.register_entity),
 
     url(r'^system/environment', view_core.configure_environment),
 

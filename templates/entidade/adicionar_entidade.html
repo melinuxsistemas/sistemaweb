@@ -5,14 +5,63 @@
 {% endblock %}
 
 {% block conteudo_principal %}
-<div ng-controller="entity_controller">
-    <form id='form_entity' method="POST" autocomplete="off" ng-submit="save_user()" novalidate>
+    <div ng-controller="entity_controller">
+    <form id='form_entity' method="POST" autocomplete="off" ng-submit="save_entity()" novalidate>
         {% csrf_token %}
+
+        <center><h1>Cadastro Entidade</h1></center>
         <div>
-          {{ formulario_entidade.entity }}
+            <h6>Tipo de Entidade</h6>
+            {{formulario_entidade.tipo_entidade}}
+        </div>
+
+        <div>
+            <h6>Cpf ou Cnpj</h6>
+            {{formulario_entidade.cpf_cnpj}}
+        </div>
+
+        <div>
+            <h6>Nome ou Razão Social</h6>
+            {{formulario_entidade.nome_razao}}
+        </div>
+
+        <div>
+            <h6>Apelido ou Nome Fantasia</h6>
+            {{formulario_entidade.nome_fantasia}}
+        </div>
+
+        <div>
+            <h6>Data de Nascimento ou Fundação</h6>
+            {{formulario_entidade.nasc_fundacao}}
+        </div>
+
+        <div>
+            <h6>Atividade Financeira</h6>
+            {{formulario_entidade.activity}}
+        </div>
+
+        <div>
+            <h6>Observacões</h6>
+            {{formulario_entidade.observations}}
+        </div>
+
+        <div>
+            <h6>Tipos de Relações</h6>
+            {{formulario_entidade.relation_type}}
+        </div>
+
+            <div>
+                <h6>Situacao Cadastro - [x] Habilitado</h6>
+                {{formulario_entidade.registration_status}}
+                <br>
+            </div>
+        <div>
+            <br/>
+            <button id='button_register' type="submit" class="btn btn-primary submit form-control">Cadastrar</button>
         </div>
 
     </form>
+
 
 </div>
 {% endblock %}
