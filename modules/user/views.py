@@ -41,7 +41,6 @@ def activate_user(request, email, activation_code):
                 user.account_activated = True
                 user.save()
                 login(request, user)
-                print("TUDO CERTO NA ATIVACAO, DIRECIONAR PARA O SISTEMA")
                 return redirect("/system/environment")
             else:
                 print("CHAVE NAO EH VALIDA")

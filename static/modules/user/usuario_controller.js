@@ -58,7 +58,6 @@ application.controller('register_controller', function($scope) {
     success_function = function(){
       window.location = "/register/confirm/"+$scope.email;
     }
-    //alert("VEJA OS PARAMETROS: "+$scope.email+" - "+$scope.password)
     request_api("/api/user/register/save",data_paramters,validate_form_register,success_function,null)
   }
 
@@ -82,3 +81,25 @@ application.controller('login_controller', function($scope) {
     request_api("/api/user/login/autentication",data_paramters,validate_form_login,success_function,null)
   }
 });
+/*
+application.controller('entity_controller', function ($scope) {
+  $scope.tipo_entidade = "";
+  $scope.cpf_cnpj = "";
+  $scope.nome_razao = "";
+  $scope.nome_fantasia = "";
+  $scope.nasc_fundacao = "";
+
+  $scope.save_entity = function () {
+    var data_paramters = {
+        tipo_entidade: $scope.tipo_entidade,
+        cpf_cnpj: $scope.cpf_cnpj,
+        nome_razao: $scope.nome_razao,
+        nome_fantasia: $scope.nome_fantasia,
+        nasc_fundacao: $scope.nasc_fundacao
+    };
+    success_function = function () {
+      window.location = "/entidade/register/confirm"+$scope.cpf_cnpj;
+    }
+  }
+});
+*/
