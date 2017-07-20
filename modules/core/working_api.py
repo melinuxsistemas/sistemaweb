@@ -28,10 +28,10 @@ class WorkingApi:
     def save(self, tipo, request_page=None):
         headers = {'content-type': 'application/json'}
         data = {"tipo":tipo, "request_page": request_page, "working_key": self.get_working_key()}
-        try:
-            response = requests.get(self.server_api, data, headers=headers).json()
-        except:
-            response = {'success':False,'message':'Server not enable.'}
+        #try:
+        response = requests.get(self.server_api, data, headers=headers).json()
+        #except:
+        #    response = {'success':False,'message':'Server not enable.'}
 
         data = json.dumps(response)
         return HttpResponse(data, content_type='application/json')
@@ -51,7 +51,7 @@ class WorkingManager:
                 print(data + " > WorkingApi was updated -", user, "working on", project, )
             else:
                 print("WorkingApi not update! "+response_data['message'])
-            return response
+        return response
 
     def register_programming_backend(self):
         return self.register(tag="PROG-BACK")
