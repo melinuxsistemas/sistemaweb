@@ -7,62 +7,61 @@
 {% block conteudo_principal %}
     <div ng-controller="entity_controller">
     <form id='form_entity' method="POST" autocomplete="off" ng-submit="save_entity()" novalidate>
+
         {% csrf_token %}
 
         <center><h1>Cadastro Entidade</h1></center>
         <div>
             <h6>Tipo de Entidade</h6>
-            {{formulario_entidade.tipo_entidade}}
+            {{form_entity.type_entity}}
         </div>
 
         <div>
             <h6>Cpf ou Cnpj</h6>
-            {{formulario_entidade.cpf_cnpj}}
+            {{form_entity.cpf_cnpj}}
         </div>
 
         <div>
             <h6>Nome ou Razão Social</h6>
-            {{formulario_entidade.nome_razao}}
+            {{form_entity.entity_name}}
         </div>
 
         <div>
             <h6>Apelido ou Nome Fantasia</h6>
-            {{formulario_entidade.nome_fantasia}}
+            {{form_entity.fantasy_name}}
         </div>
 
         <div>
             <h6>Data de Nascimento ou Fundação</h6>
-            {{formulario_entidade.nasc_fundacao}}
+            {{form_entity.birth_date_foundation}}
         </div>
 
         <div>
             <h6>Atividade Financeira</h6>
-            {{formulario_entidade.activity}}
+            {{form_entity.company_activities}}
         </div>
 
         <div>
             <h6>Observacões</h6>
-            {{formulario_entidade.observations}}
+            {{form_entity.comments}}
         </div>
 
         <div>
             <h6>Tipos de Relações</h6>
-            {{formulario_entidade.relation_type}}
+            {{form_entity.relation_company}}
         </div>
 
-            <div>
-                <h6>Situacao Cadastro - [x] Habilitado</h6>
-                {{formulario_entidade.registration_status}}
-                <br>
-            </div>
+        <div>
+            <h6>Situacao Cadastro - [x] Habilitado</h6>
+            {{form_entity.registration_status}}
+            <br>
+        </div>
+
         <div>
             <br/>
             <button id='button_register' type="submit" class="btn btn-primary submit form-control">Cadastrar</button>
         </div>
-
     </form>
-
-
 </div>
 {% endblock %}
 
