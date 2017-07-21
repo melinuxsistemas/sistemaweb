@@ -17,7 +17,7 @@
 
           <div id="smartwizard">
         <ul>
-            <li><a href="#step-1">Step Title<br /><small>Identificação</small></a></li>
+            <li><a href="#step-1">Cadastro<br /><small>Identificação</small></a></li>
             <li><a href="#step-2">Step Title<br /><small>Contatos</small></a></li>
             <li><a href="#step-3">Step Title<br /><small>Endereço</small></a></li>
             <!--<li><a href="#step-4">Step Title<br /><small>Step description</small></a></li>-->
@@ -25,7 +25,100 @@
 
         <div>
             <div id="step-1" class="">
-                Step Content
+                <form>
+        <div class="panel panel-default" style="margin-top:-14px;">
+
+            <div class="panel-body" style="padding:0px;padding-left: 14px;padding-right: 14px;">
+                <div class="row">
+
+                    <div class="col-lg-12 col-md-12 col-xs-12">
+
+                        <div class="tab-content" style="padding-top: 0px;padding-bottom:0px;padding-left: 0px;padding-right: 0px;">
+
+                            <div id="tab_entity" class="tab-pane fade in active">
+
+                                <div class="box-body">
+
+                                    <fieldset>
+
+                                        <legend><i class="fa fa-user" aria-hidden="true"></i> Identificação</legend>
+
+                                        <div class="row">
+
+                                            <div class="col-lg-2">
+                                                <sub><label id="lb_type_entity" for="type_entity">{{ form_entity.type_entity.label }}</label></sub>
+                                                {{ form_entity.type_entity }}
+                                            </div>
+
+
+                                            <div class="col-lg-2">
+                                                <div class="form-group field_required">
+                                                    <sub><label id="lb_cpf_cnpj" for="cpf_cnpj">{{ form_entity.cpf_cnpj.label|upper }}</label></sub>
+                                                    {{ form_entity.cpf_cnpj }}
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-8">
+                                                <div class="form-group field_required">
+                                                    <sub><label id="lb_entity_name" for="entity_name">{{ form_entity.entity_name.label }}</label> </sub>
+                                                    {{ form_entity.entity_name }}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row" style="margin-top: -10px;">
+
+                                            <div class="col-lg-4">
+                                                <div class="form-group field_required">
+                                                    <sub><label id="lb_fantasy_name" for="fantasy_name">{{ form_entity.fantasy_name.label }}</label> </sub>
+                                                    {{ form_entity.fantasy_name }}
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-2">
+                                                <div class="form-group field_required">
+                                                    <sub><label id="lb_birth_date_foundation" for="birth_date_foundation">{{ form_entity.birth_date_foundation.label }}</label> </sub>
+                                                    {{ form_entity.birth_date_foundation }}
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-3">
+                                                <div class="form-group field_required">
+                                                    <sub><label id="lb_company_activities" for="company_activities">{{ form_entity.company_activities.label }}</label> </sub>
+                                                    {{ form_entity.company_activities }}
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-3">
+                                                <div class="form-group field_required">
+                                                    <sub><label id="lb_relation_company" for="relation_company">{{ form_entity.relation_company.label }}</label> </sub>
+                                                    {{ form_entity.relation_company }}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row" style="margin-top: -10px;">
+
+                                            <div class="col-lg-7">
+                                                <div class="form-group field_required">
+                                                    <sub><label id="lb_comments" for="comments">{{ form_entity.comments.label }}</label> </sub>
+                                                    {{ form_entity.comments }}
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </fieldset>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
             </div>
             <div id="step-2" class="">
                 Step Content
@@ -39,63 +132,6 @@
         </div>
     </div>
 
-
-    <form id='form_entity' method="POST" autocomplete="off" ng-submit="save_entity()" novalidate>
-        {% csrf_token %}
-
-        <center><h1>Cadastro Entidade</h1></center>
-        <div>
-            <h6>Tipo de Entidade</h6>
-            {{formulario_entidade.tipo_entidade}}
-        </div>
-
-        <div>
-            <h6>Cpf ou Cnpj</h6>
-            {{formulario_entidade.cpf_cnpj}}
-        </div>
-
-        <div>
-            <h6>Nome ou Razão Social</h6>
-            {{formulario_entidade.nome_razao}}
-        </div>
-        <!--
-        <div>
-            <h6>Apelido ou Nome Fantasia</h6>
-            {{formulario_entidade.nome_fantasia}}
-        </div>
-
-        <div>
-            <h6>Data de Nascimento ou Fundação</h6>
-            {{formulario_entidade.nasc_fundacao}}
-        </div>
-
-        <div>
-            <h6>Atividade Financeira</h6>
-            {{formulario_entidade.activity}}
-        </div>
-
-        <div>
-            <h6>Observacões</h6>
-            {{formulario_entidade.observations}}
-        </div>
-
-        <div>
-            <h6>Tipos de Relações</h6>
-            {{formulario_entidade.relation_type}}
-        </div>
-
-        <div>
-            <h6>Situacao Cadastro - [x] Habilitado</h6>
-            {{formulario_entidade.registration_status}}
-            <br>
-        </div>
-        -->
-        <div>
-            <br/>
-            <button id='button_register' type="submit" class="btn btn-primary submit form-control">Cadastrar</button>
-        </div>
-
-    </form>
 
 
 </div>
