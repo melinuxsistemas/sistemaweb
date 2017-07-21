@@ -37,7 +37,7 @@ class FormEntity (forms.Form):
         (9, "Falecido/Encerrou Atividade"),
     )
 
-    tipo_entidade = forms.MultipleChoiceField(
+    type_entity = forms.MultipleChoiceField(
         label="Tipo de Entidade:",
         choices= options_entity_type,
         required=True,
@@ -52,7 +52,7 @@ class FormEntity (forms.Form):
 
     cpf_cnpj = forms.CharField(
         label="CPF/CNPJ",
-        max_length=14,
+        max_length=32,
         validators=[],
         required=True,
         error_messages=MENSAGENS_ERROS,
@@ -64,9 +64,9 @@ class FormEntity (forms.Form):
         )
     )
 
-    nome_razao = forms.CharField(
+    entity_name = forms.CharField(
         label="Nome/Razão",
-        max_length=50,
+        max_length=64,
         required=True,
         error_messages=MENSAGENS_ERROS,
         widget=forms.TextInput(
@@ -77,9 +77,9 @@ class FormEntity (forms.Form):
         )
     )
 
-    nome_fantasia = forms.CharField(
+    fantasy_name = forms.CharField(
         label="Nome Fantasia",
-        max_length=25,
+        max_length=32,
         required=True,
         error_messages=MENSAGENS_ERROS,
         widget=forms.TextInput(
@@ -90,7 +90,7 @@ class FormEntity (forms.Form):
         )
     )
 
-    nasc_fundacao = forms.DateTimeField(
+    birth_date_foundation = forms.DateTimeField(
         label="Nascimento/Fundação",
         error_messages=MENSAGENS_ERROS,
         required=True,
@@ -104,8 +104,7 @@ class FormEntity (forms.Form):
         )
     )
 
-
-    relation_type = forms.MultipleChoiceField(
+    relation_company = forms.MultipleChoiceField(
         label="Tipo de Relação",
         choices= options_relation_type,
         error_messages=MENSAGENS_ERROS,
@@ -114,7 +113,7 @@ class FormEntity (forms.Form):
         )
     )
 
-    activity = forms.MultipleChoiceField(
+    company_activities = forms.MultipleChoiceField(
         label="Atividade:",
         choices=options_activity,
         error_messages=MENSAGENS_ERROS,
@@ -123,20 +122,7 @@ class FormEntity (forms.Form):
         )
     )
 
-    '''natureza_juridica = forms.CharField(
-        label="Natureza Juridica",
-        max_length=4,
-        validators=[],
-        error_messages=MENSAGENS_ERROS,
-        widget= forms.TextInput(
-            attrs={
-                'id': 'natureza_juridica','name': 'natureza_juridica', 'class': "form-control ", 'type': "text",
-                'autocomplete': "off", 'ng-model': 'natureza_juridica'
-            }
-        )
-    )'''
-
-    segmento_mercado = forms.CharField(
+    market_segment = forms.CharField(
         label="Segmento de Mercado",
         max_length=20,
         widget= forms.TextInput(
@@ -160,18 +146,19 @@ class FormEntity (forms.Form):
 
     )
 
-    observations = forms.CharField(
+    comments = forms.CharField(
         label="Observações",
         max_length= 500,
+
         widget=forms.Textarea(
             attrs={
-                'id': 'observations', 'name': 'observations', 'class': "form-control ",
+                'id': 'observations', 'name': 'observations', 'class': "form-control ", 'cols':2,'rows':3,
                 'type': "text", 'ng-model': 'observations'
             }
         )
     )
 
-    detalhes = forms.CharField(
+    history = forms.CharField(
         widget = forms.TextInput(
             attrs={
                 'id': 'detalhes','name': 'detalhes', 'class': "form-control ",'hidden':'true', 'type': "detalhes",
@@ -183,10 +170,10 @@ class FormEntity (forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(FormEntity,self).__init__(*args, **kwargs)
-        self.fields['cpf_cnpj'].widget.attrs['placeholder'] = 'CPF/CNPJ..'
-        self.fields['nome_razao'].widget.attrs['placeholder'] = 'Nome ou Razao..'
-        self.fields['nome_fantasia'].widget.attrs['placeholder'] = 'Nome Fantasia..'
-        self.fields['nasc_fundacao'].widget.attrs['plaseholder']= "Data Nascimento/Fundação.."
-        self.fields['segmento_mercado'].widget.attrs['placeholder'] = "Segmento Mercado"
-        self.fields['observations'].widget.attrs['placeholder'] = 'Obervações'
-        self.fields['registration_status'].widget = forms.HiddenInput()
+        self.fields['cpf_cnpj'].widget.attrs['placeholder']             = 'CPF/CNPJ..'
+        self.fields['entity_name'].widget.attrs['placeholder']          = 'Nome ou Razao..'
+        self.fields['fantasy_name'].widget.attrs['placeholder']         = 'Nome Fantasia..'
+        self.fields['birth_date_foundation'].widget.attrs['plaseholder']= "Data Nascimento/Fundação.."
+        self.fields['market_segment'].widget.attrs['placeholder']       = "Segmento Mercado"
+        self.fields['comments'].widget.attrs['placeholder']             = 'Obervações'
+        self.fields['registration_status'].widget                       = forms.HiddenInput()
