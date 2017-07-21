@@ -2,10 +2,44 @@
 {% block titulo_pagina %}SistemaWeb - Cadastrar Entidade {% endblock %}
 
 {% block recursos_necessarios %}
+  {% load static %}
+  <script src="{% static 'bower_components/nprogress/nprogress.js' %}"></script>
+    <link href="{% static 'bower_components/nprogress/nprogress.css' %}" rel="stylesheet">
+
+  <link href="{% static 'bower_components/smartwizard/dist/css/smart_wizard.min.css' %}" rel="stylesheet" type="text/css" />
+  <link href="{% static 'bower_components/smartwizard/dist/css/smart_wizard_theme_dots.css' %}" rel="stylesheet" type="text/css" />
+
+
 {% endblock %}
 
 {% block conteudo_principal %}
     <div ng-controller="entity_controller">
+
+          <div id="smartwizard">
+        <ul>
+            <li><a href="#step-1">Step Title<br /><small>Identificação</small></a></li>
+            <li><a href="#step-2">Step Title<br /><small>Contatos</small></a></li>
+            <li><a href="#step-3">Step Title<br /><small>Endereço</small></a></li>
+            <!--<li><a href="#step-4">Step Title<br /><small>Step description</small></a></li>-->
+        </ul>
+
+        <div>
+            <div id="step-1" class="">
+                Step Content
+            </div>
+            <div id="step-2" class="">
+                Step Content
+            </div>
+            <div id="step-3" class="">
+                Step Content
+            </div>
+            <div id="step-4" class="">
+                Step Content
+            </div>
+        </div>
+    </div>
+
+
     <form id='form_entity' method="POST" autocomplete="off" ng-submit="save_entity()" novalidate>
         {% csrf_token %}
 
@@ -24,7 +58,7 @@
             <h6>Nome ou Razão Social</h6>
             {{formulario_entidade.nome_razao}}
         </div>
-
+        <!--
         <div>
             <h6>Apelido ou Nome Fantasia</h6>
             {{formulario_entidade.nome_fantasia}}
@@ -50,25 +84,33 @@
             {{formulario_entidade.relation_type}}
         </div>
 
-            <div>
-                <h6>Situacao Cadastro - [x] Habilitado</h6>
-                {{formulario_entidade.registration_status}}
-                <br>
-            </div>
+        <div>
+            <h6>Situacao Cadastro - [x] Habilitado</h6>
+            {{formulario_entidade.registration_status}}
+            <br>
+        </div>
+        -->
         <div>
             <br/>
             <button id='button_register' type="submit" class="btn btn-primary submit form-control">Cadastrar</button>
         </div>
 
     </form>
-
-
 </div>
 {% endblock %}
 
 {% block recursos_complementares %}
   {% load static %}
-  <script src="{% static 'modules/usuario/usuario_controller.js' %}"></script>
-  <script src="{% static 'modules/usuario/usuario.js' %}"></script>
+  <script src="{% static 'modules/user/usuario_controller.js' %}"></script>
+  <script src="{% static 'modules/user/usuario.js' %}"></script>
+  <script src="{% static 'bower_components/smartwizard/dist/js/jquery.smartWizard.min.js' %}"></script>
+  <script type="text/javascript">
+    $('#smartwizard').smartWizard({
+      theme: 'dots',
+      autoAdjustHeight:true, // Automatically adjust content height
+      transitionEffect: 'fade', // Effect on navigation, none/slide/fade
+      transitionSpeed: '400'
+    });
+  </script>
 {% endblock %}
 

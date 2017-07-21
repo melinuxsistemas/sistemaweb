@@ -2,7 +2,7 @@ from django.db import models
 from modules.core.config import MENSAGENS_ERROS
 
 
-class Entidade ():
+class Entidade:
 
     opcoes_tipos_entidade = (
         (0,"Pessoa Física"),

@@ -71,10 +71,18 @@ function email_is_valid(id) {
   }
 }
 
-$(".menu-item").click(function(){
-  $(this).find('.label_new').each(function(index,object) {
+$(".menu-header").click(function(){
+  desable_new_label(this);
+});
+
+$(".child_menu .current_page").ready(function(){
+  desable_new_label(this);
+})
+
+function desable_new_label(campo){
+  $(campo).find('.label_new').each(function(index,object) {
     if (object.className.indexOf("label_fade") == -1){
       setTimeout(function(){ object = object.className+=' label_fade'; }, 3000);
     }
   })
-});
+}

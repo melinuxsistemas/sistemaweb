@@ -106,8 +106,8 @@ BOWER_INSTALLED_APPS = (
     'pnotify',
     'qunit',
     'blanket',
-    'https://github.com/yairEO/validator.git'
-
+    'https://github.com/yairEO/validator.git',
+    'smartwizard'
 )
 
 WSGI_APPLICATION = 'sistemaweb.wsgi.application'

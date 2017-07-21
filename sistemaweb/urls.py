@@ -29,8 +29,9 @@ urlpatterns = [
     url(r'^register/activate/(?P<email>[^/]+)/(?P<activation_code>\w{0,46})/$', view_usuario.activate_user),
     url(r'^reset_password/$', view_usuario.reset_password_page),
     url(r'^profile/$', view_usuario.profile_page),
-    #url(r'^entidade/$', view_entity.entity_page),
-    url(r'^entidade/register$', view_entity.register_entity),
+
+    #url(r'^entity/$', view_entity.entity_page),
+    url(r'^entity/register$', view_entity.register_entity),
 
     url(r'^system/environment', view_core.configure_environment),
 
