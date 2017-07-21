@@ -7,7 +7,7 @@
     <link href="{% static 'bower_components/nprogress/nprogress.css' %}" rel="stylesheet">
 
   <link href="{% static 'bower_components/smartwizard/dist/css/smart_wizard.min.css' %}" rel="stylesheet" type="text/css" />
-  <link href="{% static 'bower_components/smartwizard/dist/css/smart_wizard_theme_dots.css' %}" rel="stylesheet" type="text/css" />
+  <link href="{% static 'custom/smartwizard/dots_style_edited/smartwizard_dots_edit.css' %}" rel="stylesheet" type="text/css" />
 
 
 {% endblock %}
@@ -17,9 +17,10 @@
 
           <div id="smartwizard">
         <ul>
-            <li><a href="#step-1">Cadastro<br /><small>Identificação</small></a></li>
-            <li><a href="#step-2">Step Title<br /><small>Contatos</small></a></li>
-            <li><a href="#step-3">Step Title<br /><small>Endereço</small></a></li>
+            <li><a href="#step-1"><small>Identificação</small></a></li>
+            <li><a href="#step-2"><small>Contatos</small></a></li>
+            <li><a href="#step-3"><small>Endereço</small></a></li>
+            <li><a href="#step-4"><small>Finalizar</small></a></li>
             <!--<li><a href="#step-4">Step Title<br /><small>Step description</small></a></li>-->
         </ul>
 
@@ -119,19 +120,6 @@
         </div>
 
     </form>
-            </div>
-            <div id="step-2" class="">
-                Step Content
-            </div>
-            <div id="step-3" class="">
-                Step Content
-            </div>
-            <div id="step-4" class="">
-                Step Content
-            </div>
-        </div>
-    </div>
-
 
 
 </div>
