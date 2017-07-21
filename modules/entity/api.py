@@ -5,6 +5,8 @@ from modules.user.forms import FormRegister, FormLogin, FormChangePassword, Form
 from modules.user.models import User
 from django.contrib.auth import login
 from django.http import HttpResponse
+from django.http import Http404
+from sistemaweb import settings
 import json
 
 
