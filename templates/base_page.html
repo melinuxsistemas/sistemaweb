@@ -24,6 +24,7 @@
     <script src="{% static 'bower_components/nprogress/nprogress.js' %}"></script>
     <link href="{% static 'bower_components/nprogress/nprogress.css' %}" rel="stylesheet">
 
+
     <script>
       NProgress.start();
     </script>
@@ -34,6 +35,9 @@
 
     <!-- Angular -->
     <script src="{% static 'bower_components/angular/angular.min.js' %}"></script>
+
+    <!-- jQuery -->
+    <script src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
 
     <!-- Custom Theme Style -->
     <link href="{% static 'custom/gentelella/custom.css' %}" rel="stylesheet">
@@ -350,10 +354,9 @@
 
   </body>
   {% compress js %}
-    <!-- jQuery -->
-    <script src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
     <!-- Bootstrap -->
     <script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+
     <!-- FastClick -->
     <script src="{% static 'bower_components/fastclick/lib/fastclick.js' %}"></script>
 

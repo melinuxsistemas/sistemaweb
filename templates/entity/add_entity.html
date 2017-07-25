@@ -6,16 +6,22 @@
   <script src="{% static 'bower_components/nprogress/nprogress.js' %}"></script>
     <link href="{% static 'bower_components/nprogress/nprogress.css' %}" rel="stylesheet">
 
-  <link href="{% static 'bower_components/smartwizard/dist/css/smart_wizard.min.css' %}" rel="stylesheet" type="text/css" />
-  <!--<link href="{% static 'bower_components/smartwizard/dist/css/smart_wizard_theme_dots.min.css' %}" rel="stylesheet" type="text/css" />-->
-  <link href="{% static 'custom/smartwizard/dots_style_edited/smartwizard_dots_edit.css' %}" rel="stylesheet" type="text/css" />
-  <link href="{% static 'bower_components/multiple-select/multiple-select.css' %}" rel="stylesheet"/>
 
+  <!--<link href="% static 'bower_components/smartwizard/dist/css/smart_wizard_theme_dots.min.css' %}" rel="stylesheet" type="text/css" />-->
+  <!-- jQuery Smart Wizard -->
+  <link href="{% static 'bower_components/jQuery-Smart-Wizard/styles/smart_wizard.css' %}" rel="stylesheet" type="text/css" />
+  <script src="{% static 'bower_components/jQuery-Smart-Wizard/js/jquery.smartWizard.js' %}"></script>
+
+  <style>
+  .actionBar{
+    display: none;
+  }
+  </style>
 {% endblock %}
 
 {% block conteudo_principal %}
 <div ng-controller="entity_controller">
-  <div class="x_panel">
+  <div class="x_panel" style="margin-top: -30px;">
     <div class="x_title">
       <h2>Adicionar Entidade <!--<small>Click to validate</small>--></h2>
       <ul class="nav navbar-right panel_toolbox">
@@ -43,7 +49,7 @@
       <!-- Smart Wizard -->
       <div id="wizard" class="form_wizard wizard_horizontal">
 
-        <ul class="wizard_steps" style="padding-left: 5px;padding-right: 5px;">
+        <ul class="wizard_steps" style="padding-left: 5px;padding-right: 5px;padding-bottom: 10px; border-bottom: 1px solid #f3f3f3;">
           <li>
             <a href="#step-1">
               <span class="step_no">1</span>
@@ -86,7 +92,7 @@
           </li>
         </ul>
 
-        <div id="step-1">
+        <div id="step-1" class="stepContainer" style="min-height: 340px;">
           <form>
 
             <div class="row">
@@ -130,14 +136,13 @@
                   <sub>
                     <label id="lb_relation_company" for="">{{ form_entity.company_relations.label }}</label>
                   </sub>
-
                   {{ form_entity.company_relations }}
                 </div>
               </div>
             </div>
           </form>
-
         </div>
+
         <div id="step-2">
           <h2 class="StepTitle">Step 2 Content</h2>
           <p>
@@ -174,8 +179,22 @@
             in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
           </p>
         </div>
+      </div>
+
+
+      <div class="wizard-step-bar" style="padding-top: 10px;border-top: 1px solid #f3f3f3;">
+        <!--<a href="#" class="buttonFinish buttonDisabled btn btn-default">Finish</a>-->
+        <a href="#" class="buttonPrevious buttonDisabled btn btn-sm btn-default">Voltar</a>
+        <a href="#" class="buttonNext btn btn-sm btn-success pull-right">Próximo</a>
 
       </div>
+
+      <script type="text/javascript">
+        $('#wizard').smartWizard({
+          transitionEffect: 'fade', // Effect on navigation, none/slide/fade
+          transitionSpeed: '300',
+        });
+      </script>
       <!-- End SmartWizard Content -->
     </div>
   </div>
@@ -186,22 +205,8 @@
   {% load static %}
   <script src="{% static 'modules/user/usuario_controller.js' %}"></script>
   <script src="{% static 'modules/user/usuario.js' %}"></script>
-  <script src="{% static 'bower_components/smartwizard/dist/js/jquery.smartWizard.min.js' %}"></script>
 
 
-  <!-- jQuery Smart Wizard -->
-  <script src="{% static 'bower_components/jQuery-Smart-Wizard/js/jquery.smartWizard.js' %}"></script>
-
-  <script type="text/javascript">
-    $('#sw-entity-form').smartWizard({
-      theme: 'dots',
-      autoAdjustHeight:true, // Automatically adjust content height
-      transitionEffect: 'fade', // Effect on navigation, none/slide/fade
-      transitionSpeed: '400'
-    });
-
-    $('#wizard').smartWizard();
-  </script>
 
   <script src="{% static 'bower_components/multiple-select/multiple-select.js' %}"></script>
     <script>
