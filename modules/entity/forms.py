@@ -51,7 +51,7 @@ class FormEntity (forms.Form):
     )
 
     cpf_cnpj = forms.CharField(
-        label="CPF/CNPJ",
+        label="CPF / CNPJ",
         max_length=32,
         validators=[],
         required=True,
@@ -104,14 +104,28 @@ class FormEntity (forms.Form):
         )
     )
 
-    relation_company = forms.MultipleChoiceField(
-        label="Tipo de Relação",
-        choices= options_relation_type,
+    company_relations = forms.CharField(
+        label="Relação Empresarial:",
+        max_length=100,
+        required=False,
         error_messages=MENSAGENS_ERROS,
-        widget= forms.CheckboxSelectMultiple(
-            attrs= {'id':'relation_type', 'class':'form-contro', 'name':'relation_type', 'ng-model' : 'relation_type'}
-        )
-    )
+        widget=forms.TextInput(
+            attrs={'id': 'company_relations', 'class': "form-control ", 'type': "text",
+                'autocomplete': "off", 'ng-model': 'company_relations', 'required': "required",}))
+
+
+    #empresa = forms.CharField(label="Relação Comercial:", max_length=100, required=True, error_messages=MENSAGENS_ERROS,
+    #    widget=forms.TextInput(
+    #        attrs={'id': 'relation_company', 'class': "form-control ", 'type': "text",
+    #            'autocomplete': "off", 'ng-model': 'relation_company', 'required': "required",}))
+
+    #relation_companyz = forms.CharField(
+    #    label="Tipo de Relação",
+    #    error_messages=MENSAGENS_ERROS,
+    #    widget= forms.TextInput(
+    #        attrs= {'id':'relation_company', 'class':'form-contro','multiple':'multiple', 'ng-model' : 'relation_company'}
+    #    )
+    #)
 
     company_activities = forms.MultipleChoiceField(
         label="Atividade:",
@@ -131,7 +145,6 @@ class FormEntity (forms.Form):
                 'ng-model':'segmento_mercado'
             }
         )
-
     )
 
     registration_status = forms.ChoiceField(

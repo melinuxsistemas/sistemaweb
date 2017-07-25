@@ -15,7 +15,7 @@
 }
 
 .sw-theme-dots .sw-container {
-    min-height: 200px;
+    /*min-height: 100px;*/
 }
 
 .sw-theme-dots .step-content {
@@ -61,6 +61,10 @@
     border-radius: 3px;
     z-order: 0;
     z-index: 95;
+}
+
+#sw-entity-form ul.step-anchor:before {
+    width: 405px; /* Isso atrapalha a responsividade, mas faz a barra ter o tamanho exato nos casos normais */
 }
 
 .sw-theme-dots > ul.step-anchor > li {
@@ -115,13 +119,14 @@
 }
 
 .sw-theme-dots > ul.step-anchor > li > a:hover {
-    color: #ccc;
+    color: #73879C;
     background: transparent;
 }
 
 .sw-theme-dots > ul.step-anchor > li > a:focus {
-    color: #ccc;
+    color: #73879C;
     border: none;
+    background: transparent;
 }
 
 .sw-theme-dots > ul.step-anchor > li.clickable > a:hover {
