@@ -114,11 +114,11 @@ class FormEntity (forms.Form):
     )
 
     company_activities = forms.MultipleChoiceField(
-        label="Atividade:",
+        label="Atividade",
         choices=options_activity,
         error_messages=MENSAGENS_ERROS,
         widget= forms.SelectMultiple(
-            attrs={'id': 'company_activities','incline':True, 'multiple':'multiple','class': 'form-control', 'name': 'company_activities', 'ng-model': 'company_activities'}
+            attrs={'id': 'company_activities','incline': True, 'multiple':'multiple','class': 'form-control', 'name': 'company_activities', 'ng-model': 'company_activities'}
         )
     )
 

@@ -84,7 +84,19 @@
                                                                 <div class="col-lg-3">
                                                                     <div class="form-group field_required">
                                                                         <sub><label id="lb_company_activities" for="company_activities">{{ form_entity.company_activities.label }}</label> </sub>
-                                                                        {{ form_entity.company_activities }}
+                                                                        <br/>
+                                                                        <!-- .multiselect {text-align: left;}-->
+                                                                        <select id="demo" multiple="multiple" class="form-control">
+                                                                            <option value="Consumidor">Consumidor</option>
+                                                                            <option value="Comércio">Comércio</option>
+                                                                            <option value="Serviços">Serviços</option>
+                                                                            <option value="Indústria">Indústria</option>
+                                                                            <option value="Transporte">Transporte</option>
+                                                                            <option value="Importação">Importação</option>
+                                                                            <option value="Exportação">Exportação</option>
+                                                                            <option value="Produtor">Produtor Rural</option>
+                                                                            <option value="Extrativista">Extrativista</option>
+                                                                        </select>
                                                                     </div>
                                                                 </div>
 
@@ -122,14 +134,7 @@
                 <div id="step-2" class="">
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-xs-12">
-                            <select id="demo" multiple="multiple" class="form-control">
-                                <option value="Javascript">Javascript</option>
-                                <option value="Python">Python</option>
-                                <option value="LISP">LISP</option>
-                                <option value="C++">C++</option>
-                                <option value="jQuery">jQuery</option>
-                                <option value="Ruby">Ruby</option>
-                            </select>
+
                         </div>
                     </div>
                 </div>
@@ -154,13 +159,39 @@
         });
         </script>
 
-    <script>
-        $(document).ready(function() {
-        $('#demo').multiselect({
-            maxHeight: 400,
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('#demo').multiselect({
+                    /*onChange: (function(option, checked) {
+                        // Get selected options.
+                        var selectedOptions = $('#demo option:selected');
 
-            includeSelectAllOption: true,
-        });
-  });
+                        if (selectedOptions.length >= ) {
+                            // Disable all other checkboxes.
+                            var nonSelectedOptions = $('#demo option').filter(function () {
+                                return !$(this).is(':selected');
+                            });
+
+                            nonSelectedOptions.each(function () {
+                                var input = $('input[value="' + $(this).val() + '"]');
+                                input.prop('disabled', true);
+                                input.parent('li').addClass('disabled');
+                            });
+                        }
+                        else {
+                            // Enable all checkboxes.
+                            $('#demo option').each(function () {
+                                var input = $('input[value="' + $(this).val() + '"]');
+                                input.prop('disabled', false);
+                                input.parent('li').addClass('disabled');
+                            });
+                        }
+                    }),*/
+                    numberDisplayed: 10  ,
+                    nonSelectedText: 'Selecione a(s) atividade(s)   ',
+                    buttonWidth: '100%',
+                });
+            });
         </script>
+
 {% endblock %}
