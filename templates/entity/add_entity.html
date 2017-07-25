@@ -131,55 +131,43 @@
                 </div>
               </div>
 
-              <div class="col-lg-3">
-                <div class="form-group field_required">
-                  <sub>
-                    <label id="lb_relation_company" for="">{{ form_entity.company_relations.label }}</label>
-                  </sub>
-                  {{ form_entity.company_relations }}
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
+                                                                <div class="col-lg-3">
+                                                                    <div class="form-group field_required">
+                                                                        <sub><label id="lb_company_activities" for="company_activities">{{ form_entity.company_activities.label }}</label> </sub>
+                                                                        <br/>
+                                                                        <!-- .multiselect {text-align: left;}-->
+                                                                        <select id="demo" multiple="multiple" class="form-control">
+                                                                            <option value="Consumidor">Consumidor</option>
+                                                                            <option value="Comércio">Comércio</option>
+                                                                            <option value="Serviços">Serviços</option>
+                                                                            <option value="Indústria">Indústria</option>
+                                                                            <option value="Transporte">Transporte</option>
+                                                                            <option value="Importação">Importação</option>
+                                                                            <option value="Exportação">Exportação</option>
+                                                                            <option value="Produtor">Produtor Rural</option>
+                                                                            <option value="Extrativista">Extrativista</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
 
-        <div id="step-2">
-          <h2 class="StepTitle">Step 2 Content</h2>
-          <p>
-            do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-            fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-            in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-          </p>
-        </div>
-        <div id="step-3">
-          <h2 class="StepTitle">Step 3 Content</h2>
-          <p>
-            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-            eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-            in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-          </p>
-        </div>
-        <div id="step-4">
-          <h2 class="StepTitle">Step 4 Content</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-            in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-            in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-          </p>
-        </div>
-      </div>
+                                                                <div class="col-lg-3">
+                                                                    <div class="form-group field_required">
+                                                                        <sub><label id="lb_relation_company" multiple="multiple" for="relation_company">{{ form_entity.relation_company.label }}</label> </sub>
+                                                                        {{ form_entity.relation_company }}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row" style="margin-top: -10px;">
+
+                                                                <div class="col-lg-7">
+                                                                    <div class="form-group field_required">
+                                                                        <sub><label id="lb_comments" for="comments">{{ form_entity.comments.label }}</label> </sub>
+                                                                        {{ form_entity.comments }}
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
 
 
       <div class="wizard-step-bar" style="padding-top: 10px;border-top: 1px solid #f3f3f3;">
@@ -206,7 +194,8 @@
   <script src="{% static 'modules/user/usuario_controller.js' %}"></script>
   <script src="{% static 'modules/user/usuario.js' %}"></script>
 
-
+  <link rel="stylesheet" href="{% static 'custom/smartwizard/jQuery-Multiple-Select-Plugin-For-Bootstrap-Bootstrap-Multiselect/bootstrap-multiselect.css' %}" type="text/css">
+        <script type="text/javascript" src="{% static 'custom/smartwizard/jQuery-Multiple-Select-Plugin-For-Bootstrap-Bootstrap-Multiselect/bootstrap-multiselect.js' %}"></script>
 
   <script src="{% static 'bower_components/multiple-select/multiple-select.js' %}"></script>
     <script>
@@ -222,6 +211,41 @@
           }
       });
   </script>
+
+  <script type="text/javascript">
+            $(document).ready(function() {
+                $('#demo').multiselect({
+                    /*onChange: (function(option, checked) {
+                        // Get selected options.
+                        var selectedOptions = $('#demo option:selected');
+
+                        if (selectedOptions.length >= ) {
+                            // Disable all other checkboxes.
+                            var nonSelectedOptions = $('#demo option').filter(function () {
+                                return !$(this).is(':selected');
+                            });
+
+                            nonSelectedOptions.each(function () {
+                                var input = $('input[value="' + $(this).val() + '"]');
+                                input.prop('disabled', true);
+                                input.parent('li').addClass('disabled');
+                            });
+                        }
+                        else {
+                            // Enable all checkboxes.
+                            $('#demo option').each(function () {
+                                var input = $('input[value="' + $(this).val() + '"]');
+                                input.prop('disabled', false);
+                                input.parent('li').addClass('disabled');
+                            });
+                        }
+                    }),*/
+                    numberDisplayed: 10  ,
+                    nonSelectedText: 'Selecione a(s) atividade(s)   ',
+                    buttonWidth: '100%',
+                });
+            });
+        </script>
 
 
 {% endblock %}

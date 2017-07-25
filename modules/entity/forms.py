@@ -44,8 +44,8 @@ class FormEntity (forms.Form):
         error_messages=MENSAGENS_ERROS,
         widget= forms.Select(
             attrs= {
-                'id': 'tipo_entidade','name': 'tipo_entidade', 'class': "form-control ",
-                'ng-model': 'tipo_entidade','required': "required",
+                'id': 'type_entity','name': 'type_entity', 'class': "form-control ",
+                'ng-model': 'type_entity','required': "required",
             }
         )
     )
@@ -71,8 +71,8 @@ class FormEntity (forms.Form):
         error_messages=MENSAGENS_ERROS,
         widget=forms.TextInput(
             attrs={
-                'id': 'nome_razao', 'name': 'nome_razao', 'class': "form-control ", 'type': "text",
-                'autocomplete': "off", 'ng-model': 'nome_razao', 'required': "required",
+                'id': 'entity_name', 'name': 'entity_name', 'class': "form-control ", 'type': "text",
+                'autocomplete': "off", 'ng-model': 'entity_name', 'required': "required",
             }
         )
     )
@@ -104,28 +104,14 @@ class FormEntity (forms.Form):
         )
     )
 
-    company_relations = forms.CharField(
-        label="Relação Empresarial:",
-        max_length=100,
-        required=False,
+    relation_company = forms.MultipleChoiceField(
+        label="Tipo de Relação",
+        choices= options_relation_type,
         error_messages=MENSAGENS_ERROS,
-        widget=forms.TextInput(
-            attrs={'id': 'company_relations', 'class': "form-control ", 'type': "text",
-                'autocomplete': "off", 'ng-model': 'company_relations', 'required': "required",}))
-
-
-    #empresa = forms.CharField(label="Relação Comercial:", max_length=100, required=True, error_messages=MENSAGENS_ERROS,
-    #    widget=forms.TextInput(
-    #        attrs={'id': 'relation_company', 'class': "form-control ", 'type': "text",
-    #            'autocomplete': "off", 'ng-model': 'relation_company', 'required': "required",}))
-
-    #relation_companyz = forms.CharField(
-    #    label="Tipo de Relação",
-    #    error_messages=MENSAGENS_ERROS,
-    #    widget= forms.TextInput(
-    #        attrs= {'id':'relation_company', 'class':'form-contro','multiple':'multiple', 'ng-model' : 'relation_company'}
-    #    )
-    #)
+        widget= forms.CheckboxSelectMultiple(
+            attrs= {'id':'relation_type', 'class':'form-contro', 'name':'relation_type', 'ng-model' : 'relation_type'}
+        )
+    )
 
     company_activities = forms.MultipleChoiceField(
         label="Atividade:",
@@ -145,6 +131,7 @@ class FormEntity (forms.Form):
                 'ng-model':'segmento_mercado'
             }
         )
+
     )
 
     registration_status = forms.ChoiceField(
