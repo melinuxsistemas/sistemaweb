@@ -44,8 +44,8 @@ class FormEntity (forms.Form):
         error_messages=MENSAGENS_ERROS,
         widget= forms.Select(
             attrs= {
-                'id': 'tipo_entidade','name': 'tipo_entidade', 'class': "form-control ",
-                'ng-model': 'tipo_entidade','required': "required",
+                'id': 'type_entity','name': 'type_entity', 'class': "form-control ",
+                'ng-model': 'type_entity','required': "required",
             }
         )
     )
@@ -71,8 +71,8 @@ class FormEntity (forms.Form):
         error_messages=MENSAGENS_ERROS,
         widget=forms.TextInput(
             attrs={
-                'id': 'nome_razao', 'name': 'nome_razao', 'class': "form-control ", 'type': "text",
-                'autocomplete': "off", 'ng-model': 'nome_razao', 'required': "required",
+                'id': 'entity_name', 'name': 'entity_name', 'class': "form-control ", 'type': "text",
+                'autocomplete': "off", 'ng-model': 'entity_name', 'required': "required",
             }
         )
     )
@@ -84,8 +84,8 @@ class FormEntity (forms.Form):
         error_messages=MENSAGENS_ERROS,
         widget=forms.TextInput(
             attrs={
-                'id': 'nome_fantasia','name': 'nome_fantasia', 'class': "form-control ", 'type': "text",
-                'autocomplete': "off", 'ng-model': 'nome_fantasia','required': "required",
+                'id': 'fantasy_name','name': 'fantasy_name', 'class': "form-control ", 'type': "text",
+                'autocomplete': "off", 'ng-model': 'fantasy_name','required': "required",
             }
         )
     )
@@ -98,8 +98,8 @@ class FormEntity (forms.Form):
         widget=forms.DateInput(
             format='%d/%m/%Y',
             attrs= {
-                'id': 'nascimento_fundacao', 'name': 'nascimento_fundacao', 'class': "form-control ", 'type':'date',
-                'ng-model': 'nascimento_fundacao', 'required': "required",
+                'id': 'birth_date_foundation', 'name': 'birth_date_foundation', 'class': "form-control ", 'type':'date',
+                'ng-model': 'birth_date_foundation', 'required': "required",
             }
         )
     )
@@ -109,7 +109,7 @@ class FormEntity (forms.Form):
         choices= options_relation_type,
         error_messages=MENSAGENS_ERROS,
         widget= forms.CheckboxSelectMultiple(
-            attrs= {'id':'relation_type', 'class':'form-contro', 'name':'relation_type', 'ng-model' : 'relation_type'}
+            attrs= {'id':'relation_company', 'class':'form-contro', 'name':'relation_company', 'ng-model' : 'relation_company'}
         )
     )
 
@@ -117,8 +117,8 @@ class FormEntity (forms.Form):
         label="Atividade:",
         choices=options_activity,
         error_messages=MENSAGENS_ERROS,
-        widget= forms.CheckboxSelectMultiple(
-            attrs={'id': 'activity', 'class': 'form-contro', 'name': 'activity', 'ng-model': 'activity'}
+        widget= forms.SelectMultiple(
+            attrs={'id': 'company_activities','incline':True, 'multiple':'multiple','class': 'form-control', 'name': 'company_activities', 'ng-model': 'company_activities'}
         )
     )
 
@@ -127,11 +127,10 @@ class FormEntity (forms.Form):
         max_length=20,
         widget= forms.TextInput(
             attrs= {
-                'id': 'segmento_mercado', 'name':'segmento_mercado','class':'form-control', 'type':'text',
-                'ng-model':'segmento_mercado'
+                'id': 'market_segment', 'name':'market_segment','class':'form-control', 'type':'text',
+                'ng-model':'market_segment'
             }
         )
-
     )
 
     registration_status = forms.ChoiceField(
@@ -143,17 +142,15 @@ class FormEntity (forms.Form):
                 'type': "text",'ng-model': 'registration_status','hidden':'true'
             }
         )
-
     )
 
     comments = forms.CharField(
         label="Observações",
         max_length= 500,
-
         widget=forms.Textarea(
             attrs={
-                'id': 'observations', 'name': 'observations', 'class': "form-control ", 'cols':2,'rows':3,
-                'type': "text", 'ng-model': 'observations'
+                'id': 'comments', 'name': 'comments', 'class': "form-control ", 'cols':2,'rows':3,
+                'type': "text", 'ng-model': 'comments'
             }
         )
     )
@@ -161,8 +158,8 @@ class FormEntity (forms.Form):
     history = forms.CharField(
         widget = forms.TextInput(
             attrs={
-                'id': 'detalhes','name': 'detalhes', 'class': "form-control ",'hidden':'true', 'type': "detalhes",
-                'autocomplete': "off", 'ng-model': 'detalhes',
+                'id': 'history','name': 'history', 'class': "form-control ",'hidden':'true',
+                'autocomplete': "off", 'ng-model': 'history',
             }
         )
     )
@@ -170,10 +167,4 @@ class FormEntity (forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(FormEntity,self).__init__(*args, **kwargs)
-        self.fields['cpf_cnpj'].widget.attrs['placeholder']             = 'CPF/CNPJ..'
-        self.fields['entity_name'].widget.attrs['placeholder']          = 'Nome ou Razao..'
-        self.fields['fantasy_name'].widget.attrs['placeholder']         = 'Nome Fantasia..'
-        self.fields['birth_date_foundation'].widget.attrs['plaseholder']= "Data Nascimento/Fundação.."
-        self.fields['market_segment'].widget.attrs['placeholder']       = "Segmento Mercado"
-        self.fields['comments'].widget.attrs['placeholder']             = 'Obervações'
-        self.fields['registration_status'].widget                       = forms.HiddenInput()
+        self.fields['registration_status'].widget = forms.HiddenInput()

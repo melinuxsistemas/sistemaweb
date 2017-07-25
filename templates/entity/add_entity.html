@@ -2,141 +2,165 @@
 {% block titulo_pagina %}SistemaWeb - Cadastrar Entidade {% endblock %}
 
 {% block recursos_necessarios %}
-  {% load static %}
-  <script src="{% static 'bower_components/nprogress/nprogress.js' %}"></script>
+    {% load static %}
+    <script src="{% static 'bower_components/nprogress/nprogress.js' %}" xmlns="http://www.w3.org/1999/html"></script>
     <link href="{% static 'bower_components/nprogress/nprogress.css' %}" rel="stylesheet">
 
-  <link href="{% static 'bower_components/smartwizard/dist/css/smart_wizard.min.css' %}" rel="stylesheet" type="text/css" />
-  <link href="{% static 'custom/smartwizard/dots_style_edited/smartwizard_dots_edit.css' %}" rel="stylesheet" type="text/css" />
-
-
-{% endblock %}
+    <link href="{% static 'bower_components/smartwizard/dist/css/smart_wizard.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'custom/smartwizard/dots_style_edited/smartwizard_dots_edit.css' %}" rel="stylesheet" type="text/css" />
+    {% endblock %}
 
 {% block conteudo_principal %}
     <div ng-controller="entity_controller">
 
-          <div id="smartwizard">
-        <ul>
-            <li><a href="#step-1"><small>Identificação</small></a></li>
-            <li><a href="#step-2"><small>Contatos</small></a></li>
-            <li><a href="#step-3"><small>Endereço</small></a></li>
-            <li><a href="#step-4"><small>Finalizar</small></a></li>
-            <!--<li><a href="#step-4">Step Title<br /><small>Step description</small></a></li>-->
-        </ul>
+        <div id="smartwizard">
+            <ul>
+                <li><a href="#step-1"><small>Identificação</small></a></li>
+                <li><a href="#step-2"><small>Contatos</small></a></li>
+                <li><a href="#step-3"><small>Endereço</small></a></li>
+                <li><a href="#step-4"><small>Finalizar</small></a></li>
+                <!--<li><a href="#step-4">Step Title<br /><small>Step description</small></a></li>-->
+            </ul>
 
-        <div>
-            <div id="step-1" class="">
-                <form>
-        <div class="panel panel-default" style="margin-top:-14px;">
+            <div>
+                <div id="step-1" class="">
+                    <form>
+                        <div class="panel panel-default" style="margin-top:-14px;">
 
-            <div class="panel-body" style="padding:0px;padding-left: 14px;padding-right: 14px;">
-                <div class="row">
+                            <div class="panel-body" style="padding:0px;padding-left: 14px;padding-right: 14px;">
+                                <div class="row">
 
-                    <div class="col-lg-12 col-md-12 col-xs-12">
+                                    <div class="col-lg-12 col-md-12 col-xs-12">
 
-                        <div class="tab-content" style="padding-top: 0px;padding-bottom:0px;padding-left: 0px;padding-right: 0px;">
+                                        <div class="tab-content" style="padding-top: 0px;padding-bottom:0px;padding-left: 0px;padding-right: 0px;">
 
-                            <div id="tab_entity" class="tab-pane fade in active">
+                                            <div id="tab_entity" class="tab-pane fade in active">
 
-                                <div class="box-body">
+                                                <div class="box-body">
 
-                                    <fieldset>
+                                                    <fieldset>
 
-                                        <legend><i class="fa fa-user" aria-hidden="true"></i> Identificação</legend>
+                                                        <legend><i class="fa fa-user" aria-hidden="true"></i> Identificação</legend>
 
-                                        <div class="row">
+                                                            <div class="row">
 
-                                            <div class="col-lg-2">
-                                                <sub><label id="lb_type_entity" for="type_entity">{{ form_entity.type_entity.label }}</label></sub>
-                                                {{ form_entity.type_entity }}
-                                            </div>
+                                                                <div class="col-lg-2">
+                                                                    <sub><label id="lb_type_entity" for="type_entity">{{ form_entity.type_entity.label }}</label></sub>
+                                                                    {{ form_entity.type_entity }}
+                                                                </div>
 
 
-                                            <div class="col-lg-2">
-                                                <div class="form-group field_required">
-                                                    <sub><label id="lb_cpf_cnpj" for="cpf_cnpj">{{ form_entity.cpf_cnpj.label|upper }}</label></sub>
-                                                    {{ form_entity.cpf_cnpj }}
-                                                </div>
-                                            </div>
+                                                                <div class="col-lg-2">
+                                                                    <div class="form-group field_required">
+                                                                        <sub><label id="lb_cpf_cnpj" for="cpf_cnpj">{{ form_entity.cpf_cnpj.label|upper }}</label></sub>
+                                                                        {{ form_entity.cpf_cnpj }}
+                                                                    </div>
+                                                                </div>
 
-                                            <div class="col-lg-8">
-                                                <div class="form-group field_required">
-                                                    <sub><label id="lb_entity_name" for="entity_name">{{ form_entity.entity_name.label }}</label> </sub>
-                                                    {{ form_entity.entity_name }}
+                                                                <div class="col-lg-8">
+                                                                    <div class="form-group field_required">
+                                                                        <sub><label id="lb_entity_name" for="entity_name">{{ form_entity.entity_name.label }}</label> </sub>
+                                                                        {{ form_entity.entity_name }}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row" style="margin-top: -10px;">
+
+                                                                <div class="col-lg-4">
+                                                                    <div class="form-group field_required">
+                                                                        <sub><label id="lb_fantasy_name" for="fantasy_name">{{ form_entity.fantasy_name.label }}</label> </sub>
+                                                                        {{ form_entity.fantasy_name }}
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-lg-2">
+                                                                    <div class="form-group field_required">
+                                                                        <sub><label id="lb_birth_date_foundation" for="birth_date_foundation">{{ form_entity.birth_date_foundation.label }}</label> </sub>
+                                                                        {{ form_entity.birth_date_foundation }}
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-lg-3">
+                                                                    <div class="form-group field_required">
+                                                                        <sub><label id="lb_company_activities" for="company_activities">{{ form_entity.company_activities.label }}</label> </sub>
+                                                                        {{ form_entity.company_activities }}
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-lg-3">
+                                                                    <div class="form-group field_required">
+                                                                        <sub><label id="lb_relation_company" multiple="multiple" for="relation_company">{{ form_entity.relation_company.label }}</label> </sub>
+                                                                        {{ form_entity.relation_company }}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row" style="margin-top: -10px;">
+
+                                                                <div class="col-lg-7">
+                                                                    <div class="form-group field_required">
+                                                                        <sub><label id="lb_comments" for="comments">{{ form_entity.comments.label }}</label> </sub>
+                                                                        {{ form_entity.comments }}
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+                                                    </fieldset>
+
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="row" style="margin-top: -10px;">
-
-                                            <div class="col-lg-4">
-                                                <div class="form-group field_required">
-                                                    <sub><label id="lb_fantasy_name" for="fantasy_name">{{ form_entity.fantasy_name.label }}</label> </sub>
-                                                    {{ form_entity.fantasy_name }}
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-2">
-                                                <div class="form-group field_required">
-                                                    <sub><label id="lb_birth_date_foundation" for="birth_date_foundation">{{ form_entity.birth_date_foundation.label }}</label> </sub>
-                                                    {{ form_entity.birth_date_foundation }}
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-3">
-                                                <div class="form-group field_required">
-                                                    <sub><label id="lb_company_activities" for="company_activities">{{ form_entity.company_activities.label }}</label> </sub>
-                                                    {{ form_entity.company_activities }}
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-3">
-                                                <div class="form-group field_required">
-                                                    <sub><label id="lb_relation_company" for="relation_company">{{ form_entity.relation_company.label }}</label> </sub>
-                                                    {{ form_entity.relation_company }}
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row" style="margin-top: -10px;">
-
-                                            <div class="col-lg-7">
-                                                <div class="form-group field_required">
-                                                    <sub><label id="lb_comments" for="comments">{{ form_entity.comments.label }}</label> </sub>
-                                                    {{ form_entity.comments }}
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-                                    </fieldset>
-
+                                    </div>
                                 </div>
                             </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="step-2" class="">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-xs-12">
+                            <select id="demo" multiple="multiple" class="form-control">
+                                <option value="Javascript">Javascript</option>
+                                <option value="Python">Python</option>
+                                <option value="LISP">LISP</option>
+                                <option value="C++">C++</option>
+                                <option value="jQuery">jQuery</option>
+                                <option value="Ruby">Ruby</option>
+                            </select>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-    </form>
-
-
-</div>
 {% endblock %}
-
 {% block recursos_complementares %}
-  {% load static %}
-  <script src="{% static 'modules/user/usuario_controller.js' %}"></script>
-  <script src="{% static 'modules/user/usuario.js' %}"></script>
-  <script src="{% static 'bower_components/smartwizard/dist/js/jquery.smartWizard.min.js' %}"></script>
-  <script type="text/javascript">
-    $('#smartwizard').smartWizard({
-      theme: 'dots',
-      autoAdjustHeight:true, // Automatically adjust content height
-      transitionEffect: 'fade', // Effect on navigation, none/slide/fade
-      transitionSpeed: '400'
-    });
-  </script>
-{% endblock %}
+    {% load static %}
+        <script src="{% static 'modules/user/usuario_controller.js' %}"></script>
+        <script src="{% static 'modules/user/usuario.js' %}"></script>
+        <script src="{% static 'bower_components/smartwizard/dist/js/jquery.smartWizard.min.js' %}"></script>
+        <link rel="stylesheet" href="{% static 'custom/smartwizard/jQuery-Multiple-Select-Plugin-For-Bootstrap-Bootstrap-Multiselect/bootstrap-multiselect.css' %}" type="text/css">
+        <script type="text/javascript" src="{% static 'custom/smartwizard/jQuery-Multiple-Select-Plugin-For-Bootstrap-Bootstrap-Multiselect/bootstrap-multiselect.js' %}"></script>
+        <script type="text/javascript">
+        $('#smartwizard').smartWizard({
+            theme: 'dots',
+            autoAdjustHeight:true, // Automatically adjust content height
+            transitionEffect: 'fade', // Effect on navigation, none/slide/fade
+            transitionSpeed: '400'
+        });
+        </script>
 
+    <script>
+        $(document).ready(function() {
+        $('#demo').multiselect({
+            maxHeight: 400,
+
+            includeSelectAllOption: true,
+        });
+  });
+        </script>
+{% endblock %}
