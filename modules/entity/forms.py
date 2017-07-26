@@ -37,19 +37,6 @@ class FormEntity (forms.Form):
         (9, "Falecido/Encerrou Atividade"),
     )
 
-    type_entity = forms.MultipleChoiceField(
-        label="Tipo de Entidade:",
-        choices= options_entity_type,
-        required=True,
-        error_messages=MENSAGENS_ERROS,
-        widget= forms.Select(
-            attrs= {
-                'id': 'type_entity','name': 'type_entity', 'class': "form-control ",
-                'ng-model': 'type_entity','required': "required",
-            }
-        )
-    )
-
     cpf_cnpj = forms.CharField(
         label="CPF / CNPJ",
         max_length=32,
@@ -104,7 +91,7 @@ class FormEntity (forms.Form):
         )
     )
 
-    relation_company = forms.MultipleChoiceField(
+    relations_company = forms.MultipleChoiceField(
         label="Tipo de Relação",
         choices= options_relation_type,
         error_messages=MENSAGENS_ERROS,
@@ -114,7 +101,7 @@ class FormEntity (forms.Form):
     )
 
     company_activities = forms.MultipleChoiceField(
-        label="Atividade:",
+        label="Tipo de Atividade Empresarial",
         choices=options_activity,
         error_messages=MENSAGENS_ERROS,
         widget= forms.CheckboxSelectMultiple(
@@ -127,8 +114,8 @@ class FormEntity (forms.Form):
         max_length=20,
         widget= forms.TextInput(
             attrs= {
-                'id': 'segmento_mercado', 'name':'segmento_mercado','class':'form-control', 'type':'text',
-                'ng-model':'segmento_mercado'
+                'id': 'market_segment', 'class':'form-control', 'type':'text',
+                'ng-model':'market_segment', 'list':'options_segments'
             }
         )
 
@@ -170,6 +157,7 @@ class FormEntity (forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(FormEntity,self).__init__(*args, **kwargs)
+        """
         self.fields['cpf_cnpj'].widget.attrs['placeholder']             = 'CPF/CNPJ..'
         self.fields['entity_name'].widget.attrs['placeholder']          = 'Nome ou Razao..'
         self.fields['fantasy_name'].widget.attrs['placeholder']         = 'Nome Fantasia..'
@@ -177,3 +165,4 @@ class FormEntity (forms.Form):
         self.fields['market_segment'].widget.attrs['placeholder']       = "Segmento Mercado"
         self.fields['comments'].widget.attrs['placeholder']             = 'Obervações'
         self.fields['registration_status'].widget                       = forms.HiddenInput()
+        """
