@@ -20,14 +20,13 @@
   .multiselect {
     text-align: left;
   }
-
-
   </style>
 {% endblock %}
 
 {% block conteudo_principal %}
-<div ng-controller="entity_controller">
-  <div class="x_panel" style="margin-top: -30px;">
+<div id="angular_content" ng-cloak ng-app="modules.entity">
+  <div ng-controller="register_person_controller">
+  <div class="x_panel" style="margin-top: -30px;padding:10px;">
     <div class="x_title">
       <h2>Adicionar Entidade <!--<small>Click to validate</small>--></h2>
       <ul class="nav navbar-right panel_toolbox">
@@ -50,14 +49,85 @@
       <div class="clearfix"></div>
     </div>
 
-    <div class="x_content" style="margin-top: 10px;">
+    <div class="x_content" style="margin-top: 10px;padding: 10px;padding-top:0px;padding-bottom:0px;">
+      <form id="form-save-entity" autocomplete="off" ng-submit="save_person()" novalidate><!--  -->
+        {% csrf_token %}
+        <div class="row">
+          <div class="col-lg-2">
+            <div class="form-group field field_required" id="field_cpf_cnpj">
+              <sub><label id="lb_cpf_cnpj" for="cpf_cnpj">{{ form_entity.cpf_cnpj.label|upper }}</label></sub>
+              {{ form_entity.cpf_cnpj }}
+              <div class="alert">
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-5">
+            <div class="form-group field field_required" id="field_entity_name">
+              <sub><label id="lb_entity_name" for="entity_name">{{ form_entity.entity_name.label }}</label> </sub>
+              {{ form_entity.entity_name }}
+              <div class="alert">
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3">
+            <div class="form-group field field_required" id="field_fantasy_name">
+              <sub><label id="lb_fantasy_name" for="fantasy_name">{{ form_entity.fantasy_name.label }}</label> </sub>
+              {{ form_entity.fantasy_name }}
+              <div class="alert">
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-2">
+            <div class="form-group field field_required" id="field_birth_date_foundation">
+              <sub><label id="lb_birth_date_foundation" for="birth_date_foundation">{{ form_entity.birth_date_foundation.label }}</label> </sub>
+              {{ form_entity.birth_date_foundation }}
+              <div class="alert">
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="row" style="margin-top: 10px;margin-left: 0px;margin-right: 0px;padding-top: 10px;padding-bottom: 10px;border-top: 1px solid #f3f3f3; /*padding: 0px;*/">
+          <div class="col-lg-offset-10 col-lg-2">
+            <button type="submit" href="#" class="btn btn-sm btn-success form-control pull-right" style="line-height: 24px;margin-right: -10px;margin-bottom: 0px;">Salvar</button>
+          </div>
+        </div>
+      </form>
+
+
+      <!--
+      <fieldset>
+        <legend><small><b>Endereço</b></small></legend>
+        <p class="text-center">Em construção</p>
+      </fieldset>
+
+      <fieldset>
+        <legend><small><b>Contatos</b></small></legend>
+        <p class="text-center">Em construção</p>
+      </fieldset>
+      -->
+
+
+
+
+
+
+
+
+      <!--
+      <br><br><br><br>
+
       <div class="" role="tabpanel" data-example-id="togglable-tabs">
         <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
           <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Identificação</a>
           </li>
           <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Contatos</a>
           </li>
-          <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Profile</a>
+          <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Finalizar</a>
           </li>
         </ul>
 
@@ -65,138 +135,36 @@
           <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
             <form>
               <div class="row">
-                <div class="col-lg-2 col-xs-12">
+                <div class="col-lg-2">
                   <div class="form-group field_required">
                     <sub><label id="lb_cpf_cnpj" for="cpf_cnpj">{{ form_entity.cpf_cnpj.label|upper }}</label></sub>
                     {{ form_entity.cpf_cnpj }}
                   </div>
                 </div>
 
-                <div class="col-lg-7 col-xs-12">
+                <div class="col-lg-5">
                   <div class="form-group field_required">
                     <sub><label id="lb_entity_name" for="entity_name">{{ form_entity.entity_name.label }}</label> </sub>
                     {{ form_entity.entity_name }}
                   </div>
+
+
                 </div>
 
-                <div class="col-lg-3 col-xs-12">
+                <div class="col-lg-3">
                   <div class="form-group field_required">
                     <sub><label id="lb_fantasy_name" for="fantasy_name">{{ form_entity.fantasy_name.label }}</label> </sub>
                     {{ form_entity.fantasy_name }}
                   </div>
                 </div>
-              </div>
 
-              <div class="row">
-                <div class="col-lg-2 col-xs-12">
+                <div class="col-lg-2">
                   <div class="form-group field_required">
                     <sub><label id="lb_birth_date_foundation" for="birth_date_foundation">{{ form_entity.birth_date_foundation.label }}</label> </sub>
                     {{ form_entity.birth_date_foundation }}
                   </div>
                 </div>
-
-                <div class="col-lg-3">
-                  <div class="form-group field_required">
-                    <sub><label id="lb_company_activities" for="company_activities">{{ form_entity.company_activities.label }}</label> </sub>
-                    <br/>
-                    <select id="options_activities_company" multiple="multiple" class="form-control">
-                      <option value="Consumidor">Consumidor</option>
-                      <option value="Comércio">Comércio</option>
-                      <option value="Serviços">Serviços</option>
-                      <option value="Indústria">Indústria</option>
-                      <option value="Transporte">Transporte</option>
-                      <option value="Importação">Importação</option>
-                      <option value="Exportação">Exportação</option>
-                      <option value="Produtor">Produtor Rural</option>
-                      <option value="Extrativista">Extrativista</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div class="col-lg-3 col-xs-12">
-                  <div class="form-group field_required">
-                    <sub><label id="lb_relations_company" for="company_activities">{{ form_entity.relations_company.label }}</label> </sub>
-                    <br/>
-                    <select id="options_relations_company" multiple="multiple" class="form-control">
-                      <option value="Cliente">Cliente</option>
-                      <option value="Fornecedor">Fornecedor</option>
-                      <option value="Funcionário">Funcionário</option>
-                      <option value="Transportador">Transportador</option>
-                      <option value="Representante">Representante</option>
-                      <option value="Contador">Contador</option>
-                      <option value="Banco">Banco</option>
-                    </select>
-                  </div>
-                </div>
-
-                <script type="text/javascript">
-                  $(document).ready(function() {
-                    $('#options_activities_company').multiselect({
-                      /*onChange: (function(option, checked) {
-                      // Get selected options.
-                      var selectedOptions = $('#demo option:selected');
-
-                      if (selectedOptions.length >= ) {
-                        // Disable all other checkboxes.
-                        var nonSelectedOptions = $('#demo option').filter(function () {
-                          return !$(this).is(':selected');
-                        });
-
-                        nonSelectedOptions.each(function () {
-                          var input = $('input[value="' + $(this).val() + '"]');
-                          input.prop('disabled', true);
-                          input.parent('li').addClass('disabled');
-                        });
-                      }
-                      else {
-                        // Enable all checkboxes.
-                        $('#demo option').each(function () {
-                          var input = $('input[value="' + $(this).val() + '"]');
-                          input.prop('disabled', false);
-                          input.parent('li').addClass('disabled');
-                        });
-                      }
-                      }),*/
-                      numberDisplayed: 10  ,
-                      nonSelectedText: 'Selecione uma ou mais opções',
-                      buttonWidth: '100%',
-                    });
-                  });
-
-                  $(document).ready(function() {
-                    $('#options_relations_company').multiselect({
-                      numberDisplayed: 10,
-                      nonSelectedText: 'Selecione uma ou mais opções',
-                      buttonWidth: '100%',
-                    });
-                  });
-                </script>
-
-                <div class="col-lg-2 col-xs-12">
-                  <div class="form-group field_required">
-                    <sub><label id="lb_birth_date_foundation" for="birth_date_foundation">{{ form_entity.market_segment.label }}</label> </sub>
-
-                    <datalist id="options_segments">
-                      <option value="Atacadista">Atacadista</option>
-                      <option value="Atacadista">Distribuidora</option>
-                      <option value="Atacadista">Varejo</option>
-                      <option value="Atacadista">Panificadora</option>
-                    </datalist>
-                    {{ form_entity.market_segment }}
-                  </div>
-                </div>
               </div>
-
-              <!--
-              <div class="row" style="margin-top: -10px;">
-                <div class="col-lg-7">
-                  <div class="form-group field_required">
-                    <sub><label id="lb_comments" for="comments">{{ form_entity.comments.label }}</label> </sub>
-                    {{ form_entity.comments }}
-                  </div>
-                </div>
-              </div>
-              -->
             </form>
           </div>
           <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
@@ -204,11 +172,17 @@
               booth letterpress, commodo enim craft beer mlkshk aliquip</p>
           </div>
           <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
-            <p>xxFood truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo
-              booth letterpress, commodo enim craft beer mlkshk </p>
+            <h5>Confirme os dados</h5>
+            {% verbatim %}
+            <p>CPF: {{ cpf_cnpj }}</p>
+            <p>Nome Completo: {{ entity_name }}</p>
+            <p>Nome Completo: {{ fantasy_name }}</p>
+            <p>Data de Nascimento: {{ birth_date_foundation }}</p>
+            {% endverbatim %}
           </div>
         </div>
       </div>
+      -->
 
 
       <!-- Smart Wizard
@@ -413,12 +387,13 @@
     </div>
   </div>
 </div>
+</div>
 {% endblock %}
 
 {% block recursos_complementares %}
   {% load static %}
-  <script src="{% static 'modules/user/usuario_controller.js' %}"></script>
-  <script src="{% static 'modules/user/usuario.js' %}"></script>
+  <script src="{% static 'modules/entity/entity_controller.js' %}"></script>
+  <script src="{% static 'modules/entity/entity.js' %}"></script>
   <link rel="stylesheet" href="{% static 'custom/smartwizard/jQuery-Multiple-Select-Plugin-For-Bootstrap-Bootstrap-Multiselect/bootstrap-multiselect.css' %}" type="text/css">
   <script type="text/javascript" src="{% static 'custom/smartwizard/jQuery-Multiple-Select-Plugin-For-Bootstrap-Bootstrap-Multiselect/bootstrap-multiselect.js' %}"></script>
 

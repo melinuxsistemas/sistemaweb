@@ -40,9 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'compressor','djangobower',
     'django_nose','behave_django',
-    'modules.core',
-    'modules.user','modules.entity',
-
+    'modules.core', 'modules.user', 'modules.entity',
 ]
 
 MIDDLEWARE = [

@@ -1,9 +1,7 @@
 function request_api(url,data_paramters,validator_functions,success_function,fail_function){
   var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
-
   data_paramters['csrfmiddlewaretoken'] = csrftoken;
   NProgress.start();
-
   if (validator_functions()){
     execute_ajax(url,'post',data_paramters,success_function,fail_function);
   }
@@ -19,6 +17,7 @@ function execute_ajax(url,request_method,data_paramters,success_function,fail_fu
     url: url,
     data: data_paramters,
     success: function(data) {
+
       var response = $.parseJSON(data);
       var message = response['message']
       var resultado = response['success']
@@ -36,13 +35,16 @@ function execute_ajax(url,request_method,data_paramters,success_function,fail_fu
         }
         else {
           for (var field in message){
+            //alert("VEJA O QUE TEM QUE MECHER: "+field)
             erro_value = message[field]
+            //alert("VEJA: "+erro_value)
             $("#field_"+field).addClass('bad')
             $("#field_"+field+" .alert").html(erro_value);
             //var label =  $("#field_"+field+" label").html()
-            error_notify(field,"Formulário inválido",erro_value)
-            $("#field_"+field).focus()
+            //error_notify('',"Formulário inválido",erro_value)
+            //$("#field_"+field).focus()
           }
+          notify('error','Formulário com dados inválidos','Verifique os dados informado.')
         }
       }
       NProgress.done();
