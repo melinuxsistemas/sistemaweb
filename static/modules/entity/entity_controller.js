@@ -51,7 +51,10 @@ application.controller('register_person_controller', function($scope) {
   $scope.confirm_password = "";
   $scope.birth_date_foundation = "";
 
+
   $scope.save_person = function () {
+      $scope.cpf_cnpj = $('#cpf_cnpj').val()
+      $scope.birth_date_foundation = $('#birth_date_foundation').val()
     var data_paramters = {
       entity_type: 'PF',
       cpf_cnpj: $scope.cpf_cnpj,
@@ -63,7 +66,7 @@ application.controller('register_person_controller', function($scope) {
       //window.location = "/"//register/confirm/"+$scope.email;
       alert("Beleza")
     }
-    request_api("/api/entity/register/person/save",data_paramters,function () {
+    request_api("/api/entity/register/person/save",data_paramters,validate_date($scope.birth_date_foundation),function () {
       return true;
     },success_function,null)
   }

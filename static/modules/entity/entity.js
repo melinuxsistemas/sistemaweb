@@ -1,3 +1,4 @@
+/*
 function validate_form_confirm_register(){
   return (email_is_valid("email"));
 }
@@ -63,3 +64,17 @@ function compare_passwords(id_senha, id_confirma_senha){
   return (senha === confirma_senha ? true : error_notify("confirm_password","Senhas não conferem","Verifique as senhas informadas."));
 }
 
+*/
+function validate_date(data_birth_foundation) {
+
+    alert("agora chegou?"+data_birth_foundation)
+    var date_current = new Date;
+    var year_current = data_current.getFullYear();
+    var year_data = data_birth_foundation.getFullYear();
+    alert("To vindo?"+year_data)
+    if((year_current - year_data) < 18){
+        alert("CHEGUEI AQUI")
+        return error_notify("data_birth_foundation","Data de nascimento inválida","Não pode cadastrar pessoas com menos de 18 anos");
+    }
+    return true
+}

@@ -24,7 +24,7 @@ class AbstractFormEntity (forms.Form):
         error_messages=MENSAGENS_ERROS,
         widget=forms.TextInput(
             attrs={
-                'id': 'cpf_cnpj','name': 'cpf_cnpj', 'class': "form-control ", 'type': "text",
+                'id': 'cpf_cnpj', 'class': "form-control ", 'type': "text",
                 'autocomplete': "off", 'ng-model': 'cpf_cnpj','required': "required"
             }
         )
@@ -38,7 +38,7 @@ class AbstractFormEntity (forms.Form):
         widget=forms.TextInput(
             attrs={
                 'id': 'entity_name', 'name': 'entity_name', 'class': "form-control ", 'type': "text",
-                'autocomplete': "off", 'ng-model': 'entity_name', 'required': "required",
+                'autocomplete': "off", 'ng-model': 'entity_name', 'required': "required", 'data-validate-words':'2'
             }
         )
     )
@@ -126,7 +126,7 @@ class FormPersonEntity(AbstractFormEntity):
         #self.fields['fantasy_name'].label = 'Apelido'
         #self.fields['birth_date_foundation'].label = "Data de Nascimento"
 
-    def clean(self):
+    '''def clean(self):
         form_data = self.cleaned_data
         if len(self.cleaned_data) == len(self.fields):
             if form_data['password'] != form_data['confirm_password']:
@@ -138,7 +138,7 @@ class FormPersonEntity(AbstractFormEntity):
                 self._errors["password"] = [
                     "Nova Senha: Precisa ser diferente da senha antiga."]  # Will raise a error message
                 del form_data['password']
-        return form_data
+        return form_data'''
 
 
 class FormCompanyEntity(AbstractFormEntity):

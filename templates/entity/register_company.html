@@ -95,7 +95,7 @@
                   </div>
                 </div>
 
-                <div class="col-lg-3">
+                <div class="col-lg-4 col-xs-12">
                   <div class="form-group field_required">
                     <sub><label id="lb_company_activities" for="company_activities">{{ form_entity.company_activities.label }}</label> </sub>
                     <br/>
@@ -172,7 +172,7 @@
                   });
                 </script>
 
-                <div class="col-lg-2 col-xs-12">
+                <div class="col-lg-3 col-xs-12">
                   <div class="form-group field_required">
                     <sub><label id="lb_birth_date_foundation" for="birth_date_foundation">{{ form_entity.market_segment.label }}</label> </sub>
 
@@ -421,7 +421,13 @@
   <script src="{% static 'modules/user/usuario.js' %}"></script>
   <link rel="stylesheet" href="{% static 'custom/smartwizard/jQuery-Multiple-Select-Plugin-For-Bootstrap-Bootstrap-Multiselect/bootstrap-multiselect.css' %}" type="text/css">
   <script type="text/javascript" src="{% static 'custom/smartwizard/jQuery-Multiple-Select-Plugin-For-Bootstrap-Bootstrap-Multiselect/bootstrap-multiselect.js' %}"></script>
-
+    <script type="text/javascript" src="{% static 'custom/mask/mask.js' %}"></script>
+    <script type="text/javascript">
+       $(document).ready(function(){
+           $('#cpf_cnpj').mask('99.999.999/9999-99');
+           $('#birth_date_foundation').mask('99/99/9999');
+           });
+    </script>
 
 {% endblock %}
 

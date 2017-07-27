@@ -3,7 +3,8 @@
 
 {% block recursos_necessarios %}
   {% load static %}
-  <script src="{% static 'bower_components/nprogress/nprogress.js' %}"></script>
+  <!--suppress ALL -->
+    <script src="{% static 'bower_components/nprogress/nprogress.js' %}"></script>
   <link href="{% static 'bower_components/nprogress/nprogress.css' %}" rel="stylesheet">
   <!-- jQuery Smart Wizard -->
   <link href="{% static 'bower_components/jQuery-Smart-Wizard/styles/smart_wizard.css' %}" rel="stylesheet" type="text/css" />
@@ -53,16 +54,16 @@
       <form id="form-save-entity" autocomplete="off" ng-submit="save_person()" novalidate><!--  -->
         {% csrf_token %}
         <div class="row">
-          <div class="col-lg-2">
-            <div class="form-group field field_required" id="field_cpf_cnpj">
-              <sub><label id="lb_cpf_cnpj" for="cpf_cnpj">{{ form_entity.cpf_cnpj.label|upper }}</label></sub>
+          <div class="col-lg-2 col-xs-12 col-sm-3">
+            <div class="form-group field field_required" id="field_cpf_cnpj" data-validate-words="2">
+          <sub><label id="lb_cpf_cnpj" for="cpf_cnpj">{{ form_entity.cpf_cnpj.label|upper }}</label></sub>
               {{ form_entity.cpf_cnpj }}
               <div class="alert">
               </div>
             </div>
           </div>
 
-          <div class="col-lg-5">
+          <div class="col-lg-5 col-xs-12 col-sm-9">
             <div class="form-group field field_required" id="field_entity_name">
               <sub><label id="lb_entity_name" for="entity_name">{{ form_entity.entity_name.label }}</label> </sub>
               {{ form_entity.entity_name }}
@@ -71,7 +72,7 @@
             </div>
           </div>
 
-          <div class="col-lg-3">
+          <div class="col-lg-3 col-xs-12 col-sm-7">
             <div class="form-group field field_required" id="field_fantasy_name">
               <sub><label id="lb_fantasy_name" for="fantasy_name">{{ form_entity.fantasy_name.label }}</label> </sub>
               {{ form_entity.fantasy_name }}
@@ -80,7 +81,7 @@
             </div>
           </div>
 
-          <div class="col-lg-2">
+          <div class="col-lg-2 col-xs-12 col-sm-5">
             <div class="form-group field field_required" id="field_birth_date_foundation">
               <sub><label id="lb_birth_date_foundation" for="birth_date_foundation">{{ form_entity.birth_date_foundation.label }}</label> </sub>
               {{ form_entity.birth_date_foundation }}
@@ -396,7 +397,14 @@
   <script src="{% static 'modules/entity/entity.js' %}"></script>
   <link rel="stylesheet" href="{% static 'custom/smartwizard/jQuery-Multiple-Select-Plugin-For-Bootstrap-Bootstrap-Multiselect/bootstrap-multiselect.css' %}" type="text/css">
   <script type="text/javascript" src="{% static 'custom/smartwizard/jQuery-Multiple-Select-Plugin-For-Bootstrap-Bootstrap-Multiselect/bootstrap-multiselect.js' %}"></script>
-
+    <script type="text/javascript" src="{% static 'bower_components/validator/validator.js'  %}"></script>
+    <script type="text/javascript" src="{% static 'custom/mask/mask.js' %}"></script>
+    <script type="text/javascript">
+       $(document).ready(function(){
+           $('#cpf_cnpj').mask('999.999.999-99');
+           $('#birth_date_foundation').mask('99/99/9999');
+           });
+    </script>
 
 {% endblock %}
 
