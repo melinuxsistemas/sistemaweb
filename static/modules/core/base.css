@@ -16,34 +16,25 @@ button[type="submit"] {
   opacity: 1;
 }
 .field .alert {
-  float: right;
-  margin: 0 0 0 20px;
-  padding: 3px 10px;
+  padding: 2px;
+  text-align: right;
   color: #CE5454;
   font-size: 80%;
-  max-width: 400px;
-
-  /*
-  border-radius: 3px 4px 4px 3px;
-  background-color: #CE5454;
-  white-space: pre;
-
-  */
+  width: 100%;
   position: relative;
-  left: -15px;
   opacity: 0;
   z-index: 1;
   transition: .15s ease-out;
-
-
-
 }
+
+/*
 .alert {
     padding: 15px;
     margin-bottom: 20px;
     border: 1px solid transparent;
     border-radius: 4px;
 }
+*/
 
 
 

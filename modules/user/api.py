@@ -133,6 +133,7 @@ class UsuarioAPI:
                 response_dict = response_format_error("Erro! Senha antiga está incorreta.")
         else:
             response_dict = response_format_error(form.format_validate_response())
+            print("VEJA OS ERROS: ",response_dict)
 
         return HttpResponse(json.dumps(response_dict))
 

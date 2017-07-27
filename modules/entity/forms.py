@@ -1,33 +1,12 @@
 from django import forms
 from modules.core.config import MENSAGENS_ERROS
 
-class FormEntity (forms.Form):
+class AbstractFormEntity (forms.Form):
 
     options_entity_type = (
         (0, "Pessoa Física"),
         (1, "Pessoa Jurídica"),
         (2, "Órgão Público")
-    )
-
-    options_relation_type = (
-        (0, "Cliente"),
-        (1, "Fornecedor"),
-        (2, "Funcionário"),
-        (3, "Transportador"),
-        (4, "Banco"),
-        (5, "Representante")
-    )
-
-    options_activity = (
-        (0, "Consumidor"),
-        (1, "Comércio"),
-        (2, "Serviços"),
-        (3, "Indústria"),
-        (4, "Transporte"),
-        (5, "Importação"),
-        (6, "Exportação"),
-        (7, "Produtor Rural"),
-        (8, "Extrativista"),
     )
 
     options_status_register = (
@@ -38,7 +17,7 @@ class FormEntity (forms.Form):
     )
 
     cpf_cnpj = forms.CharField(
-        label="CPF / CNPJ",
+        label="CPF",
         max_length=32,
         validators=[],
         required=True,
@@ -52,7 +31,7 @@ class FormEntity (forms.Form):
     )
 
     entity_name = forms.CharField(
-        label="Nome/Razão",
+        label="Nome Completo",
         max_length=64,
         required=True,
         error_messages=MENSAGENS_ERROS,
@@ -67,76 +46,45 @@ class FormEntity (forms.Form):
     fantasy_name = forms.CharField(
         label="Nome Fantasia",
         max_length=32,
-        required=True,
+        required=False,
         error_messages=MENSAGENS_ERROS,
         widget=forms.TextInput(
             attrs={
-                'id': 'nome_fantasia','name': 'nome_fantasia', 'class': "form-control ", 'type': "text",
-                'autocomplete': "off", 'ng-model': 'nome_fantasia','required': "required",
+                'id': 'fantasy_name', 'class': "form-control ", 'type': "text",
+                'autocomplete': "off", 'ng-model': 'fantasy_name'
             }
         )
     )
 
     birth_date_foundation = forms.DateTimeField(
-        label="Nascimento/Fundação",
+        label="Data de Nascimento",
         error_messages=MENSAGENS_ERROS,
-        required=True,
+        required=False,
         validators=[],
-        widget=forms.DateInput(
-            format='%d/%m/%Y',
+        widget=forms.TextInput(
             attrs= {
-                'id': 'nascimento_fundacao', 'name': 'nascimento_fundacao', 'class': "form-control ", 'type':'date',
-                'ng-model': 'nascimento_fundacao', 'required': "required",
+                'id': 'birth_date_foundation', 'class': "form-control ", 'type':'text',
+                'ng-model': 'birth_date_foundation'
             }
         )
-    )
-
-    relations_company = forms.MultipleChoiceField(
-        label="Tipo de Relação",
-        choices= options_relation_type,
-        error_messages=MENSAGENS_ERROS,
-        widget= forms.CheckboxSelectMultiple(
-            attrs= {'id':'relation_type', 'class':'form-contro', 'name':'relation_type', 'ng-model' : 'relation_type'}
-        )
-    )
-
-    company_activities = forms.MultipleChoiceField(
-        label="Tipo de Atividade Empresarial",
-        choices=options_activity,
-        error_messages=MENSAGENS_ERROS,
-        widget= forms.CheckboxSelectMultiple(
-            attrs={'id': 'activity', 'class': 'form-contro', 'name': 'activity', 'ng-model': 'activity'}
-        )
-    )
-
-    market_segment = forms.CharField(
-        label="Segmento de Mercado",
-        max_length=20,
-        widget= forms.TextInput(
-            attrs= {
-                'id': 'market_segment', 'class':'form-control', 'type':'text',
-                'ng-model':'market_segment', 'list':'options_segments'
-            }
-        )
-
     )
 
     registration_status = forms.ChoiceField(
-        choices= options_status_register,
+        choices=options_status_register,
         error_messages=MENSAGENS_ERROS,
+        required=False,
         widget= forms.Select(
             attrs={
                 'id': 'registration_status','name': 'registration_status', 'class': "form-control ",
                 'type': "text",'ng-model': 'registration_status','hidden':'true'
             }
         )
-
     )
 
     comments = forms.CharField(
         label="Observações",
         max_length= 500,
-
+        required=False,
         widget=forms.Textarea(
             attrs={
                 'id': 'observations', 'name': 'observations', 'class': "form-control ", 'cols':2,'rows':3,
@@ -146,6 +94,7 @@ class FormEntity (forms.Form):
     )
 
     history = forms.CharField(
+        required=False,
         widget = forms.TextInput(
             attrs={
                 'id': 'detalhes','name': 'detalhes', 'class': "form-control ",'hidden':'true', 'type': "detalhes",
@@ -154,10 +103,66 @@ class FormEntity (forms.Form):
         )
     )
 
+    def format_validate_response(self):
+        response_errors = {}
+        # print("VEJA OS ERROS: ",self.errors.as_data)
+        if self.errors:
+            errors = self.errors
+            for campo in errors:
+                response_errors[campo] = []
+                for erro in errors[campo]:
+                    erro_format = str(erro)
+                    erro_format = erro_format.replace("['", "")
+                    erro_format = erro_format.replace("']", "")
+                    response_errors[campo].append(erro_format)
+        return response_errors
+
+
+class FormPersonEntity(AbstractFormEntity):
+    def __init__(self, *args, **kwargs):
+        super(AbstractFormEntity, self).__init__(*args, **kwargs)
+        #self.fields['cpf_cnpj'].label = "CPF"
+        #self.fields['entity_name'].label = 'Nome Completo'
+        #self.fields['fantasy_name'].label = 'Apelido'
+        #self.fields['birth_date_foundation'].label = "Data de Nascimento"
+
+
+class FormCompanyEntity(AbstractFormEntity):
+    options_relation_type = (
+        (0, "Cliente"), (1, "Fornecedor"),
+        (2, "Funcionário"), (3, "Transportador"),
+        (4, "Banco"), (5, "Representante")
+    )
+
+    options_activity = (
+        (0, "Consumidor"), (1, "Comércio"), (2, "Serviços"),
+        (3, "Indústria"), (4, "Transporte"), (5, "Importação"),
+        (6, "Exportação"), (7, "Produtor Rural"), (8, "Extrativista"),)
+
+    relations_company = forms.MultipleChoiceField(label="Tipo de Relação", choices=options_relation_type,
+        error_messages=MENSAGENS_ERROS, widget=forms.CheckboxSelectMultiple(
+            attrs={'id': 'relation_type', 'class': 'form-contro', 'name': 'relation_type',
+                   'ng-model': 'relation_type'}))
+
+    company_activities = forms.MultipleChoiceField(label="Tipo de Atividade Empresarial", choices=options_activity,
+        error_messages=MENSAGENS_ERROS, widget=forms.CheckboxSelectMultiple(
+            attrs={'id': 'activity', 'class': 'form-contro', 'name': 'activity', 'ng-model': 'activity'}))
+
+    market_segment = forms.CharField(label="Segmento de Mercado", max_length=20, widget=forms.TextInput(
+        attrs={'id': 'market_segment', 'class': 'form-control', 'type': 'text', 'ng-model': 'market_segment',
+            'list': 'options_segments'}))
 
     def __init__(self, *args, **kwargs):
-        super(FormEntity,self).__init__(*args, **kwargs)
-        """
+        super(AbstractFormEntity, self).__init__(*args, **kwargs)
+        self.fields['cpf_cnpj'].label = "CNPJ"
+        self.fields['entity_name'].label = 'Razão Social'
+        self.fields['fantasy_name'].label = 'Nome Fantasia'
+        self.fields['birth_date_foundation'].label = "Data de Fundação"
+
+    """
+    #def __init__(self, *args, **kwargs):
+        super(AbstractFormEntity, self).__init__(*args, **kwargs)
+
         self.fields['cpf_cnpj'].widget.attrs['placeholder']             = 'CPF/CNPJ..'
         self.fields['entity_name'].widget.attrs['placeholder']          = 'Nome ou Razao..'
         self.fields['fantasy_name'].widget.attrs['placeholder']         = 'Nome Fantasia..'
@@ -165,4 +170,4 @@ class FormEntity (forms.Form):
         self.fields['market_segment'].widget.attrs['placeholder']       = "Segmento Mercado"
         self.fields['comments'].widget.attrs['placeholder']             = 'Obervações'
         self.fields['registration_status'].widget                       = forms.HiddenInput()
-        """
+    """

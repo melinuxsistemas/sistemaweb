@@ -31,10 +31,12 @@ urlpatterns = [
     url(r'^profile/$', view_usuario.profile_page),
 
     #url(r'^entity/$', view_entity.entity_page),
-    url(r'^entity/register$', view_entity.register_entity),
+    url(r'^entity/register/(?P<entity_type>[^/]+)/$', view_entity.register_entity),
 
     url(r'^system/environment', view_core.configure_environment),
 
     url(r'^api/user/', include('modules.user.urls')),
+    url(r'^api/entity/', include('modules.entity.urls')),
+
     url(r'^api/working/register', view_core.working),
 ]#+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

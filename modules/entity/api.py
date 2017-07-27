@@ -1,31 +1,21 @@
 from modules.core.api import AbstractAPI
-from modules.core.utils import response_format_success, response_format_error, generate_activation_code, generate_random_password
-from modules.core.comunications import send_generate_activation_code, resend_generate_activation_code ,send_reset_password
-from modules.user.forms import FormRegister, FormLogin, FormChangePassword, FormResetPassword
+from modules.core.utils import response_format_success, response_format_error, generate_activation_code
+from modules.core.comunications import send_generate_activation_code
+from modules.entity.forms import FormCompanyEntity,FormPersonEntity
 from modules.user.models import User
-from django.contrib.auth import login
 from django.http import HttpResponse
 from django.http import Http404
 from sistemaweb import settings
 import json
 
 
-class UsuarioAPI:
+class EntityAPI:
 
-    def register_delete(request, email):
-        user = User.objects.get_user_email(email)
-        if user is not None:
-            user.delete()
-            response_dict = response_format_error("Usuario deletado com sucesso.")
-        else:
-            response_dict = response_format_error("Usuario nao existe.")
-        return HttpResponse(json.dumps(response_dict))
-
-    def register_user(request):
-        resultado, form = AbstractAPI.filter_request(request, FormRegister)
-        #print("VAMOS LA.. VEJA OS TESTS: ",request.POST)
+    def save_person(request):
+        resultado, form = AbstractAPI.filter_request(request, FormPersonEntity)
+        print("VAMOS LA: ",request.POST)
         if resultado:
-            #print("TA VALIDO")
+            print("TA VALIDO")
             email = request.POST['email'].lower()
             senha = request.POST['password']
             if User.objects.check_available_email(email):
@@ -42,8 +32,19 @@ class UsuarioAPI:
                 #print("EMAIL TA INDISPONIVEL")
                 response_dict = response_format_error("Email já cadastrado.")
         else:
-            #print("FORMULARIO INCORRETO")
-            response_dict = response_format_error("Formulário com dados inválidos.")
+            print("FORMULARIO INCORRETO")
+            errors = response_format_error(form.format_validate_response())
+            print("ERROS: ", errors)
+            response_dict = errors #response_format_error("Formulário com dados inválidos.")
+        return HttpResponse(json.dumps(response_dict))
+    """
+    def register_delete(request, email):
+        user = User.objects.get_user_email(email)
+        if user is not None:
+            user.delete()
+            response_dict = response_format_error("Usuario deletado com sucesso.")
+        else:
+            response_dict = response_format_error("Usuario nao existe.")
         return HttpResponse(json.dumps(response_dict))
 
     def generate_new_activation_code(request):
@@ -137,4 +138,5 @@ class UsuarioAPI:
             response_dict = response_format_error(form.format_validate_response())
 
         return HttpResponse(json.dumps(response_dict))
+    """
 
