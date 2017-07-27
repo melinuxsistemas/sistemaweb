@@ -1,5 +1,7 @@
 from django import forms
 from modules.core.config import MENSAGENS_ERROS
+from modules.entity.validators import cpf_cnpj_validator
+
 
 class AbstractFormEntity (forms.Form):
 
@@ -19,7 +21,7 @@ class AbstractFormEntity (forms.Form):
     cpf_cnpj = forms.CharField(
         label="CPF",
         max_length=32,
-        validators=[],
+        validators=[cpf_cnpj_validator],
         required=True,
         error_messages=MENSAGENS_ERROS,
         widget=forms.TextInput(
@@ -128,6 +130,7 @@ class FormPersonEntity(AbstractFormEntity):
 
     def clean(self):
         form_data = self.cleaned_data
+        """
         if len(self.cleaned_data) == len(self.fields):
             if form_data['password'] != form_data['confirm_password']:
                 self._errors["password"] = [
@@ -138,6 +141,7 @@ class FormPersonEntity(AbstractFormEntity):
                 self._errors["password"] = [
                     "Nova Senha: Precisa ser diferente da senha antiga."]  # Will raise a error message
                 del form_data['password']
+        """
         return form_data
 
 

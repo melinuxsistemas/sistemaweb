@@ -1,3 +1,14 @@
+function clear_mask_numbers(value){
+  var number = value.split('.').join('');
+  number = number.split('-').join('');
+  return number;
+}
+
+
+
+
+
+
 function validate_form_confirm_register(){
   return (email_is_valid("email"));
 }

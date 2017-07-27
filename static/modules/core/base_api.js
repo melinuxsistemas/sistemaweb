@@ -25,7 +25,7 @@ function execute_ajax(url,request_method,data_paramters,success_function,fail_fu
         var data_object = $.parseJSON(response['data-object'])
         //var moment_date = moment(data_object['fields']['joined_date']).format("DD/MM/YYYY - HH:mm:ss")
         if (success_function != null) {
-          success_function();
+          success_function(message);
         }
       }
 
@@ -34,17 +34,7 @@ function execute_ajax(url,request_method,data_paramters,success_function,fail_fu
           notify('error',"Falha na operação",message)
         }
         else {
-          for (var field in message){
-            //alert("VEJA O QUE TEM QUE MECHER: "+field)
-            erro_value = message[field]
-            //alert("VEJA: "+erro_value)
-            $("#field_"+field).addClass('bad')
-            $("#field_"+field+" .alert").html(erro_value);
-            //var label =  $("#field_"+field+" label").html()
-            //error_notify('',"Formulário inválido",erro_value)
-            //$("#field_"+field).focus()
-          }
-          notify('error','Formulário com dados inválidos','Verifique os dados informado.')
+          fail_function(message);
         }
       }
       NProgress.done();

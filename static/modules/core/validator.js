@@ -27,7 +27,6 @@ function validate_form(form_id){
   validator.texts = messages;
   return validator.checkAll($(this))
 
-
   //var submit = true;
 
 
@@ -42,4 +41,28 @@ function validate_form(form_id){
   //else{
   //  return false;
   //}
+}
+
+function check_response_message_form(form_id, response_message) {
+  alert('vim')
+  $(form_id +" input[type=text]").each(function () {
+    var id = $(this).attr("id");
+    var erro = response_message[id];
+    if (erro){
+      set_wrong_field(id, erro);
+    }
+    else{
+      clean_wrong_field(id);
+    }
+  });
+}
+
+function set_wrong_field(id, erro_value){
+  $("#field_"+id).addClass('bad')
+  $("#field_"+id+" .alert").html(erro_value);
+}
+
+function clean_wrong_field(id){
+  $("#field_"+id).removeClass('bad')
+  $("#field_"+id+" .alert").html("");
 }

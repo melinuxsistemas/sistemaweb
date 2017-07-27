@@ -1,5 +1,6 @@
 from django.db import models
 from modules.core.config import MENSAGENS_ERROS
+from modules.entity.validators import cpf_cnpj_validator
 
 
 class Entity(models.Model):
@@ -43,7 +44,7 @@ class Entity(models.Model):
     )
 
     type_entity = models.CharField("Tipo de Entidade:", max_length=2,null=False,choices=options_type_entity, error_messages=MENSAGENS_ERROS)
-    cpf_cnpj = models.CharField("CPF ou CNPJ",max_length=32, unique=True,null=False,validators=[], error_messages=MENSAGENS_ERROS)
+    cpf_cnpj = models.CharField("CPF ou CNPJ",max_length=32, unique=True,null=False,validators=[cpf_cnpj_validator], error_messages=MENSAGENS_ERROS)
     entity_name = models.CharField("Nome ou Razão Social",null=False,max_length=64,error_messages=MENSAGENS_ERROS)
     fantasy_name = models.CharField("Nome Fantasia",null=False,max_length=32,error_messages=MENSAGENS_ERROS)
     birth_date_foundation = models.DateTimeField("Data de Nascimento ou Fundação",null=True,blank=True,validators=[],error_messages=MENSAGENS_ERROS)
