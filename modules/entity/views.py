@@ -9,10 +9,10 @@ from modules.entity.forms import FormPersonEntity, FormCompanyEntity
 def register_entity(request,entity_type):
     if entity_type == 'person':
         form_entity = FormPersonEntity()
-        template_url = "entity/add_entity.html"
+        template_url = "entity/register_person.html"
     elif entity_type == 'company':
         form_entity = FormCompanyEntity()
-        template_url = "entity/add_entity.html"
+        template_url = "entity/register_person.html"
     else:
         raise Http404
 

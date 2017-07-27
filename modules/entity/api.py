@@ -2,6 +2,7 @@ from modules.core.api import AbstractAPI
 from modules.core.utils import response_format_success, response_format_error, generate_activation_code
 from modules.core.comunications import send_generate_activation_code
 from modules.entity.forms import FormCompanyEntity,FormPersonEntity
+from modules.entity.models import Entity
 from modules.user.models import User
 from django.http import HttpResponse
 from django.http import Http404
@@ -15,6 +16,10 @@ class EntityAPI:
         resultado, form = AbstractAPI.filter_request(request, FormPersonEntity)
         print("VAMOS LA: ",request.POST)
         if resultado:
+            entity = Entity()
+            response_dict = response_format_success(entity, [])
+
+            """
             print("TA VALIDO")
             email = request.POST['email'].lower()
             senha = request.POST['password']
@@ -31,6 +36,7 @@ class EntityAPI:
             else:
                 #print("EMAIL TA INDISPONIVEL")
                 response_dict = response_format_error("Email já cadastrado.")
+            """
         else:
             print("FORMULARIO INCORRETO")
             errors = response_format_error(form.format_validate_response())
