@@ -26,7 +26,7 @@ class AbstractFormEntity (forms.Form):
         error_messages=MENSAGENS_ERROS,
         widget=forms.TextInput(
             attrs={
-                'id': 'cpf_cnpj','name': 'cpf_cnpj', 'class': "form-control ", 'type': "text",
+                'id': 'cpf_cnpj', 'class': "form-control ", 'type': "text",
                 'autocomplete': "off", 'ng-model': 'cpf_cnpj','required': "required"
             }
         )
@@ -40,7 +40,7 @@ class AbstractFormEntity (forms.Form):
         widget=forms.TextInput(
             attrs={
                 'id': 'entity_name', 'name': 'entity_name', 'class': "form-control ", 'type': "text",
-                'autocomplete': "off", 'ng-model': 'entity_name', 'required': "required",
+                'autocomplete': "off", 'ng-model': 'entity_name', 'required': "required", 'data-validate-words':'2'
             }
         )
     )

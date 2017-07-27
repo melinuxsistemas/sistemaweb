@@ -12,7 +12,7 @@ def register_entity(request,entity_type):
         template_url = "entity/register_person.html"
     elif entity_type == 'company':
         form_entity = FormCompanyEntity()
-        template_url = "entity/register_person.html"
+        template_url = "entity/register_company.html"
     else:
         raise Http404
 
