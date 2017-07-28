@@ -58,6 +58,7 @@ function check_response_message_form(form_id, response_message) {
 }
 
 function set_wrong_field(id, erro_value){
+    alert("TO VINDO NA FUNC?")
   $("#field_"+id).addClass('bad')
   $("#field_"+id+" .alert").html(erro_value);
 }
