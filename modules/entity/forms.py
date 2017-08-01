@@ -66,7 +66,7 @@ class AbstractFormEntity (forms.Form):
         widget=forms.TextInput(
             attrs= {
                 'id': 'birth_date_foundation', 'class': "form-control ", 'type':'text',
-                'ng-model': 'birth_date_foundation'
+                'ng-model': 'birth_date_foundation','required': "required"
             }
         )
     )
