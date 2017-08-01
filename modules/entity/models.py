@@ -56,3 +56,5 @@ class Entity(models.Model):
     created_date = models.DateField(auto_now_add=True,null=True)
     last_update = models.DateField(null=True,auto_now=True)
     history = models.CharField("Histórico de Alterações",max_length=500)
+
+

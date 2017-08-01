@@ -48,7 +48,7 @@ class AbstractFormEntity (forms.Form):
     fantasy_name = forms.CharField(
         label="Nome Fantasia",
         max_length=32,
-        required=False,
+        required=True,
         error_messages=MENSAGENS_ERROS,
         widget=forms.TextInput(
             attrs={
@@ -61,7 +61,7 @@ class AbstractFormEntity (forms.Form):
     birth_date_foundation = forms.DateTimeField(
         label="Data de Nascimento",
         error_messages=MENSAGENS_ERROS,
-        required=False,
+        required=True,
         validators=[],
         widget=forms.TextInput(
             attrs= {
@@ -159,12 +159,12 @@ class FormCompanyEntity(AbstractFormEntity):
 
     relations_company = forms.MultipleChoiceField(label="Tipo de Relação", choices=options_relation_type,
         error_messages=MENSAGENS_ERROS, widget=forms.CheckboxSelectMultiple(
-            attrs={'id': 'relation_type', 'class': 'form-contro', 'name': 'relation_type',
+            attrs={'id': 'relation_type', 'class': 'form-control', 'name': 'relation_type',
                    'ng-model': 'relation_type'}))
 
     company_activities = forms.MultipleChoiceField(label="Tipo de Atividade Empresarial", choices=options_activity,
         error_messages=MENSAGENS_ERROS, widget=forms.CheckboxSelectMultiple(
-            attrs={'id': 'activity', 'class': 'form-contro', 'name': 'activity', 'ng-model': 'activity'}))
+            attrs={'id': 'activity', 'class': 'form-control', 'name': 'activity', 'ng-model': 'activity'}))
 
     market_segment = forms.CharField(label="Segmento de Mercado", max_length=20, widget=forms.TextInput(
         attrs={'id': 'market_segment', 'class': 'form-control', 'type': 'text', 'ng-model': 'market_segment',
