@@ -7,7 +7,7 @@ function clear_mask_numbers(value){
 
 function validate_general_form(){
   var messages = {
-        invalid         : 'Informe numeros e letras!',
+        invalid         : 'Informe nome completo!',
         short           : 'Informe pelo menos 8 caracteres!',
         long            : 'Informe no máximo x caracteres!',
         checked         : 'must be checked',
@@ -63,9 +63,8 @@ function validate_date_person(birth_date_foundation) {
 function validate_cpf (cpf_cnpj){
     var cpf = $('#'+cpf_cnpj).val();
     cpf = cpf.replace(/[^\d]+/g,'');
-    if(cpf === "") {
-        return error_notify("cpf_cnpj","Campo obrigatório","Insira um cpf");
-    }
+    var result = true;
+
     // Elimina CPFs invalidos conhecidos
     if (cpf.length !== 11 ||
         cpf === "00000000000" ||
@@ -78,7 +77,7 @@ function validate_cpf (cpf_cnpj){
         cpf === "77777777777" ||
         cpf === "88888888888" ||
         cpf === "99999999999") {
-        return error_notify("cpf_cnpj","CPF inválido","Cadastre um cpf válido");
+        result = false;
     }
     // Valida 1o digito
     var add = 0;
@@ -88,7 +87,7 @@ function validate_cpf (cpf_cnpj){
         if (rev === 10 || rev === 11)
             rev = 0;
         if (rev !== parseInt(cpf.charAt(9)))
-            return error_notify("cpf_cnpj","CPF inválido","Cadastre um cpf válido");
+            result = false;
     // Valida 2o digito
     add = 0;
     for (i = 0; i < 10; i ++)
@@ -98,8 +97,14 @@ function validate_cpf (cpf_cnpj){
         rev = 0;
     }
     if (rev !== parseInt(cpf.charAt(10))){
-        return error_notify("cpf_cnpj","CPF inválido","Cadastre um cpf válido");
+        result = false;
     }
+
+    if (result === false){
+        set_wrong_field(cpf_cnpj, "Conteúdo inválido")
+        return notify("error","CPF inválido","Cadastre um cpf válido");
+    }
+    clean_wrong_field(cpf_cnpj)
     return true;
 }
 

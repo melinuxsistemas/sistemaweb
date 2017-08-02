@@ -40,7 +40,8 @@ class AbstractFormEntity (forms.Form):
         widget=forms.TextInput(
             attrs={
                 'id': 'entity_name', 'name': 'entity_name', 'class': "form-control ", 'type': "text",
-                'autocomplete': "off", 'ng-model': 'entity_name', 'required': "required", 'data-validate-words':'2'
+                'autocomplete': "off", 'ng-model': 'entity_name', 'required': "required", 'pattern': '\S{2,} \S{2,}',
+                'data-validate-length-range': '6'
             }
         )
     )

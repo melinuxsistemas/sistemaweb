@@ -106,18 +106,31 @@
 {% endblock %}
 
 {% block recursos_complementares %}
-  {% load static %}
-  <script src="{% static 'modules/entity/entity_controller.js' %}"></script>
-  <script src="{% static 'modules/entity/entity.js' %}"></script>
-  <link rel="stylesheet" href="{% static 'custom/smartwizard/jQuery-Multiple-Select-Plugin-For-Bootstrap-Bootstrap-Multiselect/bootstrap-multiselect.css' %}" type="text/css">
-  <script type="text/javascript" src="{% static 'custom/smartwizard/jQuery-Multiple-Select-Plugin-For-Bootstrap-Bootstrap-Multiselect/bootstrap-multiselect.js' %}"></script>
+    {% load static %}
+    <script src="{% static 'modules/entity/entity_controller.js' %}"></script>
+    <script src="{% static 'modules/entity/entity.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'custom/smartwizard/jQuery-Multiple-Select-Plugin-For-Bootstrap-Bootstrap-Multiselect/bootstrap-multiselect.css' %}" type="text/css">
+    <script type="text/javascript" src="{% static 'custom/smartwizard/jQuery-Multiple-Select-Plugin-For-Bootstrap-Bootstrap-Multiselect/bootstrap-multiselect.js' %}"></script>
     <script type="text/javascript" src="{% static 'bower_components/validator/validator.js'  %}"></script>
     <script type="text/javascript" src="{% static 'custom/mask/mask.js' %}"></script>
     <script type="text/javascript">
-       $(document).ready(function(){
-           $('#cpf_cnpj').mask('999.999.999-99');
-           $('#birth_date_foundation').mask('99/99/9999');
-           });
+        $(document).ready(function(){
+            $('#cpf_cnpj').mask('999.999.999-99');
+            $('#birth_date_foundation').mask('99/99/9999');
+        });
+    </script>
+    <script>
+        document.getElementById("cpf_cnpj").onblur = function () {func_val_cpf()};
+        document.getElementById("birth_date_foundation").onblur = function () {func_val_date()};
+
+        function func_val_cpf (){
+            validate_cpf('cpf_cnpj')
+        }
+
+        function func_val_date () {
+           validate_date_person('birth_date_foundation')
+        }
+
     </script>
 
 {% endblock %}

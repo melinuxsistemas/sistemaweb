@@ -45,7 +45,7 @@ class Entity(models.Model):
 
     type_entity = models.CharField("Tipo de Entidade:", max_length=2,null=False,choices=options_type_entity, error_messages=MENSAGENS_ERROS)
     cpf_cnpj = models.CharField("CPF ou CNPJ",max_length=32, unique=True,null=False,validators=[cpf_cnpj_validator], error_messages=MENSAGENS_ERROS)
-    entity_name = models.CharField("Nome ou Razão Social",null=False,max_length=64,error_messages=MENSAGENS_ERROS)
+    entity_name = models.CharField("Nome ou Razão Social",null=False,max_length=64,blank=False,error_messages=MENSAGENS_ERROS)
     fantasy_name = models.CharField("Nome Fantasia",null=False,max_length=32,error_messages=MENSAGENS_ERROS)
     birth_date_foundation = models.DateTimeField("Data de Nascimento ou Fundação",null=True,blank=True,validators=[],error_messages=MENSAGENS_ERROS)
     relations_company = models.CharField("Tipo de Relação Empresarial",null=True,blank=True,max_length=512,error_messages=MENSAGENS_ERROS)
@@ -56,5 +56,6 @@ class Entity(models.Model):
     created_date = models.DateField(auto_now_add=True,null=True)
     last_update = models.DateField(null=True,auto_now=True)
     history = models.CharField("Histórico de Alterações",max_length=500)
+
 
 
