@@ -53,17 +53,20 @@
             <form id="form-save-company" autocomplete="off" ng-submit="save_company()">
               {% csrf_token %}
                 <div class="row">
-                <div class="col-lg-2 col-xs-12">
-                  <div class="form-group field field_required">
-                    <sub><label id="lb_cpf_cnpj" for="cpf_cnpj">{{ form_entity.cpf_cnpj.label|upper }}</label></sub>
-                    {{ form_entity.cpf_cnpj }}
-                  </div>
-                </div>
+                    <div class="col-lg-2 col-xs-12 col-sm-3">
+                        <div class="form-group field field_required" id="field_cpf_cnpj">
+                            <sub><label id="lb_cpf_cnpj" for="cpf_cnpj">{{ form_entity.cpf_cnpj.label|upper }}</label></sub>
+                                {{ form_entity.cpf_cnpj }}
+                                <div class="alert"></div>
+                        </div>
+                    </div>
+
 
                 <div class="col-lg-7 col-xs-12">
                   <div class="form-group field field_required">
                     <sub><label id="lb_entity_name" for="entity_name">{{ form_entity.entity_name.label }}</label> </sub>
                     {{ form_entity.entity_name }}
+                      <div class="alert"></div>
                   </div>
                 </div>
 
@@ -71,15 +74,17 @@
                   <div class="form-group field field_required">
                     <sub><label id="lb_fantasy_name" for="fantasy_name">{{ form_entity.fantasy_name.label }}</label> </sub>
                     {{ form_entity.fantasy_name }}
+                      <div class="alert"></div>
                   </div>
                 </div>
               </div>
 
                 <div class="row">
                 <div class="col-lg-2 col-xs-12">
-                  <div class="form-group field field_required">
+                  <div class="form-group field field_required" id="field_birth_date_foundation">
                     <sub><label id="lb_birth_date_foundation" for="birth_date_foundation">{{ form_entity.birth_date_foundation.label }}</label> </sub>
                     {{ form_entity.birth_date_foundation }}
+                      <div class="alert"></div>
                   </div>
                 </div>
 
@@ -120,31 +125,6 @@
                 <script type="text/javascript">
                   $(document).ready(function() {
                     $('#options_activities_company').multiselect({
-                      /*onChange: (function(option, checked) {
-                      // Get selected options.
-                      var selectedOptions = $('#demo option:selected');
-
-                      if (selectedOptions.length >= ) {
-                        // Disable all other checkboxes.
-                        var nonSelectedOptions = $('#demo option').filter(function () {
-                          return !$(this).is(':selected');
-                        });
-
-                        nonSelectedOptions.each(function () {
-                          var input = $('input[value="' + $(this).val() + '"]');
-                          input.prop('disabled', true);
-                          input.parent('li').addClass('disabled');
-                        });
-                      }
-                      else {
-                        // Enable all checkboxes.
-                        $('#demo option').each(function () {
-                          var input = $('input[value="' + $(this).val() + '"]');
-                          input.prop('disabled', false);
-                          input.parent('li').addClass('disabled');
-                        });
-                      }
-                      }),*/
                       numberDisplayed: 10  ,
                       nonSelectedText: 'Selecione uma ou mais opções',
                       buttonWidth: '100%',
@@ -166,9 +146,9 @@
 
                     <datalist id="options_segments">
                       <option value="Atacadista">Atacadista</option>
-                      <option value="Atacadista">Distribuidora</option>
-                      <option value="Atacadista">Varejo</option>
-                      <option value="Atacadista">Panificadora</option>
+                      <option value="Distribuidora">Distribuidora</option>
+                      <option value="Varejo">Varejo</option>
+                      <option value="Panificadora">Panificadora</option>
                     </datalist>
                     {{ form_entity.market_segment }}
                   </div>
@@ -200,17 +180,39 @@
 {% endblock %}
 
 {% block recursos_complementares %}
-  {% load static %}
-  <script src="{% static 'modules/entity/entity_controller.js' %}"></script>
-  <script src="{% static 'modules/entity/entity.js' %}"></script>
-  <link rel="stylesheet" href="{% static 'custom/smartwizard/jQuery-Multiple-Select-Plugin-For-Bootstrap-Bootstrap-Multiselect/bootstrap-multiselect.css' %}" type="text/css">
-  <script type="text/javascript" src="{% static 'custom/smartwizard/jQuery-Multiple-Select-Plugin-For-Bootstrap-Bootstrap-Multiselect/bootstrap-multiselect.js' %}"></script>
+    {% load static %}
+    <script src="{% static 'modules/entity/entity_controller.js' %}"></script>
+    <script src="{% static 'modules/entity/entity.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'custom/smartwizard/jQuery-Multiple-Select-Plugin-For-Bootstrap-Bootstrap-Multiselect/bootstrap-multiselect.css' %}" type="text/css">
+    <script type="text/javascript" src="{% static 'custom/smartwizard/jQuery-Multiple-Select-Plugin-For-Bootstrap-Bootstrap-Multiselect/bootstrap-multiselect.js' %}"></script>
     <script type="text/javascript" src="{% static 'custom/mask/mask.js' %}"></script>
     <script type="text/javascript">
        $(document).ready(function(){
            $('#cpf_cnpj').mask('99.999.999/9999-99');
            $('#birth_date_foundation').mask('99/99/9999');
            });
+    </script>
+    <script>
+        document.getElementById('cpf_cnpj').onblur = function () {func_val_cnpj()};
+        document.getElementById('entity_name').onblur = function () {func_val_name()};
+        document.getElementById('fantasy_name').onblur = function () {func_val_fant()};
+        document.getElementById('birth_date_foundation').onblur = function () {func_val_date()}
+
+        function func_val_cnpj (){
+            validate_cnpj('cpf_cnpj')
+        }
+
+        function func_val_name () {
+            validate_field_entity('entity_name')
+        }
+
+        function func_val_fant () {
+            validate_field_entity ('fantasy_name')
+        }
+
+        function func_val_date () {
+            validate_date_foundation ('birth_date_foundation')
+        }
     </script>
 
 {% endblock %}

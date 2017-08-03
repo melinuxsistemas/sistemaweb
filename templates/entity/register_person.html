@@ -55,7 +55,7 @@
         {% csrf_token %}
         <div class="row">
           <div class="col-lg-2 col-xs-12 col-sm-3">
-            <div class="form-group field field_required" id="field_cpf_cnpj" data-validate-words="2">
+            <div class="form-group field field_required" id="field_cpf_cnpj">
           <sub><label id="lb_cpf_cnpj" for="cpf_cnpj">{{ form_entity.cpf_cnpj.label|upper }}</label></sub>
               {{ form_entity.cpf_cnpj }}
               <div class="alert">
@@ -122,15 +122,24 @@
     <script>
         document.getElementById("cpf_cnpj").onblur = function () {func_val_cpf()};
         document.getElementById("birth_date_foundation").onblur = function () {func_val_date()};
+        document.getElementById('entity_name').onblur = function () {func_val_name()};
+        document.getElementById('fantasy_name').onblur = function () {func_val_fant()};
 
         function func_val_cpf (){
             validate_cpf('cpf_cnpj')
         }
 
-        function func_val_date () {
-           validate_date_person('birth_date_foundation')
+        function func_val_name () {
+            validate_field_entity('entity_name')
         }
 
+        function func_val_fant () {
+            validate_field_entity ('fantasy_name')
+        }
+
+        function func_val_date () {
+            validate_date_person('birth_date_foundation')
+        }
     </script>
 
 {% endblock %}

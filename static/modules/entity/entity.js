@@ -8,7 +8,7 @@ function clear_mask_numbers(value){
 function validate_general_form(){
   var messages = {
         invalid         : 'Informe nome completo!',
-        short           : 'Informe pelo menos 8 caracteres!',
+        short           : 'Informe nome completo!',
         long            : 'Informe no máximo x caracteres!',
         checked         : 'must be checked',
         empty           : 'Campo obrigatório!',
@@ -25,39 +25,33 @@ function validate_general_form(){
         no_match        : 'no match',
         complete        : 'Informe o nome completo'
       }
+    return messages;
+
+
+}
+
+function validate_all_form (){
 
       var validator = new FormValidator();
-      validator.texts = messages;
+      validator.texts = validate_general_form();
       validator.settings.alerts = true;
 
       result = validator.checkAll($('#form-save-entity'))
       return result.valid
 }
 
-function validate_form_regiter_person (){
-    return (validate_general_form() && validate_cpf("cpf_cnpj") && validate_date_person("birth_date_foundation"));
+function validate_field_entity (id_field){
+    var validator = new FormValidator();
+    validator.texts = validate_general_form();
+    validator.settings.alerts = true;
+    result = validator.checkField($('#'+id_field));
+    return result.valid
 }
 
-function validate_date_person(birth_date_foundation) {
-    var data = $('#'+birth_date_foundation).val();
-    var date_current = new Date;
-    var year_current = date_current.getFullYear();
-    var split = data.split('/');
-    var year_data = split[2];
-    var age = year_current - year_data;
-    if(birth_date_foundation === "") {
-        return error_notify("birth_date_foundation","Campo obrigatório","Insira uma data");
-    }
-    if(age < 18 && age>0){
-        return error_notify("birth_date_foundation","Data de nascimento inválida","Não pode cadastrar pessoas com menos de 18 anos");
-    }
-    if (age>150){
-        return error_notify("birth_date_foundation","Data informada não é valida","Não se pode cadastrar pessoas com idade acima de 150 anos")
-    }
-    if (age < 0){
-        return error_notify("birth_date_foundation","Data informada não é válida","Não se pode cadastrar datas futuras")
-    }
-    return true;
+
+
+function validate_form_regiter_person (){
+    return (validate_all_form() && validate_cpf("cpf_cnpj") && validate_date_person("birth_date_foundation"));
 }
 
 function validate_cpf (cpf_cnpj){
@@ -65,6 +59,10 @@ function validate_cpf (cpf_cnpj){
     cpf = cpf.replace(/[^\d]+/g,'');
     var result = true;
 
+    if (cpf == ''){
+        set_wrong_field(cpf_cnpj,'Campo obrigatório');
+        return false
+    }
     // Elimina CPFs invalidos conhecidos
     if (cpf.length !== 11 ||
         cpf === "00000000000" ||
@@ -108,20 +106,47 @@ function validate_cpf (cpf_cnpj){
     return true;
 }
 
-function validate_form_regiter_company(){
-    return( validate_cnpj('cpf_cnpj') && validate_date_foundation('birth_date_foundation') && validate_general_form() )
+function validate_date_person(birth_date_foundation) {
+    var data = $('#'+birth_date_foundation).val();
+    var date_current = new Date;
+    var year_current = date_current.getFullYear();
+    var split = data.split('/');
+    var year_data = split[2];
+    var age = year_current - year_data;
+    if(data === "__/__/____") {
+        set_wrong_field(birth_date_foundation,'Informe uma data')
+        return false;
+    }
+    if(age < 18 && age>0){
+        set_wrong_field(birth_date_foundation,'Informe uma data válida')
+        return notify("error","Data de nascimento inválida","Não pode cadastrar pessoas com menos de 18 anos");
+    }
+    if (age>150){
+        set_wrong_field(birth_date_foundation,'Informe uma data válida')
+        return notify("error","Data informada não é valida","Não se pode cadastrar pessoas com idade acima de 150 anos")
+    }
+    if (age < 0){
+        set_wrong_field(birth_date_foundation,'Informe uma data válida')
+        return notify("error","Data informada não é válida","Não se pode cadastrar datas futuras")
+    }
+    clean_wrong_field(birth_date_foundation)
+    return true;
+}
+
+
+
+function validate_form_regiter_company() {
+    return ( validate_cnpj('cpf_cnpj') && validate_date_foundation('birth_date_foundation') && validate_all_form() )
 }
 
 function validate_cnpj(cpf_cnpj) {
-    //
     var cnpj = $('#'+cpf_cnpj).val();
     cnpj = cnpj.replace(/[^\d]+/g,'');
+    var result = true;
     if(cnpj === ''){
-      return error_notify('cpf_cnpj','CNPJ inválido','Digite um CNPJ existente')
+        set_wrong_field(cpf_cnpj,'Campo obrigatório')
+        return false
     }
-
-    if (cnpj.length !== 14)
-        return error_notify('cpf_cnpj','CNPJ inválido','Digite um CNPJ existente')
 
     if (cnpj === "00000000000000" ||
         cnpj === "11111111111111" ||
@@ -134,7 +159,7 @@ function validate_cnpj(cpf_cnpj) {
         cnpj === "88888888888888" ||
         cnpj === "99999999999999")
     {
-        return error_notify('cpf_cnpj','CNPJ inválido','Digite um CNPJ existente')
+        result = false // error_notify('cpf_cnpj','CNPJ inválido','Digite um CNPJ existente')
     }
 
     var tamanho = cnpj.length - 2;
@@ -149,7 +174,7 @@ function validate_cnpj(cpf_cnpj) {
     }
     var resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
     if (resultado != digitos.charAt(0)){
-        return error_notify('cpf_cnpj','CNPJ inválido','Digite um CNPJ ')
+        result = false // error_notify('cpf_cnpj','CNPJ inválido','Digite um CNPJ ')
     }
 
     tamanho = tamanho + 1;
@@ -163,8 +188,14 @@ function validate_cnpj(cpf_cnpj) {
     }
     resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
     if (resultado != digitos.charAt(1)) {
-        return error_notify('cpf_cnpj', 'CNPJ inválido', 'Digite um CNPJ 22')
+        result = false // error_notify('cpf_cnpj', 'CNPJ inválido', 'Digite um CNPJ 22')
     }
+
+    if (result == false ){
+        set_wrong_field(cpf_cnpj,'Informe um CNPJ válido')
+        return notify('error','CNPJ não existente','informe cnpj válido');
+    }
+    clean_wrong_field(cpf_cnpj)
     return true;
 
 }
@@ -176,8 +207,15 @@ function validate_date_foundation (birth_date_foundation){
     var split = data.split('/');
     var year_data = split[2];
     var age = year_current - year_data;
-    if (age < 0){
-        return error_notify("birth_date_foundation","Data informada não é válida","Não se pode cadastrar datas futuras")
+    if(data === "__/__/____") {
+        set_wrong_field(birth_date_foundation,'Campo obrigatório');
+
+        return false
     }
+    if (age < 0){
+        set_wrong_field(birth_date_foundation,'Informe uma data válida')
+        return notify('error',"Data informada não é válida","Não se pode cadastrar datas futuras")
+    }
+    clean_wrong_field(birth_date_foundation);
     return true;
 }
