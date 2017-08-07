@@ -32,12 +32,9 @@ function validate_general_form(){
 
 function validate_all_form (){
       var validator = new FormValidator();
-
       validator.texts = validate_general_form();
       validator.settings.alerts = true;
-
-      var result = validator.checkAll($('#form-save-entity'))
-        //alert("Result:  "+)
+      var result = validator.checkAll($('#form-save-entity'));
       return result.valid
 }
 
@@ -45,8 +42,8 @@ function validate_field_entity (id_field){
     var validator = new FormValidator();
     validator.texts = validate_general_form();
     validator.settings.alerts = true;
-    result = validator.checkField($('#'+id_field));
-    return result
+    var result = validator.checkField($('#'+id_field));
+    return result.valid
 }
 
 

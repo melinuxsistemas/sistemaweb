@@ -113,11 +113,14 @@ QUnit.module('entity.register', {
 });
 QUnit.test("validate_form_regiter_person", function(assert ) {
 
+
   var fixture = $("#qunit-fixture");
+  fixture.append('<form id="form-save-entity" autocomplete="off" ng-submit="save_person()" novalidate>');
   fixture.append('<div class="form-group field field_required" id="field_cpf_cnpj"><sub><label id="lb_cpf_cnpj" for="cpf_cnpj">CPF</label></sub><input name="cpf_cnpj" id="cpf_cnpj" class="form-control  ng-pristine ng-empty ng-invalid ng-invalid-required ng-valid-maxlength ng-touched" autocomplete="off" ng-model="cpf_cnpj" required="" maxlength="32" type="text"> <div class="alert"> </div> </div>');
   fixture.append('<div class="form-group field field_required" id="field_entity_name"><sub><label id="lb_entity_name" for="entity_name">Nome Completo</label></sub><input name="entity_name" id="entity_name" class="form-control  ng-pristine ng-empty ng-invalid ng-invalid-required ng-valid-maxlength ng-touched" autocomplete="off" ng-model="entity_name" required="" data-validate-length-range="6" maxlength="64" type="text"> <div class="alert"> </div> </div>');
   fixture.append('<div class="form-group field field_required" id="field_fantasy_name"><sub><label id="lb_fantasy_name" for="fantasy_name">Nome Fantasia</label></sub><input name="fantasy_name" id="fantasy_name" class="form-control  ng-pristine ng-valid ng-empty ng-valid-maxlength ng-touched" autocomplete="off" ng-model="fantasy_name" maxlength="32" type="text"> <div class="alert"> </div> </div>');
   fixture.append('<div class="form-group field field_required" id="field_birth_date_foundation"><sub><label id="lb_birth_date_foundation" for="birth_date_foundation">Data de Nascimento</label></sub><input name="birth_date_foundation" id="birth_date_foundation" class="form-control  ng-pristine ng-empty ng-invalid ng-invalid-required ng-touched" ng-model="birth_date_foundation" required="required" type="text"> <div class="alert"> </div> </div>');
+  fixture.append('</form>');
 
   document.getElementById('cpf_cnpj').value = '';
   document.getElementById('entity_name').value = '';
