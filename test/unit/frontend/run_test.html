@@ -52,10 +52,15 @@
 
   <script src="../../../static/custom/js/working.js"></script>
   <script src="../../../static/bower_components/blanket/dist/qunit/blanket.min.js"></script>
+  <script src="../../../static/modules/core/validator.js" data-cover></script>
+  <script src="../../../static/bower_components/validator/validator.js" data-cover></script>
 
   <!-- ARQUIVOS A SEREM TESTADOS (DEPENDENCIAS) -->
   <script src="../../../static/modules/core/base.js" data-cover></script>
   <script src="../../../static/modules/user/usuario.js" data-cover></script>
+  <script src="../../../static/modules/entity/entity.js" data-cover></script>
+
+
 
   <!-- TESTE QUNIT RUNNER -->
   <script src="https://code.jquery.com/qunit/qunit-2.3.2.js"></script>
@@ -64,6 +69,8 @@
   <!-- SCRIPTS COM TESTES -->
   <script src="core/test_base.js"></script>
   <script src="usuario/test_usuario.js"></script>
+  <script src="entity/test_entity.js"></script>
+  <!--<script src="entity/test_entity.js"></script-->
 
 
   <!-- FIM DOS TESTES -->

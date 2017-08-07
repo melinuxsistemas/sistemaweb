@@ -31,12 +31,13 @@ function validate_general_form(){
 }
 
 function validate_all_form (){
-
       var validator = new FormValidator();
+
       validator.texts = validate_general_form();
       validator.settings.alerts = true;
 
-      result = validator.checkAll($('#form-save-entity'))
+      var result = validator.checkAll($('#form-save-entity'))
+        //alert("Result:  "+)
       return result.valid
 }
 
@@ -45,12 +46,16 @@ function validate_field_entity (id_field){
     validator.texts = validate_general_form();
     validator.settings.alerts = true;
     result = validator.checkField($('#'+id_field));
-    return result.valid
+    return result
 }
 
 
 
 function validate_form_regiter_person (){
+    var y = validate_cpf("cpf_cnpj")
+    var x = validate_date_person("birth_date_foundation")
+    var z = validate_all_form();
+    alert ("Resultados: \n Y:"+y+"\n X:"+x+"\n Z"+z)
     return (validate_all_form() && validate_cpf("cpf_cnpj") && validate_date_person("birth_date_foundation"));
 }
 
@@ -113,7 +118,7 @@ function validate_date_person(birth_date_foundation) {
     var split = data.split('/');
     var year_data = split[2];
     var age = year_current - year_data;
-    if(data === "__/__/____") {
+    if(data === "__/__/____" || data === '') {
         set_wrong_field(birth_date_foundation,'Informe uma data')
         return false;
     }
@@ -136,6 +141,7 @@ function validate_date_person(birth_date_foundation) {
 
 
 function validate_form_regiter_company() {
+
     return ( validate_cnpj('cpf_cnpj') && validate_date_foundation('birth_date_foundation') && validate_all_form() )
 }
 

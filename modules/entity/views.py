@@ -2,10 +2,11 @@ from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import render, redirect
 
+from modules.core.working_api import WorkingManager
 from modules.entity.forms import FormPersonEntity, FormCompanyEntity
 
 
-#@login_required()
+@login_required()
 def register_entity(request,entity_type):
     if entity_type == 'person':
         form_entity = FormPersonEntity()

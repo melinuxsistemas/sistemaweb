@@ -199,8 +199,8 @@ EMAIL_PORT = 587
 
 CONFIG = configurations
 
-SELENIUM_GECKODRIVER_MOZILLA = configuration.geckodriver_path
-MOZILLA_FIREFOX_TEST_PATH = configuration.mozilla_firefox_path
+SELENIUM_GECKODRIVER_MOZILLA = configurations.geckodriver_path
+MOZILLA_FIREFOX_TEST_PATH = configurations.mozilla_firefox_path
 SELENIUM_URL_PROJECT_TEST = "http://127.0.0.1:8000/"
 
 from modules.core.working_api import WorkingManager
