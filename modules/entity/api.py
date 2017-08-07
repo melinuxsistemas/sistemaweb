@@ -36,7 +36,6 @@ class EntityAPI:
                     message_dict[field] = value
                 response_dict = response_format_error(message_dict)
 
-
         else:
             response_dict = response_format_error(form.format_validate_response())
             #response_dict = errors #response_format_error("Formulário com dados inválidos.")
