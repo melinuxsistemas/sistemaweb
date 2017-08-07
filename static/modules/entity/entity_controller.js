@@ -92,39 +92,34 @@ application.controller('register_person_controller', function($scope) {
     request_api("/api/user/reactivate",data_paramters,validate_form_confirm_register,success_function,null)
   }
 });
-
-
-application.controller('login_controller', function($scope) {
-
-  $scope.login_autentication = function () {
-    var data_paramters = {email: $scope.email, password: $scope.password}
-    success_function = function(){
-      window.location = "/";
-    }
-    request_api("/api/user/login/autentication",data_paramters,validate_form_login,success_function,null)
-  }
-});
 */
 
-/*
-application.controller('entity_controller', function ($scope) {
-  $scope.tipo_entidade = "";
-  $scope.cpf_cnpj = "";
-  $scope.nome_razao = "";
-  $scope.nome_fantasia = "";
-  $scope.nasc_fundacao = "";
+application.controller('register_company_controller', function ($scope) {
+    $scope.cpf_cnpj = "";
+    $scope.entity_name = "";
+    $scope.fantasy_name = "";
+    $scope.birth_date_foundation = "";
 
-  $scope.save_entity = function () {
-    var data_paramters = {
-        tipo_entidade: $scope.tipo_entidade,
-        cpf_cnpj: $scope.cpf_cnpj,
-        nome_razao: $scope.nome_razao,
-        nome_fantasia: $scope.nome_fantasia,
-        nasc_fundacao: $scope.nasc_fundacao
+    $scope.save_company = function () {
+        $scope.cpf_cnpj = $('#cpf_cnpj').val();
+        $scope.birth_date_foundation = $('#birth_date_foundation').val();
+        var data_paramters = {
+            entity_type: 'PJ',
+            cpf_cnpj: clear_mask_numbers($scope.cpf_cnpj),
+            entity_name: $scope.entity_name,
+            fantasy_name: $scope.fantasy_name,
+            birth_date_foundation: $scope.birth_date_foundation,
+        }
+        success_function = function (message) {
+            check_response_message_form('#form-save-company', message);
+            alert("Beleza")
+        }
+
+        fail_function = function (message) {
+            check_response_message_form('#form-save-company', message);
+            notify('error', 'Formulário com dados inválidos', 'Verifique os dados informado.')
+        }
+        request_api("/api/entity/register/company/save", data_paramters, validate_form_regiter_company, success_function, fail_function)
+
     };
-    success_function = function () {
-      window.location = "/entidade/register/confirm"+$scope.cpf_cnpj;
-    }
-  }
 });
-*/

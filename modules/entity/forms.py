@@ -55,7 +55,8 @@ class AbstractFormEntity (forms.Form):
         widget=forms.TextInput(
             attrs={
                 'id': 'entity_name', 'name': 'entity_name', 'class': "form-control ", 'type': "text",
-                'autocomplete': "off", 'ng-model': 'entity_name', 'required': "required", 'data-validate-words':'2'
+                'autocomplete': "off", 'ng-model': 'entity_name', 'required': "required", 'pattern': '\S{2,} \S{2,}',
+                'data-validate-length-range': '6'
             }
         )
     )
@@ -81,7 +82,7 @@ class AbstractFormEntity (forms.Form):
         widget=forms.TextInput(
             attrs= {
                 'id': 'birth_date_foundation', 'class': "form-control ", 'type':'text',
-                'ng-model': 'birth_date_foundation'
+                'ng-model': 'birth_date_foundation','required': "required"
             }
         )
     )
@@ -106,7 +107,7 @@ class AbstractFormEntity (forms.Form):
         widget=forms.Textarea(
             attrs={
                 'id': 'observations', 'name': 'observations', 'class': "form-control ", 'cols':2,'rows':3,
-                'type': "text", 'ng-model': 'comments'
+                'type': "text", 'ng-model': 'observations'
             }
         )
     )
@@ -175,7 +176,7 @@ class FormCompanyEntity(AbstractFormEntity):
 
     relations_company = forms.MultipleChoiceField(label="Tipo de Relação", choices=options_relation_type,
                                                   error_messages=ERRORS_MESSAGES, widget=forms.CheckboxSelectMultiple(
-            attrs={'id': 'relation_type', 'class': 'form-contro', 'name': 'relation_type',
+            attrs={'id': 'relation_type', 'class': 'form-control', 'name': 'relation_type',
                    'ng-model': 'relation_type'}))
 
     company_activities = forms.MultipleChoiceField(label="Tipo de Atividade Empresarial", choices=options_activity,

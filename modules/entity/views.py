@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from modules.entity.forms import FormPersonEntity, FormCompanyEntity
 
 
-@login_required()
+#@login_required()
 def register_entity(request,entity_type):
     if entity_type == 'person':
         form_entity = FormPersonEntity()

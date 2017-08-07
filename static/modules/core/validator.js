@@ -20,6 +20,14 @@ function get_message_validators(){
       }
 }
 
+function  validate_field (field_id) {
+    var message = get_message_validators();
+    var validator = new FormValidator();
+    validator.settings.alerts = true;
+    validator.texts = message;
+    return validator.checkField($(this))
+}
+
 function validate_form(form_id){
   var messages = get_message_validators();
   var validator = new FormValidator();

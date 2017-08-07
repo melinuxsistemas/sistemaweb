@@ -55,7 +55,7 @@
         {% csrf_token %}
         <div class="row">
           <div class="col-lg-2 col-xs-12 col-sm-3">
-            <div class="form-group field field_required" id="field_cpf_cnpj" data-validate-words="2">
+            <div class="form-group field field_required" id="field_cpf_cnpj">
           <sub><label id="lb_cpf_cnpj" for="cpf_cnpj">{{ form_entity.cpf_cnpj.label|upper }}</label></sub>
               {{ form_entity.cpf_cnpj }}
               <div class="alert">
@@ -110,292 +110,6 @@
         </div>
       </form>
 
-
-      <!--
-      <fieldset>
-        <legend><small><b>Endereço</b></small></legend>
-        <p class="text-center">Em construção</p>
-      </fieldset>
-
-      <fieldset>
-        <legend><small><b>Contatos</b></small></legend>
-        <p class="text-center">Em construção</p>
-      </fieldset>
-      -->
-
-
-
-
-
-
-
-
-      <!--
-      <br><br><br><br>
-
-      <div class="" role="tabpanel" data-example-id="togglable-tabs">
-        <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-          <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Identificação</a>
-          </li>
-          <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Contatos</a>
-          </li>
-          <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Finalizar</a>
-          </li>
-        </ul>
-
-        <div id="myTabContent" class="tab-content">
-          <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
-            <form>
-              <div class="row">
-                <div class="col-lg-2">
-                  <div class="form-group field_required">
-                    <sub><label id="lb_cpf_cnpj" for="cpf_cnpj">{{ form_entity.cpf_cnpj.label|upper }}</label></sub>
-                    {{ form_entity.cpf_cnpj }}
-                  </div>
-                </div>
-
-                <div class="col-lg-5">
-                  <div class="form-group field_required">
-                    <sub><label id="lb_entity_name" for="entity_name">{{ form_entity.entity_name.label }}</label> </sub>
-                    {{ form_entity.entity_name }}
-                  </div>
-
-
-                </div>
-
-                <div class="col-lg-3">
-                  <div class="form-group field_required">
-                    <sub><label id="lb_fantasy_name" for="fantasy_name">{{ form_entity.fantasy_name.label }}</label> </sub>
-                    {{ form_entity.fantasy_name }}
-                  </div>
-                </div>
-
-                <div class="col-lg-2">
-                  <div class="form-group field_required">
-                    <sub><label id="lb_birth_date_foundation" for="birth_date_foundation">{{ form_entity.birth_date_foundation.label }}</label> </sub>
-                    {{ form_entity.birth_date_foundation }}
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
-          <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
-            <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo
-              booth letterpress, commodo enim craft beer mlkshk aliquip</p>
-          </div>
-          <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
-            <h5>Confirme os dados</h5>
-            {% verbatim %}
-            <p>CPF: {{ cpf_cnpj }}</p>
-            <p>Nome Completo: {{ entity_name }}</p>
-            <p>Nome Completo: {{ fantasy_name }}</p>
-            <p>Data de Nascimento: {{ birth_date_foundation }}</p>
-            {% endverbatim %}
-          </div>
-        </div>
-      </div>
-      -->
-
-
-      <!-- Smart Wizard
-      <div id="wizard" class="form_wizard wizard_horizontal">
-
-        <ul class="wizard_steps" style="padding-left: 5px;padding-right: 5px;padding-bottom: 10px; border-bottom: 1px solid #f3f3f3;">
-          <li>
-            <a href="#step-1">
-              <span class="step_no">1</span>
-              <span class="step_descr">
-                <small><label>Identificação</label></small>
-            </span>
-            </a>
-          </li>
-          <li>
-            <a href="#step-2">
-              <span class="step_no">2</span>
-              <span class="step_descr">
-                <small><label>Localização</label></small>
-            </span>
-            </a>
-          </li>
-          <li>
-            <a href="#step-3" >
-              <span class="step_no" >3</span>
-              <span class="step_descr">
-                <small><label>Contatos</label></small>
-            </span>
-            </a>
-          </li>
-          <li>
-            <a href="#step-4">
-              <span class="step_no">4</span>
-              <span class="step_descr">
-                <small><label>Observações</label></small>
-            </span>
-            </a>
-          </li>
-          <li>
-            <a href="#step-5">
-              <span class="step_no">5</span>
-              <span class="step_descr">
-                <small><label>Salvar</label></small>
-            </span>
-            </a>
-          </li>
-        </ul>
-
-        <div id="step-1" class="stepContainer" style="min-height: 340px;">
-          <form>
-
-            <div class="row">
-              <div class="col-lg-2">
-                <sub><label id="lb_type_entity" for="type_entity">{{ form_entity.type_entity.label }}</label></sub>
-                {{ form_entity.type_entity }}
-              </div>
-
-              <div class="col-lg-2">
-                <div class="form-group field_required">
-                  <sub><label id="lb_cpf_cnpj" for="cpf_cnpj">{{ form_entity.cpf_cnpj.label|upper }}</label></sub>
-                  {{ form_entity.cpf_cnpj }}
-                </div>
-              </div>
-
-              <div class="col-lg-8">
-                <div class="form-group field_required">
-                  <sub><label id="lb_entity_name" for="entity_name">{{ form_entity.entity_name.label }}</label> </sub>
-                  {{ form_entity.entity_name }}
-                </div>
-              </div>
-            </div>
-
-            <div class="row" style="margin-top: -10px;">
-              <div class="col-lg-4">
-                <div class="form-group field_required">
-                  <sub><label id="lb_fantasy_name" for="fantasy_name">{{ form_entity.fantasy_name.label }}</label> </sub>
-                  {{ form_entity.fantasy_name }}
-                </div>
-              </div>
-
-              <div class="col-lg-2">
-                <div class="form-group field_required">
-                  <sub><label id="lb_birth_date_foundation" for="birth_date_foundation">{{ form_entity.birth_date_foundation.label }}</label> </sub>
-                  {{ form_entity.birth_date_foundation }}
-                </div>
-              </div>
-
-              <div class="col-lg-3">
-                <div class="form-group field_required">
-                  <sub><label id="lb_company_activities" for="company_activities">{{ form_entity.company_activities.label }}</label> </sub>
-                  <br/>
-                  <!- .multiselect {text-align: left;}->
-                  <select id="options_activities_company" multiple="multiple" class="form-control">
-                    <option value="Consumidor">Consumidor</option>
-                    <option value="Comércio">Comércio</option>
-                    <option value="Serviços">Serviços</option>
-                    <option value="Indústria">Indústria</option>
-                    <option value="Transporte">Transporte</option>
-                    <option value="Importação">Importação</option>
-                    <option value="Exportação">Exportação</option>
-                    <option value="Produtor">Produtor Rural</option>
-                    <option value="Extrativista">Extrativista</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="col-lg-3">
-                <div class="form-group field_required">
-                  <sub><label id="lb_relations_company" for="company_activities">{{ form_entity.relations_company.label }}</label> </sub>
-                  <br/>
-                  <!- .multiselect {text-align: left;}->
-                  <select id="options_relations_company" multiple="multiple" class="form-control">
-                    <option value="Cliente">Cliente</option>
-                    <option value="Fornecedor">Fornecedor</option>
-                    <option value="Funcionário">Funcionário</option>
-                    <option value="Transportador">Transportador</option>
-                    <option value="Representante">Representante</option>
-                    <option value="Contador">Contador</option>
-                    <option value="Banco">Banco</option>
-                  </select>
-                </div>
-              </div>
-
-              <script type="text/javascript">
-                $(document).ready(function() {
-                  $('#options_activities_company').multiselect({
-                    /*onChange: (function(option, checked) {
-                    // Get selected options.
-                    var selectedOptions = $('#demo option:selected');
-
-                    if (selectedOptions.length >= ) {
-                      // Disable all other checkboxes.
-                      var nonSelectedOptions = $('#demo option').filter(function () {
-                        return !$(this).is(':selected');
-                      });
-
-                      nonSelectedOptions.each(function () {
-                        var input = $('input[value="' + $(this).val() + '"]');
-                        input.prop('disabled', true);
-                        input.parent('li').addClass('disabled');
-                      });
-                    }
-                    else {
-                      // Enable all checkboxes.
-                      $('#demo option').each(function () {
-                        var input = $('input[value="' + $(this).val() + '"]');
-                        input.prop('disabled', false);
-                        input.parent('li').addClass('disabled');
-                      });
-                    }
-                    }),*/
-                    numberDisplayed: 10  ,
-                    nonSelectedText: 'Selecione uma ou mais opções',
-                    buttonWidth: '100%',
-                  });
-                });
-
-                $(document).ready(function() {
-                  $('#options_relations_company').multiselect({
-                    numberDisplayed: 10,
-                    nonSelectedText: 'Selecione uma ou mais opções',
-                    buttonWidth: '100%',
-                  });
-                });
-            </script>
-
-              <!-<div class="col-lg-3">
-                <div class="form-group field_required">
-                  <sub><label id="lb_relation_company" multiple="multiple" for="relation_company">{{ form_entity.relations_company.label }}</label> </sub>
-                  {{ form_entity.relations_company }}
-                </div>
-              </div>->
-            </div>
-
-            <!-
-            <div class="row" style="margin-top: -10px;">
-              <div class="col-lg-7">
-                <div class="form-group field_required">
-                  <sub><label id="lb_comments" for="comments">{{ form_entity.comments.label }}</label> </sub>
-                  {{ form_entity.comments }}
-                </div>
-              </div>
-            </div>
-            ->
-          </form>
-        </div>
-      </div>
-
-      <div class="wizard-step-bar" style="padding-top: 10px;border-top: 1px solid #f3f3f3;">
-        <!-<a href="#" class="buttonFinish buttonDisabled btn btn-default">Finish</a>->
-        <a href="#" class="buttonPrevious buttonDisabled btn btn-sm btn-default">Voltar</a>
-        <a href="#" class="buttonNext btn btn-sm btn-success pull-right">Próximo</a>
-      </div>
-
-      <script type="text/javascript">
-        $('#wizard').smartWizard({
-          transitionEffect: 'fade', // Effect on navigation, none/slide/fade
-          transitionSpeed: '300',
-        });
-      </script>
-      <!-- End SmartWizard Content -->
     </div>
   </div>
 </div>
@@ -403,11 +117,11 @@
 {% endblock %}
 
 {% block recursos_complementares %}
-  {% load static %}
-  <script src="{% static 'modules/entity/entity_controller.js' %}"></script>
-  <script src="{% static 'modules/entity/entity.js' %}"></script>
-  <link rel="stylesheet" href="{% static 'custom/smartwizard/jQuery-Multiple-Select-Plugin-For-Bootstrap-Bootstrap-Multiselect/bootstrap-multiselect.css' %}" type="text/css">
-  <script type="text/javascript" src="{% static 'custom/smartwizard/jQuery-Multiple-Select-Plugin-For-Bootstrap-Bootstrap-Multiselect/bootstrap-multiselect.js' %}"></script>
+    {% load static %}
+    <script src="{% static 'modules/entity/entity_controller.js' %}"></script>
+    <script src="{% static 'modules/entity/entity.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'custom/smartwizard/jQuery-Multiple-Select-Plugin-For-Bootstrap-Bootstrap-Multiselect/bootstrap-multiselect.css' %}" type="text/css">
+    <script type="text/javascript" src="{% static 'custom/smartwizard/jQuery-Multiple-Select-Plugin-For-Bootstrap-Bootstrap-Multiselect/bootstrap-multiselect.js' %}"></script>
     <script type="text/javascript" src="{% static 'bower_components/validator/validator.js'  %}"></script>
     <script type="text/javascript" src="{% static 'custom/mask/mask.js' %}"></script>
     <script type="text/javascript">
@@ -415,6 +129,28 @@
         $('#cpf_cnpj').mask('999.999.999-99');
         $('#birth_date_foundation').mask('99/99/9999');
       });
+    </script>
+    <script>
+        document.getElementById("cpf_cnpj").onblur = function () {func_val_cpf()};
+        document.getElementById("birth_date_foundation").onblur = function () {func_val_date()};
+        document.getElementById('entity_name').onblur = function () {func_val_name()};
+        document.getElementById('fantasy_name').onblur = function () {func_val_fant()};
+
+        function func_val_cpf (){
+            validate_cpf('cpf_cnpj')
+        }
+
+        function func_val_name () {
+            validate_field_entity('entity_name')
+        }
+
+        function func_val_fant () {
+            validate_field_entity ('fantasy_name')
+        }
+
+        function func_val_date () {
+            validate_date_person('birth_date_foundation')
+        }
     </script>
 
 {% endblock %}
