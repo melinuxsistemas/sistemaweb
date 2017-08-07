@@ -1,3 +1,5 @@
+# -*- encoding: utf-8 -*-
+
 from modules.core.api import AbstractAPI
 from modules.core.utils import response_format_success, response_format_error, generate_activation_code, generate_random_password
 from modules.core.comunications import send_generate_activation_code, resend_generate_activation_code ,send_reset_password

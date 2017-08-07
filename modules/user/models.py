@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.core.mail import send_mail
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
-from modules.core.config import MENSAGENS_ERROS
+from modules.core.config import ERRORS_MESSAGES
 from modules.core.utils import generate_activation_code
 from modules.core.validators import check_password_format
 from modules.user.validators import email_format_validator,email_dangerous_symbols_validator
@@ -108,12 +108,12 @@ class UserManager(BaseUserManager):
 
 
 class User(PermissionsMixin, AbstractBaseUser):
-    email             = models.EmailField(_('Email'), max_length=255, unique=True,validators=[email_format_validator, email_dangerous_symbols_validator],error_messages=MENSAGENS_ERROS)
-    type_user         = models.CharField("Tipo de Usuário:",max_length=1,null=False,default='F',error_messages=MENSAGENS_ERROS)
+    email             = models.EmailField(_('Email'), max_length=255, unique=True, validators=[email_format_validator, email_dangerous_symbols_validator], error_messages=ERRORS_MESSAGES)
+    type_user         = models.CharField("Tipo de Usuário:", max_length=1, null=False, default='F', error_messages=ERRORS_MESSAGES)
     joined_date       = models.DateTimeField(null=True, auto_now_add=True)
     last_update       = models.DateTimeField(null=True, auto_now=True)
     account_activated = models.BooleanField(default=False)
-    activation_code   = models.CharField(max_length=46,null=True,blank=True,error_messages=MENSAGENS_ERROS)
+    activation_code   = models.CharField(max_length=46, null=True, blank=True, error_messages=ERRORS_MESSAGES)
     active_user       = models.BooleanField(default=False)
 
     USERNAME_FIELD    = 'email'

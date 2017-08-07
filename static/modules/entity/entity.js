@@ -77,7 +77,6 @@ function compare_passwords(id_senha, id_confirma_senha){
 
 */
 function validate_date(data_birth_foundation) {
-
     alert("agora chegou?"+data_birth_foundation)
     var date_current = new Date;
     var year_current = data_current.getFullYear();

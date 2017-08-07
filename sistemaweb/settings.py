@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 import sys
+from conf import configurations
+from conf.user.vars import UserConfigurations, WorkingConfig
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -181,8 +184,7 @@ STATIC_ROOT = ''
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [ BASE_DIR+os.path.join('/static/'), ]
 
-WORKING_CONFIGURATION = os.path.join(BASE_DIR, 'conf/working.json')
-WORKING_SERVER = "http://192.168.1.114:8010"
+
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
@@ -195,15 +197,13 @@ EMAIL_HOST_USER = 'melinuxsistemas@gmail.com'
 EMAIL_HOST_PASSWORD = '61109119'
 EMAIL_PORT = 587
 
+CONFIG = configurations
 
-from conf import configuration
-from modules.core.working_api import WorkingManager
-
-
-SELENIUM_GECKODRIVER_MOZILLA = configuration.geckodriver_path
-MOZILLA_FIREFOX_TEST_PATH = configuration.mozilla_firefox_path
+SELENIUM_GECKODRIVER_MOZILLA = configurations.geckodriver_path
+MOZILLA_FIREFOX_TEST_PATH = configurations.mozilla_firefox_path
 SELENIUM_URL_PROJECT_TEST = "http://127.0.0.1:8000/"
 
+from modules.core.working_api import WorkingManager
 try:
     if "runserver" in sys.argv:
         WorkingManager().register_programming_backend()

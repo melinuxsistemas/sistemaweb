@@ -1,9 +1,24 @@
 from django.db import models
-from modules.core.config import MENSAGENS_ERROS
-from modules.entity.validators import cpf_cnpj_validator
+from modules.core.config import ERRORS_MESSAGES
+from modules.entity.validators import cpf_cnpj_validator, min_words_name_validator, birthdate_validator
 
 
-class Entity(models.Model):
+class BaseModel:
+
+    def show_fields_value(self):
+        for k, v in [(x, getattr(self, x)) for x in self.__dict__ if not x.startswith('_')]:
+            print(k,":",v)
+
+    def form_to_object(self, form):
+        for attribute, value in [(x, getattr(self, x)) for x in self.__dict__ if not x.startswith('_')]:
+            try:
+                form_value = form.cleaned_data[attribute]
+                setattr(self,attribute,form_value)
+            except:
+                pass
+
+
+class Entity(models.Model,BaseModel):
 
     class Meta:
         db_table = 'entity'
@@ -43,15 +58,15 @@ class Entity(models.Model):
         (8, "Extrativista"),
     )
 
-    type_entity = models.CharField("Tipo de Entidade:", max_length=2,null=False,choices=options_type_entity, error_messages=MENSAGENS_ERROS)
-    cpf_cnpj = models.CharField("CPF ou CNPJ",max_length=32, unique=True,null=False,validators=[cpf_cnpj_validator], error_messages=MENSAGENS_ERROS)
-    entity_name = models.CharField("Nome ou Razão Social",null=False,max_length=64,error_messages=MENSAGENS_ERROS)
-    fantasy_name = models.CharField("Nome Fantasia",null=False,max_length=32,error_messages=MENSAGENS_ERROS)
-    birth_date_foundation = models.DateTimeField("Data de Nascimento ou Fundação",null=True,blank=True,validators=[],error_messages=MENSAGENS_ERROS)
-    relations_company = models.CharField("Tipo de Relação Empresarial",null=True,blank=True,max_length=512,error_messages=MENSAGENS_ERROS)
-    company_activities = models.CharField("Atividade Comercial",null=True,blank=True,max_length=512,error_messages=MENSAGENS_ERROS)
+    entity_type = models.CharField("Tipo de Entidade:", max_length=2, null=False, default='PF', choices=options_type_entity, error_messages=ERRORS_MESSAGES)
+    cpf_cnpj = models.CharField("CPF ou CNPJ", max_length=32, unique=True, null=False, validators=[cpf_cnpj_validator], error_messages=ERRORS_MESSAGES)
+    entity_name = models.CharField("Nome ou Razão Social", null=False, max_length=64,validators=[min_words_name_validator], error_messages=ERRORS_MESSAGES)
+    fantasy_name = models.CharField("Nome Fantasia", null=False, max_length=32, error_messages=ERRORS_MESSAGES)
+    birth_date_foundation = models.DateTimeField("Data de Nascimento ou Fundação", null=True, blank=True, validators=[birthdate_validator], error_messages=ERRORS_MESSAGES)
+    relations_company = models.CharField("Tipo de Relação Empresarial", null=True, blank=True, max_length=512, error_messages=ERRORS_MESSAGES)
+    company_activities = models.CharField("Atividade Comercial", null=True, blank=True, max_length=512, error_messages=ERRORS_MESSAGES)
     market_segments = models.CharField("Segmento de Mercado",max_length=512,null=True,blank=True)
-    registration_status = models.IntegerField(choices=options_registration_status,default=0,error_messages=MENSAGENS_ERROS)
+    registration_status = models.IntegerField(choices=options_registration_status, default=0, error_messages=ERRORS_MESSAGES)
     comments = models.TextField("Observações",max_length=500,null=True, blank=True)
     created_date = models.DateField(auto_now_add=True,null=True)
     last_update = models.DateField(null=True,auto_now=True)

@@ -1,6 +1,6 @@
 from django import forms
-from modules.core.config import MENSAGENS_ERROS
-from modules.entity.validators import cpf_cnpj_validator
+from modules.core.config import ERRORS_MESSAGES
+from modules.entity.validators import cpf_cnpj_validator, birthdate_validator, min_words_name_validator
 
 
 class AbstractFormEntity (forms.Form):
@@ -18,12 +18,26 @@ class AbstractFormEntity (forms.Form):
         (9, "Falecido/Encerrou Atividade"),
     )
 
+    entity_type = forms.CharField(
+        label="Tipo",
+        max_length=2,
+        validators=[],
+        required=True,
+        error_messages=ERRORS_MESSAGES,
+        widget=forms.TextInput(
+            attrs={
+                'id': 'entity_type', 'class': "form-control ", 'type': "text",
+                'autocomplete': "off", 'ng-model': 'entity_type', 'required': "required"
+            }
+        )
+    )
+
     cpf_cnpj = forms.CharField(
         label="CPF",
         max_length=32,
-        validators=[cpf_cnpj_validator],
+        #validators=[cpf_cnpj_validator],
         required=True,
-        error_messages=MENSAGENS_ERROS,
+        error_messages=ERRORS_MESSAGES,
         widget=forms.TextInput(
             attrs={
                 'id': 'cpf_cnpj', 'class': "form-control ", 'type': "text",
@@ -36,7 +50,8 @@ class AbstractFormEntity (forms.Form):
         label="Nome Completo",
         max_length=64,
         required=True,
-        error_messages=MENSAGENS_ERROS,
+        #validators=[min_words_name_validator],
+        error_messages=ERRORS_MESSAGES,
         widget=forms.TextInput(
             attrs={
                 'id': 'entity_name', 'name': 'entity_name', 'class': "form-control ", 'type': "text",
@@ -49,7 +64,7 @@ class AbstractFormEntity (forms.Form):
         label="Nome Fantasia",
         max_length=32,
         required=False,
-        error_messages=MENSAGENS_ERROS,
+        error_messages=ERRORS_MESSAGES,
         widget=forms.TextInput(
             attrs={
                 'id': 'fantasy_name', 'class': "form-control ", 'type': "text",
@@ -60,9 +75,9 @@ class AbstractFormEntity (forms.Form):
 
     birth_date_foundation = forms.DateTimeField(
         label="Data de Nascimento",
-        error_messages=MENSAGENS_ERROS,
+        error_messages=ERRORS_MESSAGES,
         required=False,
-        validators=[],
+        #validators=[birthdate_validator],
         widget=forms.TextInput(
             attrs= {
                 'id': 'birth_date_foundation', 'class': "form-control ", 'type':'text',
@@ -73,8 +88,9 @@ class AbstractFormEntity (forms.Form):
 
     registration_status = forms.ChoiceField(
         choices=options_status_register,
-        error_messages=MENSAGENS_ERROS,
+        error_messages=ERRORS_MESSAGES,
         required=False,
+        initial=0,
         widget= forms.Select(
             attrs={
                 'id': 'registration_status','name': 'registration_status', 'class': "form-control ",
@@ -90,7 +106,7 @@ class AbstractFormEntity (forms.Form):
         widget=forms.Textarea(
             attrs={
                 'id': 'observations', 'name': 'observations', 'class': "form-control ", 'cols':2,'rows':3,
-                'type': "text", 'ng-model': 'observations'
+                'type': "text", 'ng-model': 'comments'
             }
         )
     )
@@ -158,12 +174,12 @@ class FormCompanyEntity(AbstractFormEntity):
         (6, "Exportação"), (7, "Produtor Rural"), (8, "Extrativista"),)
 
     relations_company = forms.MultipleChoiceField(label="Tipo de Relação", choices=options_relation_type,
-        error_messages=MENSAGENS_ERROS, widget=forms.CheckboxSelectMultiple(
+                                                  error_messages=ERRORS_MESSAGES, widget=forms.CheckboxSelectMultiple(
             attrs={'id': 'relation_type', 'class': 'form-contro', 'name': 'relation_type',
                    'ng-model': 'relation_type'}))
 
     company_activities = forms.MultipleChoiceField(label="Tipo de Atividade Empresarial", choices=options_activity,
-        error_messages=MENSAGENS_ERROS, widget=forms.CheckboxSelectMultiple(
+                                                   error_messages=ERRORS_MESSAGES, widget=forms.CheckboxSelectMultiple(
             attrs={'id': 'activity', 'class': 'form-contro', 'name': 'activity', 'ng-model': 'activity'}))
 
     market_segment = forms.CharField(label="Segmento de Mercado", max_length=20, widget=forms.TextInput(

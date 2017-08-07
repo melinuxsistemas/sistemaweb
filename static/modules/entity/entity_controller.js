@@ -52,15 +52,19 @@ application.controller('register_person_controller', function($scope) {
   $scope.birth_date_foundation = "";
 
   $scope.save_person = function () {
-      $scope.cpf_cnpj = $('#cpf_cnpj').val()
-      $scope.birth_date_foundation = $('#birth_date_foundation').val()
+    $scope.cpf_cnpj = $('#cpf_cnpj').val();
+    $scope.birth_date_foundation = $('#birth_date_foundation').val();
+
     var data_paramters = {
       entity_type: 'PF',
+      registration_status: 0,
       cpf_cnpj: clear_mask_numbers($scope.cpf_cnpj),
       entity_name: $scope.entity_name,
       fantasy_name: $scope.fantasy_name,
       birth_date_foundation: $scope.birth_date_foundation,
+      comments: $scope.comments,
     }
+
     success_function = function(message){
       //window.location = "/"//register/confirm/"+$scope.email;
       check_response_message_form('#form-save-entity', message);
@@ -73,15 +77,8 @@ application.controller('register_person_controller', function($scope) {
     }
 
     validade_function = function () {
-     return true;
+     return  true; //validate_date($scope.birth_date_foundation);
     }
-    
-    request_api("/api/entity/register/person/save",data_paramters,validate_date($scope.birth_date_foundation),function () {
-      return true;
-    },success_function,null)
-
-    
-
     request_api("/api/entity/register/person/save",data_paramters,validade_function,success_function,fail_function)
   }
 });

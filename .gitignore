@@ -1,8 +1,7 @@
 # Created by .ignore support plugin (hsz.mobi)
 .idea/
 .sonar/
-/conf/working.json
-/conf/configuration.py
+/conf/configurations.py
 
 /static/bower_components
 /static/compress

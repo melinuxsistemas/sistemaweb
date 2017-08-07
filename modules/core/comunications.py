@@ -1,4 +1,4 @@
-from conf.configuration import SystemVariables
+from conf.configurations import SystemVariables
 from modules.core.utils import send_email
 
 

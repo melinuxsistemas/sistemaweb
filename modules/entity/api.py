@@ -1,4 +1,5 @@
 from modules.core.api import AbstractAPI
+from modules.core.config import ERRORS_MESSAGES
 from modules.core.utils import response_format_success, response_format_error, generate_activation_code
 from modules.core.comunications import send_generate_activation_code
 from modules.entity.forms import FormCompanyEntity,FormPersonEntity
@@ -10,39 +11,38 @@ from sistemaweb import settings
 import json
 
 
+
 class EntityAPI:
 
     def save_person(request):
         resultado, form = AbstractAPI.filter_request(request, FormPersonEntity)
-        print("VAMOS LA: ",request.POST)
         if resultado:
             entity = Entity()
-            response_dict = response_format_success(entity, [])
+            entity.form_to_object(form)
 
-            """
-            print("TA VALIDO")
-            email = request.POST['email'].lower()
-            senha = request.POST['password']
-            if User.objects.check_available_email(email):
-                #print("EMAIL TA DISPONIVEL")
-                usuario = User.objects.create_contracting_user(email, senha)
-                if usuario is not None:
-                    activation_code = generate_activation_code(email)
-                    send_generate_activation_code(email, activation_code)
-                    response_dict = response_format_success(usuario, ['email'])
-                else:
-                    #print("USUARIO NAO TA CADASTRADO")
-                    response_dict = response_format_error("Nao foi possivel criar objeto")
-            else:
-                #print("EMAIL TA INDISPONIVEL")
-                response_dict = response_format_error("Email já cadastrado.")
-            """
+            try:
+                entity.save()
+                response_dict = response_format_success(entity, ['cpf_cnpj','entity_name','fantasy_name','birth_date_foundation'])
+                entity.show_fields_value()
+            except Exception as e:
+                message_dict = {}
+                for erro in e.args:
+                    list_fields = erro.split(":")
+                    field = list_fields[1].split('.')[1]
+                    value = list_fields[0]
+                    for item in ERRORS_MESSAGES:
+                        if item in list_fields[0].lower():
+                            value = ERRORS_MESSAGES[item]
+                    message_dict[field] = value
+                response_dict = response_format_error(message_dict)
+
+
         else:
-            print("FORMULARIO INCORRETO")
-            errors = response_format_error(form.format_validate_response())
-            print("ERROS: ", errors)
-            response_dict = errors #response_format_error("Formulário com dados inválidos.")
+            response_dict = response_format_error(form.format_validate_response())
+            #response_dict = errors #response_format_error("Formulário com dados inválidos.")
         return HttpResponse(json.dumps(response_dict))
+
+
     """
     def register_delete(request, email):
         user = User.objects.get_user_email(email)

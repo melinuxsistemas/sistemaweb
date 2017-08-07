@@ -1,5 +1,5 @@
 from django import forms
-from modules.core.config import MENSAGENS_ERROS
+from modules.core.config import ERRORS_MESSAGES
 from modules.user.validators import email_dangerous_symbols_validator, password_format_validator, email_format_validator
 
 
@@ -10,7 +10,7 @@ class FormAbstractEmail(forms.Form):
         max_length=256,
         required=True,
         validators=[email_format_validator, email_dangerous_symbols_validator],
-        error_messages=MENSAGENS_ERROS,
+        error_messages=ERRORS_MESSAGES,
         widget=forms.TextInput(
             attrs={
                 'type': "text", 'class': "form-control text-lowercase", 'id': 'email',
@@ -26,7 +26,7 @@ class FormAbstractPassword(forms.Form):
         max_length=50,
         required=True,
         validators=[password_format_validator],
-        error_messages=MENSAGENS_ERROS,
+        error_messages=ERRORS_MESSAGES,
         widget=forms.TextInput(
             attrs={
                 'id': 'password','name': 'password', 'class': "form-control ", 'type': "password",
@@ -42,7 +42,7 @@ class FormAbstractConfirmPassword(forms.Form):
         label="Confirme a Senha",
         max_length=50,
         required=True, validators=[password_format_validator],
-        error_messages=MENSAGENS_ERROS,
+        error_messages=ERRORS_MESSAGES,
         widget=forms.TextInput(
             attrs={
                 'id': 'confirm_password','name':'confirm_password', 'class': "form-control", 'type': "password",

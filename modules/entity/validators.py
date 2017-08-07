@@ -1,17 +1,39 @@
 import re
-
+import datetime
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
 
+def birthdate_validator(value):
+    current_date = datetime.datetime.now()
+    if value > current_date:
+        raise ValidationError(_("Date can not be future"), code='future_date')
+        return False
+    return True
+
+def min_words_name_validator(value):
+    result = re.search(r"\S \S", value)
+    if result is None:
+        raise ValidationError(_("Name must contain at least two words"), code='name_min_words')
+        return False
+    else:
+        return True
+    """
+    words = value.split(" ")
+    value.join(re.findall('\d', str(value)))
+    if len(words) < 2:
+        raise ValidationError(_("Date can not be future"), code='future_date')
+        return False
+    """
+
 def cpf_cnpj_validator(value):
-    if len(value) == 11:
+    if len(value) <= 11:
         if not cpf_validator(value):
-            raise ValidationError(_("Cpf number not is valid."), code='integrity')
+            raise ValidationError(_("Cpf number is not valid."), code='invalid')
             return False
     else:
         if not cnpj_validator(value):
-            raise ValidationError(_("Cnpj number not is valid."), code='integrity')
+            raise ValidationError(_("Cnpj number is not valid."), code='invalid')
             return False
     return True
 

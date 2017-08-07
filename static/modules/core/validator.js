@@ -44,7 +44,6 @@ function validate_form(form_id){
 }
 
 function check_response_message_form(form_id, response_message) {
-  alert('vim')
   $(form_id +" input[type=text]").each(function () {
     var id = $(this).attr("id");
     var erro = response_message[id];

@@ -4,17 +4,19 @@ import requests
 import json
 
 
+
 class WorkingApi:
 
-    setup_file = settings.WORKING_CONFIGURATION
-    server_api = settings.WORKING_SERVER+"/api/work/register"
+    #print(dir(settings))
+    setup_file = settings.CONFIG.USER.WORKING.working_status
+    server_api = settings.CONFIG.USER.WORKING.working_register
     user_key = None
     project_key = None
     working_key = None
     task_id = None
 
     def get_working_key(self):
-        config = json.loads(open(settings.WORKING_CONFIGURATION).read())
+        config = self.setup_file
         self.user_key = config['user_key']
         self.project_key = config['project_key']
         self.task_id = config['task']

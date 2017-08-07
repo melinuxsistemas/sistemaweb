@@ -1,5 +1,5 @@
 from django import forms
-from modules.core.config import MENSAGENS_ERROS
+from modules.core.config import ERRORS_MESSAGES
 from modules.core.forms import FormAbstractPassword,FormAbstractConfirmPassword,FormAbstractEmail
 from modules.user.validators import password_format_validator
 
@@ -53,7 +53,7 @@ class FormChangePassword(FormAbstractPassword, FormAbstractConfirmPassword):
         max_length=50,
         required=True,
         validators=[password_format_validator],
-        error_messages=MENSAGENS_ERROS,
+        error_messages=ERRORS_MESSAGES,
         widget=forms.TextInput(
             attrs={
                 'id': 'old_password', 'class': "form-control",'type': "password",'autocomplete': "off", 'ng-model': 'old_password',
@@ -103,7 +103,7 @@ class FormActivationCode(forms.Form):
         label="Código de Ativação",
         max_length=46,
         required=False,
-        error_messages=MENSAGENS_ERROS,
+        error_messages=ERRORS_MESSAGES,
         widget=forms.TextInput(
             attrs={
                 'id': 'activation_code',

@@ -1,7 +1,7 @@
 from django.core import serializers
 from django.core.mail import EmailMessage
 
-from conf.configuration import SystemVariables
+from conf.configurations import SystemVariables
 from modules.user.validators import check_email_format
 import hashlib
 import threading
