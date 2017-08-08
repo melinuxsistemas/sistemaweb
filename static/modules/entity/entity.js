@@ -7,7 +7,7 @@ function clear_mask_numbers(value){
 
 function validate_general_form(){
   var messages = {
-        invalid         : 'Informe nome completo!',
+        invalid         : 'Informe nome contendo apenas letra e sem duplo espaço!',
         short           : 'Informe nome completo!',
         long            : 'Informe no máximo x caracteres!',
         checked         : 'must be checked',
@@ -52,7 +52,7 @@ function validate_form_regiter_person (){
     var y = validate_cpf("cpf_cnpj")
     var x = validate_date_person("birth_date_foundation")
     var z = validate_all_form();
-    alert ("Resultados: \n Y:"+y+"\n X:"+x+"\n Z"+z)
+    alert ("Resultados: \n cpf:"+y+"\n data:"+x+"\n form_All"+z)
     return (validate_all_form() && validate_cpf("cpf_cnpj") && validate_date_person("birth_date_foundation"));
 }
 
@@ -105,6 +105,7 @@ function validate_cpf (cpf_cnpj){
         return notify("error","CPF inválido","Cadastre um cpf válido");
     }
     clean_wrong_field(cpf_cnpj)
+
     return true;
 }
 
