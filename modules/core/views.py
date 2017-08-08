@@ -14,7 +14,15 @@ def index(request):
 
 
 def working(request):
+    print("TO VINDO AQUI NESSE CARAI??!")
     if request.is_ajax():
-        return WorkingManager().register_programming_frontend(request.GET['request_page'])
+        print("VAMOS VER QUANTAS VEZES VIM AQUI: ")
+        if "unit/frontend/run_test.html" in request.GET['request_page']:
+            print("VOU REGISTRAR O TEST..")
+            result = WorkingManager().register_test_front()
+            print("VEJA O QUE VOU ENCAMINHAR COMO RESPOSTA: ", result)
+            return result
+        else:
+            return WorkingManager().register_programming_frontend(request.GET['request_page'])
     else:
         raise Http404

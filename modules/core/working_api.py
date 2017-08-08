@@ -34,7 +34,6 @@ class WorkingApi:
         response = requests.get(self.server_api, data, headers=headers).json()
         #except:
         #    response = {'success':False,'message':'Server not enable.'}
-
         data = json.dumps(response)
         return HttpResponse(data, content_type='application/json')
 
@@ -60,6 +59,10 @@ class WorkingManager:
 
     def register_programming_frontend(self, page):
         return self.register(tag="PROG-FRONT",request_page=page)
+
+    def register_test_front(self):
+        print("TEM QUE REGISTRAR QUE VOU RODAR O TEST DE FRONT")
+        return self.register(tag="TEST-FRONT")
 
     def register_test_backend(self):
         return self.register(tag="TEST-BACK")

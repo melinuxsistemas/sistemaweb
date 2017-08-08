@@ -1,25 +1,36 @@
 function working_qunit(){
   var request_page = window.location.href;
   request_page = request_page.slice(request_page.indexOf("/test"));
+
   $.ajax({
     type: "GET",
-    url: "http://localhost:8000/api/working/register/",
+    url: "/api/working/register",
     data: {
       request_page: request_page,
     },
 
     complete : function(data) {
-      //alert("Olha a data: "+JSON.stringify(data))
-      new PNotify({
+        alert("VEJA: "+JSON.stringify(data))
+      var result = $.parseJSON(data['responseText'])['success'];
+      var data = $.parseJSON(data['responseText'])['data']
+      var texto = "<sub>"+data.date+": "+data.user_name+" working on <a class='' href='"+data.task_url+"'>task#"+data.task_number+".</a></sub>"
+      if(result == true){
+        new PNotify({
             title: "WorkingAPI was updated",
-            addclass: 'visible',
-            text: '',
+            text: texto,
+            type: 'success',
             hide: true,
             delay: 2000,
             mouse_reset: false,
-            type: 'success',
             styling: 'bootstrap3'
         });
+      }
+      else{
+        alert("Erro! WorkingApi failed to register job.")
+      }
+    },
+    failure: function (data) {
+      alert('Erro! Falha na execução do ajax');
     }
   });
 }
