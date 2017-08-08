@@ -124,6 +124,10 @@ QUnit.test("validate_form_regiter_person", function(assert ) {
 
   document.getElementById('cpf_cnpj').value = '';
   document.getElementById('entity_name').value = '';
+  assert.ok(validate_form_regiter_person() == false, "Teste: Não permitir cadastro com campos vazio (OK) ");
+
+  document.getElementById('cpf_cnpj').value = '38141674226';
+  document.getElementById('entity_name').value = '';
   document.getElementById('fantasy_name').value = '';
   document.getElementById('birth_date_foundation').value = '';
   assert.ok(validate_form_regiter_person() == false, "Teste: Não permitir cadastro com campos vazio (OK) ");
@@ -135,28 +139,10 @@ QUnit.test("validate_form_regiter_person", function(assert ) {
   assert.ok(validate_form_regiter_person() == false, "Teste: Não permite cpf inválidos (OK) ");
 
   document.getElementById('cpf_cnpj').value = '38141674226';
-  document.getElementById('entity_name').value = 'Test';
-  document.getElementById('fantasy_name').value = 'Teste';
-  document.getElementById('birth_date_foundation').value = '01/01/1998';
+  document.getElementById('entity_name').value = '';
+  document.getElementById('fantasy_name').value = '';
+  document.getElementById('birth_date_foundation').value = '';
   assert.ok(validate_form_regiter_person() == false, "Teste: Não permitir cadastro com somente uma palavra (OK) ");
-
-  document.getElementById('cpf_cnpj').value = '38141674226';
-  document.getElementById('entity_name').value = '';
-  document.getElementById('fantasy_name').value = '';
-  document.getElementById('birth_date_foundation').value = '';
-  assert.ok(validate_form_regiter_person() == false, "Teste: Não permitir cadastro com campos vazio (OK) ");
-
-  document.getElementById('cpf_cnpj').value = '38141674226';
-  document.getElementById('entity_name').value = '';
-  document.getElementById('fantasy_name').value = '';
-  document.getElementById('birth_date_foundation').value = '';
-  assert.ok(validate_form_regiter_person() == false, "Teste: Não permitir cadastro com campos vazio (OK) ");
-
-  document.getElementById('cpf_cnpj').value = '38141674226';
-  document.getElementById('entity_name').value = '';
-  document.getElementById('fantasy_name').value = '';
-  document.getElementById('birth_date_foundation').value = '';
-  assert.ok(validate_form_regiter_person() == false, "Teste: Não permitir cadastro com campos vazio (OK) ");
 
   document.getElementById('cpf_cnpj').value = '38141674226';
   document.getElementById('entity_name').value = 'Teste Teste';

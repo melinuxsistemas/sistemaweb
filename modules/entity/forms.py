@@ -68,8 +68,8 @@ class AbstractFormEntity (forms.Form):
         error_messages=ERRORS_MESSAGES,
         widget=forms.TextInput(
             attrs={
-                'id': 'fantasy_name', 'class': "form-control ", 'type': "text",
-                'autocomplete': "off", 'ng-model': 'fantasy_name'
+                'id': 'fantasy_name', 'class': "form-control optional", 'type': "text",
+                'autocomplete': "off", 'ng-model': 'fantasy_name', 'pattern':'/S{2}'
             }
         )
     )

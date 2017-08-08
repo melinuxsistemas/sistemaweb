@@ -116,21 +116,19 @@ function validate_date_person(birth_date_foundation) {
     var split = data.split('/');
     var year_data = split[2];
     var age = year_current - year_data;
-    if(data === "__/__/____" || data === '') {
-        set_wrong_field(birth_date_foundation,'Informe uma data')
-        return false;
-    }
-    if(age < 18 && age>0){
-        set_wrong_field(birth_date_foundation,'Informe uma data válida')
-        return notify("error","Data de nascimento inválida","Não pode cadastrar pessoas com menos de 18 anos");
-    }
-    if (age>150){
-        set_wrong_field(birth_date_foundation,'Informe uma data válida')
-        return notify("error","Data informada não é valida","Não se pode cadastrar pessoas com idade acima de 150 anos")
-    }
-    if (age < 0){
-        set_wrong_field(birth_date_foundation,'Informe uma data válida')
-        return notify("error","Data informada não é válida","Não se pode cadastrar datas futuras")
+    if(!(data === "__/__/____") && !(data === '')) {
+        if(age < 18 && age>0){
+            set_wrong_field(birth_date_foundation,'Informe uma data válida')
+            return notify("error","Data de nascimento inválida","Não pode cadastrar pessoas com menos de 18 anos");
+        }
+        if (age>150){
+            set_wrong_field(birth_date_foundation,'Informe uma data válida')
+            return notify("error","Data informada não é valida","Não se pode cadastrar pessoas com idade acima de 150 anos")
+        }
+        if (age < 0){
+            set_wrong_field(birth_date_foundation,'Informe uma data válida')
+            return notify("error","Data informada não é válida","Não se pode cadastrar datas futuras")
+        }
     }
     clean_wrong_field(birth_date_foundation)
     return true;
