@@ -4,7 +4,6 @@ function clear_mask_numbers(value){
   return number;
 }
 
-
 function validate_general_form(){
   var messages = {
         invalid         : 'Informe nome contendo apenas letra e sem duplo espaço!',
@@ -19,7 +18,7 @@ function validate_general_form(){
         number          : 'not a number',
         email           : 'email address is invalid',
         email_repeat    : 'emails do not match',
-        date            : 'invalid date',
+        date            : 'data inválida',
         time            : 'invalid time',
         password_repeat : 'Senhas não conferem!',
         no_match        : 'no match',
@@ -43,6 +42,7 @@ function validate_field_entity (id_field){
     validator.texts = validate_general_form();
     validator.settings.alerts = true;
     var result = validator.checkField($('#'+id_field));
+    alert("Olha o q ta indo:    "+JSON.stringify(result))
     return result.valid
 }
 
@@ -52,11 +52,12 @@ function validate_form_regiter_person (){
     var y = validate_cpf("cpf_cnpj")
     var x = validate_date_person("birth_date_foundation")
     var z = validate_all_form();
-    alert ("Resultados: \n cpf:"+y+"\n data:"+x+"\n form_All"+z)
+    //alert ("Resultados: \n cpf:"+y+"\n data:"+x+"\n form_All"+z)
     return (validate_all_form() && validate_cpf("cpf_cnpj") && validate_date_person("birth_date_foundation"));
 }
 
 function validate_cpf (cpf_cnpj){
+
     var cpf = $('#'+cpf_cnpj).val();
     cpf = cpf.replace(/[^\d]+/g,'');
     var result = true;
@@ -105,7 +106,6 @@ function validate_cpf (cpf_cnpj){
         return notify("error","CPF inválido","Cadastre um cpf válido");
     }
     clean_wrong_field(cpf_cnpj)
-
     return true;
 }
 

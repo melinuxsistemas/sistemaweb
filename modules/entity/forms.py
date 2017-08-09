@@ -41,7 +41,7 @@ class AbstractFormEntity (forms.Form):
         widget=forms.TextInput(
             attrs={
                 'id': 'cpf_cnpj', 'class': "form-control ", 'type': "text",
-                'autocomplete': "off", 'ng-model': 'cpf_cnpj','required': "required"
+                'autocomplete': "off", 'ng-model': 'cpf_cnpj'
             }
         )
     )
@@ -69,7 +69,7 @@ class AbstractFormEntity (forms.Form):
         widget=forms.TextInput(
             attrs={
                 'id': 'fantasy_name', 'class': "form-control optional", 'type': "text",
-                'autocomplete': "off", 'ng-model': 'fantasy_name', 'pattern':'/S{2}'
+                'autocomplete': "off", 'ng-model': 'fantasy_name', 'data-validate-length-range': '6' #retirar o tamanho, colocado pra test
             }
         )
     )
@@ -81,7 +81,7 @@ class AbstractFormEntity (forms.Form):
         #validators=[birthdate_validator],
         widget=forms.TextInput(
             attrs= {
-                'id': 'birth_date_foundation', 'class': "form-control ", 'type':'text',
+                'id': 'birth_date_foundation', 'class': "form-control optional", 'type':'date',
                 'ng-model': 'birth_date_foundation'
             }
         )
