@@ -55,7 +55,7 @@ class AbstractFormEntity (forms.Form):
         widget=forms.TextInput(
             attrs={
                 'id': 'entity_name', 'name': 'entity_name', 'class': "form-control ", 'type': "text",
-                'autocomplete': "off", 'ng-model': 'entity_name', 'required': "required", #'pattern':'\S[a-z,A-Z]{2} \S[a-z,A-Z]{2}',
+                'autocomplete': "off", 'ng-model': 'entity_name', 'required': "True", #'pattern':'\S[a-z,A-Z]{2} \S[a-z,A-Z]{2}',
                 'data-validate-length-range': '6'
             }
         )
@@ -69,7 +69,7 @@ class AbstractFormEntity (forms.Form):
         widget=forms.TextInput(
             attrs={
                 'id': 'fantasy_name', 'class': "form-control optional", 'type': "text",
-                'autocomplete': "off", 'ng-model': 'fantasy_name', 'data-validate-length-range': '6' #retirar o tamanho, colocado pra test
+                'autocomplete': "off", 'ng-model': 'fantasy_name', 'data-validate-length-range': '3' #retirar o tamanho, colocado pra test
             }
         )
     )

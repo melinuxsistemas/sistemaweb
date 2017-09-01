@@ -25,8 +25,6 @@ function validate_general_form(){
         complete        : 'Informe o nome completo'
       }
     return messages;
-
-
 }
 
 function validate_all_form (){
@@ -38,22 +36,17 @@ function validate_all_form (){
 }
 
 function validate_field_entity (id_field){
-    var validator = new FormValidator();
-    validator.texts = validate_general_form();
-    validator.settings.alerts = true;
-    var result = validator.checkField($('#'+id_field));
-    alert("Olha o q ta indo:    "+JSON.stringify(result))
-    return result.valid
+    var campo = $('#'+id_field).val()
+	var validator = new FormValidator();
+	validator.texts = validate_general_form();
+	validator.settings.alerts = true;
+	var result = validator.checkField($('#'+id_field));
+  return result.valid
 }
 
 
-
 function validate_form_regiter_person (){
-    var y = validate_cpf("cpf_cnpj")
-    var x = validate_date_person("birth_date_foundation")
-    var z = validate_all_form();
-    //alert ("Resultados: \n cpf:"+y+"\n data:"+x+"\n form_All"+z)
-    return (validate_all_form() && validate_cpf("cpf_cnpj") && validate_date_person("birth_date_foundation"));
+  return (validate_all_form() && validate_cpf("cpf_cnpj") && validate_date_person("birth_date_foundation"));
 }
 
 function validate_cpf (cpf_cnpj){
@@ -133,7 +126,6 @@ function validate_date_person(birth_date_foundation) {
     clean_wrong_field(birth_date_foundation)
     return true;
 }
-
 
 
 function validate_form_regiter_company() {

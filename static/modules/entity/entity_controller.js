@@ -77,9 +77,9 @@ application.controller('register_person_controller', function($scope) {
     }
 
     validade_function = function () {
-     return  true; //validate_date($scope.birth_date_foundation);
+     return  validate_form_regiter_person(); //validate_date($scope.birth_date_foundation);
     }
-    request_api("/api/entity/register/person/save",data_paramters,validate_form_regiter_person,validade_function,success_function,fail_function)
+    request_api("/api/entity/register/person/save",data_paramters,validade_function,success_function,fail_function)
   }
 });
 /*
