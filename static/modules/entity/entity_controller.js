@@ -77,7 +77,7 @@ application.controller('register_person_controller', function($scope) {
     }
 
     validade_function = function () {
-     return  true; //validate_date($scope.birth_date_foundation);
+     return  validate_form_regiter_person(); //validate_date($scope.birth_date_foundation);
     }
     request_api("/api/entity/register/person/save",data_paramters,validade_function,success_function,fail_function)
   }
@@ -116,6 +116,7 @@ application.controller('register_company_controller', function ($scope) {
         }
 
         fail_function = function (message) {
+            alert("DEU PAU")
             check_response_message_form('#form-save-company', message);
             notify('error', 'Formulário com dados inválidos', 'Verifique os dados informado.')
         }

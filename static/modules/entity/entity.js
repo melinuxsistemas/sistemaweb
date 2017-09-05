@@ -4,10 +4,9 @@ function clear_mask_numbers(value){
   return number;
 }
 
-
 function validate_general_form(){
   var messages = {
-        invalid         : 'Informe nome completo!',
+        invalid         : 'Informe nome contendo apenas letra e sem duplo espaço!',
         short           : 'Informe nome completo!',
         long            : 'Informe no máximo x caracteres!',
         checked         : 'must be checked',
@@ -19,123 +18,118 @@ function validate_general_form(){
         number          : 'not a number',
         email           : 'email address is invalid',
         email_repeat    : 'emails do not match',
-        date            : 'invalid date',
+        date            : 'data inválida',
         time            : 'invalid time',
         password_repeat : 'Senhas não conferem!',
         no_match        : 'no match',
         complete        : 'Informe o nome completo'
       }
     return messages;
-
-
 }
 
 function validate_all_form (){
-
       var validator = new FormValidator();
       validator.texts = validate_general_form();
       validator.settings.alerts = true;
-
-      result = validator.checkAll($('#form-save-entity'))
+      var result = validator.checkAll($('#form-save-entity'));
       return result.valid
 }
 
 function validate_field_entity (id_field){
-    var validator = new FormValidator();
-    validator.texts = validate_general_form();
-    validator.settings.alerts = true;
-    result = validator.checkField($('#'+id_field));
-    return result.valid
+    var campo = $('#'+id_field).val()
+	var validator = new FormValidator();
+	validator.texts = validate_general_form();
+	validator.settings.alerts = true;
+	var result = validator.checkField($('#'+id_field));
+  return result.valid
 }
-
 
 
 function validate_form_regiter_person (){
-    return (validate_all_form() && validate_cpf("cpf_cnpj") && validate_date_person("birth_date_foundation"));
+  return (validate_all_form() && validate_cpf("cpf_cnpj") && validate_date_person("birth_date_foundation"));
 }
 
 function validate_cpf (cpf_cnpj){
-    var cpf = $('#'+cpf_cnpj).val();
-    cpf = cpf.replace(/[^\d]+/g,'');
-    var result = true;
 
-    if (cpf == ''){
-        set_wrong_field(cpf_cnpj,'Campo obrigatório');
-        return false
-    }
-    // Elimina CPFs invalidos conhecidos
-    if (cpf.length !== 11 ||
-        cpf === "00000000000" ||
-        cpf === "11111111111" ||
-        cpf === "22222222222" ||
-        cpf === "33333333333" ||
-        cpf === "44444444444" ||
-        cpf === "55555555555" ||
-        cpf === "66666666666" ||
-        cpf === "77777777777" ||
-        cpf === "88888888888" ||
-        cpf === "99999999999") {
-        result = false;
-    }
-    // Valida 1o digito
-    var add = 0;
-    for (i=0; i < 9; i ++)
-        add += parseInt(cpf.charAt(i)) * (10 - i);
-        var rev = 11 - (add % 11);
-        if (rev === 10 || rev === 11)
-            rev = 0;
-        if (rev !== parseInt(cpf.charAt(9)))
-            result = false;
-    // Valida 2o digito
-    add = 0;
-    for (i = 0; i < 10; i ++)
-        add += parseInt(cpf.charAt(i)) * (11 - i);
-    rev = 11 - (add % 11);
-    if (rev === 10 || rev === 11) {
-        rev = 0;
-    }
-    if (rev !== parseInt(cpf.charAt(10))){
-        result = false;
-    }
+  var cpf = $('#'+cpf_cnpj).val();
+  cpf = cpf.replace(/[^\d]+/g,'');
+  var result = true;
 
-    if (result === false){
-        set_wrong_field(cpf_cnpj, "Conteúdo inválido")
-        return notify("error","CPF inválido","Cadastre um cpf válido");
-    }
-    clean_wrong_field(cpf_cnpj)
-    return true;
+  if (cpf == ''){
+      set_wrong_field(cpf_cnpj,'Campo obrigatório');
+      return false
+  }
+  // Elimina CPFs invalidos conhecidos
+  if (cpf.length !== 11 ||
+      cpf === "00000000000" ||
+      cpf === "11111111111" ||
+      cpf === "22222222222" ||
+      cpf === "33333333333" ||
+      cpf === "44444444444" ||
+      cpf === "55555555555" ||
+      cpf === "66666666666" ||
+      cpf === "77777777777" ||
+      cpf === "88888888888" ||
+      cpf === "99999999999") {
+      result = false;
+  }
+  // Valida 1o digito
+  var add = 0;
+  for (i=0; i < 9; i ++)
+      add += parseInt(cpf.charAt(i)) * (10 - i);
+      var rev = 11 - (add % 11);
+      if (rev === 10 || rev === 11)
+          rev = 0;
+      if (rev !== parseInt(cpf.charAt(9)))
+          result = false;
+  // Valida 2o digito
+  add = 0;
+  for (i = 0; i < 10; i ++)
+      add += parseInt(cpf.charAt(i)) * (11 - i);
+  rev = 11 - (add % 11);
+  if (rev === 10 || rev === 11) {
+      rev = 0;
+  }
+  if (rev !== parseInt(cpf.charAt(10))){
+      result = false;
+  }
+
+  if (result === false){
+      set_wrong_field(cpf_cnpj, "Conteúdo inválido")
+      return notify("error","CPF inválido","Cadastre um cpf válido");
+  }
+  clean_wrong_field(cpf_cnpj)
+  return true;
 }
 
 function validate_date_person(birth_date_foundation) {
-    var data = $('#'+birth_date_foundation).val();
-    var date_current = new Date;
-    var year_current = date_current.getFullYear();
-    var split = data.split('/');
-    var year_data = split[2];
-    var age = year_current - year_data;
-    if(data === "__/__/____") {
-        set_wrong_field(birth_date_foundation,'Informe uma data')
-        return false;
-    }
-    if(age < 18 && age>0){
-        set_wrong_field(birth_date_foundation,'Informe uma data válida')
-        return notify("error","Data de nascimento inválida","Não pode cadastrar pessoas com menos de 18 anos");
-    }
-    if (age>150){
-        set_wrong_field(birth_date_foundation,'Informe uma data válida')
-        return notify("error","Data informada não é valida","Não se pode cadastrar pessoas com idade acima de 150 anos")
-    }
-    if (age < 0){
-        set_wrong_field(birth_date_foundation,'Informe uma data válida')
-        return notify("error","Data informada não é válida","Não se pode cadastrar datas futuras")
-    }
-    clean_wrong_field(birth_date_foundation)
-    return true;
+  var data = $('#'+birth_date_foundation).val();
+  var date_current = new Date;
+  var year_current = date_current.getFullYear();
+  var split = data.split('/');
+  var year_data = split[2];
+  var age = year_current - year_data;
+  if(!(data === "__/__/____") && !(data === '')) {
+      if(age < 18 && age>0){
+          set_wrong_field(birth_date_foundation,'Informe uma data válida')
+          return notify("error","Data de nascimento inválida","Não pode cadastrar pessoas com menos de 18 anos");
+      }
+      if (age>150){
+          set_wrong_field(birth_date_foundation,'Informe uma data válida')
+          return notify("error","Data informada não é valida","Não se pode cadastrar pessoas com idade acima de 150 anos")
+      }
+      if (age < 0){
+          set_wrong_field(birth_date_foundation,'Informe uma data válida')
+          return notify("error","Data informada não é válida","Não se pode cadastrar datas futuras")
+      }
+  }
+  clean_wrong_field(birth_date_foundation)
+  return true;
 }
 
 
-
 function validate_form_regiter_company() {
+
     return ( validate_cnpj('cpf_cnpj') && validate_date_foundation('birth_date_foundation') && validate_all_form() )
 }
 
