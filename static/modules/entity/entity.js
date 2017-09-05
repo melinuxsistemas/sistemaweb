@@ -51,80 +51,80 @@ function validate_form_regiter_person (){
 
 function validate_cpf (cpf_cnpj){
 
-    var cpf = $('#'+cpf_cnpj).val();
-    cpf = cpf.replace(/[^\d]+/g,'');
-    var result = true;
+  var cpf = $('#'+cpf_cnpj).val();
+  cpf = cpf.replace(/[^\d]+/g,'');
+  var result = true;
 
-    if (cpf == ''){
-        set_wrong_field(cpf_cnpj,'Campo obrigatório');
-        return false
-    }
-    // Elimina CPFs invalidos conhecidos
-    if (cpf.length !== 11 ||
-        cpf === "00000000000" ||
-        cpf === "11111111111" ||
-        cpf === "22222222222" ||
-        cpf === "33333333333" ||
-        cpf === "44444444444" ||
-        cpf === "55555555555" ||
-        cpf === "66666666666" ||
-        cpf === "77777777777" ||
-        cpf === "88888888888" ||
-        cpf === "99999999999") {
-        result = false;
-    }
-    // Valida 1o digito
-    var add = 0;
-    for (i=0; i < 9; i ++)
-        add += parseInt(cpf.charAt(i)) * (10 - i);
-        var rev = 11 - (add % 11);
-        if (rev === 10 || rev === 11)
-            rev = 0;
-        if (rev !== parseInt(cpf.charAt(9)))
-            result = false;
-    // Valida 2o digito
-    add = 0;
-    for (i = 0; i < 10; i ++)
-        add += parseInt(cpf.charAt(i)) * (11 - i);
-    rev = 11 - (add % 11);
-    if (rev === 10 || rev === 11) {
-        rev = 0;
-    }
-    if (rev !== parseInt(cpf.charAt(10))){
-        result = false;
-    }
+  if (cpf == ''){
+      set_wrong_field(cpf_cnpj,'Campo obrigatório');
+      return false
+  }
+  // Elimina CPFs invalidos conhecidos
+  if (cpf.length !== 11 ||
+      cpf === "00000000000" ||
+      cpf === "11111111111" ||
+      cpf === "22222222222" ||
+      cpf === "33333333333" ||
+      cpf === "44444444444" ||
+      cpf === "55555555555" ||
+      cpf === "66666666666" ||
+      cpf === "77777777777" ||
+      cpf === "88888888888" ||
+      cpf === "99999999999") {
+      result = false;
+  }
+  // Valida 1o digito
+  var add = 0;
+  for (i=0; i < 9; i ++)
+      add += parseInt(cpf.charAt(i)) * (10 - i);
+      var rev = 11 - (add % 11);
+      if (rev === 10 || rev === 11)
+          rev = 0;
+      if (rev !== parseInt(cpf.charAt(9)))
+          result = false;
+  // Valida 2o digito
+  add = 0;
+  for (i = 0; i < 10; i ++)
+      add += parseInt(cpf.charAt(i)) * (11 - i);
+  rev = 11 - (add % 11);
+  if (rev === 10 || rev === 11) {
+      rev = 0;
+  }
+  if (rev !== parseInt(cpf.charAt(10))){
+      result = false;
+  }
 
-    if (result === false){
-        set_wrong_field(cpf_cnpj, "Conteúdo inválido")
-        return notify("error","CPF inválido","Cadastre um cpf válido");
-    }
-    clean_wrong_field(cpf_cnpj)
-    return true;
+  if (result === false){
+      set_wrong_field(cpf_cnpj, "Conteúdo inválido")
+      return notify("error","CPF inválido","Cadastre um cpf válido");
+  }
+  clean_wrong_field(cpf_cnpj)
+  return true;
 }
 
 function validate_date_person(birth_date_foundation) {
-    var data = $('#'+birth_date_foundation).val();
-    var date_current = new Date;
-    var year_current = date_current.getFullYear();
-    var split = data.split('/');
-    var year_data = split[2];
-    var age = year_current - year_data;
-    if(!(data === "__/__/____") && !(data === '')) {
-        if(age < 18 && age>0){
-            set_wrong_field(birth_date_foundation,'Informe uma data válida')
-            return notify("error","Data de nascimento inválida","Não pode cadastrar pessoas com menos de 18 anos");
-        }
-        if (age>150){
-            set_wrong_field(birth_date_foundation,'Informe uma data válida')
-            return notify("error","Data informada não é valida","Não se pode cadastrar pessoas com idade acima de 150 anos")
-        }
-        if (age < 0){
-            set_wrong_field(birth_date_foundation,'Informe uma data válida')
-            return notify("error","Data informada não é válida","Não se pode cadastrar datas futuras")
-        }
-    }
-    clean_wrong_field(birth_date_foundation)
-    return true;
+  var data = $('#'+birth_date_foundation).val();
+  var date_current = new Date;
+  var year_current = date_current.getFullYear();
+  var split = data.split('/');
+  var year_data = split[2];
+  var age = year_current - year_data;
+  if(!(data === "__/__/____") && !(data === '')) {
+      if(age < 18 && age>0){
+          set_wrong_field(birth_date_foundation,'Informe uma data válida')
+          return notify("error","Data de nascimento inválida","Não pode cadastrar pessoas com menos de 18 anos");
+      }
+      if (age>150){
+          set_wrong_field(birth_date_foundation,'Informe uma data válida')
+          return notify("error","Data informada não é valida","Não se pode cadastrar pessoas com idade acima de 150 anos")
+      }
+      if (age < 0){
+          set_wrong_field(birth_date_foundation,'Informe uma data válida')
+          return notify("error","Data informada não é válida","Não se pode cadastrar datas futuras")
+      }
+  }
+  clean_wrong_field(birth_date_foundation)
+  return true;
 }
 
 
