@@ -41,6 +41,9 @@ class EntityAPI:
             #response_dict = errors #response_format_error("Formulário com dados inválidos.")
         return HttpResponse(json.dumps(response_dict))
 
+    def save_number(request):
+        print("Ja to vindo na API Do save Tel")
+        return HttpResponse(json.dumps({}))
 
     """
     def register_delete(request, email):
