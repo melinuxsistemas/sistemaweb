@@ -15,17 +15,15 @@ class EntityTest(TestCase):
 
     def test_validation_create_entity(self):
         variacoes = [
-            ['81575080966', 'TESTES TESTE TES', True],
-            [None, 'teste', False],
-            ['81575080966', None, False],
             ['', '', False],
-            ['81575080966', '', False],
             ['', 'Teste', False],
+            [None, 'teste', False],
+            ['81575080966', '', False],
+            ['81575080966', None, False],
+            ['81575080966', 'TESTES TESTE TES', True],
         ]
-        cont =0
 
         for item in variacoes:
-            cont+=1
             entity = Entity ()
             try:
                 entity.entity_type = 'PF'
