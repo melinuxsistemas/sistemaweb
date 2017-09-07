@@ -4,7 +4,7 @@ Feature: Entidade
   Scenario Outline: Cadastro nova entidade
 
     Given usuario entra no sistema e acessa o menu de cadastro de entidade
-    When  o usuario digitar "<CPF_CNPJ>", "<NomeRazao>", "<NomeFantasia>", e "<Data_Nasc_Fund>"
+    When  o usuario digitar "<cpf_cnpj>", "<nome_razao>", "<nome_fantasia>", e "<nascimento_fundacao>"
     Then O sistema tem como retorno a mensagem "<mensagem>"
     Examples:sistema
-      | CPF_CNPJ | NomeRazao | NomeFantasia | Data_Nasc_Fund | mensagem |
+      | cpf_cnpj | nome_razao | nome_fantasia | nascimento_fundacao | mensagem |
