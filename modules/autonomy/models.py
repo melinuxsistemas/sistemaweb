@@ -2,6 +2,7 @@ from django.db import models
 
 
 class Autonomy ():
+
     access_level = (
         ("0", "Sem Acesso"),
         ("1", "vizualizar"),

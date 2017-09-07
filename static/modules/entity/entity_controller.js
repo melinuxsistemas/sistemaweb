@@ -124,3 +124,15 @@ application.controller('register_company_controller', function ($scope) {
 
     };
 });
+
+application.controller('register_phone_entity', function ($scope) {
+  $scope.save_tel = function (){
+		alert('VINDO AQUI JÀ')
+	}
+});
+
+application.controller('register_email_entity', function ($scope) {
+  $scope.save_email = function (){
+		alert('VINDO AQUI JÀ')
+	}
+});

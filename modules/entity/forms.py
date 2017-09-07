@@ -1,5 +1,6 @@
 from django import forms
 from modules.core.config import ERRORS_MESSAGES
+from modules.core.forms import FormAbstractEmail
 from modules.entity.validators import cpf_cnpj_validator, birthdate_validator, min_words_name_validator
 
 
@@ -206,3 +207,17 @@ class FormCompanyEntity(AbstractFormEntity):
         self.fields['comments'].widget.attrs['placeholder']             = 'Obervações'
         self.fields['registration_status'].widget                       = forms.HiddenInput()
     """
+
+class FormAddPhone (FormAbstractEmail):
+    def __init__(self, *args, **kwargs):
+        super(FormAbstractEmail, self).__init__(*args,**kwargs)
+        self.fields['email'].widget.attrs['placeholder'] = 'Email..'
+
+    phone = forms.CharField(
+        label="Telefone",
+        widget= forms.TextInput(
+            attrs={
+                'id':'phone_number','name':'phone_number','class':'form_control'
+            }
+        )
+    )
