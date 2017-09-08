@@ -55,7 +55,7 @@ class AbstractFormEntity (forms.Form):
         error_messages=ERRORS_MESSAGES,
         widget=forms.TextInput(
             attrs={
-                'id': 'entity_name', 'name': 'entity_name', 'class': "form-control ", 'type': "text",
+                'id': 'entity_name', 'name': 'entity_name', 'class': "form-control uppercase", 'type': "text",
                 'autocomplete': "off", 'ng-model': 'entity_name', 'required': "True", #'pattern':'\S[a-z,A-Z]{2} \S[a-z,A-Z]{2}',
                 'data-validate-length-range': '6'
             }
@@ -69,7 +69,7 @@ class AbstractFormEntity (forms.Form):
         error_messages=ERRORS_MESSAGES,
         widget=forms.TextInput(
             attrs={
-                'id': 'fantasy_name', 'class': "form-control optional", 'type': "text",
+                'id': 'fantasy_name', 'class': "form-control optional uppercase", 'type': "text",
                 'autocomplete': "off", 'ng-model': 'fantasy_name', 'data-validate-length-range': '3' #retirar o tamanho, colocado pra test
             }
         )
@@ -107,7 +107,7 @@ class AbstractFormEntity (forms.Form):
         required=False,
         widget=forms.Textarea(
             attrs={
-                'id': 'observations', 'name': 'observations', 'class': "form-control ", 'cols':2,'rows':3,
+                'id': 'observations', 'name': 'observations', 'class': "form-control uppercase", 'cols':2,'rows':3,
                 'type': "text", 'ng-model': 'observations'
             }
         )
@@ -208,7 +208,7 @@ class FormCompanyEntity(AbstractFormEntity):
         self.fields['registration_status'].widget                       = forms.HiddenInput()
     """
 
-class FormAddPhone (FormAbstractEmail):
+class FormRegisterPhone (FormAbstractEmail):
     def __init__(self, *args, **kwargs):
         super(FormAbstractEmail, self).__init__(*args,**kwargs)
         self.fields['email'].widget.attrs['placeholder'] = 'Email..'
