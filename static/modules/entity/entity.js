@@ -213,3 +213,12 @@ function validate_date_foundation (birth_date_foundation){
     clean_wrong_field(birth_date_foundation);
     return true;
 }
+
+function validate_contact(){
+  var cpf = $('#cpf_cnpj').val()
+	if ( cpf == ''){
+    alert("Sem cpf")
+    return false
+  }
+  return true
+}

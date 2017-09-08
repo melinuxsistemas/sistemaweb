@@ -3,7 +3,7 @@ from modules.core.config import ERRORS_MESSAGES
 from modules.core.utils import response_format_success, response_format_error, generate_activation_code
 from modules.core.comunications import send_generate_activation_code
 from modules.entity.forms import FormCompanyEntity,FormPersonEntity
-from modules.entity.models import Entity
+from modules.entity.models import Entity, Contact
 from modules.user.models import User
 from django.http import HttpResponse
 from django.http import Http404
@@ -42,8 +42,23 @@ class EntityAPI:
         return HttpResponse(json.dumps(response_dict))
 
     def save_number(request):
-        print("Ja to vindo na API Do save Tel")
-        return HttpResponse(json.dumps({}))
+        cpf_cnpj = request.POST['id_entity']
+        entity = Entity.objects.get(cpf_cnpj=cpf_cnpj)
+
+        contact = Contact()
+        contact.id_entity = entity
+        contact.name = request.POST['name']
+        contact.type_contact = request.POST['type_contact']
+        contact.ddd = request.POST['ddd']
+        contact.phone = request.POST['phone']
+        contact.operadora = request.POST['operadora']
+        try:
+            contact.save()
+            response_dict = response_format_success(contact,['id_entity','name','type_contact','ddd','phone','operadora'])
+            contact.show_fields_value()
+        except:
+            response_dict = response_format_error(False)
+        return HttpResponse(json.dumps(response_dict))
 
     """
     def register_delete(request, email):

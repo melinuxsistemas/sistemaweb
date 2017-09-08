@@ -127,7 +127,37 @@ application.controller('register_company_controller', function ($scope) {
 
 application.controller('register_phone_entity', function ($scope) {
   $scope.save_tel = function (){
-		alert('VINDO AQUI JÀ')
+    var cpf_cnpj = $('#cpf_cnpj').val();
+		var data_paramters = {
+		  type_contact : $('#type_contact').val(),
+      name : $('#name_contact').val(),
+      ddd : $('#ddd').val(),
+      phone : $('#phone_number').val(),
+      operadora : $('#operadora').val(),
+      id_entity : $('#cpf_cnpj')
+    }
+
+    success_function = function (message) {
+		  //check_response_message_form('#form-save-contact',message)
+      alert("Salvou")
+      //$scope.reset_form()
+      $('#modal_add_phone').modal('hide')
+
+		}
+
+		fail_function = function () {
+      alert ("Deu Ruim")
+		}
+    request_api("/api/entity/register/phone", data_paramters, validate_contact(), success_function, fail_function)
+	}
+
+
+	$scope.reset_form = function () {
+    $('#type_contact').clean(),
+    $('#name_contact').clean(),
+    $('#ddd').clean(),
+    $('#phone_number').clean(),
+    $('#operadora').clean()
 	}
 });
 

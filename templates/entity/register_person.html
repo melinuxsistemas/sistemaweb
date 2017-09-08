@@ -39,14 +39,17 @@
 				<div class="" role="tabpanel" data-example-id="togglable-tabs">
 					<ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
 						<!--Aba de Identificacao -->
-						<li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Identificação</a>
-						</li>
+						<li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Identificação</a></li>
 
-						<!--Aba de Telefone e Email-->
-						<li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Contatos</a>
-						</li>
+						<!--Aba de Telefone-->
+						<li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Contatos</a></li>
+
+						<!-- Aba de Email-->
+						<li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Emails</a></li>
 					</ul>
+
 					<div class="tab-content">
+						<!--Aba de Identificacao -->
 						<div role="tabpanel" class="tab-pane fade active in" id="tab_content1" style="solid-opacity: #fff" aria-labelledby="home-tab">
 							<form id="form-save-entity" autocomplete="off" ng-submit="save_person()" novalidate><!--  -->
 							{% csrf_token %}
@@ -107,8 +110,40 @@
 							</div>
 						</form>
 						</div>
+						<!--Aba de Telefone-->
+						<div role="tabpanel" class="tab-pane fade" id="tab_content2"  style="solid-opacity: #fff" aria-labelledby="home-tab">
+							<div class="row">
+								<table class="table table-condensed table-striped table-bordered table-houver" id="table_contacts" >
+									<thead>
+									<tr class="linha_cabecalho" >
+										<th class="center" style="width: 30px; height: 30px;"></th>
+										<th class="center" style="width:150px;">Tipo de Contato</th>
+										<th class="center" style="width:180px;">Telefone</th>
+										<th class="center" style="width:150px;">Operadora</th>
+										<th class="center" >Nome</th>
+									</tr>
+								</thead>
 
-						<div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="home-tab">
+									<tbody>
+									<!-- Falta adicionar os email a partor do bd-->
+									<tr ng-repeat="k in [1,2,3,4,5]" >
+										<td style="width:10px; height: 30px;"></td>
+										<td style="width:150px;"></td>
+										<td style="width:180px;"></td>
+										<td style="width:150px;"></td>
+										<td></td>
+									</tr>
+								</tbody>
+							</table>
+							</div>
+							<div class="row">
+								<div class="col-lg-2" style="float: right">
+									<button role="button" class="btn btn-sm btn-success form-control" data-toggle="modal" data-target="#modal_add_phone">Adicionar Contato</button>
+								</div>
+							</div>
+						</div>
+						<!-- Aba de Email-->
+						<div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="home-tab">
 							<div class="row">
 								<table class="table table-condensed table-striped table-bordered table-houver col-lg-5 " id="table_contacts" style="width: 500px; width: 45%; float:left; margin-left: 10px">
 									<thead>
@@ -161,21 +196,70 @@
 	<!--Modal de adicao de Telefone -->
 	<div ng-controller="register_phone_entity"><!-- Falta add um controlador-->
 		<div id="modal_add_phone" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
-			<div class="modal-dialog" style="width: 50%">
+			<div class="modal-dialog" style="width: 50%; solid-opacity: #fff">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-						<h5 style="font-weight: bold">Adicionar numero Telefone</h5>
+						<h5 style="font-weight: bold">Adicionar Contato</h5>
 					</div>
-					<div class="modal-body">
-						<form>
+					<div class="modal-body" style="margin-left: 20px">
+						<form id="form-save-contact">
 							{% csrf_token %}
-								<sub><label></label>{{ form_register_number.phone.label }}</sub>
-								{{ form_register_number.phone }}
+
+								<div class="row">
+
+									<div class="col-lg-4">
+										<div class="form-group field field_required" id="field_type_contact">
+											<sub><label id="lb_type_contact" for="type_contact">{{ form_register_number.type_contact.label }}</label></sub><br/>
+											{{ form_register_number.type_contact }}
+											<div class="alert"></div>
+										</div>
+									</div>
+
+									<div class="col-lg-8">
+										<div class="form-group field field_required" id="field_name">
+											<sub><label id="lb_name" for="name">{{ form_register_number.name.label }}</label></sub><br/>
+											{{ form_register_number.name }}
+											<div class="alert"></div>
+										</div>
+									</div>
+
+								</div>
+
+								<div class="row">
+
+									<div class="col-lg-1">
+										<div class="form-group field field_required" id="field_phone">
+											<sub><label id="lb_ddd" for="ddd">{{ form_register_number.ddd.label }}</label></sub><br/>
+											{{ form_register_number.ddd }}
+											<div class="alert"></div>
+										</div>
+									</div>
+
+									<div class="col-lg-11">
+										<div class="form-group field field_required" id="field_phone">
+											<sub><label id="lb_phone" for="phone">{{ form_register_number.phone.label }}</label></sub><br/>
+											{{ form_register_number.phone }}
+											<div class="alert"></div>
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+
+									<div class="col-lg-12">
+										<div class="form-group field" id="fieled_operadora">
+											<sub><label id="lb_operadora" for="operadora">{{ form_register_number.operadora.label }}</label> </sub><br/>
+											{{ form_register_number.operadora }}
+											<div class="alert"></div>
+										</div>
+									</div>
+
+								</div>
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button role="button" class="btn btn-sm btn-success form-control" ng-click="save_tel()">Salvar</button>
+						<button role="button" class="btn btn-sm btn-success form-control" data-toggle="modal" ng-click="save_tel()">Salvar</button>
 					</div>
 				</div>
 			</div>
