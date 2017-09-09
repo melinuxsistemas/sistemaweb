@@ -8,7 +8,6 @@ from modules.entity.forms import FormPersonEntity, FormCompanyEntity, FormRegist
 
 @login_required()
 def register_entity(request,entity_type):
-    print("TO AQUI!!", request.POST, entity_type)
     form_number = FormRegisterPhone()
     if entity_type == 'person':
         form_entity = FormPersonEntity()

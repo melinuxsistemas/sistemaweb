@@ -59,8 +59,8 @@ application.controller('register_person_controller', function($scope) {
       entity_type: 'PF',
       registration_status: 0,
       cpf_cnpj: clear_mask_numbers($scope.cpf_cnpj),
-      entity_name: $scope.entity_name,
-      fantasy_name: $scope.fantasy_name,
+      entity_name: $scope.entity_name.toUpperCase(),
+      fantasy_name: $scope.fantasy_name.toUpperCase(),
       birth_date_foundation: $scope.birth_date_foundation,
       comments: $scope.comments,
     }
@@ -68,10 +68,10 @@ application.controller('register_person_controller', function($scope) {
     success_function = function(message){
       //window.location = "/"//register/confirm/"+$scope.email;
       check_response_message_form('#form-save-entity', message);
-      alert("Beleza")
-    }
+		}
     
     fail_function = function (message) {
+    alert("VEJA O QUE VEIO: "+JSON.stringify(message))
       check_response_message_form('#form-save-entity', message);
       notify('error','Formulário com dados inválidos','Verifique os dados informado.')
     }
