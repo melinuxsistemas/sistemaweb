@@ -79,7 +79,7 @@ class AbstractFormEntity (forms.Form):
         label="Data de Nascimento",
         error_messages=ERRORS_MESSAGES,
         required=False,
-        #validators=[birthdate_validator],
+        validators=[birthdate_validator],
         widget=forms.TextInput(
             attrs= {
                 'id': 'birth_date_foundation', 'class': "form-control optional", 'type':'date',

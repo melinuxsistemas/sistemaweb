@@ -37,7 +37,6 @@ function validate_form(form_id){
 
   //var submit = true;
 
-
   //if(!validator.checkAll($(this))) {
     //submit = false;
     //this.submit();
