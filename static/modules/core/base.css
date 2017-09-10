@@ -30,7 +30,7 @@ button[type="submit"] {
   font-size: 80%;
   width: 100%;
   position: relative;
-  opacity: 0;
+  opacity: 1;
   z-index: 1;
   transition: .15s ease-out;
 }

@@ -51,7 +51,7 @@ function validate_form(form_id){
   //}
 }
 
-function check_response_message_form(form_id, response_message) {
+function check_response_message_form(form_id, response_message){
   $(form_id +" input[type=text]").each(function () {
     var id = $(this).attr("id");
     var erro = response_message[id];
@@ -66,7 +66,13 @@ function check_response_message_form(form_id, response_message) {
 
 function set_wrong_field(id, erro_value){
   $("#field_"+id).addClass('bad')
-  $("#field_"+id+" .alert").html(erro_value);
+  var myDivs = $("#field_"+id).children('div.alert');
+	if(myDivs.length === 0){
+			myDivs = $('<div class="alert"></div>')
+					.appendTo("#field_"+id);
+					//.css('opacity', 0);
+	}
+	$("#field_"+id+" .alert").html(erro_value);
 }
 
 function clean_wrong_field(id){

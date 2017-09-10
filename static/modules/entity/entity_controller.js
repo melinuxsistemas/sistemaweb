@@ -71,9 +71,8 @@ application.controller('register_person_controller', function($scope) {
 		}
     
     fail_function = function (message) {
-    alert("VEJA O QUE VEIO: "+JSON.stringify(message))
       check_response_message_form('#form-save-entity', message);
-      notify('error','Formulário com dados inválidos','Verifique os dados informado.')
+      //notify('error','Formulário com dados inválidos',message.cpf_cnpj)
     }
 
     validade_function = function () {
@@ -112,13 +111,11 @@ application.controller('register_company_controller', function ($scope) {
         }
         success_function = function (message) {
             check_response_message_form('#form-save-company', message);
-            alert("Beleza")
         }
 
         fail_function = function (message) {
-            alert("DEU PAU")
             check_response_message_form('#form-save-company', message);
-            notify('error', 'Formulário com dados inválidos', 'Verifique os dados informado.')
+            notify('error', 'Formulário com dados inválidos', message)
         }
         request_api("/api/entity/register/company/save", data_paramters, validate_form_regiter_company, success_function, fail_function)
 
