@@ -24,19 +24,19 @@ class EntityTest(TestCase):
         ]
 
         for item in variacoes:
-            entity = Entity ()
+            #print("VOU TESTAR OS VALORES: ("+item[0]+") e ("+item[0]+")")
+            entity = Entity()
+            entity.entity_type = 'PF'
+            entity.cpf_cnpj = item[0]
+            entity.entity_name = item[1]
+            entity.fantasy_name = 'teste teste'
             try:
-                entity.entity_type = 'PF'
-                entity.cpf_cnpj = item[0]
-                entity.entity_name = item[1]
-                entity.fantasy_name='teste teste'
                 entity.save()
+                Entity.objects.filter(cpf_cnpj=item[0]).delete()
                 result = True
-                try:
-                    Entity.objects.filter(cpf_cnpj=item[0]).delete()
-                except:
-                    pass
             except:
                 result = False
 
-            self.assertEquals(result,item[2],"Teste de criacção (OK)")
+            #print("VEJA OS VALORES QUE DA ERRO: ",result,item[0],item[1],item[2])
+            
+            self.assertEquals(result,item[2],"Teste de criação (OK)")

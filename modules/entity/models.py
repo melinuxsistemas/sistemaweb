@@ -1,7 +1,7 @@
 from django.db import models
 from modules.core.config import ERRORS_MESSAGES
 from modules.entity.validators import cpf_cnpj_validator, min_words_name_validator, birthdate_validator
-
+from django.core.validators import MinLengthValidator
 
 class BaseModel:
 
@@ -59,8 +59,8 @@ class Entity(models.Model,BaseModel):
     )
 
     entity_type = models.CharField("Tipo de Entidade:", max_length=2, null=False, default='PF', choices=options_type_entity, error_messages=ERRORS_MESSAGES)
-    cpf_cnpj = models.CharField("CPF ou CNPJ", max_length=32, unique=True, null=False, validators=[cpf_cnpj_validator], error_messages=ERRORS_MESSAGES)
-    entity_name = models.CharField("Nome ou Razão Social", null=False, max_length=64,validators=[min_words_name_validator], error_messages=ERRORS_MESSAGES)
+    cpf_cnpj = models.CharField("CPF ou CNPJ", max_length=32, unique=True, null=False, validators=[cpf_cnpj_validator,MinLengthValidator(1)], error_messages=ERRORS_MESSAGES)
+    entity_name = models.CharField("Nome ou Razão Social", null=False, blank=False, max_length=64,validators=[min_words_name_validator,MinLengthValidator(1)], error_messages=ERRORS_MESSAGES)
     fantasy_name = models.CharField("Nome Fantasia", max_length=32, error_messages=ERRORS_MESSAGES)
     birth_date_foundation = models.DateField("Data de Nascimento ou Fundação", null=True, blank=True, validators=[birthdate_validator], error_messages=ERRORS_MESSAGES)
     relations_company = models.CharField("Tipo de Relação Empresarial", null=True, blank=True, max_length=512, error_messages=ERRORS_MESSAGES)
@@ -70,7 +70,11 @@ class Entity(models.Model,BaseModel):
     comments = models.TextField("Observações",max_length=500,null=True, blank=True)
     created_date = models.DateTimeField(auto_now_add=True,null=True)
     last_update = models.DateTimeField(null=True,auto_now=True)
-    history = models.CharField("Histórico de Alterações",max_length=500)
+    history = models.CharField("Histórico de Alterações",max_length=500, blank=True)
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        return super(Entity, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return self.cpf_cnpj

@@ -1,20 +1,18 @@
-import json
 import unittest
-from modules.user.models import User
 from test.unit.backend.core.test_routes import BaseRoutesTests, StatusCode
 
 
-class UserRoutesTests(BaseRoutesTests):
+class EntityRoutesTests(BaseRoutesTests):
 
     def __init__(self, *args):
         unittest.TestCase.__init__(self, *args)
 
-        self.add_public_route_list(['/login/', '/logout', '/register/', '/reset_password/'])
-        self.add_private_route_list(['/', '/profile'])
-        self.add_private_api('/api/user/register/save',{'email': 'teste@teste.com', 'password': '1q2w3e4r', 'confirm_password': '1q2w3e4r'})
-        self.add_private_api('/api/user/login/autentication', {'email': 'teste@teste.com', 'senha': '1q2w3e4r'})
-        self.add_private_api('/api/user/change_password',{'old_password': 'r4e3w2q1', 'password': '1q2w3e4r', 'confirm_password': '1q2w3e4r'})
+        self.add_public_route_list([])
+        #self.add_private_route_list(['api/entity/register/person'])
+        #self.add_private_api('api/entity/register/person/save',{'entity_type': 'PF', 'cpf_cnpj': '12859855750', 'entity_name': 'TESTE TESTE'})
 
+
+    """
     def test_valid_activation_page(self):
         test_user = User.objects.create_test_user('outroteste@teste.com.br', '1q2w3e4r')
         activation_code = test_user.activation_code
@@ -101,3 +99,4 @@ class UserRoutesTests(BaseRoutesTests):
         response = self.client.post('/api/user/reactivate', data={'email': 'teste@teste.com.br'})
         self.assertEqual(json.loads(response.content)['success'], False)
         self.assertEqual(response.status_code, StatusCode.request_success)
+    """
