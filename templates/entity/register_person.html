@@ -214,29 +214,29 @@
     <script type="text/javascript" src="{% static 'custom/mask/mask.js' %}"></script>
     <script type="text/javascript">
       $(document).ready(function(){
-        $('#cpf_cnpj').mask('999.999.999-99');
+        //$('#cpf_cnpj').mask('999.999.999-99');
         $('#birth_date_foundation').mask('99/99/9999');
       });
     </script>
     <script>
-        document.getElementById("cpf_cnpj").onblur = function () {func_val_cpf()};
-        document.getElementById("birth_date_foundation").onblur = function () {func_val_date()};
-        document.getElementById('entity_name').onblur = function () {func_val_name()};
-        document.getElementById('fantasy_name').onblur = function () {func_val_fant()};
+        //document.getElementById("cpf_cnpj").onblur = function () {validate_cpf_cnpj()};
+        //document.getElementById("birth_date_foundation").onblur = function () {validate_birth_date()};
+        //document.getElementById('entity_name').onblur = function () {validate_entity_name()};
+        //document.getElementById('fantasy_name').onblur = function () {validate_entity_fantasy()};
 
-        function func_val_cpf (){
+        function validate_cpf_cnpj (){
             validate_cpf('cpf_cnpj')
         }
 
-        function func_val_name () {
+        function validate_entity_name () {
             validate_field_entity('entity_name')
         }
 
-        function func_val_fant () {
+        function validate_entity_fantasy () {
             validate_field_entity ('fantasy_name')
         }
 
-        function func_val_date () {
+        function validate_birth_date () {
             validate_date_person('birth_date_foundation')
             //validate_field_entity('birth_date_foundation')
         }

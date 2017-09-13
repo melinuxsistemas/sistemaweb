@@ -8,8 +8,19 @@ class EntityRoutesTests(BaseRoutesTests):
         unittest.TestCase.__init__(self, *args)
 
         self.add_public_route_list([])
-        #self.add_private_route_list(['api/entity/register/person'])
-        #self.add_private_api('api/entity/register/person/save',{'entity_type': 'PF', 'cpf_cnpj': '12859855750', 'entity_name': 'TESTE TESTE'})
+        self.add_private_route_list(['/entity/register/person'])
+        self.add_private_route_list(['/entity/register/company'])
+
+        test_paramters = {'entity_type':'PF',
+            'registration_status': 0,
+            'cpf_cnpj': '12859855750',
+            'entity_name': 'TESTE TESTE',
+            'fantasy_name': '',
+            'birth_date_foundation': '',
+            'comments': ''
+        }
+
+        self.add_private_api('/api/entity/register/person/save',test_paramters)
 
 
     """

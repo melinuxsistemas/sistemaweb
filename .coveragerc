@@ -36,6 +36,8 @@ omit =
     *requests*
     *compressor*
 
+    *_strptime.py
+
 [report]
 [html]
 directory = /test/unit/report/backend_coverage_report

@@ -1,7 +1,7 @@
 from django import forms
 from modules.core.config import ERRORS_MESSAGES
 from modules.core.forms import FormAbstractEmail
-from modules.entity.validators import cpf_cnpj_validator, birthdate_validator, min_words_name_validator
+from modules.entity.validators import cpf_cnpj_validator, future_birthdate_validator, min_words_name_validator
 
 
 class AbstractFormEntity (forms.Form):
@@ -79,10 +79,10 @@ class AbstractFormEntity (forms.Form):
         label="Data de Nascimento",
         error_messages=ERRORS_MESSAGES,
         required=False,
-        validators=[birthdate_validator],
+        #validators=[future_birthdate_validator],
         widget=forms.TextInput(
             attrs= {
-                'id': 'birth_date_foundation', 'class': "form-control optional", 'type':'date',
+                'id': 'birth_date_foundation', 'class': "form-control optional", 'type':'text',
                 'ng-model': 'birth_date_foundation'
             }
         )
@@ -125,7 +125,6 @@ class AbstractFormEntity (forms.Form):
 
     def format_validate_response(self):
         response_errors = {}
-        # print("VEJA OS ERROS: ",self.errors.as_data)
         if self.errors:
             errors = self.errors
             for campo in errors:

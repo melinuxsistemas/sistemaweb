@@ -50,7 +50,25 @@ function validate_form(form_id){
   //}
 }
 
+/* METODO PARA APRESENTAR O ERRO (MODELO ANTIGO
 function check_response_message_form(form_id, response_message){
+	alert("VEJA O RESPONSE: "+JSON.stringify(response_message))
+  $(form_id +" input[type=text]").each(function () {
+    var id = $(this).attr("id");
+    alert("VEJA O ID: "+id+" TEM MSG: "+response_message[id])
+    var erro = response_message[id];
+    if (erro){
+    	alert("VEJA O QUE VEIO DE ERRO: "+id+" - "+erro)
+      set_wrong_field(id, erro);
+    }
+    else{
+      clean_wrong_field(id);
+    }
+  });
+}
+*/
+function check_response_message_form(form_id, response_message){
+	//alert("VEJA O RESPONSE: "+JSON.stringify(response_message))
   $(form_id +" input[type=text]").each(function () {
     var id = $(this).attr("id");
     var erro = response_message[id];

@@ -29,6 +29,7 @@ function get_custom_messages(){
 
 function validate_all_form (){
       var validator = new FormValidator();
+      return true;
       validator.texts = get_custom_messages();
       validator.settings.alerts = true;
       var result = validator.checkAll($('#form-save-entity'));
@@ -49,6 +50,7 @@ function validate_form_regiter_person (){
 }
 
 function validate_cpf (cpf_cnpj){
+	return true;
   var cpf = $('#'+cpf_cnpj).val();
   cpf = cpf.replace(/[^\d]+/g,'');
   var result = true;
@@ -102,6 +104,7 @@ function validate_cpf (cpf_cnpj){
 
 function validate_date_person(birth_date_foundation) {
   var data = $('#'+birth_date_foundation).val();
+  return true;
 
   if(!(data === "__/__/____") && !(data === '')) {
   	var date_current = new Date;

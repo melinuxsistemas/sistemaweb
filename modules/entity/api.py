@@ -11,34 +11,70 @@ from sistemaweb import settings
 import json
 
 
+def format_exception_message(exceptions):
+    message_dict = {}
+    if type(exceptions) == list:
+        print("VEJAMOS O QUE TEMOS: ",exceptions)
+        for item in exceptions:
+            print("VEJA OS ARGUMENTOS: ",item.args)
+            status_code = item.args[1]
+            """ 
+            Quando temos apenas um erro esse e o formato da excessao:
+               django.core.exceptions.ValidationError: ['cpf_cnpj: Cpf number is not valid.']
+            
+            Contudo pode ser que o mesmo campo tenha duas validacoes com erro 
+            sendo necessario adequar essa funcao para tratar isso.
+            """
+            except_parts = str(item).replace("['","").replace("']","")
+            if ": " in except_parts:
+                except_parts = except_parts.split(': ')
+                field = except_parts[0]
+
+            else:
+                field = "QUEM SERA?"
+
+            message_dict[field] = ERRORS_MESSAGES[status_code]
+
+    else:
+        print("VEJA O QUE TEMOS: ", exceptions)
+        paramters = exceptions.args[0].split(': ')
+        code_status = exceptions.args[1]
+        field = paramters[0]
+        #value = paramters[1]
+        message_dict[field] = ERRORS_MESSAGES[code_status]
+    return message_dict
+
 
 class EntityAPI:
 
     def save_person(request):
         resultado, form = AbstractAPI.filter_request(request, FormPersonEntity)
+        entity = Entity()
+        entity.form_to_object(form)
+        response_dict = {}
         if resultado:
-            entity = Entity()
-            entity.form_to_object(form)
-
             try:
                 entity.save()
                 response_dict = response_format_success(entity, ['cpf_cnpj','entity_name','fantasy_name','birth_date_foundation'])
                 entity.show_fields_value()
             except Exception as e:
-                message_dict = {}
-                for erro in e.args:
-                    list_fields = erro.split(":")
-                    field = list_fields[1].split('.')[1]
-                    value = list_fields[0]
-                    for item in ERRORS_MESSAGES:
-                        if item in list_fields[0].lower():
-                            value = ERRORS_MESSAGES[item]
-                    message_dict[field] = value
-                response_dict = response_format_error(message_dict)
+                response_dict = response_format_error(format_exception_message(entity.model_exceptions))
 
         else:
-            response_dict = response_format_error(form.format_validate_response())
-            #response_dict = errors #response_format_error("Formulário com dados inválidos.")
+            entity.check_validators()
+            model_exceptions = format_exception_message(entity.model_exceptions)
+            form_exceptions = form.format_validate_response()
+
+            full_exceptions = {}#dict(form_exceptions, **model_exceptions);
+            full_exceptions.update(model_exceptions)
+            full_exceptions.update(form_exceptions)
+
+            #print("RESPONSE FORM EXCEPTIONS: ", form_exceptions)
+            #print("RESPONSE MODEL EXCEPTIONS: ", model_exceptions)
+            #print("RESPONSE FULL EXCEPTIONS: ", full_exceptions)
+            response_dict = response_format_error(full_exceptions)
+
+        print("RESPONSE_DICT: ",response_dict)
         return HttpResponse(json.dumps(response_dict))
 
     def save_number(request):
