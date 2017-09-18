@@ -2,7 +2,7 @@ from modules.core.api import AbstractAPI
 from modules.core.config import ERRORS_MESSAGES
 from modules.core.utils import response_format_success, response_format_error, generate_activation_code
 from modules.core.comunications import send_generate_activation_code
-from modules.entity.forms import FormCompanyEntity,FormPersonEntity
+from modules.entity.forms import FormCompanyEntity, FormPersonEntity, FormRegisterPhone
 from modules.entity.models import Entity, Contact
 from modules.user.models import User
 from django.http import HttpResponse
@@ -78,22 +78,37 @@ class EntityAPI:
         return HttpResponse(json.dumps(response_dict))
 
     def save_number(request):
-        cpf_cnpj = request.POST['id_entity']
-        entity = Entity.objects.get(cpf_cnpj=cpf_cnpj)
-
         contact = Contact()
-        contact.id_entity = entity
-        contact.name = request.POST['name']
-        contact.type_contact = request.POST['type_contact']
-        contact.ddd = request.POST['ddd']
-        contact.phone = request.POST['phone']
-        contact.operadora = request.POST['operadora']
+        contact.entity_id = 1
+        contact.form_to_object(FormRegisterPhone)
+        contact.show_fields_value()
         try:
             contact.save()
-            response_dict = response_format_success(contact,['id_entity','name','type_contact','ddd','phone','operadora'])
-            contact.show_fields_value()
+            print("Entrando para salvar")
+            response_dict = response_format_success(contact,['entity','name','type_contact','ddd','phone','operadora'])
+            #contact.show_fields_value()
         except:
             response_dict = response_format_error(False)
+        return HttpResponse(json.dumps(response_dict))
+
+    def load_contacts(request):
+        contacts = Contact.objects.filter(entity_id=1)
+        print (contacts)
+        response_dict = {}
+        response_contacts = {}
+        if len(contacts) == 0:
+            response_contacts['contact'] = None
+            response_contacts['contact']['type_contact'] = None
+            response_contacts['contact']['phone'] = None
+            response_contacts['contact']['name'] = None
+            return HttpResponse(json.dumps(response_dict))
+        else:
+            for item in contacts:
+                response_contacts['contact'] = {}
+                response_contacts['contact']['type_contact'] = item.type_contact
+                response_contacts['contact']['phone'] = '(' + item.ddd + ')' + item.phone
+                response_contacts['contact']['name'] = item.name
+                response_dict.append(response_contacts)
         return HttpResponse(json.dumps(response_dict))
 
     """

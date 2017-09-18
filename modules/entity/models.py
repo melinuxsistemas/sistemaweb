@@ -151,8 +151,8 @@ class Entity(models.Model,BaseModel):
 
 class Contact (models.Model,BaseModel):
 
-    id_contact = models.AutoField(primary_key=True)
-    id_entity = models.ForeignKey(Entity,  null=False,on_delete=models.CASCADE,  error_messages=ERRORS_MESSAGES )
+    id = models.AutoField(primary_key=True, unique=True)
+    entity = models.ForeignKey(to=Entity,on_delete=models.CASCADE,null=True,error_messages=ERRORS_MESSAGES)
     type_contact = models.CharField("Tipo de Contato",max_length=10,  error_messages=ERRORS_MESSAGES)
     name = models.CharField("Nome", max_length=30, null=False, error_messages=ERRORS_MESSAGES)
     ddd = models.CharField("DDD", max_length=4, null=False, blank=False,  error_messages=ERRORS_MESSAGES)
@@ -160,3 +160,4 @@ class Contact (models.Model,BaseModel):
     operadora = models.CharField("Operadora Telefonica", max_length=10, null=True, blank=True, error_messages=ERRORS_MESSAGES)
     details = models.CharField("Detalhes",max_length=10, error_messages=ERRORS_MESSAGES)
     history = models.CharField("Histórico de Alterações", max_length=500)
+

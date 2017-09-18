@@ -208,9 +208,10 @@ class FormCompanyEntity(AbstractFormEntity):
     """
 
 class FormRegisterPhone (FormAbstractEmail):
-    def __init__(self, *args, **kwargs):
-        super(FormAbstractEmail, self).__init__(*args,**kwargs)
-        self.fields['email'].widget.attrs['placeholder'] = 'Email..'''
+    def clean(self):
+        form_data = self.cleaned_data
+        print("Olha o clean Phone",form_data)
+        return  form_data
 
     type_contact = forms.CharField(
         label="Tipo de contato",

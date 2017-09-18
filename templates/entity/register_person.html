@@ -21,6 +21,11 @@
   .multiselect {
     text-align: left;
   }
+
+
+	tr.linha_selecionavel{
+    cursor: pointer;
+	}
   </style>
 {% endblock %}
 
@@ -114,26 +119,39 @@
 							<div class="row">
 								<table class="table table-condensed table-striped table-bordered table-houver" id="table_contacts" >
 									<thead>
-									<tr class="linha_cabecalho" >
-										<th class="center" style="width: 30px; height: 30px;"></th>
-										<th class="center" style="width:150px;">Tipo de Contato</th>
-										<th class="center" style="width:180px;">Telefone</th>
-										<th class="center" style="width:150px;">Operadora</th>
-										<th class="center" >Nome</th>
-									</tr>
-								</thead>
-
+										<tr class="linha_cabecalho" >
+											<th class="center" style="width: 30px; height: 30px;"></th>
+											<th class="center" style="width:150px;">Tipo de Contato</th>
+											<th class="center" style="width:180px;">Telefone</th>
+											<th class="center" style="width:150px;">Operadora</th>
+											<th class="center" >Nome</th>
+										</tr>
+									</thead>
 									<tbody>
-									<!-- Falta adicionar os email a partor do bd-->
-									<tr ng-repeat="k in [1,2,3,4,5]" >
-										<td style="width:10px; height: 30px;"></td>
-										<td style="width:150px;"></td>
-										<td style="width:180px;"></td>
-										<td style="width:150px;"></td>
-										<td></td>
-									</tr>
-								</tbody>
-							</table>
+										{% verbatim %}
+											<tr ng-if="(contratos|filter:filterIds()).length == 0">
+												<td colspan="8" class="center">Nenhum Cliente Cadastrado!</td>
+											</tr>
+
+											<!-- Falta adicionar os fone a partor do bd-->
+											<tr class="linha_selecionavel" ng-repeat="contact in contacts" ng-controller="load_contacts()">
+												<th class="center" style="width: 30px; height: 30px;"></th>
+												<th class="center" style="width:150px;">{{ contact.type_contact }}</th>
+												<th class="center" style="width:180px;">{{ contact.phone }}</th>
+												<th class="center" style="width:150px;">{{ contact.operadora }}</th>
+												<th class="center" >{{ contact.name }}</th>
+											</tr>
+
+											<tr class="linha_selecionavel" ng-repeat="k in [1,2,3,4,5]" >
+												<td style="width:10px; height: 30px;"></td>
+												<td style="width:150px;"></td>
+												<td style="width:180px;"></td>
+												<td style="width:150px;"></td>
+												<td></td>
+											</tr>
+										{% endverbatim %}
+									</tbody>
+								</table>
 							</div>
 							<div class="row">
 								<div class="col-lg-2" style="float: right">
@@ -292,6 +310,8 @@
     {% load static %}
     <script src="{% static 'modules/entity/entity_controller.js' %}"></script>
     <script src="{% static 'modules/entity/entity.js' %}"></script>
+		<script src="{% static 'modules/entity/contact_controller.js' %}"></script>
+		<script src="{% static 'modules/entity/contact.js' %}"></script>
     <link rel="stylesheet" href="{% static 'custom/smartwizard/jQuery-Multiple-Select-Plugin-For-Bootstrap-Bootstrap-Multiselect/bootstrap-multiselect.css' %}" type="text/css">
     <script type="text/javascript" src="{% static 'custom/smartwizard/jQuery-Multiple-Select-Plugin-For-Bootstrap-Bootstrap-Multiselect/bootstrap-multiselect.js' %}"></script>
     <script type="text/javascript" src="{% static 'bower_components/validator/validator.js'  %}"></script>
