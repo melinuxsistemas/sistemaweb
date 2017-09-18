@@ -37,7 +37,6 @@ function validate_form(form_id){
 
   //var submit = true;
 
-
   //if(!validator.checkAll($(this))) {
     //submit = false;
     //this.submit();
@@ -51,7 +50,25 @@ function validate_form(form_id){
   //}
 }
 
-function check_response_message_form(form_id, response_message) {
+/* METODO PARA APRESENTAR O ERRO (MODELO ANTIGO
+function check_response_message_form(form_id, response_message){
+	alert("VEJA O RESPONSE: "+JSON.stringify(response_message))
+  $(form_id +" input[type=text]").each(function () {
+    var id = $(this).attr("id");
+    alert("VEJA O ID: "+id+" TEM MSG: "+response_message[id])
+    var erro = response_message[id];
+    if (erro){
+    	alert("VEJA O QUE VEIO DE ERRO: "+id+" - "+erro)
+      set_wrong_field(id, erro);
+    }
+    else{
+      clean_wrong_field(id);
+    }
+  });
+}
+*/
+function check_response_message_form(form_id, response_message){
+	//alert("VEJA O RESPONSE: "+JSON.stringify(response_message))
   $(form_id +" input[type=text]").each(function () {
     var id = $(this).attr("id");
     var erro = response_message[id];
@@ -66,7 +83,13 @@ function check_response_message_form(form_id, response_message) {
 
 function set_wrong_field(id, erro_value){
   $("#field_"+id).addClass('bad')
-  $("#field_"+id+" .alert").html(erro_value);
+  var myDivs = $("#field_"+id).children('div.alert');
+	if(myDivs.length === 0){
+			myDivs = $('<div class="alert"></div>')
+					.appendTo("#field_"+id);
+					//.css('opacity', 0);
+	}
+	$("#field_"+id+" .alert").html(erro_value);
 }
 
 function clean_wrong_field(id){

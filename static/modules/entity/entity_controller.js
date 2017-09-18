@@ -59,8 +59,8 @@ application.controller('register_person_controller', function($scope) {
       entity_type: 'PF',
       registration_status: 0,
       cpf_cnpj: clear_mask_numbers($scope.cpf_cnpj),
-      entity_name: $scope.entity_name,
-      fantasy_name: $scope.fantasy_name,
+      entity_name: $scope.entity_name.toUpperCase(),
+      fantasy_name: $scope.fantasy_name.toUpperCase(),
       birth_date_foundation: $scope.birth_date_foundation,
       comments: $scope.comments,
     }
@@ -68,16 +68,15 @@ application.controller('register_person_controller', function($scope) {
     success_function = function(message){
       //window.location = "/"//register/confirm/"+$scope.email;
       check_response_message_form('#form-save-entity', message);
-      alert("Beleza")
-    }
+		}
     
     fail_function = function (message) {
       check_response_message_form('#form-save-entity', message);
-      notify('error','Formulário com dados inválidos','Verifique os dados informado.')
+      //notify('error','Formulário com dados inválidos',message.cpf_cnpj)
     }
 
     validade_function = function () {
-     return  validate_form_regiter_person(); //validate_date($scope.birth_date_foundation);
+     return  true;//validate_form_regiter_person(); //validate_date($scope.birth_date_foundation);
     }
     request_api("/api/entity/register/person/save",data_paramters,validade_function,success_function,fail_function)
   }
@@ -112,13 +111,11 @@ application.controller('register_company_controller', function ($scope) {
         }
         success_function = function (message) {
             check_response_message_form('#form-save-company', message);
-            alert("Beleza")
         }
 
         fail_function = function (message) {
-            alert("DEU PAU")
             check_response_message_form('#form-save-company', message);
-            notify('error', 'Formulário com dados inválidos', 'Verifique os dados informado.')
+            notify('error', 'Formulário com dados inválidos', message)
         }
         request_api("/api/entity/register/company/save", data_paramters, validate_form_regiter_company, success_function, fail_function)
 

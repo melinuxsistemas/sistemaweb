@@ -4,7 +4,7 @@ function clear_mask_numbers(value){
   return number;
 }
 
-function validate_general_form(){
+function get_custom_messages(){
   var messages = {
         invalid         : 'Informe nome contendo apenas letra e sem duplo espaço!',
         short           : 'Informe nome completo!',
@@ -29,28 +29,28 @@ function validate_general_form(){
 
 function validate_all_form (){
       var validator = new FormValidator();
-      validator.texts = validate_general_form();
+      return true;
+      validator.texts = get_custom_messages();
       validator.settings.alerts = true;
       var result = validator.checkAll($('#form-save-entity'));
       return result.valid
 }
 
 function validate_field_entity (id_field){
-    var campo = $('#'+id_field).val()
+	var campo = $('#'+id_field).val()
 	var validator = new FormValidator();
-	validator.texts = validate_general_form();
+	validator.texts = get_custom_messages();
 	validator.settings.alerts = true;
 	var result = validator.checkField($('#'+id_field));
   return result.valid
 }
-
 
 function validate_form_regiter_person (){
   return (validate_all_form() && validate_cpf("cpf_cnpj") && validate_date_person("birth_date_foundation"));
 }
 
 function validate_cpf (cpf_cnpj){
-
+	return true;
   var cpf = $('#'+cpf_cnpj).val();
   cpf = cpf.replace(/[^\d]+/g,'');
   var result = true;
@@ -96,7 +96,7 @@ function validate_cpf (cpf_cnpj){
 
   if (result === false){
       set_wrong_field(cpf_cnpj, "Conteúdo inválido")
-      return notify("error","CPF inválido","Cadastre um cpf válido");
+      return false; //notify("error","CPF inválido","Cadastre um cpf válido");
   }
   clean_wrong_field(cpf_cnpj)
   return true;
@@ -104,32 +104,37 @@ function validate_cpf (cpf_cnpj){
 
 function validate_date_person(birth_date_foundation) {
   var data = $('#'+birth_date_foundation).val();
-  var date_current = new Date;
-  var year_current = date_current.getFullYear();
-  var split = data.split('/');
-  var year_data = split[2];
-  var age = year_current - year_data;
-  if(!(data === "__/__/____") && !(data === '')) {
-      if(age < 18 && age>0){
-          set_wrong_field(birth_date_foundation,'Informe uma data válida')
-          return notify("error","Data de nascimento inválida","Não pode cadastrar pessoas com menos de 18 anos");
-      }
-      if (age>150){
-          set_wrong_field(birth_date_foundation,'Informe uma data válida')
-          return notify("error","Data informada não é valida","Não se pode cadastrar pessoas com idade acima de 150 anos")
-      }
-      if (age < 0){
-          set_wrong_field(birth_date_foundation,'Informe uma data válida')
-          return notify("error","Data informada não é válida","Não se pode cadastrar datas futuras")
-      }
-  }
-  clean_wrong_field(birth_date_foundation)
   return true;
+
+  if(!(data === "__/__/____") && !(data === '')) {
+  	var date_current = new Date;
+		var year_current = date_current.getFullYear();
+		var split = data.split('/');
+		var year_data = split[2];
+		var age = year_current - year_data;
+
+		if (age < 0){
+			set_wrong_field(birth_date_foundation,'Informe uma data válida')
+			return notify("error","Data Inválida","Este campo não permite data futura.")
+		}
+
+		else if(age<18 ){
+			set_wrong_field(birth_date_foundation,'Informe uma data válida')
+			return notify("error","Data Inválida","Pessoa física precisa ter 18 anos ou mais.");
+		}
+		else if (age>=18 && age<=150){
+			clean_wrong_field(birth_date_foundation)
+  		return true;
+		}
+
+		else{
+			set_wrong_field(birth_date_foundation,'Informe uma data válida')
+			return notify("error","Data Inválida","Pessoa Física precisa ter menos de 150 anos.")
+		}
+	}
 }
 
-
 function validate_form_regiter_company() {
-
     return ( validate_cnpj('cpf_cnpj') && validate_date_foundation('birth_date_foundation') && validate_all_form() )
 }
 
@@ -187,7 +192,7 @@ function validate_cnpj(cpf_cnpj) {
 
     if (result == false ){
         set_wrong_field(cpf_cnpj,'Informe um CNPJ válido')
-        return notify('error','CNPJ não existente','informe cnpj válido');
+        return false;//notify('error','CNPJ não existente','informe cnpj válido');
     }
     clean_wrong_field(cpf_cnpj)
     return true;

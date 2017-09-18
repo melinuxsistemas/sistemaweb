@@ -190,6 +190,8 @@ LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend' # SUPOSTAMENTE RESOLVE O PROBLEMA COM O TESTE: AttributeError: module 'django.core.mail' has no attribute 'outbox'
+
 DEFAULT_FROM_EMAIL = 'melinuxsistemas@gmail.com>'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'

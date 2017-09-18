@@ -3,12 +3,12 @@ from django.http import Http404
 from django.shortcuts import render, redirect
 
 from modules.core.working_api import WorkingManager
-from modules.entity.forms import FormPersonEntity, FormCompanyEntity, FormAddPhone
+from modules.entity.forms import FormPersonEntity, FormCompanyEntity, FormRegisterPhone
 
 
 @login_required()
 def register_entity(request,entity_type):
-    form_number = FormAddPhone()
+    form_number = FormRegisterPhone()
     if entity_type == 'person':
         form_entity = FormPersonEntity()
         template_url = "entity/register_person.html"

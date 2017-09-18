@@ -1,7 +1,7 @@
 from django import forms
 from modules.core.config import ERRORS_MESSAGES
 from modules.core.forms import FormAbstractEmail
-from modules.entity.validators import cpf_cnpj_validator, birthdate_validator, min_words_name_validator
+from modules.entity.validators import cpf_cnpj_validator, future_birthdate_validator, min_words_name_validator
 
 
 class AbstractFormEntity (forms.Form):
@@ -55,7 +55,7 @@ class AbstractFormEntity (forms.Form):
         error_messages=ERRORS_MESSAGES,
         widget=forms.TextInput(
             attrs={
-                'id': 'entity_name', 'name': 'entity_name', 'class': "form-control ", 'type': "text",
+                'id': 'entity_name', 'name': 'entity_name', 'class': "form-control uppercase", 'type': "text",
                 'autocomplete': "off", 'ng-model': 'entity_name', 'required': "True", #'pattern':'\S[a-z,A-Z]{2} \S[a-z,A-Z]{2}',
                 'data-validate-length-range': '6'
             }
@@ -69,7 +69,7 @@ class AbstractFormEntity (forms.Form):
         error_messages=ERRORS_MESSAGES,
         widget=forms.TextInput(
             attrs={
-                'id': 'fantasy_name', 'class': "form-control optional", 'type': "text",
+                'id': 'fantasy_name', 'class': "form-control optional uppercase", 'type': "text",
                 'autocomplete': "off", 'ng-model': 'fantasy_name', 'data-validate-length-range': '3' #retirar o tamanho, colocado pra test
             }
         )
@@ -79,10 +79,10 @@ class AbstractFormEntity (forms.Form):
         label="Data de Nascimento",
         error_messages=ERRORS_MESSAGES,
         required=False,
-        #validators=[birthdate_validator],
+        #validators=[future_birthdate_validator],
         widget=forms.TextInput(
             attrs= {
-                'id': 'birth_date_foundation', 'class': "form-control optional", 'type':'date',
+                'id': 'birth_date_foundation', 'class': "form-control optional", 'type':'text',
                 'ng-model': 'birth_date_foundation'
             }
         )
@@ -107,7 +107,7 @@ class AbstractFormEntity (forms.Form):
         required=False,
         widget=forms.Textarea(
             attrs={
-                'id': 'observations', 'name': 'observations', 'class': "form-control ", 'cols':2,'rows':3,
+                'id': 'observations', 'name': 'observations', 'class': "form-control uppercase", 'cols':2,'rows':3,
                 'type': "text", 'ng-model': 'observations'
             }
         )
@@ -125,7 +125,6 @@ class AbstractFormEntity (forms.Form):
 
     def format_validate_response(self):
         response_errors = {}
-        # print("VEJA OS ERROS: ",self.errors.as_data)
         if self.errors:
             errors = self.errors
             for campo in errors:
@@ -208,10 +207,8 @@ class FormCompanyEntity(AbstractFormEntity):
         self.fields['registration_status'].widget                       = forms.HiddenInput()
     """
 
-class FormAddPhone (FormAbstractEmail):
-    '''
-        Colocar no Add Emails
-        def __init__(self, *args, **kwargs):
+class FormRegisterPhone (FormAbstractEmail):
+    def __init__(self, *args, **kwargs):
         super(FormAbstractEmail, self).__init__(*args,**kwargs)
         self.fields['email'].widget.attrs['placeholder'] = 'Email..'''
 

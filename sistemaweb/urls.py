@@ -18,7 +18,7 @@ from django.conf.urls import url, include
 from modules.core import views as view_core
 from modules.user import views as view_usuario
 from modules.entity import views as view_entity
-from modules.autonomy import views as view_autonomy
+from modules.permissions import views as view_autonomy
 
 urlpatterns = [
     url(r'^$', view_core.index),
@@ -33,7 +33,7 @@ urlpatterns = [
 
     #url(r'^entity/$', view_entity.entity_page),
     url(r'^entity/register/(?P<entity_type>[^/]+)/$', view_entity.register_entity),
-    url(r'^autonomy/register/$', view_autonomy.register_autonomy),
+    url(r'^permissions/register/$', view_autonomy.register_autonomy),
 
     url(r'^system/environment', view_core.configure_environment),
 

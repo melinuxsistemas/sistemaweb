@@ -4,12 +4,44 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
 
-def birthdate_validator(value):
-    current_date = datetime.datetime.now()
-    if value > current_date:
-        raise ValidationError(_("Date can not be future"), code='future_date')
+def required_validator(value):
+    if value is None or value == "":
+        raise ValidationError(_("This field is required."), code='required')
         return False
+
+
+def minimum_age_person_validator(value):
+    if value is not None:
+        value = value.date()
+        current_date = datetime.datetime.now().date()
+        time_diff = ((current_date-value).days)/365.25
+        if (time_diff < 18):
+            raise ValidationError(_("birth_date_foundation: Age must be greather than 18 years."), code='minimum_age_person')
+            return False
     return True
+
+
+def maximum_age_person_validator(value):
+    if value is not None:
+        value = value.date()
+        current_date = datetime.datetime.now().date()
+        time_diff = ((current_date-value).days)/365.25
+        if(time_diff > 150):
+            raise ValidationError(_("birth_date_foundation: Age must be lower then 150 years"), code='maximum_age_person')
+            return False
+    return True
+
+
+def future_birthdate_validator(value):
+    if value is not None:
+        value = value.date()
+        current_date = datetime.datetime.now().date()
+        if value > current_date:
+            raise ValidationError(_("birth_date_foundation: Date can not be future"), code='future_date')
+            return False
+
+    return True
+
 
 def min_words_name_validator(value):
     result = re.search(r"\S \S", value)
@@ -18,23 +50,20 @@ def min_words_name_validator(value):
         return False
     else:
         return True
-    """
-    words = value.split(" ")
-    value.join(re.findall('\d', str(value)))
-    if len(words) < 2:
-        raise ValidationError(_("Date can not be future"), code='future_date')
-        return False
-    """
+
 
 def cpf_cnpj_validator(value):
-    if len(value) <= 11:
+    if len(value) == 11:
         if not cpf_validator(value):
-            raise ValidationError(_("Cpf number is not valid."), code='invalid')
+            raise ValidationError(_("cpf_cnpj: Cpf number is not valid."), code='document_invalid')
+            return False
+    elif len(value) == 14:
+        if not cnpj_validator(value):
+            raise ValidationError(_("cpf_cnpj: Cnpj number is not valid."), code='document_invalid')
             return False
     else:
-        if not cnpj_validator(value):
-            raise ValidationError(_("Cnpj number is not valid."), code='invalid')
-            return False
+        raise ValidationError(_("cpf_cnpj: Cpf ou Cnpj number is not valid."), code='document_invalid')
+        return False
     return True
 
 
@@ -85,6 +114,7 @@ def cpf_validator(value):
         return True
     return False
 
+
 def cnpj_validator(value):
     """
     Valida CNPJs, retornando apenas a string de números válida.
@@ -134,6 +164,7 @@ def cnpj_validator(value):
     if calculated_number == original_number:
         return True
     return False
+
 
 if __name__ == "__main__":
     import doctest
