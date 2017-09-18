@@ -79,7 +79,14 @@ class Entity(models.Model,BaseModel):
     def save(self, *args, **kwargs):
         self.model_exceptions = self.check_validators()
         if self.model_exceptions == []:
-            super(Entity, self).save(*args, **kwargs)
+            try:
+                print("VOU TENTAR SALVAR")
+                super(Entity, self).save(*args, **kwargs)
+                print("SALVEI")
+            except Exception as exception:
+                print("DEU PAU CARAI",exception)
+                self.model_exceptions.append(exception)
+                raise exception
         else:
             raise self.model_exceptions[0]
 

@@ -18,9 +18,10 @@ class EntityTest(TestCase):
             ['', '', False],
             ['', 'Teste', False],
             [None, 'teste', False],
-            ['81575080966', '', False],
-            ['81575080966', None, False],
-            ['81575080966', 'TESTES TESTE TES', True],
+            ['81575080967', '', False],
+            ['81575080967', None, False],
+            ['81575080966', 'TESTE', True],
+            ['81575080966', 'TESTE', False],
         ]
 
         for item in variacoes:
@@ -32,11 +33,13 @@ class EntityTest(TestCase):
             entity.fantasy_name = 'teste teste'
             try:
                 entity.save()
-                Entity.objects.filter(cpf_cnpj=item[0]).delete()
                 result = True
-            except:
+            except Exception as exception:
+                #print("ERRO: ",exception)
                 result = False
 
-            #print("VEJA OS VALORES QUE DA ERRO: ",result,item[0],item[1],item[2])
-            
+            #if result:
+            #    Entity.objects.filter(cpf_cnpj=item[0]).delete()
+
+            #print("V1:",item[0]," - V2:",item[1]," - RESP.:",item[2]," - RESULT:",result)
             self.assertEquals(result,item[2],"Teste de criação (OK)")

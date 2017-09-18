@@ -17,7 +17,25 @@ def format_exception_message(exceptions):
         print("VEJAMOS O QUE TEMOS: ",exceptions)
         for item in exceptions:
             print("VEJA OS ARGUMENTOS: ",item.args)
-            status_code = item.args[1]
+            if len(item.args) > 1:
+                status_code = item.args[1]
+                except_parts = str(item).replace("['", "").replace("']", "")
+                if ": " in except_parts:
+                    except_parts = except_parts.split(': ')
+                    field = except_parts[0]
+
+                else:
+                    field = "QUEM SERA?"
+            else:
+                if 'UNIQUE' in item.args[0]:
+                    status_code = 'unique'
+
+                except_parts = str(item)
+                if ": " in except_parts:
+                    except_parts = except_parts.split(': ')
+                    field = except_parts[1].split('.')[1]
+
+
             """ 
             Quando temos apenas um erro esse e o formato da excessao:
                django.core.exceptions.ValidationError: ['cpf_cnpj: Cpf number is not valid.']
@@ -25,18 +43,12 @@ def format_exception_message(exceptions):
             Contudo pode ser que o mesmo campo tenha duas validacoes com erro 
             sendo necessario adequar essa funcao para tratar isso.
             """
-            except_parts = str(item).replace("['","").replace("']","")
-            if ": " in except_parts:
-                except_parts = except_parts.split(': ')
-                field = except_parts[0]
 
-            else:
-                field = "QUEM SERA?"
 
             message_dict[field] = ERRORS_MESSAGES[status_code]
 
     else:
-        print("VEJA O QUE TEMOS: ", exceptions)
+        print("VEJA O QUE TEMOS: ", exceptions, type(exceptions))
         paramters = exceptions.args[0].split(': ')
         code_status = exceptions.args[1]
         field = paramters[0]
@@ -58,6 +70,7 @@ class EntityAPI:
                 response_dict = response_format_success(entity, ['cpf_cnpj','entity_name','fantasy_name','birth_date_foundation'])
                 entity.show_fields_value()
             except Exception as e:
+                print("VEJA A EXCECAO QUE DEU: ",e)
                 response_dict = response_format_error(format_exception_message(entity.model_exceptions))
 
         else:
