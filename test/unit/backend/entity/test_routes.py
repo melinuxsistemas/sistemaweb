@@ -16,10 +16,22 @@ class RoutesTestCase:
         for url in private_routes:
             self.base_class.assertNotEqual(self.test_route(url).status_code, StatusCode.request_success)
 
+
+class ControllerRoutes:
+
+    def __init__(self, base_class):
+        self.base_class = base_class
+
+    def add_private_route(self, route):
+        self.private_routes.append(route)
+
+    def add_private_route_list(self, list_routes):
+        self.private_routes = self.private_routes + list_routes
+
     #def test_private_routes_autenticated_user(self):
     #    self.base_class.assertEqual(30, 20)
 
-class EspecialTests(TestCase):
+class BaseRoutesTests(TestCase):
 
     private_routes = []
     public_routes = []
@@ -27,7 +39,8 @@ class EspecialTests(TestCase):
     def __init__(self, *args, **kwargs):
         unittest.TestCase.__init__(self, *args, **kwargs)
         self.routes_test_cases = RoutesTestCase(self)
-
+        self.controller_routes = ControllerRoutes(self)
+        
     def test_private_routes(self):
         self.routes_test_cases.test_private_routes_anonymous_user(self.private_routes)
         #self.routes_test_cases.test_private_routes_autenticated_user(self.private_routes)
@@ -35,7 +48,6 @@ class EspecialTests(TestCase):
     #def test_private_routes_anonymous(self):
     #    for item in self.private_routes:
     #        self.assertNotEqual(self.client.get(item).status_code, StatusCode.request_success)
-
 
 
 """
