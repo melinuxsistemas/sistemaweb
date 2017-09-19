@@ -1,6 +1,6 @@
 application.controller('register_phone_entity', function ($scope) {
-	$scope.test = 'TESTE'
-	$scope.contacts = null
+	$scope.test = 'TESTE TESTE TESTE'
+	$scope.contacts = []
 
 	$scope.save_tel = function () {
 		alert("Entrando no controlador")
@@ -34,13 +34,14 @@ application.controller('register_phone_entity', function ($scope) {
 	}
 
 	$scope.load_contacts = function () {
+
 		$.ajax({
 			type: 'GET',
 			url: "/api/entity/contacts/" + '14960175796',
 
 			success: function (data) {
-				$scope.contacts = JSON.parse(data)
-				/*JSON.parse(data).forEach(function(item) {
+				var list_contacts = []
+				JSON.parse(data).forEach(function(item) {
 					alert("Olha o item"+item.phone)
 					var object = {
 						type_contact : item.type_contact ,
@@ -48,15 +49,22 @@ application.controller('register_phone_entity', function ($scope) {
 						operadora : item.operadora,
 						name : item.name
 					};
-					$scope.contacts.push(object)
-				});*/
+					list_contacts.push(object)
+				});
+				$scope.contacts = list_contacts
 				alert("Veja os contatos"+JSON.stringify($scope.contacts))
 				$scope.$apply();
 			},
 
 			failure: function (data) {
 				alert("Não foi possivel carregar a lista")
-			}
+			},
+		})
+	}
+
+	$scope.delete_contact = function () {
+		$.ajax({
+			url: "/api/entity/delete/phone/" + '16',
 		})
 	}
 });
