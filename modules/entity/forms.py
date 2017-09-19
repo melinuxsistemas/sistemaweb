@@ -208,15 +208,57 @@ class FormCompanyEntity(AbstractFormEntity):
     """
 
 class FormRegisterPhone (FormAbstractEmail):
-    def __init__(self, *args, **kwargs):
-        super(FormAbstractEmail, self).__init__(*args,**kwargs)
-        self.fields['email'].widget.attrs['placeholder'] = 'Email..'
+    def clean(self):
+        form_data = self.cleaned_data
+        print("Olha o clean Phone",form_data)
+        return  form_data
+
+    type_contact = forms.CharField(
+        label="Tipo de contato",
+        max_length=10,
+        widget=forms.TextInput(
+            attrs={
+                'id':'type_contact', 'name': 'type_contact', 'class': 'form_control'
+            }
+        )
+    )
+
+    name = forms.CharField(
+        label="Nome Completo",
+        max_length=30,
+        widget=forms.TextInput(
+            attrs={
+                'id': 'name_contact', 'name': 'name_contact', 'class': 'form_control'
+            }
+        )
+    )
+
+    ddd = forms.CharField(
+        label="DDD",
+        max_length=4,
+        widget= forms.TextInput(
+            attrs={
+                'id':'ddd','name':'ddd','class':'form_control'
+            }
+        )
+    )
 
     phone = forms.CharField(
         label="Telefone",
+        max_length=10,
         widget= forms.TextInput(
             attrs={
                 'id':'phone_number','name':'phone_number','class':'form_control'
+            }
+        )
+    )
+
+    operadora = forms.CharField(
+        label="Operadora",
+        max_length=10,
+        widget= forms.TextInput(
+            attrs={
+                'id':'operadora', 'name':'operadora', 'class':'form_control'
             }
         )
     )

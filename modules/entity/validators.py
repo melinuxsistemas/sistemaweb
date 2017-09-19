@@ -3,6 +3,9 @@ import datetime
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
+def birthdate_validator(value):
+    '''Falta criar'''
+    return True
 
 def required_validator(value):
     if value is None or value == "":

@@ -2,8 +2,8 @@ from modules.core.api import AbstractAPI
 from modules.core.config import ERRORS_MESSAGES
 from modules.core.utils import response_format_success, response_format_error, generate_activation_code
 from modules.core.comunications import send_generate_activation_code
-from modules.entity.forms import FormCompanyEntity,FormPersonEntity
-from modules.entity.models import Entity
+from modules.entity.forms import FormCompanyEntity, FormPersonEntity, FormRegisterPhone
+from modules.entity.models import Entity, Contact
 from modules.user.models import User
 from django.http import HttpResponse
 from django.http import Http404
@@ -91,8 +91,37 @@ class EntityAPI:
         return HttpResponse(json.dumps(response_dict))
 
     def save_number(request):
-        print("Ja to vindo na API Do save Tel")
-        return HttpResponse(json.dumps({}))
+        resultado, form = AbstractAPI.filter_request(request, FormRegisterPhone)
+        print("Olha o Resultado do save",resultado)
+        contact = Contact()
+        contact.entity_id = 1
+        contact.form_to_object(form)
+        contact.show_fields_value()
+        try:
+            contact.save()
+            print("Entrando para salvar")
+            response_dict = response_format_success(contact,['entity','name','type_contact','ddd','phone','operadora'])
+            #contact.show_fields_value()
+        except:
+            response_dict = response_format_error(False)
+        return HttpResponse(json.dumps(response_dict))
+
+    def load_contacts(request, cpf_cnpj):
+        print("To vindo aqui? \n")
+        print("Olha o cfp:",cpf_cnpj)
+        contacts = Contact.objects.filter(entity_id=1)
+
+        response_dict = []
+        for item in contacts:
+            print('Olha o item',item.type_contact)
+            response_contacts = {}
+            response_contacts['type_contact'] = item.type_contact
+            response_contacts['phone'] = '(' + item.ddd + ')' + item.phone
+            response_contacts['operadora'] = item.operadora
+            response_contacts['name'] = item.name
+            response_dict.append(response_contacts)
+        print(response_dict)
+        return HttpResponse(json.dumps(response_dict))
 
     """
     def register_delete(request, email):

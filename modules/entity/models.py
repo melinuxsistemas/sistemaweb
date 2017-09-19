@@ -155,3 +155,16 @@ class Entity(models.Model,BaseModel):
 
     def __unicode__(self):
         return self.cpf_cnpj
+
+class Contact (models.Model,BaseModel):
+
+    id = models.AutoField(primary_key=True, unique=True)
+    entity = models.ForeignKey(to=Entity,on_delete=models.CASCADE,null=True,error_messages=ERRORS_MESSAGES)
+    type_contact = models.CharField("Tipo de Contato",max_length=10,  error_messages=ERRORS_MESSAGES)
+    name = models.CharField("Nome", max_length=30, null=False, error_messages=ERRORS_MESSAGES)
+    ddd = models.CharField("DDD", max_length=4, null=False, blank=False,  error_messages=ERRORS_MESSAGES)
+    phone = models.CharField("Numero de telefone", max_length=10, null=False, blank=False,  error_messages=ERRORS_MESSAGES)
+    operadora = models.CharField("Operadora Telefonica", max_length=10, null=True, blank=True, error_messages=ERRORS_MESSAGES)
+    details = models.CharField("Detalhes",max_length=10, error_messages=ERRORS_MESSAGES)
+    history = models.CharField("Histórico de Alterações", max_length=500)
+
