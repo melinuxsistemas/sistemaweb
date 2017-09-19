@@ -78,9 +78,11 @@ class EntityAPI:
         return HttpResponse(json.dumps(response_dict))
 
     def save_number(request):
+        resultado, form = AbstractAPI.filter_request(request, FormRegisterPhone)
+        print("Olha o Resultado do save",resultado)
         contact = Contact()
         contact.entity_id = 1
-        contact.form_to_object(FormRegisterPhone)
+        contact.form_to_object(form)
         contact.show_fields_value()
         try:
             contact.save()
@@ -91,24 +93,21 @@ class EntityAPI:
             response_dict = response_format_error(False)
         return HttpResponse(json.dumps(response_dict))
 
-    def load_contacts(request):
+    def load_contacts(request, cpf_cnpj):
+        print("To vindo aqui? \n")
+        print("Olha o cfp:",cpf_cnpj)
         contacts = Contact.objects.filter(entity_id=1)
-        print (contacts)
-        response_dict = {}
-        response_contacts = {}
-        if len(contacts) == 0:
-            response_contacts['contact'] = None
-            response_contacts['contact']['type_contact'] = None
-            response_contacts['contact']['phone'] = None
-            response_contacts['contact']['name'] = None
-            return HttpResponse(json.dumps(response_dict))
-        else:
-            for item in contacts:
-                response_contacts['contact'] = {}
-                response_contacts['contact']['type_contact'] = item.type_contact
-                response_contacts['contact']['phone'] = '(' + item.ddd + ')' + item.phone
-                response_contacts['contact']['name'] = item.name
-                response_dict.append(response_contacts)
+
+        response_dict = []
+        for item in contacts:
+            print('Olha o item',item.type_contact)
+            response_contacts = {}
+            response_contacts['type_contact'] = item.type_contact
+            response_contacts['phone'] = '(' + item.ddd + ')' + item.phone
+            response_contacts['operadora'] = item.operadora
+            response_contacts['name'] = item.name
+            response_dict.append(response_contacts)
+        print(response_dict)
         return HttpResponse(json.dumps(response_dict))
 
     """

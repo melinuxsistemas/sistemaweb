@@ -1,4 +1,7 @@
 application.controller('register_phone_entity', function ($scope) {
+	$scope.test = 'TESTE'
+	$scope.contacts = null
+
 	$scope.save_tel = function () {
 		alert("Entrando no controlador")
 		//var cpf_cnpj = $('#cpf_cnpj').val();
@@ -26,34 +29,34 @@ application.controller('register_phone_entity', function ($scope) {
 		request_api("/api/entity/register/phone", data_paramters, validate_contact, success_function, fail_function)
 	}
 
-
 	$scope.reset_form = function () {
 		document.getElementById("form-save-contact").reset();
 	}
 
 	$scope.load_contacts = function () {
-
-		alert('Vindo')
-		$scope.contacts = []
 		$.ajax({
-
 			type: 'GET',
-			url: "/api/entity/contacts/" + '14960175796',//$scope.registro_selecionado.cliente_id,
+			url: "/api/entity/contacts/" + '14960175796',
 
 			success: function (data) {
-				alert("Consegui");
-				$scope.contacts = JSON.parse(data);
+				$scope.contacts = JSON.parse(data)
+				/*JSON.parse(data).forEach(function(item) {
+					alert("Olha o item"+item.phone)
+					var object = {
+						type_contact : item.type_contact ,
+						phone : item.phone,
+						operadora : item.operadora,
+						name : item.name
+					};
+					$scope.contacts.push(object)
+				});*/
+				alert("Veja os contatos"+JSON.stringify($scope.contacts))
 				$scope.$apply();
-				//alert("VEJA O QUE TEMOS NAS INDICACOES: "+$scope.registro_selecionado.indicacoes[0].cliente_id)
 			},
 
 			failure: function (data) {
-				$scope.clientes = [];
-				$scope.desabilitar = 'link_desabilitado'
-				alert("Não foi possivel carregar a lista de indicacoes")
+				alert("Não foi possivel carregar a lista")
 			}
-
-		})}
-
-
+		})
+	}
 });
