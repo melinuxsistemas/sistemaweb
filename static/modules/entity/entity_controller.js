@@ -2,10 +2,12 @@
  * Created by diego on 05/05/2017.
  */
 var application = angular.module('modules.entity', []);
-
-/*
 application.controller('register_controller', function($scope) {
 
+	$scope.minimal_quantity_rows = [0,1,2,3,4,5,6,7,8,9,0];
+	$scope.entity_list = [1]
+
+	/*
   success_function = function(){
       success_notify("Operação realizada com Sucesso!","Verifique seu email, você receberá um email em instantes.")
   }
@@ -19,31 +21,10 @@ application.controller('register_controller', function($scope) {
     var data_paramters = {email: $scope.email}
     request_api("/api/user/reactivate",data_paramters,validate_form_reset_password,success_function,null)
   }
+  */
 });
 
-application.controller('change_password_controller', function($scope) {
 
-  $scope.save_password = function () {
-    var data_paramters = {
-      old_password: $scope.old_password,
-      password:  $scope.password,
-      confirm_password:  $scope.confirm_password
-    }
-
-    success_function = function(){
-      success_notify("Operação realizada com Sucesso!","Senha de acesso redefinida.")
-      $("#old_password").val("")
-      $("#password").val("")
-      $("#confirm_password").val("")
-      $scope.old_password = "";
-      $scope.password = "";
-      $scope.confirm_password = "";
-    }
-
-    request_api("/api/user/change_password",data_paramters,validate_form_change_password,success_function,null)
-  }
-});
-*/
 application.controller('register_person_controller', function($scope) {
   $scope.cpf_cnpj = "";
   $scope.entity_name = "";

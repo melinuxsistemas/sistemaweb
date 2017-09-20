@@ -39,6 +39,7 @@
 			</ul>
 			<div class="clearfix"></div>
 		</div>
+
 		<div class="x_content" style="margin-top: 10px;padding: 10px;padding-top:0px;padding-bottom:0px;">
 			<div class="" role="tabpanel" data-example-id="togglable-tabs">
 				<ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
@@ -46,7 +47,7 @@
 					<li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Identificação</a></li>
 
 					<!--Aba de Telefone-->
-					<li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false"  ng-controller="register_phone_entity" ng-click="load_contacts()">Contatos</a></li>
+					<li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Contatos</a></li><!--  " -->
 
 					<!-- Aba de Email-->
 					<li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Emails</a></li>
@@ -118,10 +119,11 @@
 					</div>
 					<!--Aba de Telefone-->
 					<div role="tabpanel" class="tab-pane fade" id="tab_content2"  style="solid-opacity: #fff" aria-labelledby="home-tab">
-						<div ng-controller="register_phone_entity">
+						<div id="controler_contact" ng-controller="register_phone_entity">
 
 							<div class="row">
-								<table class="table table-condensed table-striped table-bordered table-houver" id="table_contacts">
+								<div class="col-md-12">
+								<table border="1" class="table table-striped table-bordered table-houver" id="table_contacts" style="border: 1px;border-top: 1px">
 									<thead>
 										<tr class="linha_cabecalho" >
 											<th class="center" style="width: 30px; height: 30px;"></th>
@@ -133,19 +135,16 @@
 									</thead>
 									<tbody>
 										{% verbatim %}
-											Veja o teste {{ test }}
 											<!--<tr ng-if="(contratos|filter:filterIds()).length == 0">
 												<td colspan="8" class="center">Nenhum Cliente Cadastrado!</td>
 											</tr>-->
 
-											Olha os contatos {{ contacts }}
 											<tr class="linha_selecionavel angular-repeat" ng-repeat='contact in contacts'>
-
-												<th class="center" style="width: 30px; height: 30px;"></th>
-												<th class="center" style="width:150px;">{{ contact }}</th>
-												<th class="center" style="width:180px;">{{ contact.phone }}</th>
-												<th class="center" style="width:150px;">{{ contact.operadora }}</th>
-												<th class="center" >{{ contact.name }}</th>
+												<td class="center" style="width: 30px; height: 30px;"></td>
+												<td class="center" style="width:150px;">{{ contact.type_contact }}</td>
+												<td class="center" style="width:180px;">{{ contact.phone }}</td>
+												<td class="center" style="width:150px;">{{ contact.operadora }}</td>
+												<td class="center" >{{ contact.name }}</td>
 											</tr>
 
 											<tr class="linha_selecionavel" ng-repeat="k in [1,2,3,4,5]" >
@@ -158,6 +157,7 @@
 										{% endverbatim %}
 									</tbody>
 								</table>
+								</div>
 						</div>
 							<div class="row">
 								<div class="col-lg-2" style="float: right">
@@ -292,6 +292,8 @@
       $(document).ready(function(){
         //$('#cpf_cnpj').mask('999.999.999-99');
         $('#birth_date_foundation').mask('99/99/9999');
+
+        angular.element(document.getElementById('controler_contact')).scope().load_contacts();
       });
     </script>
     <script>

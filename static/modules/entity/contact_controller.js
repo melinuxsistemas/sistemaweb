@@ -1,6 +1,7 @@
+///var application = angular.module('modules.entity', []);
 application.controller('register_phone_entity', function ($scope) {
 	$scope.test = 'TESTE'
-	$scope.contacts = null
+	$scope.contacts = "MERDA"
 
 	$scope.save_tel = function () {
 		alert("Entrando no controlador")
@@ -39,18 +40,7 @@ application.controller('register_phone_entity', function ($scope) {
 			url: "/api/entity/contacts/" + '14960175796',
 
 			success: function (data) {
-				$scope.contacts = JSON.parse(data)
-				/*JSON.parse(data).forEach(function(item) {
-					alert("Olha o item"+item.phone)
-					var object = {
-						type_contact : item.type_contact ,
-						phone : item.phone,
-						operadora : item.operadora,
-						name : item.name
-					};
-					$scope.contacts.push(object)
-				});*/
-				alert("Veja os contatos"+JSON.stringify($scope.contacts))
+				$scope.contacts = JSON.parse(data)//"COISA QUALQUER"//
 				$scope.$apply();
 			},
 

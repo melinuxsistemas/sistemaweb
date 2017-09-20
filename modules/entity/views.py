@@ -21,6 +21,5 @@ def register_entity(request,entity_type):
     return render(request, template_url, {'form_entity':form_entity , 'form_register_number': form_number})
 
 
-'''def entity_page(request):
-    #controlador da pg inicial da Entidade
-    return render(request, "entity/entity.html")'''
+def entity_page(request):
+    return render(request, "entity/entity.html")
