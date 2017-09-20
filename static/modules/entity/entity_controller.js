@@ -5,25 +5,61 @@ var application = angular.module('modules.entity', []);
 application.controller('register_controller', function($scope) {
 
 	$scope.minimal_quantity_rows = [0,1,2,3,4,5,6,7,8,9,0];
-	$scope.entity_list = [1]
+	$scope.entity_test = [1]
+  $scope.entity_selected = null
+  $scope.list_entities = ['iniciar lista']
 
-	/*
-  success_function = function(){
-      success_notify("Operação realizada com Sucesso!","Verifique seu email, você receberá um email em instantes.")
+  $scope.load_table_entity = function () {
+    $.ajax({
+      type: 'GET',
+      url: "/api/entity/load_entities/",
+
+      success: function (data) {
+        $scope.list_entities = JSON.parse(data)
+        $scope.$apply();
+      },
+
+      failure: function (data) {
+        alert("Não foi possivel carregar a lista")
+      },
+    })
+}
+
+  $scope.select_table_row = function(entity){
+
+    if ($scope.entity_selected !==  null){
+      if($scope.entity_selected == entity){
+        alert("Entity iguais eu removo seleção")
+        $scope.unselect_table_row();
+        $scope.$apply();
+      }
+      else{
+        alert("Primeiro desmarco, para selecionar outro")
+        $scope.unselect_table_row();
+        alert("Consigo sair?")
+        $scope.entity_selected = entity
+
+        $("#table_entity").children("tr").eq(entity).addClass('selected')
+        $scope.$apply();
+
+        //$scope.carregar_indicacao_selecionada();
+      }
+    }
+    else{
+      alert("Selecionando uma linha")
+      $("#table_entity").children("tr").eq(entity).addClass('selected')
+      $scope.entity_selected = entity;
+      $scope.$apply();
+      //$scope.carregar_indicacao_selecionada();
+    }
+
   }
 
-  $scope.reset_password = function () {
-    var data_paramters = {email: $scope.email}
-    request_api("/api/user/reset_password",data_paramters,validate_form_reset_password,success_function,null)
+  $scope.unselect_table_row = function () {
+    $("#table_entity").children("tr").eq($scope.entity_selected).removeClass('selected')
+    $scope.entity_selected = null
   }
-
-  $scope.resend_activation_code = function () {
-    var data_paramters = {email: $scope.email}
-    request_api("/api/user/reactivate",data_paramters,validate_form_reset_password,success_function,null)
-  }
-  */
 });
-
 
 application.controller('register_person_controller', function($scope) {
   $scope.cpf_cnpj = "";
@@ -62,17 +98,6 @@ application.controller('register_person_controller', function($scope) {
     request_api("/api/entity/register/person/save",data_paramters,validade_function,success_function,fail_function)
   }
 });
-/*
-  $scope.resend_activation_code = function () {
-    var data_paramters = {email: $scope.email}
-    $("#email").val($scope.email)
-    success_function = function(){
-      confirm_notify("Operação realizada com Sucesso!","Verifique seu email, você receberá um email em instantes.<br><a href='/login'>Clique aqui para acessar sistema.</a>")
-    }
-    request_api("/api/user/reactivate",data_paramters,validate_form_confirm_register,success_function,null)
-  }
-});
-*/
 
 application.controller('register_company_controller', function ($scope) {
     $scope.cpf_cnpj = "";
@@ -103,9 +128,9 @@ application.controller('register_company_controller', function ($scope) {
     };
 });
 
-
 application.controller('register_email_entity', function ($scope) {
   $scope.save_email = function (){
 		alert('VINDO AQUI JÀ')
 	}
 });
+

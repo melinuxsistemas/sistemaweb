@@ -5,6 +5,7 @@
   {% load static %}
 	<script src="{% static 'bower_components/nprogress/nprogress.js' %}"></script>
 	<link href="{% static 'bower_components/nprogress/nprogress.css' %}" rel="stylesheet">
+	<link href="{% static 'modules/entity/entity.css' %}" rel="stylesheet">
 
   <style>
   .actionBar{
@@ -56,24 +57,21 @@
 				<div class="dataTable_wrapper">
 				<div class='row'>
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<table class="table table-condensed  table-striped table-bordered table-hover" id="table_contratos" style="width: 100%;">
+						<table id="table_entity" class="table table-condensed  table-striped table-bordered table-hover" style="width: 100%;">
 							<thead>
 								<tr class="linha_cabecalho">
 									<th class='center' style="width: 40px;" ng-click="sortType = 'id'; sortReverse = !sortReverse"></th>
 
-									<th class='center' ng-click="sortType = 'cliente'; sortReverse = !sortReverse">Entidade</th>
+									<th class='center' ng-click="sortType = 'cliente'; sortReverse = !sortReverse">Nome/Razão</th>
 
-									<th class="center" ng-hide='screen0 || screen1' ng-click="sortType = 'plano'; sortReverse = !sortReverse">Plano</th>
+									<th class="center" ng-hide='screen0 || screen1' ng-click="sortType = 'plano'; sortReverse = !sortReverse">Tipo Entidade</th>
 
-									<th class='center' ng-hide='screen0 || screen1 || screen2 || screen3' ng-click="sortType = 'inicio'; sortReverse = !sortReverse">Início</th>
+									<th class="center" ng-hide='screen0 || screen1' ng-click="sortType = 'plano'; sortReverse = !sortReverse">CPF/CNPJ</th>
 
-									<th class='center' ng-hide='screen0 || screen1 || screen2 || screen3' ng-click="sortType = 'termino'; sortReverse = !sortReverse">Término</th>
+									<th class='center' ng-hide='screen0 || screen1 || screen2 || screen3' ng-click="sortType = 'inicio'; sortReverse = !sortReverse">Data Nascimento/Fundação</th>
 
-									<th class='center' ng-hide='screen0 || screen1 || screen2 || screen3' ng-click="sortType = 'valor_honorario'; sortReverse = !sortReverse">Honorário (R$)</th>
+									<th class='center' ng-hide='screen0 || screen1 || screen2 || screen3' ng-click="sortType = 'termino'; sortReverse = !sortReverse">Data de cadastro</th>
 
-									<th class='center' ng-hide='screen0 || screen1 || screen2 || screen3' ng-click="sortType = 'descontos'; sortReverse = !sortReverse">Desc (%)</th>
-
-									<th class='center' ng-hide='screen0 || screen1 || screen2' ng-click="sortType = 'plano'; sortReverse = !sortReverse" >Total (R$)</th>
 								</tr>
 							</thead>
 
@@ -85,55 +83,44 @@
 									<td colspan="8" class="center">Nenhum Cliente Cadastrado!</td>
 								</tr>
 
-								<tr class="angular-repeat linha_selecionavel {{ contrato.selecionado }}" ng-click="selecionar_linha(contrato)" pagination-id="paginate_contratos" dir-paginate="contrato in contratos | filter: get_filter_column() | itemsPerPage:10 | orderBy:sortType:sortReverse as resultado">
-									<!--<tr ng-repeat='contrato in contratos' class="linha_selecionavel {{ contrato.selecionado }}" ng-click="selecionar_linha(contrato)" pagination-id="paginate_contratos">-->
+								<tr id="rows_entity" class="linha_selecionavel" ng-repeat="entity in list_entities" ng-click="select_table_row(entity)" pagination-id="paginate_contratos" dir-paginate="contrato in contratos | filter: get_filter_column() | itemsPerPage:10 | orderBy:sortType:sortReverse as resultado">
 
-									<td class='center' style="width: 30px;height: 25px;">{{ contrato.cliente_id }}</td> <!-- {{ $index+1 }} -->
+									<td class='center' style="width: 30px;height: 25px;">{{ $index+1 }}</td> <!-- {{ $index+1 }} -->
 									<td class="col-cliente" class="left">
-										{{ contrato.cliente_nome }}
+										{{ entity.name }}
 										<!--<div class="responsive-text"  style="max-width: {{ col_cliente_size }}px">{{ contrato.cliente_nome }}</div> isso faz cortar as palavras mas temos um problema com alinhamento que nao fica perfeito dependendo de como a largura foi carregada inicialmente -->
 									</td>
 
-									<td ng-hide='screen0 || screen1' ng-class="{true:'left', false:'center'}[contrato.plano=='']">
-										<span ng-if="contrato.plano">{{ contrato.plano }}</span>
-										<span ng-if="!contrato.plano"></span>
+									<td ng-hide='screen0 || screen1' ng-class="{true:'left', false:'center'}[entity.entity_type=='']">
+										<span ng-if="entity.entity_type">{{ entity.entity_type }}</span>
+										<span ng-if="!entity.entity_type"></span>
 									</td>
 
-									<td ng-hide='screen0 || screen1 || screen2 || screen3' ng-class="{true:'left', false:'center'}[contrato.contrato.vigencia_inicio=='']" style="width: 80px;">
-										<span ng-if="contrato.contrato.vigencia_inicio">{{ contrato.contrato.vigencia_inicio }}</span>
-										<span ng-if="!contrato.plano"></span>
+									<td ng-hide='screen0 || screen1' ng-class="{true:'left', false:'center'}[entity.cpf_cnpj=='']">
+										<span ng-if="entity.cpf_cnpj">{{ entity.cpf_cnpj }}</span>
+										<span ng-if="!entity.cpf_cnpj"></span>
 									</td>
 
-									<td ng-hide='screen0 || screen1 || screen2 || screen3' ng-class="{true:'left', false:'center'}[contrato.contrato.vigencia_fim=='']" style="width: 80px;">
-										<span ng-if="contrato.contrato.vigencia_fim">{{ contrato.contrato.vigencia_fim }}</span>
-										<span ng-if="!contrato.plano"></span>
+									<td ng-hide='screen0 || screen1 || screen2 || screen3' ng-class="{true:'left', false:'center'}[entity.birth_date_foundation=='']" style="width: 80px;">
+										<span ng-if="entity.birth_date_foundation">{{entity.birth_date_foundation }}</span>
+										<span ng-if="!entity.birth_date_foundation"></span>
 									</td>
 
-									<td ng-hide='screen0 || screen1 || screen2 || screen3' ng-class="{'right': contrato.contrato.valor_honorario, 'center': !contrato.plano  }" style="width: 130px;">
-										<span ng-if="contrato.contrato.valor_honorario">{{ contrato.contrato.valor_honorario | currency:"" }}</span>
-										<span ng-if="!contrato.plano"></span>
+									<td ng-hide='screen0 || screen1 || screen2 || screen3' ng-class="{true:'left', false:'center'}[entity.created_date=='']" style="width: 80px;">
+										<span ng-if="entity.created_date">{{ entity.created_date}}</span>
+										<span ng-if="!entity.created_date"></span>
 									</td>
 
-									<td ng-hide='screen0 || screen1 || screen2 || screen3' class="center" style="width: 80px;">
-										<span ng-if="contrato.plano">{{ contrato.contrato.desconto_temporario -- contrato.contrato.desconto_indicacoes }}</span>
-										<span ng-if="!contrato.plano"></span>
-									</td>
-
-									<td ng-hide='screen0 || screen1 || screen2' ng-class="{'right': contrato.plano, 'center':!contrato.plano }" style="width: 130px;">
-										<span ng-if="contrato.plano">{{ contrato.contrato.valor_honorario-(contrato.contrato.valor_honorario*(contrato.contrato.desconto_temporario/100)) | currency:"" }}</span>
-										<span ng-if="!contrato.plano"></span>
-									</td>
 								</tr>
 
-								<tr ng-repeat="k in minimal_quantity_rows.slice(entity_list.length,minimal_quantity_rows.length)">
+								<tr class="angular-repeat linha_selecionavel" ng-repeat="k in minimal_quantity_rows.slice(list_entities.length,minimal_quantity_rows.length)">
 									<td style="width:30px;height: 25px;"></td>
 									<td></td>
 									<td style="width:120px;"></td>
-									<td class='center' style="width: 80px;"></td>
-									<td class='center' style="width: 80px;"></td>
-									<td class='right' style="width: 130px;"></td>
+									<td class='center ' style="width: 80px;"></td>
 									<td class='center' style="width: 80px;"></td>
 									<td class='right' style="width: 130px;"></td>
+
 								</tr>
 
 								<tr ng-if="resultado.length === 0 && (contratos|filter:filterIds()).length > 0">
@@ -214,7 +201,8 @@
 		//$('#cpf_cnpj').mask('999.999.999-99');
 		//$('#birth_date_foundation').mask('99/99/9999');
 
-		//angular.element(document.getElementById('controler_contact')).scope().load_contacts();
+		angular.element(document.getElementById('rows_entity')).scope().load_table_entity();
+		angular.element(document.getElementById('entity_table')).scope().select_table_row();
 	});
 </script>
 
