@@ -123,6 +123,17 @@ class EntityAPI:
         print(response_dict)
         return HttpResponse(json.dumps(response_dict))
 
+    def delete_contact (request, id_contact):
+        print("Ja vindo aqui",id_contact)
+        contact = Contact.objects.filter(id=id_contact)
+        try:
+            contact.delete()
+            print("JA EXCLUI")
+        except:
+            print("DANDO ERROR")
+        response_dict = []
+        return HttpResponse(json.dumps(response_dict))
+
     """
     def register_delete(request, email):
         user = User.objects.get_user_email(email)

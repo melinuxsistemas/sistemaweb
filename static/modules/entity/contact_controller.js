@@ -1,7 +1,5 @@
-///var application = angular.module('modules.entity', []);
 application.controller('register_phone_entity', function ($scope) {
-	$scope.test = 'TESTE'
-	$scope.contacts = "MERDA"
+	$scope.contacts = []
 
 	$scope.save_tel = function () {
 		alert("Entrando no controlador")
@@ -40,13 +38,19 @@ application.controller('register_phone_entity', function ($scope) {
 			url: "/api/entity/contacts/" + '14960175796',
 
 			success: function (data) {
-				$scope.contacts = JSON.parse(data)//"COISA QUALQUER"//
+				$scope.contacts = JSON.parse(data)
 				$scope.$apply();
 			},
 
 			failure: function (data) {
 				alert("Não foi possivel carregar a lista")
-			}
+			},
+		})
+	}
+
+	$scope.delete_contact = function () {
+		$.ajax({
+			url: "/api/entity/delete/phone/" + '16',
 		})
 	}
 });
