@@ -1,19 +1,20 @@
 import json
-import unittest
+from django.test import TestCase
 from modules.user.models import User
-from test.unit.backend.core.test_routes import BaseRoutesTests, StatusCode
+from test.unit.backend.core.test_routes import NewBaseRoutesTest, StatusCode
 
 
-class UserRoutesTests(BaseRoutesTests):
+class UserRoutesTests(TestCase, NewBaseRoutesTest):
 
-    def __init__(self, *args):
-        unittest.TestCase.__init__(self, *args)
+    public_routes = ['/login/', '/logout', '/register/', '/reset_password/']
+    private_route = ['/', '/profile']
+    private_api   = []
+    protected_api = []
 
-        self.add_public_route_list(['/login/', '/logout', '/register/', '/reset_password/'])
-        self.add_private_route_list(['/', '/profile'])
-        self.add_private_api('/api/user/register/save',{'email': 'teste@teste.com', 'password': '1q2w3e4r', 'confirm_password': '1q2w3e4r'})
-        self.add_private_api('/api/user/login/autentication', {'email': 'teste@teste.com', 'senha': '1q2w3e4r'})
-        self.add_private_api('/api/user/change_password',{'old_password': 'r4e3w2q1', 'password': '1q2w3e4r', 'confirm_password': '1q2w3e4r'})
+    protected_api.append(['/api/user/register/save', {'email': 'teste@teste.com', 'password': '1q2w3e4r', 'confirm_password': '1q2w3e4r'}])
+    protected_api.append(['/api/user/login/autentication', {'email': 'teste@teste.com', 'senha': '1q2w3e4r'}])
+
+    private_api.append(['/api/user/change_password', {'old_password': 'r4e3w2q1', 'password': '1q2w3e4r', 'confirm_password': '1q2w3e4r'}])
 
     def test_valid_activation_page(self):
         test_user = User.objects.create_test_user('outroteste@teste.com.br', '1q2w3e4r')

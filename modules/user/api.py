@@ -1,4 +1,8 @@
 # -*- encoding: utf-8 -*-
+from django.contrib.auth.decorators import login_required
+from django.middleware.csrf import CsrfViewMiddleware
+from django.shortcuts import redirect
+from django.views.decorators.csrf import csrf_protect
 
 from modules.core.api import AbstractAPI
 from modules.core.utils import response_format_success, response_format_error, generate_activation_code, generate_random_password
@@ -23,26 +27,20 @@ class UsuarioAPI:
 
     def register_user(request):
         resultado, form = AbstractAPI.filter_request(request, FormRegister)
-        #print("VAMOS LA.. VEJA OS TESTS: ",request.POST)
         if resultado:
-            #print("TA VALIDO")
             email = request.POST['email'].lower()
             senha = request.POST['password']
             if User.objects.check_available_email(email):
-                #print("EMAIL TA DISPONIVEL")
                 usuario = User.objects.create_contracting_user(email, senha)
                 if usuario is not None:
                     activation_code = generate_activation_code(email)
                     send_generate_activation_code(email, activation_code)
                     response_dict = response_format_success(usuario, ['email'])
                 else:
-                    #print("USUARIO NAO TA CADASTRADO")
                     response_dict = response_format_error("Nao foi possivel criar objeto")
             else:
-                #print("EMAIL TA INDISPONIVEL")
                 response_dict = response_format_error("Email já cadastrado.")
         else:
-            #print("FORMULARIO INCORRETO")
             response_dict = response_format_error("Formulário com dados inválidos.")
         return HttpResponse(json.dumps(response_dict))
 
@@ -116,7 +114,10 @@ class UsuarioAPI:
             response_dict = response_format_error("Formulário com dados inválidos.")
         return HttpResponse(json.dumps(response_dict))
 
+    @login_required
     def change_password(request):
+        #if request.user.is_authenticated():
+        #print("OK, O CARA TA AUTENTICADO")
         result, form = AbstractAPI.filter_request(request, FormChangePassword)
         if result:
             usuario = request.user
@@ -133,9 +134,13 @@ class UsuarioAPI:
                 response_dict = response_format_success(request.user,"Usuário alterado com sucesso.")
             else:
                 response_dict = response_format_error("Erro! Senha antiga está incorreta.")
+
         else:
             response_dict = response_format_error(form.format_validate_response())
-            print("VEJA OS ERROS: ",response_dict)
+            #print("VEJA OS ERROS: ",response_dict)
+        #else:
+        #    #response_dict = response_format_error("Erro! Usuario nao autenticado")
+        #    return redirect('/login')
 
         return HttpResponse(json.dumps(response_dict))
 

@@ -1,3 +1,5 @@
+from django.contrib.auth.decorators import login_required
+
 from modules.core.api import AbstractAPI
 from modules.core.config import ERRORS_MESSAGES
 from modules.core.utils import response_format_success, response_format_error, generate_activation_code
@@ -14,9 +16,9 @@ import json
 def format_exception_message(exceptions):
     message_dict = {}
     if type(exceptions) == list:
-        print("VEJAMOS O QUE TEMOS: ",exceptions)
+        #print("VEJAMOS O QUE TEMOS: ",exceptions)
         for item in exceptions:
-            print("VEJA OS ARGUMENTOS: ",item.args)
+            #print("VEJA OS ARGUMENTOS: ",item.args)
             if len(item.args) > 1:
                 status_code = item.args[1]
                 except_parts = str(item).replace("['", "").replace("']", "")
@@ -25,7 +27,7 @@ def format_exception_message(exceptions):
                     field = except_parts[0]
 
                 else:
-                    field = "QUEM SERA?"
+                    field = "Erro! Formato de mensagem nao foi gerado pois o campo do formulario e desconhecido."
             else:
                 if 'UNIQUE' in item.args[0]:
                     status_code = 'unique'
@@ -35,7 +37,6 @@ def format_exception_message(exceptions):
                     except_parts = except_parts.split(': ')
                     field = except_parts[1].split('.')[1]
 
-
             """ 
             Quando temos apenas um erro esse e o formato da excessao:
                django.core.exceptions.ValidationError: ['cpf_cnpj: Cpf number is not valid.']
@@ -43,8 +44,6 @@ def format_exception_message(exceptions):
             Contudo pode ser que o mesmo campo tenha duas validacoes com erro 
             sendo necessario adequar essa funcao para tratar isso.
             """
-
-
             message_dict[field] = ERRORS_MESSAGES[status_code]
 
     else:
@@ -59,6 +58,7 @@ def format_exception_message(exceptions):
 
 class EntityAPI:
 
+    @login_required
     def save_person(request):
         resultado, form = AbstractAPI.filter_request(request, FormPersonEntity)
         entity = Entity()

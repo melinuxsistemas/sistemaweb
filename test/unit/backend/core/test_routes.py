@@ -49,14 +49,22 @@ class StatusCode:
 
 
 class NewBaseRoutesTest(object):
+    """
+        public_routes: Rotas de peginas publico.
+        private_routes: Rotas de pagina restritas.
+
+        public_api: Rotas de servicos de acesso publico.
+        private_api: Rotas de servicos de acesso restrito.
+        protected_api: Rotas de servicos nao restrito mas que exigem protecao por token.
+    """
     private_routes = []
     public_routes = []
 
     public_api = []
     private_api = []
+    protected_api = []
 
     def setUp(self):
-        self.testDataSet = range(100)
         super(NewBaseRoutesTest, self).setUp()
 
     def request_url(self, url):
@@ -71,91 +79,52 @@ class NewBaseRoutesTest(object):
     def logout(self):
         self.client.logout()
 
-    def test_private_routes_anonymous_user(self):
+    def test_private_routes_with_anonymous_user(self):
         for url in self.private_routes:
-            self.assertNotEqual(self.request_url(url).status_code, StatusCode.request_success)
+            self.assertNotEqual(self.request_url(url).status_code, StatusCode.request_success,  "Teste com acesso a rotas privada com usuario anonimo. (OK)")
 
-    #def test_private_routes_autenticated_user(self):
-    #    self.login('teste@gmail.com','teste123')
-    #    for item in self.private_routes:
-    #        self.assertEqual(self.request_url(item).status_code, StatusCode.request_success)
-    #    self.logout()
-
-    def test_public_routes(self):
-        for url in self.private_routes:
-            self.assertNotEqual(self.request_url(url).status_code, StatusCode.request_success)
-
-
-class BaseRoutesTests(TestCase):
-    public_routes = []
-    private_routes = []
-
-    public_api = []
-    private_api = []
-
-    def __init__(self, *args, **kwargs):
-        unittest.TestCase.__init__(self, *args, **kwargs)
-
-    def setUp(self):
-        self.client = Client()
-
-    def login_user_client(self, email, senha):
-        self.user = User.objects.create_test_user(email, senha)
-        self.client.login(username=email, password=senha)
-        return self.user
-
-    def add_public_route(self, route):
-        self.public_routes.append(route)
-
-    def add_public_route_list(self, list_routes):
-        self.public_routes = self.public_routes + list_routes
-
-    def add_private_route(self, route):
-        self.private_routes.append(route)
-
-    def add_private_route_list(self, list_routes):
-        self.private_routes = self.private_routes + list_routes
-
-    def add_public_api(self, api, dict_paramters):
-        self.public_api.append([api,dict_paramters])
-
-    def add_private_api(self, api, dict_paramters):
-        self.private_api.append([api, dict_paramters])
-
-    def test_get_route_list(self, route_list=[], status_code=StatusCode.request_success):
-        for item in route_list:
-            return_status_code = self.client.get(item).status_code
-            if status_code == StatusCode.request_success:
-                if return_status_code == StatusCode.request_redirected_permanently:
-                    return_status_code = StatusCode.request_success
-            self.assertEqual(return_status_code, status_code)
-
-    def test_post_route_list(self, route_list=[], status_code=StatusCode.request_success):
-        for item in route_list:
-            result = self.client.post(item[0], data=item[1], HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-            self.assertEqual(result.status_code,status_code)
-
-    def test_public_routes(self):
-        self.test_get_route_list(self.public_routes, StatusCode.request_success)
-
-    def test_private_routes_autenticated(self):
-        user = self.login_user_client('teste@teste.com', '1q2w3e4r')
-        self.test_get_route_list(self.private_routes, StatusCode.request_success)
-        user.delete()
-
-    def test_private_routes_anonymous(self):
+    def test_private_routes_with_autenticated_user(self):
+        self.login('teste@gmail.com','teste123')
         for item in self.private_routes:
-            self.assertNotEqual(self.client.get(item).status_code, StatusCode.request_success)
+            self.assertEqual(self.request_url(item).status_code, StatusCode.request_success, "Teste com acesso a rotas privada com usuario autenticado. (OK)")
+        self.logout()
 
-    def test_get_private_api(self):
-        self.test_get_route_list(self.private_api, StatusCode.request_not_found)
+    def test_post_private_api_with_autenticated_user(self):
+        user = self.login('usuario@teste.com', '1q2w3e4r')
+        for item in self.private_api:
+            result = self.client.post(item[0], data=item[1], HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+            self.assertEqual(result.status_code,StatusCode.request_success, "Teste com envio de dados para api privada com usuario autenticado. (OK)")
+        self.logout()
 
-    def test_post_private_api(self):
-        user = self.login_user_client('teste@teste.com', '1q2w3e4r')
-        self.test_post_route_list(self.private_api, StatusCode.request_success)
+    def test_post_private_api_with_anonymous_user(self):
+        self.logout()
+        for item in self.private_api:
+            result = self.client.post(item[0], data=item[1], HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+            self.assertNotEqual(result.status_code,StatusCode.request_success, "Teste com envio de dados para api privada com usuario anonimo. (OK)")
+
+    def test_post_private_api_without_csrf_token(self):
+        self.client = Client(enforce_csrf_checks=True)
+        user = self.login('usuario@teste.com', '1q2w3e4r')
+        for item in self.private_api:
+            result = self.client.post(item[0], data=item[1], HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+            self.assertNotEqual(result.status_code, StatusCode.request_success, "Teste com envio de dados para api privada com usuario autenticado. (OK)")
+        self.logout()
         user.delete()
 
-    def test_get_public_api(self):
-        for item in self.public_api:
-            response = self.client.get(item[0],data=item[1])
-            self.assertNotEqual(response.status_code, StatusCode.request_success)
+    def test_post_protected_api(self):
+        #user = self.login('usuario@teste.com', '1q2w3e4r')
+        self.logout()
+        for item in self.protected_api:
+            result = self.client.post(item[0], data=item[1], HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+            self.assertEqual(result.status_code,StatusCode.request_success, "Teste com envio de dados para api privada com usuario autenticado. (OK)")
+
+    def test_post_protected_api_without_csrf_token(self):
+        self.client = Client(enforce_csrf_checks=True)
+        self.logout()
+        for item in self.protected_api:
+            result = self.client.post(item[0], data=item[1], HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+            self.assertNotEqual(result.status_code,StatusCode.request_success, "Teste com envio de dados para api privada com usuario autenticado. (OK)")
+
+    def test_public_routes(self):
+        for url in self.private_routes:
+            self.assertNotEqual(self.request_url(url).status_code, StatusCode.request_success)

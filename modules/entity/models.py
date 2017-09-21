@@ -80,11 +80,8 @@ class Entity(models.Model,BaseModel):
         self.model_exceptions = self.check_validators()
         if self.model_exceptions == []:
             try:
-                print("VOU TENTAR SALVAR")
                 super(Entity, self).save(*args, **kwargs)
-                print("SALVEI")
             except Exception as exception:
-                print("DEU PAU CARAI",exception)
                 self.model_exceptions.append(exception)
                 raise exception
         else:
@@ -93,8 +90,6 @@ class Entity(models.Model,BaseModel):
     def check_validators(self):
         self.model_exceptions = []
         if self.entity_type == "PF":
-            print("EH PF, VEJA CPF: ",self.cpf_cnpj)
-
             try:
                 cpf_validator(self.cpf_cnpj)
             except Exception as e:
@@ -115,7 +110,6 @@ class Entity(models.Model,BaseModel):
             except Exception as e:
                 self.model_exceptions.append(e)
         else:
-            print("EH PF, VEJA CNPJ: ", self.cpf_cnpj)
             try:
                 cnpj_validator(self.cpf_cnpj)
             except Exception as e:

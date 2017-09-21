@@ -1,4 +1,3 @@
-import unittest
 from django.test import TestCase
 from test.unit.backend.core.test_routes import NewBaseRoutesTest
 
@@ -7,29 +6,8 @@ class EntityRoutesTest(TestCase, NewBaseRoutesTest):
     private_routes = ['/entity/']
     private_api = []
 
-    test_paramters = {'entity_type': 'PF',
-                      'registration_status': 0,
-                      'cpf_cnpj': '12859855750',
-                      'entity_name': 'TESTE TESTE',
-                      'fantasy_name': '',
-                      'birth_date_foundation': '',
-                      'comments': ''
-                      }
-    private_api.append(['/api/entity/register/person/save', test_paramters])
-
-    def create_valid_entities_paramters(self):
-        data_paramters = []
-        data_paramters.append({
-            'entity_type': 'PF','registration_status': 0,'cpf_cnpj': '12859855750',
-            'entity_name': 'TESTE TESTE','fantasy_name': '','birth_date_foundation': '','comments': ''
-        })
-
-    def create_invalid_entities_paramters(self):
-        data_paramters = []
-        data_paramters.append({
-            'entity_type': 'PF','registration_status': 0,'cpf_cnpj': '12859855751',
-            'entity_name': 'TESTE TESTE','fantasy_name': '','birth_date_foundation': '','comments': ''
-        })
+    private_api.append(['/api/entity/register/person/save', {'entity_type': 'PF','registration_status': 0,'cpf_cnpj': '12859855750',
+            'entity_name': 'TESTE TESTE','fantasy_name': '','birth_date_foundation': '','comments': ''}])
 
 
 """
