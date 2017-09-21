@@ -20,6 +20,6 @@ def register_entity(request,entity_type):
 
     return render(request, template_url, {'form_entity':form_entity , 'form_register_number': form_number})
 
-
+@login_required()
 def entity_page(request):
     return render(request, "entity/entity.html")

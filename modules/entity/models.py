@@ -1,7 +1,7 @@
 from django.db import models
 from modules.core.config import ERRORS_MESSAGES
 from modules.entity.validators import cpf_cnpj_validator, min_words_name_validator, future_birthdate_validator, maximum_age_person_validator, minimum_age_person_validator, \
-    required_validator
+    required_validator, cpf_validator, cnpj_validator
 from django.core.validators import MinLengthValidator
 
 
@@ -93,8 +93,10 @@ class Entity(models.Model,BaseModel):
     def check_validators(self):
         self.model_exceptions = []
         if self.entity_type == "PF":
+            print("EH PF, VEJA CPF: ",self.cpf_cnpj)
+
             try:
-                cpf_cnpj_validator(self.cpf_cnpj)
+                cpf_validator(self.cpf_cnpj)
             except Exception as e:
                 self.model_exceptions.append(e)
 
@@ -113,8 +115,9 @@ class Entity(models.Model,BaseModel):
             except Exception as e:
                 self.model_exceptions.append(e)
         else:
+            print("EH PF, VEJA CNPJ: ", self.cpf_cnpj)
             try:
-                cpf_cnpj_validator(self.cpf_cnpj)
+                cnpj_validator(self.cpf_cnpj)
             except Exception as e:
                 self.model_exceptions.append(e)
         return self.model_exceptions

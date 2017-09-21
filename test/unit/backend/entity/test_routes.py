@@ -1,26 +1,49 @@
 import unittest
-from django.test import TestCase, Client
-from modules.user.models import User
-from test.unit.backend.core.test_routes import StatusCode
+from django.test import TestCase
+from test.unit.backend.core.test_routes import NewBaseRoutesTest
 
 
-class RoutesTestCase:
+class EntityRoutesTest(TestCase, NewBaseRoutesTest):
+    private_routes = ['/entity/']
+    private_api = []
 
-    def __init__(self, base_class):
-        self.base_class = base_class
+    test_paramters = {'entity_type': 'PF',
+                      'registration_status': 0,
+                      'cpf_cnpj': '12859855750',
+                      'entity_name': 'TESTE TESTE',
+                      'fantasy_name': '',
+                      'birth_date_foundation': '',
+                      'comments': ''
+                      }
+    private_api.append(['/api/entity/register/person/save', test_paramters])
 
-    def test_route(self,url):
-        return self.client.get(url)
+    def create_valid_entities_paramters(self):
+        data_paramters = []
+        data_paramters.append({
+            'entity_type': 'PF','registration_status': 0,'cpf_cnpj': '12859855750',
+            'entity_name': 'TESTE TESTE','fantasy_name': '','birth_date_foundation': '','comments': ''
+        })
 
-    def test_private_routes_anonymous_user(self, private_routes):
-        for url in private_routes:
-            self.base_class.assertNotEqual(self.test_route(url).status_code, StatusCode.request_success)
+    def create_invalid_entities_paramters(self):
+        data_paramters = []
+        data_paramters.append({
+            'entity_type': 'PF','registration_status': 0,'cpf_cnpj': '12859855751',
+            'entity_name': 'TESTE TESTE','fantasy_name': '','birth_date_foundation': '','comments': ''
+        })
+
+
+"""
+class BaseRoutesTest:
+
+    def __init__(self, unittest_class):
+        self.unittest_class = unittest_class
+
 
 
 class ControllerRoutes:
 
-    def __init__(self, base_class):
-        self.base_class = base_class
+    def __init__(self, unittest_class):
+        self.unittest_class = unittest_class
 
     def add_private_route(self, route):
         self.private_routes.append(route)
@@ -31,15 +54,14 @@ class ControllerRoutes:
     #def test_private_routes_autenticated_user(self):
     #    self.base_class.assertEqual(30, 20)
 
-class BaseRoutesTests(TestCase):
+class BaseRoutesTests:
 
     private_routes = []
     public_routes = []
 
-    def __init__(self, *args, **kwargs):
-        unittest.TestCase.__init__(self, *args, **kwargs)
-        self.routes_test_cases = RoutesTestCase(self)
-        self.controller_routes = ControllerRoutes(self)
+    def __init__(self, unittest_class, *args, **kwargs):
+        self.routes_test_cases = BaseRoutesTest(unittest_class)
+        self.controller_routes = ControllerRoutes(unittest_class)
         
     def test_private_routes(self):
         self.routes_test_cases.test_private_routes_anonymous_user(self.private_routes)
@@ -48,6 +70,19 @@ class BaseRoutesTests(TestCase):
     #def test_private_routes_anonymous(self):
     #    for item in self.private_routes:
     #        self.assertNotEqual(self.client.get(item).status_code, StatusCode.request_success)
+
+
+class EntityRoutesTest(TestCase):
+
+    def __init__(self, *args, **kwargs):
+        unittest.TestCase.__init__(self, *args, **kwargs)
+        test = BaseRoutesTests(self)
+
+
+"""
+
+
+
 
 
 """
@@ -125,10 +160,7 @@ class BaseRoutesTests(TestCase):
             response = self.client.get(item[0],data=item[1])
             self.assertNotEqual(response.status_code, StatusCode.request_success)
 
-"""
 
-
-"""
 class EntityRoutesTests(BaseRoutesTests):
 
     def __init__(self, *args):
@@ -149,6 +181,10 @@ class EntityRoutesTests(BaseRoutesTests):
 
         self.add_private_api('/api/entity/register/person/save',test_paramters)
 """
+
+
+
+
 
 """
     def test_valid_activation_page(self):

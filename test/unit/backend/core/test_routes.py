@@ -1,9 +1,6 @@
 import unittest
-from unittest import skip
-
 from django.test import TestCase, Client
 from modules.user.models import User
-import json
 
 
 class StatusCode:
@@ -49,6 +46,44 @@ class StatusCode:
     #503 Serviço não disponível (Service Unavailable)
     #504 Gateway vencido (Gateway Timeout)
     #505 Versão HTTP não suportada (HTTP Version Not Supported)
+
+
+class NewBaseRoutesTest(object):
+    private_routes = []
+    public_routes = []
+
+    public_api = []
+    private_api = []
+
+    def setUp(self):
+        self.testDataSet = range(100)
+        super(NewBaseRoutesTest, self).setUp()
+
+    def request_url(self, url):
+        request = self.client.get(url)
+        return request
+
+    def login(self, email, senha):
+        self.user = User.objects.create_test_user(email, senha)
+        self.client.login(username=email, password=senha)
+        return self.user
+
+    def logout(self):
+        self.client.logout()
+
+    def test_private_routes_anonymous_user(self):
+        for url in self.private_routes:
+            self.assertNotEqual(self.request_url(url).status_code, StatusCode.request_success)
+
+    #def test_private_routes_autenticated_user(self):
+    #    self.login('teste@gmail.com','teste123')
+    #    for item in self.private_routes:
+    #        self.assertEqual(self.request_url(item).status_code, StatusCode.request_success)
+    #    self.logout()
+
+    def test_public_routes(self):
+        for url in self.private_routes:
+            self.assertNotEqual(self.request_url(url).status_code, StatusCode.request_success)
 
 
 class BaseRoutesTests(TestCase):

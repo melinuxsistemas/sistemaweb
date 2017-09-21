@@ -57,13 +57,15 @@ def min_words_name_validator(value):
 
 def cpf_cnpj_validator(value):
     if len(value) == 11:
-        if not cpf_validator(value):
-            raise ValidationError(_("cpf_cnpj: Cpf number is not valid."), code='document_invalid')
-            return False
+        return cpf_validator(value)
+        #if not cpf_validator(value):
+        #    raise ValidationError(_("cpf_cnpj: Cpf number is not valid."), code='document_invalid')
+        #    return False
     elif len(value) == 14:
-        if not cnpj_validator(value):
-            raise ValidationError(_("cpf_cnpj: Cnpj number is not valid."), code='document_invalid')
-            return False
+        return cnpj_validator(value)
+        #if not cnpj_validator(value):
+        #    raise ValidationError(_("cpf_cnpj: Cnpj number is not valid."), code='document_invalid')
+        #    return False
     else:
         raise ValidationError(_("cpf_cnpj: Cpf ou Cnpj number is not valid."), code='document_invalid')
         return False
@@ -94,9 +96,10 @@ def cpf_validator(value):
     >>> cpf_validator('  955 243 615 03  ')
     True
     """
-    cpf = ''.join(re.findall('\d', str(value)))
 
-    if (not cpf) or (len(cpf) < 11):
+    cpf = ''.join(re.findall('\d', str(value)))
+    if (not cpf) or (cpf is None) or  (len(cpf) != 11):
+        raise ValidationError(_("cpf_cnpj: Cpf number is not valid."), code='document_invalid')
         return False
 
     # Pega apenas os 9 primeiros dígitos do CPF e gera os 2 dígitos que faltam
@@ -115,6 +118,8 @@ def cpf_validator(value):
     # Se o número gerado coincidir com o número original, é válido
     if calculated_number == original_number:
         return True
+
+    raise ValidationError(_("cpf_cnpj: Cpf number is not valid."), code='document_invalid')
     return False
 
 
@@ -146,7 +151,8 @@ def cnpj_validator(value):
     """
     cnpj = ''.join(re.findall('\d', str(value)))
 
-    if (not cnpj) or (len(cnpj) < 14):
+    if (not cnpj) or (cnpj is None) or (len(cnpj) != 14):
+        raise ValidationError(_("cpf_cnpj: Cpf number is not valid."), code='document_invalid')
         return False
 
     # Pega apenas os 12 primeiros dígitos do CNPJ e gera os 2 dígitos que faltam
@@ -166,6 +172,7 @@ def cnpj_validator(value):
     # Se o número gerado coincidir com o número original, é válido
     if calculated_number == original_number:
         return True
+    raise ValidationError(_("cpf_cnpj: Cpf number is not valid."), code='document_invalid')
     return False
 
 
