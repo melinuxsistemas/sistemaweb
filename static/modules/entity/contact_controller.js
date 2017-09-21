@@ -1,5 +1,6 @@
 application.controller('register_phone_entity', function ($scope) {
 	$scope.contacts = []
+	$scope.contact_selected = null
 
 	$scope.save_tel = function () {
 		alert("Entrando no controlador")
@@ -50,7 +51,37 @@ application.controller('register_phone_entity', function ($scope) {
 
 	$scope.delete_contact = function () {
 		$.ajax({
-			url: "/api/entity/delete/phone/" + '16',
+			url: "/api/entity/delete/phone/" + '17',
 		})
 	}
+
+	$scope.selecionar_linha = function(contact){
+	    alert("Entrando aqui!!"+contact)
+			if ($scope.contact_selected !==  null){
+				if($scope.contact_selected == contact){
+				  alert("Entity iguais eu removo seleção")
+					$scope.desmarcar_linha_indicacao();
+					$scope.$apply();
+				}
+				else{
+				  alert("Primeiro desmarco, para selecionar outro")
+					$scope.desmarcar_linha_indicacao();
+					contact.selected = 'selected';
+					$scope.contact_selected = contact
+					$scope.$apply();
+					//$scope.carregar_indicacao_selecionada();
+				}
+			}
+			else{
+				contact.selected = 'selected';
+				$scope.contact_selected = contact;
+				$scope.$apply();
+			}
+
+		}
+
+	$scope.desmarcar_linha_indicacao = function () {
+      $scope.contact.selected = ''
+      $scope.contact_selected = null
+		}
 });

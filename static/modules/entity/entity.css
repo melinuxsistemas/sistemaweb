@@ -13,3 +13,15 @@
 .panel_toolbox .btn-group{
 	margin-left: 5px;
 }
+
+.selected {
+    background-color: #0283f3; !important;
+}
+
+.selected:hover {
+		background-color: #0283f3; !important;
+}
+
+tr.linha_selecionavel{
+    cursor: pointer;
+}
