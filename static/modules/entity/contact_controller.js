@@ -2,6 +2,7 @@ application.controller('register_phone_entity', function ($scope) {
 	$scope.contacts = []
 	$scope.contact_selected = null
 
+	/*Controller of contacts*/
 	$scope.save_tel = function () {
 		alert("Entrando no controlador")
 		//var cpf_cnpj = $('#cpf_cnpj').val();
@@ -18,6 +19,7 @@ application.controller('register_phone_entity', function ($scope) {
 		success_function = function (message) {
 			//check_response_message_form('#form-save-contact',message)
 			alert("Salvou")
+			$scope.load_contacts()
 			$scope.reset_form()
 			$('#modal_add_phone').modal('hide')
 
@@ -55,33 +57,77 @@ application.controller('register_phone_entity', function ($scope) {
 		})
 	}
 
-	$scope.selecionar_linha = function(contact){
-	    alert("Entrando aqui!!"+contact)
-			if ($scope.contact_selected !==  null){
-				if($scope.contact_selected == contact){
-				  alert("Entity iguais eu removo seleção")
-					$scope.desmarcar_linha_indicacao();
-					$scope.$apply();
-				}
-				else{
-				  alert("Primeiro desmarco, para selecionar outro")
-					$scope.desmarcar_linha_indicacao();
-					contact.selected = 'selected';
-					$scope.contact_selected = contact
-					$scope.$apply();
-					//$scope.carregar_indicacao_selecionada();
-				}
-			}
-			else{
-				contact.selected = 'selected';
-				$scope.contact_selected = contact;
+	$scope.select_table_row_contact = function (contact) {
+		alert("Entrando aqui!!" + JSON.stringify(contact))
+
+		if ($scope.contact_selected !== null) {
+			if ($scope.contact_selected == contact) {
+				alert("Contato iguais eu removo seleção")
+				$scope.unselect_table_row();
 				$scope.$apply();
 			}
+			else {
+				alert("Primeiro desmarco, para selecionar outro")
+				$scope.unselect_table_row();
+				alert("Consigo sair?")
+				$scope.contact_selected = contact
 
+				$("#table_contacts").children("tr").eq(contact).addClass('selected')
+				$scope.$apply();
+
+				//$scope.carregar_indicacao_selecionada();
+			}
+		}
+		else {
+			alert("Selecionando uma linha")
+			$("#table_contacts").children("tr").eq(contact).addClass('selected')
+			$scope.contact_selected = contact;
+			$scope.$apply();
+			//$scope.carregar_indicacao_selecionada();
+		}
+	}
+
+	$scope.unselect_table_row = function () {
+		$("#table_contacts").children("tr").eq($scope.contact_selected).removeClass('selected')
+		$scope.contact_selected = null
+	}
+
+});
+
+application.controller('register_email_entity', function ($scope) {
+	/*Variaveis*/
+	$scope.emails = []
+	$scope.email_selected = null
+
+	$scope.save_email = function () {
+		var data_paramters = {
+			email : $('#email').val(),
+			name : $('#name').val(),
+			send_xml : $('#send_xml').val(),
+			send_suitcase : $('#send_suitcase').val()
 		}
 
-	$scope.desmarcar_linha_indicacao = function () {
-      $scope.contact.selected = ''
-      $scope.contact_selected = null
+		alert("OLHA O DICT"+JSON.stringify(data_paramters))
+
+
+		sucess_function = function () {
+			alert("Já salvei")
 		}
+
+
+		fail_function = function () {
+			alert("Não foi dessa vez")
+		}
+		request_api("/api/entity/register/email", data_paramters, validate_email, sucess_function, fail_function)
+
+	}
+
+
+	$scope.load_emails = function () {
+		//$.ajax()
+	}
+
+	$scope.select_table_row_email = function (email) {
+		alert("Vindo aqui no select")
+	}
 });
