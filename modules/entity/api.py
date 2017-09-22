@@ -132,9 +132,9 @@ class EntityAPI:
             response_entity['entity_type'] = entity.entity_type
             response_entity['cpf_cnpj'] = entity.cpf_cnpj
             response_entity['name'] = entity.entity_name
-            response_entity['birth_date_foundation'] = entity.birth_date_foundation
+            response_entity['birth_date_foundation'] = entity.birth_date_foundation.strftime('%d/%m/%Y')
             #print("OLHA A DATA DE NASC",entity.birth_date_foundation)
-            response_entity['created_date'] = entity.created_date
+            response_entity['created_date'] = entity.created_date.strftime('%d/%m/%Y')
             #print ("OLHA A DATA DE CRIAÇÂO",entity.created_date)
             response_dict.append(response_entity)
         return HttpResponse(json.dumps(response_dict))
