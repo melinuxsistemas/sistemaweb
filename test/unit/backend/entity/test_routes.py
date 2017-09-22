@@ -6,8 +6,10 @@ class EntityRoutesTest(TestCase, NewBaseRoutesTest):
     private_routes = ['/entity/']
     private_api = []
 
-    private_api.append(['/api/entity/register/person/save', {'entity_type': 'PF','registration_status': 0,'cpf_cnpj': '12859855750',
-            'entity_name': 'TESTE TESTE','fantasy_name': '','birth_date_foundation': '','comments': ''}])
+    private_api.append([
+        '/api/entity/register/person/save', {'entity_type': 'PF','registration_status': 0,'cpf_cnpj': '12859855750',
+        'entity_name': 'TESTE TESTE','fantasy_name': '','birth_date_foundation': '','comments': ''}
+    ])
 
 
 """
