@@ -157,10 +157,10 @@
 						</div>
 							<div class="row">
 								<div class="col-lg-2" style="float: right">
-									<button role="button" class="btn btn-sm btn-success form-control" data-toggle="modal" data-target="#modal_add_phone">Adicionar Contato</button>
+									<button role="button" class="btn btn-sm btn-success form-control"  data-toggle="modal" data-target="#modal_add_phone">Adicionar Contato</button>
 								</div>
 								<div class="col-lg-2" style="float: left">
-									<button role="button" class="btn btn-sm btn-success form-control" ng-click="delete_contact()">Remover Contato</button>
+									<button role="button" class="btn btn-sm btn-success form-control" ng-disabled="contact_selected == null"  ng-click="delete_contact()">Remover Contato</button>
 								</div>
 							</div>
 							<!--Modal de adicao de Telefone -->
@@ -249,10 +249,10 @@
 											{% verbatim %}
 												<tr id="rows_emails" class="linha_selecionavel angular-repeat" ng-repeat='email_entity in emails' ng-click="select_table_row_email(email_entity)">
 													<td class="center" style="width: 10px; height: 30px;">{{ $index+1 }}</td>
-													<td class="center" style="width:400px;">{{ email_entity }}</td>
-													<td class="center" style="width:400px;">{{ email_entity }}</td>
-													<td class="center" style="width:100px;">{{ email_entity }}</td>
-													<td class="center" style="width:100px;">{{ email_entity }}</td>
+													<td class="center" style="width:400px;">{{ email_entity.name }}</td>
+													<td class="center" style="width:400px;">{{ email_entity.email }}</td>
+													<td class="center" style="width:100px;">{{ email_entity.send_xml }}</td>
+													<td class="center" style="width:100px;">{{ email_entity.send_suitcase }}</td>
 												</tr>
 
 												<tr class="linha_selecionavel" ng-repeat="k in [1,2,3,4,5]" >
@@ -355,7 +355,7 @@
         angular.element(document.getElementById('table_emails')).scope().load_emails();
         angular.element(document.getElementById('table_contacts')).scope().load_contacts();
         angular.element(document.getElementById('rows_contacts')).scope().select_table_row_contact();
-        //angular.element(document.getElementById('rows_emails')).scope().select_table_row_email();
+        angular.element(document.getElementById('rows_emails')).scope().select_table_row_email();
       });
     </script>
     <script>

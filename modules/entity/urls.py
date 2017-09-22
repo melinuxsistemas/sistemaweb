@@ -7,7 +7,8 @@ urlpatterns = [
     url(r'register/phone',EntityAPI.save_number),
     url(r'register/email',EntityAPI.save_email),
     url(r'load_entities/',EntityAPI.load_entities),
-    url(r'contacts/(?P<cpf_cnpj>[^/]+)/',EntityAPI.load_contacts),
+    url(r'list/contacts/(?P<cpf_cnpj>[^/]+)/',EntityAPI.load_contacts),
+    url(r'list/emails/(?P<cpf_cnpj>[^/]+)/',EntityAPI.load_emails),
     url(r'delete/phone/(?P<id_contact>[^/]+)/',EntityAPI.delete_contact),
     # APIs administrativas
     #url(r'register/delete/(?P<email>[^/]+)/', EntityAPI.register_delete),

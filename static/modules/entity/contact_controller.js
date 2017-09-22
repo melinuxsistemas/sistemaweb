@@ -38,7 +38,7 @@ application.controller('register_phone_entity', function ($scope) {
 	$scope.load_contacts = function () {
 		$.ajax({
 			type: 'GET',
-			url: "/api/entity/contacts/" + '14960175796',
+			url: "/api/entity/list/contacts/" + '14960175796/',
 
 			success: function (data) {
 				$scope.contacts = JSON.parse(data)
@@ -52,8 +52,15 @@ application.controller('register_phone_entity', function ($scope) {
 	}
 
 	$scope.delete_contact = function () {
+
+		var contact_delete = $scope.contact_selected.id
 		$.ajax({
-			url: "/api/entity/delete/phone/" + '17',
+			url: "/api/entity/delete/phone/" + contact_delete.toString(),
+			success : function () {
+				$scope.contact_selected = null
+				$scope.load_contacts()
+				$scope.$apply()
+			},
 		})
 	}
 
@@ -92,6 +99,13 @@ application.controller('register_phone_entity', function ($scope) {
 		$scope.contact_selected = null
 	}
 
+	$scope.check_disable = function () {
+		if ($scope.email_selected == null){
+			return true
+		}else{
+			return false
+		}
+	}
 });
 
 application.controller('register_email_entity', function ($scope) {
@@ -107,13 +121,11 @@ application.controller('register_email_entity', function ($scope) {
 			send_suitcase : $('#send_suitcase').val()
 		}
 
-		alert("OLHA O DICT"+JSON.stringify(data_paramters))
-
-
 		sucess_function = function () {
-			alert("Já salvei")
-		}
+			$scope.load_emails()
+			$('#modal_add_email').modal('hide')
 
+		}
 
 		fail_function = function () {
 			alert("Não foi dessa vez")
@@ -122,12 +134,59 @@ application.controller('register_email_entity', function ($scope) {
 
 	}
 
-
 	$scope.load_emails = function () {
-		//$.ajax()
+		$.ajax({
+			//Por hora a tabela esta fixa
+			type: "GET",
+			url: "/api/entity/list/emails/" + "14960175796/",
+
+			success: function (data) {
+				$scope.emails = JSON.parse(data)
+				$scope.$apply()
+			},
+
+			failure : function (data) {
+				alert("Não foi possível carregar a lista")
+			}
+
+		})
 	}
 
 	$scope.select_table_row_email = function (email) {
-		alert("Vindo aqui no select")
+
+		alert(JSON.stringify($scope.email_selected))
+		if ($scope.email_selected !== null) {
+			if ($scope.email_selected == email) {
+				alert("emails iguais eu removo seleção")
+				$scope.unselect_table_row_email();
+				$scope.$apply();
+			}
+			else {
+				alert("Primeiro desmarco, para selecionar outro")
+				$scope.unselect_table_row_email();
+				$scope.email_selected = email
+				//alert(JSON.stringify($scope.email_selected.$$hashKey))
+				alert(JSON.stringify($scope.email_selected.id))
+				$("#table_emails").children("tr").eq(email).addClass('selected')
+				$scope.$apply();
+				//$scope.carregar_indicacao_selecionada();
+			}
+		}
+		else {
+			alert("Selecionando uma linha")
+			$("#table_emails").children("tr").eq(email).addClass('selected')
+			$scope.email_selected = email;
+			$scope.$apply();
+		}
+	}
+
+	$scope.unselect_table_row_email = function () {
+		$("#table_emails").children("tr").eq($scope.email_selected).removeClass('selected')
+		$scope.email_selected = null
+		}
+
+	$scope.delete_email = function () {
+		var email_delete = $scope.email_selected.id
+		alert('olha o email')
 	}
 });
