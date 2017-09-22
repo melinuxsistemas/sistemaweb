@@ -26,6 +26,7 @@ application.controller('register_controller', function($scope) {
 }
 
   $scope.select_table_row = function(entity){
+	   alert("Entrando aqui!!"+JSON.stringify(entity))
 
     if ($scope.entity_selected !==  null){
       if($scope.entity_selected == entity){
@@ -128,9 +129,5 @@ application.controller('register_company_controller', function ($scope) {
     };
 });
 
-application.controller('register_email_entity', function ($scope) {
-  $scope.save_email = function (){
-		alert('VINDO AQUI JÀ')
-	}
-});
+
 

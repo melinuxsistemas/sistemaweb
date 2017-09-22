@@ -56,7 +56,7 @@
 				<div class="tab-content">
 					<!--Aba de Identificacao -->
 					<div role="tabpanel" class="tab-pane fade active in" id="tab_content1" style="solid-opacity: #fff" aria-labelledby="home-tab">
-						<div ng-controller="register_person_controller">
+						<div id="controller_register" ng-controller="register_person_controller">
 							<form id="form-save-entity" autocomplete="off" ng-submit="save_person()" novalidate><!--  -->
 							{% csrf_token %}
 								<div class="row">
@@ -117,10 +117,10 @@
 							</form>
 						</div>
 					</div>
+
 					<!--Aba de Telefone-->
 					<div role="tabpanel" class="tab-pane fade" id="tab_content2"  style="solid-opacity: #fff" aria-labelledby="home-tab">
 						<div id="controler_contact" ng-controller="register_phone_entity">
-
 							<div class="row">
 								<div class="col-md-12">
 								<table border="1" class="table table-striped table-bordered table-houver" id="table_contacts" style="border: 1px;border-top: 1px">
@@ -135,12 +135,8 @@
 									</thead>
 									<tbody>
 										{% verbatim %}
-											<!--<tr ng-if="(contratos|filter:filterIds()).length == 0">
-												<td colspan="8" class="center">Nenhum Cliente Cadastrado!</td>
-											</tr>-->
-
-											<tr class="linha_selecionavel angular-repeat" ng-repeat='contact in contacts'>
-												<td class="center" style="width: 30px; height: 30px;"></td>
+											<tr id="rows_contacts" class="linha_selecionavel angular-repeat" ng-repeat='contact in contacts' ng-click="select_table_row_contact(contact)">
+												<td class="center" style="width: 30px; height: 30px;">{{ $index+1 }}</td>
 												<td class="center" style="width:150px;">{{ contact.type_contact }}</td>
 												<td class="center" style="width:180px;">{{ contact.phone }}</td>
 												<td class="center" style="width:150px;">{{ contact.operadora }}</td>
@@ -199,7 +195,7 @@
 
 													<div class="row">
 
-														<div class="col-lg-1">
+														<div class="col-lg-2">
 															<div class="form-group field field_required" id="field_phone">
 																<sub><label id="lb_ddd" for="ddd">{{ form_register_number.ddd.label }}</label></sub><br/>
 																{{ form_register_number.ddd }}
@@ -207,25 +203,21 @@
 															</div>
 														</div>
 
-														<div class="col-lg-11">
+														<div class="col-lg-5">
 															<div class="form-group field field_required" id="field_phone">
 																<sub><label id="lb_phone" for="phone">{{ form_register_number.phone.label }}</label></sub><br/>
 																{{ form_register_number.phone }}
 																<div class="alert"></div>
 															</div>
 														</div>
-													</div>
 
-													<div class="row">
-
-														<div class="col-lg-12">
-															<div class="form-group field" id="fieled_operadora">
+														<div class="col-lg-5">
+															<div class="form-group field" id="field_operadora">
 																<sub><label id="lb_operadora" for="operadora">{{ form_register_number.operadora.label }}</label> </sub><br/>
 																{{ form_register_number.operadora }}
 																<div class="alert"></div>
 															</div>
 														</div>
-
 													</div>
 											</form>
 										</div>
@@ -237,17 +229,104 @@
 							</div>
 						</div>
 					</div>
+
 					<!-- Aba de Email-->
 					<div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="home-tab">
-						<div class="row">
+						<div id="controller_email" ng-controller="register_email_entity">
+							<!--Tabela-->
+							<div class="row">
+								<table border="1" class="table table-striped table-bordered table-houver" id="table_emails" style="border: 1px;border-top: 1px">
+										<thead>
+											<tr class="linha_cabecalho " >
+												<th class="center" style="width: 30px; height: 30px;"></th>
+												<th class="center" style="width:500px;">Nome</th>
+												<th class="center" style="width: 500px;">Email</th>
+												<th class="center" style="width:120px;">Receber XML</th>
+												<th class="center" style="width: 120px" >Receber Mala</th>
+											</tr>
+										</thead>
+										<tbody>
+											{% verbatim %}
+												<tr id="rows_emails" class="linha_selecionavel angular-repeat" ng-repeat='email_entity in emails' ng-click="select_table_row_email(email_entity)">
+													<td class="center" style="width: 10px; height: 30px;">{{ $index+1 }}</td>
+													<td class="center" style="width:400px;">{{ email_entity }}</td>
+													<td class="center" style="width:400px;">{{ email_entity }}</td>
+													<td class="center" style="width:100px;">{{ email_entity }}</td>
+													<td class="center" style="width:100px;">{{ email_entity }}</td>
+												</tr>
 
-						</div>
-						<div class="row">
-							<div class="col-lg-2" style="left: 323px">
-								<button type="button" class="btn btn-sm btn-success form-control" data-toggle="modal" data-target="#modal_add_phone">Adicionar Telefone</button>
+												<tr class="linha_selecionavel" ng-repeat="k in [1,2,3,4,5]" >
+													<td style="width:30px; height: 30px;"></td>
+													<td style="width:500px;"></td>
+													<td style="width:500px;"></td>
+													<td style="width:120px;"></td>
+													<td style="width:120px;"></td>
+												</tr>
+											{% endverbatim %}
+										</tbody>
+									</table>
 							</div>
-							<div class="col-lg-2" style="float: right">
-								<button role="button" class="btn btn-sm btn-success form-control" data-toggle="modal" data-target="#modal_add_email">Adicionar Email</button>
+							<!--Botão-->
+							<div class="row">
+								<div class="col-lg-2" style="float: right">
+									<button role="button" class="btn btn-sm btn-success form-control" data-toggle="modal" data-target="#modal_add_email">Adicionar Email</button>
+								</div>
+							</div>
+							<!--Modal de adicao de Email -->
+							<div id="modal_add_email" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+								<div class="modal-dialog" style="width: 30%">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+											<h5 style="font-weight: bold">Adicionar endereço de Email</h5>
+										</div>
+										<div class="modal-body">
+											<form id="form-save-contact">
+												{% csrf_token %}
+												<div class="row">
+													<!-- Campo email-->
+													<div class="col-lg-12">
+														<div class="form-group field field_required" id="field_email">
+															<sub><label id="label_email" for="email">{{ form_register_email.email.label }}</label> </sub>
+															{{ form_register_email.email }}
+															<div class="alert"></div>
+														</div>
+													</div>
+												</div>
+
+												<div class="row">
+													<!-- Campo Nome-->
+													<div class="col-lg-12">
+														<div class="form-group field field_required" id="field_name">
+															<sub><label id="label_name" for="name">{{ form_register_email.name.label }}</label> </sub>
+															{{ form_register_email.name }}
+															<div class="alert"></div>
+														</div>
+													</div>
+												</div>
+
+												<div class="row">
+													<div class="col-lg-12">
+														<div class="form-group field field_required" id="field_send_xml">
+															<sub><label id="label_send_xml" for="send_xml">{{ form_register_email.send_xml.label }}</label> </sub>
+															{{ form_register_email.send_xml }}
+														</div>
+													</div>
+
+													<div class="col-lg-12">
+														<div class="form-group field field_required" id="field_send_suitcase">
+															<sub><label id="label_send_suitcase" for="send_suitcase">{{ form_register_email.send_suitcase.label }}</label> </sub>
+															{{ form_register_email.send_suitcase }}
+														</div>
+													</div>
+												</div>
+											</form>
+										</div>
+										<div class="modal-footer">
+											<button role="button" class="btn btn-sm btn-success form-control" ng-click="save_email()">Salvar</button>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -255,29 +334,6 @@
 			</div>
 		</div>
 	</div>
-</div>
-
-
-	<!--Modal de adicao de Email -->
-	<div ng-controller="register_email_entity"><!-- Falta add um controlador-->
-		<div id="modal_add_email" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
-			<div class="modal-dialog" style="width: 50%">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-						<h5 style="font-weight: bold">Adicionar endereço de Email</h5>
-					</div>
-					<div class="modal-body">
-						Olha como ta
-					</div>
-					<div class="modal-footer">
-						<button role="button" class="btn btn-sm btn-success form-control" ng-click="save_email()">Salvar</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
 </div>
 {% endblock %}
 
@@ -296,7 +352,10 @@
         //$('#cpf_cnpj').mask('999.999.999-99');
         $('#birth_date_foundation').mask('99/99/9999');
 
-        angular.element(document.getElementById('controler_contact')).scope().load_contacts();
+        angular.element(document.getElementById('table_emails')).scope().load_emails();
+        angular.element(document.getElementById('table_contacts')).scope().load_contacts();
+        angular.element(document.getElementById('rows_contacts')).scope().select_table_row_contact();
+        //angular.element(document.getElementById('rows_emails')).scope().select_table_row_email();
       });
     </script>
     <script>

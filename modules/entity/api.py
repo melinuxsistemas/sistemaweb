@@ -4,8 +4,8 @@ from modules.core.api import AbstractAPI
 from modules.core.config import ERRORS_MESSAGES
 from modules.core.utils import response_format_success, response_format_error, generate_activation_code
 from modules.core.comunications import send_generate_activation_code
-from modules.entity.forms import FormCompanyEntity, FormPersonEntity, FormRegisterPhone
-from modules.entity.models import Entity, Contact
+from modules.entity.forms import FormCompanyEntity, FormPersonEntity, FormRegisterPhone, FormRegisterEmailEntity
+from modules.entity.models import Entity, Contact, Email
 from modules.user.models import User
 from django.http import HttpResponse
 from django.http import Http404
@@ -94,6 +94,7 @@ class EntityAPI:
         list_entities = Entity.objects.all()
         response_dict = []
         for entity in list_entities:
+            entity.show_fields_value()
             response_entity = {}
             response_entity['entity_type'] = entity.entity_type
             response_entity['cpf_cnpj'] = entity.cpf_cnpj
@@ -103,19 +104,34 @@ class EntityAPI:
             response_entity['created_date'] = entity.created_date.strftime("%d/%m/%Y às %H:%M:%S")
             #print ("OLHA A DATA DE CRIAÇÂO",entity.created_date)
             response_dict.append(response_entity)
-        print("VEJA COMO FICOU OS DADOS: ",response_dict)
+        return HttpResponse(json.dumps(response_dict))
+
+    def save_email (request):
+        resultado , form = AbstractAPI.filter_request(request,FormRegisterEmailEntity)
+        print('O resultado é:',resultado)
+        email = Email()
+        email.entity_id = 1
+        email.form_to_object(form)
+        email.send_xml = request.POST['send_xml']
+        email.send_suitcase = request.POST['send_suitcase']
+        email.show_fields_value()
+
+        try:
+            email.save()
+            response_dict = response_format_success(email,['entity','name','email','send_xml','send_suitcase'])
+        except:
+            print("Nao salvei")
+            response_dict = response_format_error(False)
         return HttpResponse(json.dumps(response_dict))
 
     def save_number(request):
         resultado, form = AbstractAPI.filter_request(request, FormRegisterPhone)
-        print("Olha o Resultado do save",resultado)
         contact = Contact()
         contact.entity_id = 1
         contact.form_to_object(form)
         contact.show_fields_value()
         try:
             contact.save()
-            print("Entrando para salvar")
             response_dict = response_format_success(contact,['entity','name','type_contact','ddd','phone','operadora'])
             #contact.show_fields_value()
         except:
@@ -123,20 +139,16 @@ class EntityAPI:
         return HttpResponse(json.dumps(response_dict))
 
     def load_contacts(request, cpf_cnpj):
-        print("To vindo aqui? \n")
-        print("Olha o cfp:",cpf_cnpj)
         contacts = Contact.objects.filter(entity_id=1)
 
         response_dict = []
         for item in contacts:
-            print('Olha o item',item.type_contact)
             response_contacts = {}
             response_contacts['type_contact'] = item.type_contact
             response_contacts['phone'] = '(' + item.ddd + ')' + item.phone
             response_contacts['operadora'] = item.operadora
             response_contacts['name'] = item.name
             response_dict.append(response_contacts)
-        print(response_dict)
         return HttpResponse(json.dumps(response_dict))
 
     def delete_contact (request, id_contact):

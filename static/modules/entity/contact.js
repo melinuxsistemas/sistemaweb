@@ -9,3 +9,7 @@ function validate_contact(){
   }
   return true
 }
+
+function  validate_email() {
+	return true
+}

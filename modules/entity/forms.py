@@ -218,7 +218,7 @@ class FormRegisterPhone (FormAbstractEmail):
         max_length=10,
         widget=forms.TextInput(
             attrs={
-                'id':'type_contact', 'name': 'type_contact', 'class': 'form_control'
+                'id':'type_contact', 'name': 'type_contact', 'class': 'form-control'
             }
         )
     )
@@ -228,7 +228,7 @@ class FormRegisterPhone (FormAbstractEmail):
         max_length=30,
         widget=forms.TextInput(
             attrs={
-                'id': 'name_contact', 'name': 'name_contact', 'class': 'form_control'
+                'id': 'name_contact', 'name': 'name_contact', 'class': 'form-control'
             }
         )
     )
@@ -238,7 +238,7 @@ class FormRegisterPhone (FormAbstractEmail):
         max_length=4,
         widget= forms.TextInput(
             attrs={
-                'id':'ddd','name':'ddd','class':'form_control'
+                'id':'ddd','name':'ddd','class':'form-control'
             }
         )
     )
@@ -248,7 +248,7 @@ class FormRegisterPhone (FormAbstractEmail):
         max_length=10,
         widget= forms.TextInput(
             attrs={
-                'id':'phone_number','name':'phone_number','class':'form_control'
+                'id':'phone_number','name':'phone_number','class':'form-control'
             }
         )
     )
@@ -258,7 +258,93 @@ class FormRegisterPhone (FormAbstractEmail):
         max_length=10,
         widget= forms.TextInput(
             attrs={
-                'id':'operadora', 'name':'operadora', 'class':'form_control'
+                'id':'operadora', 'name':'operadora', 'class':'form-control'
+            }
+        )
+    )
+
+    comments = forms.CharField(
+        label="Observações",
+        max_length=500,
+        required=False,
+        widget=forms.Textarea(
+            attrs={
+                'id': 'observations', 'name': 'observations', 'class': "form-control uppercase", 'cols': 2, 'rows': 3,
+                'type': "text", 'ng-model': 'observations'
+            }
+        )
+    )
+
+    history = forms.CharField(
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'id': 'detalhes', 'name': 'detalhes', 'class': "form-control ", 'hidden': 'true', 'type': "detalhes",
+                'autocomplete': "off", 'ng-model': 'detalhes',
+            }
+        )
+    )
+
+class FormRegisterEmailEntity (FormAbstractEmail):
+
+    boolean_email = (
+        (True,'SIM'),
+        (False,'Não')
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(FormAbstractEmail, self).__init__(*args,**kwargs)
+        self.fields['email'].widget.attrs['placeholder'] = 'Email..'
+
+    name = forms.CharField(
+        label="Nome Completo",
+        max_length=30,
+        widget=forms.TextInput(
+            attrs={
+                'id': 'name', 'name': 'name', 'class': 'form-control', 'ng-model': 'name', 'placeholder':'Nome..'
+                ,'autocomplete': 'off' , 'type': "text"
+            }
+        )
+    )
+
+    send_xml = forms.ChoiceField(
+        label="Enviar XML",
+        choices= boolean_email,
+        widget= forms.Select(
+            attrs= {
+                'id': 'send_xml', 'name':'send_xml','class':'form_control'
+            }
+        )
+    )#models.BooleanField("Envia XML", null=False, blank=False, error_messages=ERRORS_MESSAGES)
+
+    send_suitcase = forms.ChoiceField(
+        label="Enviar Mala",
+        choices=boolean_email,
+        widget=forms.Select(
+            attrs={
+                'id': 'send_suitcase', 'name': 'send_suitcase', 'class': 'send_suitcase'
+            }
+        )
+    )
+
+    comments = forms.CharField(
+        label="Observações",
+        max_length=500,
+        required=False,
+        widget=forms.Textarea(
+            attrs={
+                'id': 'observations', 'name': 'observations', 'class': "form-control uppercase", 'cols': 2, 'rows': 3,
+                'type': "text", 'ng-model': 'observations'
+            }
+        )
+    )
+
+    history = forms.CharField(
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'id': 'detalhes', 'name': 'detalhes', 'class': "form-control ", 'hidden': 'true', 'type': "detalhes",
+                'autocomplete': "off", 'ng-model': 'detalhes',
             }
         )
     )
