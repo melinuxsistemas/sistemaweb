@@ -14,6 +14,65 @@
 	margin-left: 5px;
 }
 
+
+/* Style for table entities */
+#table_entity{
+	width: 100%;
+}
+
+#table_entity tbody{
+	font-size: 11px;
+}
+
+#table_entity .row_entity td{
+	padding-top: 5px;
+	padding-bottom: 0px;
+	height: 28px;
+	vertical-align: middle;
+}
+
+#table_entity .row_entity td span{
+	height: 26px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	vertical-align: middle;
+}
+
+#table_entity .row_entity .col_index{
+	width: 30px;
+	text-align: center;
+}
+
+#table_entity .row_entity th.col_entity_name{
+	text-align: center;
+}
+
+#table_entity .row_entity .col_entity_name{
+	text-align: left;
+	padding-left: 8px;
+}
+
+#table_entity .row_entity .col_entity_type{
+	width: 20px;
+	text-align: center;
+}
+
+#table_entity .row_entity .col_cpf_cnpj{
+	width: 110px;
+	text-align: center;
+}
+
+#table_entity .row_entity .col_birth_date_foundation{
+	width: 140px;
+	text-align: center;
+}
+
+#table_entity .row_entity .col_created_date{
+	width: 140px;
+	text-align: center;
+}
+
+
 .selected {
     background-color: #0283f3; !important;
 }

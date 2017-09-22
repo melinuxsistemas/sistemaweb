@@ -90,7 +90,7 @@ class EntityAPI:
         print("RESPONSE_DICT: ",response_dict)
         return HttpResponse(json.dumps(response_dict))
 
-    def load_entities (request):
+    def load_entities(request):
         list_entities = Entity.objects.all()
         response_dict = []
         for entity in list_entities:
@@ -98,12 +98,12 @@ class EntityAPI:
             response_entity['entity_type'] = entity.entity_type
             response_entity['cpf_cnpj'] = entity.cpf_cnpj
             response_entity['name'] = entity.entity_name
-            response_entity['birth_date_foundation'] = entity.birth_date_foundation
-            print("OLHA A DATA DE NASC",entity.birth_date_foundation)
-            response_entity['created_date'] = entity.created_date
-            print ("OLHA A DATA DE CRIAÇÂO",entity.created_date)
+            response_entity['birth_date_foundation'] = entity.birth_date_foundation.strftime("%d/%m/%Y")
+            #print("OLHA A DATA DE NASC",entity.birth_date_foundation)
+            response_entity['created_date'] = entity.created_date.strftime("%d/%m/%Y às %H:%M:%S")
+            #print ("OLHA A DATA DE CRIAÇÂO",entity.created_date)
             response_dict.append(response_entity)
-        print(response_dict)
+        print("VEJA COMO FICOU OS DADOS: ",response_dict)
         return HttpResponse(json.dumps(response_dict))
 
     def save_number(request):
