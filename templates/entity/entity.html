@@ -169,8 +169,9 @@
 	<div id="controller_entity_identification" ng-controller="register_person_controller">
 		<div id="modal_add_entity" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
 			<div class="modal-dialog" style="width: 80%">
-				<div class="modal-content">
-					<form id="form-save-entity" autocomplete="off" ng-submit="save_person()" novalidate><!--  -->
+				<form id="form-save-entity" autocomplete="off" ng-submit="save_person()" novalidate><!--  -->
+					<div class="modal-content">
+						{% verbatim %} {{ teste }} {% endverbatim %}
 						{% csrf_token %}
 							<div class="modal-header">
 								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -233,8 +234,8 @@
 									</div>
 								</div>
 							</div>
-					</form>
-				</div>
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>
@@ -277,10 +278,9 @@
 	$(document).ready(function(){
 		//$('#cpf_cnpj').mask('999.999.999-99');
 		//$('#birth_date_foundation').mask('99/99/9999');
-
-		//angular.element(document.getElementById('register_controller')).scope().load_table_entity();
+		angular.element(document.getElementById('register_controller')).scope().load_table_entity();
 		alert("Tentando carregar")
-		angular.element(document.getElementById('controller_entity_identification')).scope().save_person();
+		angular.element(document.getElementById('form-save-entity')).scope().save_person();
 		alert("carregado")
 		//angular.element(document.getElementById('entity_table')).scope().select_table_row();
 	});

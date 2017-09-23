@@ -103,6 +103,10 @@ application.controller('register_person_controller', function($scope) {
     }
     request_api("/api/entity/register/person/save",data_paramters,validade_function,success_function,fail_function)
   }
+
+  $scope.teste_f = function () {
+    alert("Poxa crush pq q vc n aber")
+	}
 });
 
 application.controller('register_company_controller', function ($scope) {
