@@ -32,7 +32,7 @@
 			<h2>Cadastro de Entidade <!--<small>Click to validate</small>--></h2>
 			<ul class="nav navbar-right panel_toolbox">
 				<div class="btn-group" role="group" aria-label="...">
-					<a href="#" id='bt_register_entity' role="button" class="btn btn-sm btn-success"data-toggle="modal" ng-controller="register_person_controller" data-target="#modal_add_entity">Nova Entidade</a>
+					<a href="#" id='bt_register_entity' role="button" class="btn btn-sm btn-success"data-toggle="modal" data-target="#modal_add_entity">Nova Entidade</a>
 					<a href="#" id='bt_servicos' role="button" class="btn btn-sm btn-default" ng-class="{true:'desabilitado', false:''}[registro_selecionado==null]"  data-toggle="modal" data-target="#modal_servicos" ng-click="configurar_inclusao_servico();esta_adicionando = true" style='margin-left: 5px;'>Endereços</a>
 					<a href="#" id='bt_indicacoes' role="button" class="btn btn-sm btn-default pull-left" ng-class="{true:'desabilitado', false:''}[registro_selecionado==null]" data-toggle="modal" data-target="#modal_indicacoes" ng-click="carregar_indicacao()" style='margin-left: 5px;'> Contatos</a>
 
@@ -158,26 +158,25 @@
 						</dir-pagination-controls>
 					</span>
 				</div>
-				{% endverbatim %}
-			</div>
+					{% endverbatim %}
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
 
 <!-- Modal de adicao de entidade -->
-
+	<div id="controller_entity_identification" ng-controller="register_person_controller">
 		<div id="modal_add_entity" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
 			<div class="modal-dialog" style="width: 80%">
 				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-							<h5 style="font-weight: bold">Adicionar Nova Entidade</h5>
-					</div>
-					<div class="modal-body">
-						<div id="register_controller_entity" ng-controller="register_person_controller" >
-							<form id="form-save-entity" autocomplete="off" ng-submit="save_person()" novalidate><!--  -->
-							{% csrf_token %}
+					<form id="form-save-entity" autocomplete="off" ng-submit="save_person()" novalidate><!--  -->
+						{% csrf_token %}
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+									<h5 style="font-weight: bold">Adicionar Nova Entidade {% verbatim %} {{ teste }} {% endverbatim %} </h5>
+							</div>
+							<div class="modal-body">
 								<div class="row">
 									<div class="col-lg-2 col-xs-12 col-sm-3">
 										<div class="form-group field field_required" id="field_cpf_cnpj">
@@ -226,17 +225,15 @@
 										</div>
 									</div>
 								</div>
-
+							</div>
+							<div class="modal-footer">
 								<div class="row" style="margin-top: 10px;margin-left: 0px;margin-right: 0px;padding-top: 10px;padding-bottom: 10px;border-top: 1px solid #f3f3f3; /*padding: 0px;*/">
 									<div class="col-lg-offset-10 col-lg-2">
 										<button type="submit" 	href="#" class="btn btn-sm btn-success form-control pull-right" style="line-height: 24px;margin-right: -10px;margin-bottom: 0px;">Salvar</button>
 									</div>
 								</div>
-
-							</form>
-						</div>
-					</div>
-					<div class="modal-footer"></div>
+							</div>
+					</form>
 				</div>
 			</div>
 		</div>
@@ -281,8 +278,10 @@
 		//$('#cpf_cnpj').mask('999.999.999-99');
 		//$('#birth_date_foundation').mask('99/99/9999');
 
-		angular.element(document.getElementById('register_controller')).scope().load_table_entity();
-		angular.element(document.getElementById('form-save-entity')).scope().save_person();
+		//angular.element(document.getElementById('register_controller')).scope().load_table_entity();
+		alert("Tentando carregar")
+		angular.element(document.getElementById('controller_entity_identification')).scope().save_person();
+		alert("carregado")
 		//angular.element(document.getElementById('entity_table')).scope().select_table_row();
 	});
 </script>

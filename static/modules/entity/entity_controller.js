@@ -69,6 +69,7 @@ application.controller('register_person_controller', function($scope) {
   $scope.fantasy_name = "";
   $scope.confirm_password = "";
   $scope.birth_date_foundation = "";
+  $scope.teste = "TESTE"
 
   $scope.save_person = function () {
     alert("Agora eu venho?")
