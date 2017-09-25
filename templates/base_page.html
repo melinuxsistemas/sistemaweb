@@ -45,7 +45,6 @@
     <link href="{% static 'custom/css/custom.css' %}" rel="stylesheet">
     <link href="{% static 'modules/core/base.css' %}" rel="stylesheet">
 
-
     {% block recursos_necessarios %}
     {% endblock %}
     {% endcompress %}
@@ -56,26 +55,27 @@
       <div class="main_container">
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
-            <div class="navbar nav_title" style="border: 0;">
-              <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>SistemaWeb</span></a>
+            <div class="navbar nav_title" style="border: 0;"><!-- background:#172D44; -->
+
+              <a id="menu_toggle_new" href="#" class="site_title"><i class="fa fa-paw"></i> <span>SistemaWeb</span></a>
             </div>
 
             <div class="clearfix"></div>
 
             <!-- menu profile quick info -->
             <div class="profile clearfix">
-              <!--<div class="profile_pic">
-                <img src="% static 'images/img.jpg' %}" alt="..." class="img-circle profile_img">
+              <div class="profile_pic">
+                <!--<img src="{% static 'images/img.jpg' %}" alt=""  class="img-circle profile_img">-->
               </div>
               <div class="profile_info">
                 <span>Welcome,</span>
                 <h2>John Doe</h2>
-              </div>-->
+
+              </div>
               <div class="clearfix"></div>
             </div>
-            <!-- /menu profile quick info -->
-
-            <br />
+            <!-- /menu profile quick info
+            <br />-->
 
             <!-- sidebar menu -->
             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
@@ -83,30 +83,35 @@
                 <!--<h3>General</h3>-->
                 <ul class="nav side-menu">
 
-                  <li class="menu-header"><a><i class="fa fa-home"></i> Entidades<span class="fa fa-chevron-down"></span></a>
+                  <li class="menu-header"><a><i class="fa fa-home"></i> Cadastros<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="/entity">Cadastro de Entidades <span class="label label-success label_new pull-right">New</span></a></li>
-                      <li><a data-toggle="modal" data-target=".bs-example-modal-lg">Adicionar Entidade</a></li>
+                      <li><a href="/entity">Cadastro de Entidades<span class="label label-success label_new pull-right">New</span></a></li>
+                      <li ><a href="#">Grupos Mercadológicos<span class="label label-default label_new pull-right">Desabilitado</span></a></li>
+                      <li><a href="#">Cadastro de Produtos<span class="label label-default label_new pull-right">Desabilitado</span></a></li>
+                      <li><a href="/entity">Vinculos de Produtos<span class="label label-default label_new pull-right">Desabilitado</span></a></li>
+                      <li><a href="/entity">Agenda de Telefones<span class="label label-default label_new pull-right">Desabilitado</span></a></li>
+                      <!--<li><a data-toggle="modal" data-target=".bs-example-modal-lg">Adicionar Entidade</a></li>-->
                     </ul>
                   </li>
-                  <!--
-                  <li><a><i class="fa fa-desktop"></i> UI Elements <span class="fa fa-chevron-down"></span></a>
+
+                  <li><a><i class="fa fa-desktop"></i>Compras<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="general_elements.html">General Elements</a></li>
-                      <li><a href="media_gallery.html">Media Gallery</a></li>
-                      <li><a href="typography.html">Typography</a></li>
-                      <li><a href="icons.html">Icons</a></li>
-                      <li><a href="glyphicons.html">Glyphicons</a></li>
-                      <li><a href="widgets.html">Widgets</a></li>
-                      <li><a href="invoice.html">Invoice</a></li>
-                      <li><a href="inbox.html">Inbox</a></li>
-                      <li><a href="calendar.html">Calendar</a></li>
+                      <li><a href="general_elements.html">Pedido à fornecedor</a></li>
+                      <li><a href="media_gallery.html">Lista para reposição</a></li>
+                      <li><a href="typography.html">Pedidos por cotação</a></li>
+                      <li><a href="icons.html">Entrada de Mercadoria</a></li>
+                      <li><a href="glyphicons.html">Aquisição de serviços</a></li>
+                      <li><a href="widgets.html">Corrigir entrada</a></li>
+                      <li><a href="invoice.html">Devolução à Fornecedor</a></li>
+                      <li><a href="inbox.html">Manifesto e Recusa NF-E</a></li>
+                      <li><a href="calendar.html">Histórico de Compras</a></li>
                     </ul>
                   </li>
-                  <li><a><i class="fa fa-table"></i> Tables <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-table"></i> Vendas <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="tables.html">Tables</a></li>
-                      <li><a href="tables_dynamic.html">Table Dynamic</a></li>
+                      <li><a href="tables.html">Manutenção de Preços</a></li>
+                      <li><a href="tables_dynamic.html">Terminal Caixa</a></li>
+
                     </ul>
                   </li>
                   <li><a><i class="fa fa-bar-chart-o"></i> Data Presentation <span class="fa fa-chevron-down"></span></a>
@@ -124,7 +129,7 @@
                       <li><a href="fixed_footer.html">Fixed Footer</a></li>
                     </ul>
                   </li>
-                  -->
+
 									<li class="menu-header"><a><i class="fa fa-home"></i> Autonomias<span class="fa fa-chevron-down"></span> </a>
 										<ul class="nav child_menu">
 											<li><a href="/autonomy/register">Cadastro de Autonomias<span class="label label-success label_new pull-right">New</span></a></li>
@@ -186,6 +191,10 @@
               <a href="/system/environment" data-toggle="tooltip" data-placement="top" title="Settings">
                 <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
               </a>
+              <!--<a id="" href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                <img src="{% static 'images/img.jpg' %}" alt="" style="height: 24px;width: 24px; margin-top: -4px;">
+              </a>-->
+
               <a data-toggle="tooltip" data-placement="top" title="FullScreen">
                 <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
               </a>
@@ -202,18 +211,21 @@
 
         <!-- top navigation -->
         <div class="top_nav">
-          <div class="nav_menu">
-            <nav>
-              <div class="nav toggle">
-                <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+          <div class="nav_menu" style="height: 34px;">
+            <nav style="">
+              <div class="nav toggle" style="margin-top: -13px; width: 45px;margin-left: -8px;border-right: 1px solid #DDD;">
+                <a id="menu_toggle"><i class="fa fa-bars"></i></a><!--fa fa-bars---->
               </div>
+              <!--<span style="font-size: 16px;font-weight: bold;">Cadastro de Entidades</span>-->
 
-              <ul class="nav navbar-nav navbar-right">
-                <li class="">
+
+              <ul class="nav navbar-nav navbar-right" style="background: green;height: 33px;">
+                <li class="" style="background: yellow;">
                   <a id="field_user" href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="{% static 'images/img.jpg' %}" alt=""> {{ request.user.email }}
-                    <span class=" fa fa-angle-down"></span>
+                    <img src="/static/images/img.jpg" alt="" style="height: 22px; width:22px;">{{ request.user.email }}
+                    <span class="fa fa-angle-down"></span>
                   </a>
+
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
                     <!--<li><a href="javascript:;"> Profile</a></li>
                     <li>
@@ -234,14 +246,14 @@
                   </ul>
                 </li>
 
-                <li class="">
+                <li class=""  style="background: silver;">
                   <a  href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-question-circle"></i>
                     <span class="badge bg-green"></span>
                   </a>
                 </li>
 
-                <li role="presentation" class="dropdown">
+                <li role="presentation" class="dropdown" style="background: brown;">
                   <a  href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-envelope-o"></i>
                     <span class="badge bg-green">6</span>

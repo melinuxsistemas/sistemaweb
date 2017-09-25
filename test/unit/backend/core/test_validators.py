@@ -30,6 +30,7 @@ class ValidatorsTest(TestCase):
         self.assertEqual(contain_alpha("ASD23dda"), True, "Testar se campo com alphanumericos contem letras (OK)")
         self.assertEqual(contain_alpha("ASD"), True, "Testar se campo preenchido com letras contem letras (OK)")
 
-
+    #def test_future_birthdate_validator(self):
+    #    self.assertEqual(contain_alpha(""), False, "Testar se campo vazio contem letras (OK)")
 
 

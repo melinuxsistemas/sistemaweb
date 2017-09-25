@@ -3,14 +3,16 @@ import datetime
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
-def birthdate_validator(value):
-    '''Falta criar'''
-    return True
 
 def required_validator(value):
-    if value is None or value == "":
-        raise ValidationError(_("This field is required."), code='required')
+    if value is not None and value != "":
+        print("NAO EH NONE NEM VAZIO")
+        return True
+    else:
+        print("EH NONE OU VAZIO CARAI")
+        #raise ValidationError(_("This field is required."), code='required')
         return False
+
 
 
 def minimum_age_person_validator(value):
@@ -42,11 +44,14 @@ def future_birthdate_validator(value):
         if value > current_date:
             raise ValidationError(_("birth_date_foundation: Date can not be future"), code='future_date')
             return False
-
     return True
 
 
 def min_words_name_validator(value):
+    if value is None or value == "":
+        raise ValidationError(_("Name must contain at least two words"), code='name_min_words')
+        return False
+
     result = re.search(r"\S \S", value)
     if result is None:
         raise ValidationError(_("Name must contain at least two words"), code='name_min_words')

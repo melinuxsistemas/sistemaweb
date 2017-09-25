@@ -74,8 +74,8 @@ class Entity(models.Model,BaseModel):
     market_segments = models.CharField("Segmento de Mercado",max_length=512,null=True,blank=True)
     registration_status = models.IntegerField(choices=options_registration_status, default=0, error_messages=ERRORS_MESSAGES)
     comments = models.TextField("Observações",max_length=500,null=True, blank=True)
-    created_date = models.DateTimeField(auto_now_add=True)
-    last_update = models.DateTimeField(auto_now=True,null=True)
+    created_date = models.DateTimeField(auto_now_add=True,null=False)
+    last_update = models.DateTimeField(auto_now=True,null=False)
     history = models.CharField("Histórico de Alterações",max_length=500,null=True, blank=True)
 
     def save(self, *args, **kwargs):

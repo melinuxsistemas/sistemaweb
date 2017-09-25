@@ -174,9 +174,9 @@ NOSE_ARGS = [
     #'cover-package=../modules/*'
     #'--cover-inclusive',
     '--cover-xml',  # produle XML coverage info
-    '--cover-xml-file=test/unit/report/backend_unit_report/coverage.xml',  # the coverage info file
+    '--cover-xml-file= report_coverage.xml',#test/unit/report/backend_unit_report/report_coverage.xml',  # the coverage info file
     '--with-xunit',  # enable XUnit plugin
-    '--xunit-file=test/unit/report/backend_unit_report/xunittest.xml',  # the XUnit report file
+    '--xunit-file= report_unit_test.xml' #test/unit/report/backend_unit_report/report_unit_test.xml',  # the XUnit report file
 ]
 
 

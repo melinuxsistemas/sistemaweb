@@ -101,7 +101,7 @@ class EntityAPI:
             response_entity['name'] = entity.entity_name
             response_entity['birth_date_foundation'] = entity.birth_date_foundation.strftime("%d/%m/%Y")
             #print("OLHA A DATA DE NASC",entity.birth_date_foundation)
-            response_entity['created_date'] = entity.created_date.strftime("%d/%m/%Y às %H:%M:%S")
+            response_entity['created_date'] = entity.created_date.strftime("%d/%m/%Y")
             #print ("OLHA A DATA DE CRIAÇÂO",entity.created_date)
             response_dict.append(response_entity)
         return HttpResponse(json.dumps(response_dict))

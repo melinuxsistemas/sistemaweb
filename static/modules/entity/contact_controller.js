@@ -1,3 +1,4 @@
+alert("Carreguei o controller do contatos")
 application.controller('register_phone_entity', function ($scope) {
 	$scope.contacts = []
 	$scope.contact_selected = null
@@ -94,9 +95,11 @@ application.controller('register_phone_entity', function ($scope) {
 
 });
 
-application.controller('register_email_entity', function ($scope) {
+application.controller('register_entity_email', function ($scope) {
+	alert("cheguei no controller do email agora")
 	/*Variaveis*/
 	$scope.emails = []
+	$scope.teste = 'BEM VINDO AO CONTROLLER EMAIL'
 	$scope.email_selected = null
 
 	$scope.save_email = function () {
