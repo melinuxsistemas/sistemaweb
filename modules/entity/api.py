@@ -92,13 +92,16 @@ class EntityAPI:
 
     def save_email (request):
         resultado , form = AbstractAPI.filter_request(request,FormRegisterEmailEntity)
-        print('O resultado é:',resultado)
-        email = Email()
-        email.entity_id = 1
-        email.form_to_object(form)
-        email.send_xml = request.POST['send_xml']
-        email.send_suitcase = request.POST['send_suitcase']
-        email.show_fields_value()
+        email_form = request.POST['email']
+        emails_lst = Email.objects.filter(entity_id=1)
+
+        if resultado:
+            email = Email()
+            email.entity_id = 1
+            email.form_to_object(form)
+            email.send_xml = request.POST['send_xml']
+            email.send_suitcase = request.POST['send_suitcase']
+            email.show_fields_value()
 
         try:
             email.save()
@@ -110,32 +113,46 @@ class EntityAPI:
 
     def save_number(request):
         resultado, form = AbstractAPI.filter_request(request, FormRegisterPhone)
+        resultado = True
         contact = Contact()
         contact.entity_id = 1
         contact.form_to_object(form)
         contact.show_fields_value()
-        try:
-            contact.save()
-            response_dict = response_format_success(contact,['entity','name','type_contact','ddd','phone','operadora'])
-            #contact.show_fields_value()
-        except:
-            response_dict = response_format_error(False)
+        if resultado:
+            try:
+                contact.save()
+                response_dict = response_format_success(contact,['entity','name','type_contact','ddd','phone','complemento'])
+                #contact.show_fields_value()
+            except Exception as e:
+                print("Veja o q acontece",e)
+                response_dict = response_format_error(format_exception_message(contact.model_exceptions))
+            print("NAO PASSO COM VALORES ERRADOS :(")
+        else:
+            contact.check_validators()
+            model_exceptions = format_exception_message(contact.model_exceptions)
+            form_exceptions = form.format_validate_response()
+
+            full_exceptions = {}  # dict(form_exceptions, **model_exceptions);
+            full_exceptions.update(model_exceptions)
+            full_exceptions.update(form_exceptions)
+            response_dict = response_format_error(full_exceptions)
+        print("RESPONSE DICT",response_dict)
         return HttpResponse(json.dumps(response_dict))
 
     def load_entities (request):
         list_entities = Entity.objects.all()
         response_dict = []
         for entity in list_entities:
-            entity.show_fields_value()
             response_entity = {}
             response_entity['id'] = entity.id
             response_entity['entity_type'] = entity.entity_type
             response_entity['cpf_cnpj'] = entity.cpf_cnpj
             response_entity['name'] = entity.entity_name
-            response_entity['birth_date_foundation'] = entity.birth_date_foundation.strftime('%d/%m/%Y')
-            #print("OLHA A DATA DE NASC",entity.birth_date_foundation)
+            if entity.birth_date_foundation :
+                response_entity['birth_date_foundation'] = entity.birth_date_foundation.strftime('%d/%m/%Y')
+            else:
+                response_entity['birth_date_foundation'] = "Não cadastrada"
             response_entity['created_date'] = entity.created_date.strftime('%d/%m/%Y')
-            #print ("OLHA A DATA DE CRIAÇÂO",entity.created_date)
             response_dict.append(response_entity)
         return HttpResponse(json.dumps(response_dict))
 
@@ -153,11 +170,11 @@ class EntityAPI:
                 xml = 'Sim'
             else:
                 xml = 'Não'
-            response_email['send_xml'] = xml
             if item.send_suitcase:
                 suitcase = 'Sim'
             else:
                 suitcase = 'Não'
+            response_email['send_xml'] = xml
             response_email['send_suitcase'] = suitcase
             response_dict.append(response_email)
         return HttpResponse(json.dumps(response_dict))
@@ -171,7 +188,7 @@ class EntityAPI:
             response_contacts['id'] = item.id
             response_contacts['type_contact'] = item.type_contact
             response_contacts['phone'] = '(' + item.ddd + ')' + item.phone
-            response_contacts['operadora'] = item.operadora
+            response_contacts['complemento'] = item.complemento
             response_contacts['name'] = item.name
             response_dict.append(response_contacts)
         return HttpResponse(json.dumps(response_dict))

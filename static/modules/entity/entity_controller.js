@@ -1,6 +1,3 @@
-/**
- * Created by diego on 05/05/2017.
- */
 var application = angular.module('modules.entity', []);
 application.controller('register_controller', function($scope) {
 
@@ -63,7 +60,7 @@ application.controller('register_controller', function($scope) {
 });
 
 application.controller('register_person_controller', function($scope) {
-  alert("Chengando?")
+  alert("Chegando?")
   $scope.cpf_cnpj = "";
   $scope.entity_name = "";
   $scope.fantasy_name = "";
@@ -103,10 +100,6 @@ application.controller('register_person_controller', function($scope) {
     }
     request_api("/api/entity/register/person/save",data_paramters,validade_function,success_function,fail_function)
   }
-
-  $scope.teste_f = function () {
-    alert("Poxa crush pq q vc n aber")
-	}
 });
 
 application.controller('register_company_controller', function ($scope) {

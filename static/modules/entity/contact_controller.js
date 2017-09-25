@@ -12,7 +12,7 @@ application.controller('register_phone_entity', function ($scope) {
 			name: $('#name_contact').val(),
 			ddd: $('#ddd').val(),
 			phone: $('#phone_number').val(),
-			operadora: $('#operadora').val(),
+			operadora: $('#complemento').val(),
 			id_entity: cpf_cnpj
 		}
 
@@ -128,7 +128,7 @@ application.controller('register_email_entity', function ($scope) {
 		}
 
 		fail_function = function () {
-			alert("Não foi dessa vez")
+			alert("Email já cadasrasdo!\nInforme outro endereço de email")
 		}
 		request_api("/api/entity/register/email", data_paramters, validate_email, sucess_function, fail_function)
 
