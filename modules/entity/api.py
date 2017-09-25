@@ -90,22 +90,6 @@ class EntityAPI:
         print("RESPONSE_DICT: ",response_dict)
         return HttpResponse(json.dumps(response_dict))
 
-    def load_entities(request):
-        list_entities = Entity.objects.all()
-        response_dict = []
-        for entity in list_entities:
-            entity.show_fields_value()
-            response_entity = {}
-            response_entity['entity_type'] = entity.entity_type
-            response_entity['cpf_cnpj'] = entity.cpf_cnpj
-            response_entity['name'] = entity.entity_name
-            response_entity['birth_date_foundation'] = entity.birth_date_foundation.strftime("%d/%m/%Y")
-            #print("OLHA A DATA DE NASC",entity.birth_date_foundation)
-            response_entity['created_date'] = entity.created_date.strftime("%d/%m/%Y")
-            #print ("OLHA A DATA DE CRIAÇÂO",entity.created_date)
-            response_dict.append(response_entity)
-        return HttpResponse(json.dumps(response_dict))
-
     def save_email (request):
         resultado , form = AbstractAPI.filter_request(request,FormRegisterEmailEntity)
         print('O resultado é:',resultado)
@@ -138,12 +122,53 @@ class EntityAPI:
             response_dict = response_format_error(False)
         return HttpResponse(json.dumps(response_dict))
 
+    def load_entities (request):
+        list_entities = Entity.objects.all()
+        response_dict = []
+        for entity in list_entities:
+            entity.show_fields_value()
+            response_entity = {}
+            response_entity['id'] = entity.id
+            response_entity['entity_type'] = entity.entity_type
+            response_entity['cpf_cnpj'] = entity.cpf_cnpj
+            response_entity['name'] = entity.entity_name
+            response_entity['birth_date_foundation'] = entity.birth_date_foundation.strftime('%d/%m/%Y')
+            #print("OLHA A DATA DE NASC",entity.birth_date_foundation)
+            response_entity['created_date'] = entity.created_date.strftime('%d/%m/%Y')
+            #print ("OLHA A DATA DE CRIAÇÂO",entity.created_date)
+            response_dict.append(response_entity)
+        return HttpResponse(json.dumps(response_dict))
+
+    def load_emails (request, cpf_cnpj):
+        print("Vindo aqui")
+        #precisa ainda pegar o id do request
+        list_emails = Email.objects.filter(entity_id=1)
+        response_dict = []
+        for item in list_emails:
+            response_email = {}
+            response_email['id'] = item.id
+            response_email['email'] = item.email
+            response_email['name'] = item.name
+            if item.send_xml:
+                xml = 'Sim'
+            else:
+                xml = 'Não'
+            response_email['send_xml'] = xml
+            if item.send_suitcase:
+                suitcase = 'Sim'
+            else:
+                suitcase = 'Não'
+            response_email['send_suitcase'] = suitcase
+            response_dict.append(response_email)
+        return HttpResponse(json.dumps(response_dict))
+
     def load_contacts(request, cpf_cnpj):
         contacts = Contact.objects.filter(entity_id=1)
 
         response_dict = []
         for item in contacts:
             response_contacts = {}
+            response_contacts['id'] = item.id
             response_contacts['type_contact'] = item.type_contact
             response_contacts['phone'] = '(' + item.ddd + ')' + item.phone
             response_contacts['operadora'] = item.operadora

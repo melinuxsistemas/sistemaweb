@@ -63,13 +63,16 @@ application.controller('register_controller', function($scope) {
 });
 
 application.controller('register_person_controller', function($scope) {
+  alert("Chengando?")
   $scope.cpf_cnpj = "";
   $scope.entity_name = "";
   $scope.fantasy_name = "";
   $scope.confirm_password = "";
   $scope.birth_date_foundation = "";
+  $scope.teste = "TESTE"
 
   $scope.save_person = function () {
+    alert("Agora eu venho?")
     $scope.cpf_cnpj = $('#cpf_cnpj').val();
     $scope.birth_date_foundation = $('#birth_date_foundation').val();
 
@@ -84,11 +87,13 @@ application.controller('register_person_controller', function($scope) {
     }
 
     success_function = function(message){
+      alert(" deu")
       //window.location = "/"//register/confirm/"+$scope.email;
       check_response_message_form('#form-save-entity', message);
 		}
     
     fail_function = function (message) {
+      alert("Nao deu")
       check_response_message_form('#form-save-entity', message);
       //notify('error','Formulário com dados inválidos',message.cpf_cnpj)
     }
@@ -98,6 +103,10 @@ application.controller('register_person_controller', function($scope) {
     }
     request_api("/api/entity/register/person/save",data_paramters,validade_function,success_function,fail_function)
   }
+
+  $scope.teste_f = function () {
+    alert("Poxa crush pq q vc n aber")
+	}
 });
 
 application.controller('register_company_controller', function ($scope) {

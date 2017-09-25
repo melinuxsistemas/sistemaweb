@@ -32,7 +32,7 @@
 			<h2>Cadastro de Entidade <!--<small>Click to validate</small>--></h2>
 			<ul class="nav navbar-right panel_toolbox">
 				<div class="btn-group" role="group" aria-label="...">
-					<a href="#" id='bt_register_entity' role="button" class="btn btn-sm btn-success" ng-class="{true:'desabilitado', false:''}[registro_selecionado==null]"  data-toggle="modal" data-target="#modal_adicionar_contrato" ng-click="load_fields();esta_adicionando = true">Nova Entidade</a>
+					<a href="#" id='bt_register_entity' role="button" class="btn btn-sm btn-success"data-toggle="modal" data-target="#modal_add_entity">Nova Entidade</a>
 					<a href="#" id='bt_servicos' role="button" class="btn btn-sm btn-default" ng-class="{true:'desabilitado', false:''}[registro_selecionado==null]"  data-toggle="modal" data-target="#modal_servicos" ng-click="configurar_inclusao_servico();esta_adicionando = true" style='margin-left: 5px;'>Endereços</a>
 					<a href="#" id='bt_indicacoes' role="button" class="btn btn-sm btn-default pull-left" ng-class="{true:'desabilitado', false:''}[registro_selecionado==null]" data-toggle="modal" data-target="#modal_entity_email" ng-click="carregar_indicacao()" style='margin-left: 5px;'> Contatos</a>
 
@@ -110,7 +110,7 @@
 									</td>
 
 									<td class="col_created_date" ng-hide='screen0 || screen1 || screen2 || screen3' ng-class="{true:'left', false:'center'}[entity.created_date=='']" style="width: 80px;">
-
+										{{ entity.created_date}}
 										<!--<span ng-if="entity.created_date">{{ entity.created_date}}</span>
 										<span ng-if="!entity.created_date"></span>-->
 									</td>
@@ -158,17 +158,91 @@
 						</dir-pagination-controls>
 					</span>
 				</div>
-				{% endverbatim %}
-			</div>
+					{% endverbatim %}
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
 
+<!-- Modal de adicao de entidade -->
+	<div id="controller_entity_identification" ng-controller="register_person_controller">
+		<div id="modal_add_entity" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+			<div class="modal-dialog" style="width: 80%">
+				<form id="form-save-entity" autocomplete="off" ng-submit="save_person()" novalidate><!--  -->
+					<div class="modal-content">
+						{% verbatim %} {{ teste }} {% endverbatim %}
+						{% csrf_token %}
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+									<h5 style="font-weight: bold">Adicionar Nova Entidade {% verbatim %} {{ teste }} {% endverbatim %} </h5>
+							</div>
+							<div class="modal-body">
+								<div class="row">
+									<div class="col-lg-2 col-xs-12 col-sm-3">
+										<div class="form-group field field_required" id="field_cpf_cnpj">
+											<sub><label id="lb_cpf_cnpj" for="cpf_cnpj">{{ form_entity.cpf_cnpj.label|upper }}</label></sub>
+											{{ form_entity.cpf_cnpj }}
+											<div class="alert">
+											</div>
+										</div>
+									</div>
 
-	<!--Modal de adicao de Email -->
-	<div ng-controller="register_entity_email"><!-- Falta add um controlador-->
-	<div id="modal_entity_email" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+									<div class="col-lg-5 col-xs-12 col-sm-9">
+										<div class="form-group field field_required" id="field_entity_name">
+											<sub><label id="lb_entity_name" for="entity_name">{{ form_entity.entity_name.label }}</label> </sub>
+											{{ form_entity.entity_name }}
+											<div class="alert">
+											</div>
+										</div>
+									</div>
+
+									<div class="col-lg-3 col-xs-12 col-sm-7">
+										<div class="form-group field " id="field_fantasy_name">
+											<sub><label id="lb_fantasy_name" for="fantasy_name">{{ form_entity.fantasy_name.label }}</label> </sub>
+											{{ form_entity.fantasy_name }}
+											<div class="alert">
+											</div>
+										</div>
+									</div>
+
+									<div class="col-lg-2 col-xs-12 col-sm-5">
+										<div class="form-group field" id="field_birth_date_foundation">
+											<sub><label id="lb_birth_date_foundation" for="birth_date_foundation">{{ form_entity.birth_date_foundation.label }}</label> </sub>
+											{{ form_entity.birth_date_foundation }}
+											<div class="alert">
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-lg-12 col-xs-12 col-sm-12">
+										<div class="form-group field field_required" id="field_comments">
+											<sub><label id="lb_comments" for="comments">{{ form_entity.comments.label }}</label> </sub>
+											{{ form_entity.comments }}
+											<div class="alert">
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<div class="row" style="margin-top: 10px;margin-left: 0px;margin-right: 0px;padding-top: 10px;padding-bottom: 10px;border-top: 1px solid #f3f3f3; /*padding: 0px;*/">
+									<div class="col-lg-offset-10 col-lg-2">
+										<button type="submit" 	href="#" class="btn btn-sm btn-success form-control pull-right" style="line-height: 24px;margin-right: -10px;margin-bottom: 0px;">Salvar</button>
+									</div>
+								</div>
+							</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+<!--Modal de adicao de Email
+<div ng-controller="register_email_entity"><!-- Falta add um controlador--
+		<div id="modal_add_email" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
 			<div class="modal-dialog" style="width: 50%">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -185,15 +259,17 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div>-->
 {% endblock %}
 
 {% block recursos_complementares %}
 {% load static %}
-<script src="{% static 'modules/entity/entity_controller.js' %}"></script>
-<script src="{% static 'modules/entity/entity.js' %}"></script>
-<script src="{% static 'modules/entity/contact_controller.js' %}"></script>
-<script src="{% static 'modules/entity/contact.js' %}"></script>
+
+	<script src="{% static 'modules/entity/entity_controller.js' %}"></script>
+	<script src="{% static 'modules/entity/entity.js' %}"></script>
+	<script src="{% static 'modules/entity/contact_controller.js' %}"></script>
+	<script src="{% static 'modules/entity/contact.js' %}"></script>
+
 <link rel="stylesheet" href="{% static 'custom/smartwizard/jQuery-Multiple-Select-Plugin-For-Bootstrap-Bootstrap-Multiselect/bootstrap-multiselect.css' %}" type="text/css">
 <script type="text/javascript" src="{% static 'custom/smartwizard/jQuery-Multiple-Select-Plugin-For-Bootstrap-Bootstrap-Multiselect/bootstrap-multiselect.js' %}"></script>
 <script type="text/javascript" src="{% static 'bower_components/validator/validator.js' %}"></script>
@@ -202,8 +278,10 @@
 	$(document).ready(function(){
 		//$('#cpf_cnpj').mask('999.999.999-99');
 		//$('#birth_date_foundation').mask('99/99/9999');
-
 		angular.element(document.getElementById('register_controller')).scope().load_table_entity();
+		alert("Tentando carregar")
+		angular.element(document.getElementById('form-save-entity')).scope().save_person();
+		alert("carregado")
 		//angular.element(document.getElementById('entity_table')).scope().select_table_row();
 	});
 </script>
