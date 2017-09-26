@@ -1,6 +1,12 @@
 application.controller('register_phone_entity', function ($scope) {
 	$scope.contacts = []
 	$scope.contact_selected = null
+	$scope.changing_contact = false
+
+	$('#modal_add_phone').on('hidden.bs.modal', function () {
+		$(this).find("input,textarea,select").val('').end();
+
+	});
 
 	/*Controller of contacts*/
 	$scope.save_tel = function () {
@@ -67,6 +73,7 @@ application.controller('register_phone_entity', function ($scope) {
 	$scope.select_table_row_contact = function (contact) {
 		alert("Entrando aqui!!" + JSON.stringify(contact))
 
+
 		if ($scope.contact_selected !== null) {
 			if ($scope.contact_selected == contact) {
 				alert("Contato iguais eu removo seleção")
@@ -104,6 +111,67 @@ application.controller('register_phone_entity', function ($scope) {
 			return true
 		}else{
 			return false
+		}
+	}
+
+	$scope.load_field_contact = function () {
+		$scope.changing_contact = true
+		$.ajax({
+			type: 'GET',
+			url: '/api/entity/fields/contacts/' + $scope.contact_selected.id,
+
+			success: function (data) {
+				data = JSON.parse(data)
+				$('#modal_add_phone').modal()
+				$('#type_contact').val(data.type_contact)
+				$('#phone_number').val(data.phone)
+				$('#ddd').val(data.ddd)
+				$('#name_contact').val(data.name)
+				$('#complemento').val(data.complemento)
+				}
+		})
+	}
+
+	$scope.change_contact = function () {
+
+
+		var cpf_cnpj = '14960175796';
+		var data_paramters = {
+			id : $scope.contact_selected.id,
+			type_contact: $('#type_contact').val(),
+			name: $('#name_contact').val(),
+			ddd: $('#ddd').val(),
+			phone: $('#phone_number').val(),
+			complemento: $('#complemento').val(),
+			id_entity: cpf_cnpj
+		};
+
+		var complet_phone = '('+ data_paramters.ddd + ')' + data_paramters.phone
+
+
+		if (!($scope.contact_selected.name == data_paramters.name
+				&& $scope.contact_selected.phone == complet_phone
+				&& $scope.contact_selected.type_contact == data_paramters.type_contact
+				&& ( $scope.contact_selected.complemento == null && data_paramters.complemento =='' )))
+			{
+				success_function = function (message) {
+					//check_response_message_form('#form-save-contact',message)
+					notify('success','Contato Alterado','Seu contato foi alterado')
+					$scope.load_contacts();
+					$scope.reset_form();
+					$('#modal_add_phone').modal('hide')
+					$scope.contact_selected = null
+					$scope.changing_contact = false
+				}
+
+				fail_function = function () {
+					alert("Deu Ruim Na alteração")
+				}
+				request_api("/api/entity/update/phone", data_paramters, validate_contact, success_function, fail_function)
+		}
+		else
+		{
+			notify('error','Sem alterações','Para salvar alterações, realize uma')
 		}
 	}
 });

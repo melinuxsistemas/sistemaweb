@@ -23,18 +23,14 @@ application.controller('register_controller', function($scope) {
 }
 
   $scope.select_table_row = function(entity){
-	   alert("Entrando aqui!!"+JSON.stringify(entity))
 
     if ($scope.entity_selected !==  null){
       if($scope.entity_selected == entity){
-        alert("Entity iguais eu removo seleção")
         $scope.unselect_table_row();
         $scope.$apply();
       }
       else{
-        alert("Primeiro desmarco, para selecionar outro")
         $scope.unselect_table_row();
-        alert("Consigo sair?")
         $scope.entity_selected = entity
 
         $("#table_entity").children("tr").eq(entity).addClass('selected')
@@ -44,7 +40,6 @@ application.controller('register_controller', function($scope) {
       }
     }
     else{
-      alert("Selecionando uma linha")
       $("#table_entity").children("tr").eq(entity).addClass('selected')
       $scope.entity_selected = entity;
       $scope.$apply();
@@ -60,7 +55,6 @@ application.controller('register_controller', function($scope) {
 });
 
 application.controller('register_person_controller', function($scope) {
-  alert("Chegando?")
   $scope.cpf_cnpj = "";
   $scope.entity_name = "";
   $scope.fantasy_name = "";
@@ -69,7 +63,6 @@ application.controller('register_person_controller', function($scope) {
   $scope.teste = "TESTE"
 
   $scope.save_person = function () {
-    alert("Agora eu venho?")
     $scope.cpf_cnpj = $('#cpf_cnpj').val();
     $scope.birth_date_foundation = $('#birth_date_foundation').val();
 

@@ -10,6 +10,8 @@ urlpatterns = [
     url(r'list/contacts/(?P<cpf_cnpj>[^/]+)/',EntityAPI.load_contacts),
     url(r'list/emails/(?P<cpf_cnpj>[^/]+)/',EntityAPI.load_emails),
     url(r'delete/phone/(?P<id_contact>[^/]+)/',EntityAPI.delete_contact),
+    url(r'fields/contacts/(?P<id_contact>[^/]+)/',EntityAPI.load_contact),
+    url(r'update/phone',EntityAPI.update_contact)
     # APIs administrativas
     #url(r'register/delete/(?P<email>[^/]+)/', EntityAPI.register_delete),
 ]

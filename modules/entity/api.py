@@ -206,7 +206,36 @@ class EntityAPI:
         response_dict = []
         return HttpResponse(json.dumps(response_dict))
 
+    def load_contact (request, id_contact):
+        response_contact = {}
+        print (id_contact)
+        try:
+            contact = Contact.objects.get(id=id_contact)
+            response_contact['type_contact'] = contact.type_contact
+            response_contact['phone'] = contact.phone
+            response_contact['name'] = contact.name
+            response_contact['ddd'] = contact.ddd
+            response_contact['complemento'] = contact.complemento
+        except:
+            response_contact = response_format_error(False)
+        print("OLHA O Q EU VOU RETORNAR: response_contact", response_contact)
+        return HttpResponse(json.dumps(response_contact))
 
+    def update_contact (request):
+        id_contact = request.POST['id']
+        phone = request.POST['phone']
+        name = request.POST['name']
+        ddd = request.POST['ddd']
+        type_contact = request.POST['type_contact']
+        complemento = request.POST['complemento']
+        contact = Contact.objects.get(id=id_contact)
+
+        try:
+            Contact.objects.filter(id=id_contact).update(phone= phone, name=name,ddd=ddd,type_contact=type_contact,complemento=complemento)
+            response_dict = response_format_success(contact,['phone','name','ddd','type_contact','complemento'])
+        except:
+            response_dict = response_format_error(False)
+        return  HttpResponse(json.dumps(response_dict))
 
     """
     def register_delete(request, email):

@@ -161,7 +161,10 @@
 									<button role="button" class="btn btn-sm btn-success form-control"  data-toggle="modal" data-target="#modal_add_phone">Adicionar Contato</button>
 								</div>
 								<div class="col-lg-2" style="float: left">
-									<button role="button" class="btn btn-sm btn-success form-control" ng-disabled="contact_selected == null"  ng-click="delete_contact()">Remover Contato</button>
+									<button role="button" class="btn btn-sm btn-warning form-control" ng-disabled="contact_selected == null"  ng-click="load_field_contact()">Alterar Contato</button>
+								</div>
+								<div class="col-lg-2" style="float: left">
+									<button role="button" class="btn btn-sm btn-danger form-control" ng-disabled="contact_selected == null"  ng-click="delete_contact()">Remover Contato</button>
 								</div>
 							</div>
 							<!--Modal de adicao de Telefone -->
@@ -223,7 +226,7 @@
 											</form>
 										</div>
 										<div class="modal-footer">
-											<button role="button" class="btn btn-sm btn-success form-control" data-toggle="modal" ng-click="save_tel()">Salvar</button>
+											<button id="button_contact_save" role="button" class="btn btn-sm btn-success form-control" data-toggle="modal" ng-click="changing_contact? change_contact() : save_tel()">Salvar</button>
 										</div>
 									</div>
 								</div>
@@ -382,5 +385,6 @@
             //validate_field_entity('birth_date_foundation')
         }
     </script>
+
 
 {% endblock %}
