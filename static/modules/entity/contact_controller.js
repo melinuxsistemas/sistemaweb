@@ -4,7 +4,6 @@ application.controller('register_phone_entity', function ($scope) {
 
 	/*Controller of contacts*/
 	$scope.save_tel = function () {
-		alert("Entrando no controlador")
 		//var cpf_cnpj = $('#cpf_cnpj').val();
 		var cpf_cnpj = '14960175796';
 		var data_paramters = {
@@ -12,13 +11,13 @@ application.controller('register_phone_entity', function ($scope) {
 			name: $('#name_contact').val(),
 			ddd: $('#ddd').val(),
 			phone: $('#phone_number').val(),
-			operadora: $('#complemento').val(),
+			complemento: $('#complemento').val(),
 			id_entity: cpf_cnpj
 		}
 
 		success_function = function (message) {
 			//check_response_message_form('#form-save-contact',message)
-			alert("Salvou")
+			notify('success','Contato Adicionado','Seu contato foi registrado')
 			$scope.load_contacts()
 			$scope.reset_form()
 			$('#modal_add_phone').modal('hide')
@@ -59,6 +58,7 @@ application.controller('register_phone_entity', function ($scope) {
 			success : function () {
 				$scope.contact_selected = null
 				$scope.load_contacts()
+				notify('success','Contato Removido','Seu contato foi removido do sistema')
 				$scope.$apply()
 			},
 		})

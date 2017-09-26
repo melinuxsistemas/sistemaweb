@@ -180,7 +180,7 @@ def only_numeric(value):
     if value is not None:
         if value.isnumeric():
             return True
-    raise ValidationError(_("Please enter value with only numeric type."), code='not all numeric')
+    raise ValidationError(_("phone: Please enter value with only numeric type."), code='not all numeric')
     return False
 
 if __name__ == "__main__":

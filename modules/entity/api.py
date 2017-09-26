@@ -112,6 +112,7 @@ class EntityAPI:
         return HttpResponse(json.dumps(response_dict))
 
     def save_number(request):
+        print("Ja chego no save number")
         resultado, form = AbstractAPI.filter_request(request, FormRegisterPhone)
         resultado = True
         contact = Contact()
@@ -122,11 +123,12 @@ class EntityAPI:
             try:
                 contact.save()
                 response_dict = response_format_success(contact,['entity','name','type_contact','ddd','phone','complemento'])
+                print("Saindo do save number")
                 #contact.show_fields_value()
             except Exception as e:
                 print("Veja o q acontece",e)
                 response_dict = response_format_error(format_exception_message(contact.model_exceptions))
-            print("NAO PASSO COM VALORES ERRADOS :(")
+                print("O resultado da Exception é:  ",response_dict)
         else:
             contact.check_validators()
             model_exceptions = format_exception_message(contact.model_exceptions)

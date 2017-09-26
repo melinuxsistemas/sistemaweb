@@ -255,7 +255,7 @@ class FormRegisterPhone (FormAbstractEmail):
 
     complemento = forms.CharField(
         label="Complemento",
-        max_length=10,
+        max_length=32,
         widget= forms.TextInput(
             attrs={
                 'id':'complemento', 'name':'complemento', 'class':'form-control'
