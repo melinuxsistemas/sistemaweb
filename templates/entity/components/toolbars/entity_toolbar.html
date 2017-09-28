@@ -1,0 +1,20 @@
+<ul class="nav navbar-right panel_toolbox">
+	<div class="btn-group" role="group" aria-label="...">
+		<a id='bt_identification' href="#entity_identification" data-toggle="tab" role="button" class="btn btn-sm btn-success" >Entidades</a><!-- data-toggle="modal" data-target="#modal_add_entity" -->
+		<a id='bt_add_identification' href="#entity_identification" data-toggle="modal" data-target="#modal_identification" role="button" class="btn btn-sm btn-success" >Nova Entidade</a><!-- data-toggle="modal" data-target="#modal_add_entity" -->
+		<a id='bt_contacts' href="#entity_contact" data-toggle="tab" role="button" class="btn btn-sm btn-default pull-left" ng-class="{true:'desabilitado', false:''}[registro_selecionado==null]" style='margin-left: 5px;'> Contatos</a><!-- data-toggle="modal" data-target="#modal_entity_email" ng-click="carregar_indicacao()" -->
+		<!--<a id='bt_locations'  data-toggle="tab" role="button" class="btn btn-sm btn-default" ng-class="{true:'desabilitado', false:''}[registro_selecionado==null]"  style='margin-left: 5px;'>Endereços</a><!-- data-toggle="modal" data-target="#modal_servicos" ng-click="configurar_inclusao_servico();esta_adicionando = true"  -->
+
+		<div class="btn-group" role="group">
+			<button type="button" id='bt_outras_acoes' class="btn btn-sm btn-default dropdown-toggle desabilitado" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu dropdown-menu-right">
+				<li><a href="#">Action</a></li>
+				<li><a href="#">Another action</a></li>
+				<li><a href="#">Desativar</a></li>
+				<!--<li role="separator" class="divider"></li>
+				<li><a href="#modal_justificativa" id="bt_desativar_cliente" data-toggle="modal">Desativar</a></li>-->
+			</ul>
+		</div>
+	</div>
+</ul>
