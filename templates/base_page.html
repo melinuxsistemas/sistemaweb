@@ -56,16 +56,15 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;"><!-- background:#172D44; -->
-
-              <a id="menu_toggle_new" href="#" class="site_title"><i class="fa fa-paw"></i> <span>SistemaWeb</span></a>
+              <a id="menu_toggle_new" style='cursor: pointer;' class="site_title"><i class="fa fa-paw"></i> <span>SistemaWeb</span></a>
             </div>
 
             <div class="clearfix"></div>
 
             <!-- menu profile quick info -->
-            <div class="profile clearfix">
+            <!--<div class="profile clearfix">
               <div class="profile_pic">
-                <!--<img src="{% static 'images/img.jpg' %}" alt=""  class="img-circle profile_img">-->
+                <img src="{% static 'images/img.jpg' %}" alt=""  class="img-circle profile_img">
               </div>
               <div class="profile_info">
                 <span>Welcome,</span>
@@ -73,12 +72,12 @@
 
               </div>
               <div class="clearfix"></div>
-            </div>
+            </div>-->
             <!-- /menu profile quick info
             <br />-->
 
             <!-- sidebar menu -->
-            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+            <div id="sidebar-menu" class="main_menu_side main_menu"><!-- hidden-print -->
               <div class="menu_section">
                 <ul class="nav side-menu">
 
@@ -229,22 +228,23 @@
 
         <!-- top navigation -->
         <div class="top_nav">
-          <div class="nav_menu" style="height: 34px;">
+          <div class="nav_menu" style="height: 30px;">
             <nav style="">
-              <div class="nav toggle" style="margin-top: -13px; width: 45px;margin-left: -8px;border-right: 1px solid #DDD;">
-                <a id="menu_toggle"><i class="fa fa-bars"></i></a><!--fa fa-bars---->
+              <div class="nav toggle" style="height: 30px;margin-top: 0px; width: 45px;margin-left: -8px;border: 1px solid #DDD;border-radius: 0px;">
+                <div style="padding: 0px; margin-top: -16px;margin-left: -1px;">
+									<a id="menu_toggle"><i class="fa fa-bars fa-1x"></i></a><!--fa fa-bars---->
+								</div>
               </div>
               <!--<span style="font-size: 16px;font-weight: bold;">Cadastro de Entidades</span>-->
 
-
-              <ul class="nav navbar-nav navbar-right" style="background: green;height: 33px;">
-                <li class="" style="background: yellow;">
-                  <a id="field_user" href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="/static/images/img.jpg" alt="" style="height: 22px; width:22px;">{{ request.user.email }}
+              <ul class="nav  navbar-right" style="height: 30px;">
+                <li class="">
+                  <a id="field_user" href="javascript:;" style="height: 30px;padding-top: 4px;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <img src="/static/images/img.jpg" alt="" style="height: 22px; width:22px;"><span id="profile_email_active">{{ request.user.email }}</span>
                     <span class="fa fa-angle-down"></span>
                   </a>
 
-                  <ul class="dropdown-menu dropdown-usermenu pull-right">
+                  <ul class="dropdown-menu dropdown-usermenu pull-right" style="margin-top: -1px;">
                     <!--<li><a href="javascript:;"> Profile</a></li>
                     <li>
                       <a href="javascript:;">
@@ -264,15 +264,16 @@
                   </ul>
                 </li>
 
-                <li class=""  style="background: silver;">
-                  <a  href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+
+                <li class="">
+                  <a  href="javascript:;" class="dropdown-toggle info-number" style="height: 30px;margin-top:0px; padding-top:6px;" data-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-question-circle"></i>
                     <span class="badge bg-green"></span>
                   </a>
                 </li>
 
-                <li role="presentation" class="dropdown" style="background: brown;">
-                  <a  href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                <li role="presentation" class="dropdown">
+                  <a  href="javascript:;" class="dropdown-toggle info-number" style="height: 30px;margin-top:0px; padding-top:6px;"  data-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-envelope-o"></i>
                     <span class="badge bg-green">6</span>
                   </a>
@@ -342,41 +343,41 @@
         <!-- /top navigation -->
 
         <!-- page content -->
-        <div class="right_col" role="main" >
-          <div class="">
-            <div class="page-title">
-              <div class="title_left">
-                <h3>
-                  {% block titulo_cabecalho %}
-                  {% endblock %}
-                </h3>
-              </div>
+        <div class="right_col" role="main" style="padding: 10px;padding-top:0px;">
+          <!--
+          <div class="page-title" style="background: purple;">
+            <div class="title_left">
+              <h3>
+                {% block titulo_cabecalho %}
+                {% endblock %}
+              </h3>
+            </div>
 
-              <div class="title_right">
-                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-                  <!--
-                  <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search for...">
-                    <span class="input-group-btn">
-                      <button class="btn btn-default" type="button">Go!</button>
-                    </span>
-                  </div>
-                  -->
+            <!-
+            <div class="title_right">
+              <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right">
+                <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Search for...">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">Go!</button>
+                  </span>
                 </div>
               </div>
             </div>
+            ->
+          </div>-->
 
-            <div class="clearfix"></div>
 
-            <div class="page_content">
-              <div class="row">
+          <div class="clearfix"></div>
+
+          <div class="page_content" style="padding: 0px;padding-top: 0px;margin-top:0px;">
+            <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
-                {% block conteudo_principal %}
+              {% block conteudo_principal %}
 
-                {% endblock %}
-              </div>
+              {% endblock %}
             </div>
-            </div>
+          </div>
           </div>
         </div>
         <!-- /page content -->
@@ -391,135 +392,6 @@
         <!-- /footer content -->
       </div>
     </div>
-
-    <!-- Large modal -->
-      <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
-              </button>
-              <h4 class="modal-title" id="myModalLabel">Cadastrar Entidade</h4>
-            </div>
-            <div class="modal-body" style="padding-left: 30px;padding-right: 20px;">
-              <!--<h5 style="text-align: center;">Escolha o tipo da Entidade</h5>-->
-              <br>
-              <div class="row">
-                <div class="animated flipInY col-lg-2 col-md-2 col-sm-5 col-xs-6">
-                  <div class="tile-stats" style="width: 110px;height: 110px;">
-                    <a href="/entity/register/person">
-                      <div class="icon" >
-                        <i class="fa fa-user" style="margin-left: -4px;"></i>
-                      </div>
-                      <div class="title text-center" style="margin-top: 75px;">
-                        <h5>Pessoa<br>Física</h5>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-
-                <div class="animated flipInY col-lg-2 col-md-2 col-sm-5 col-xs-6">
-                  <div class="tile-stats" style="width: 110px;height: 110px;">
-                    <a href="/entity/register/company">
-                      <div class="icon" >
-                        <i class="fa fa-industry" style="margin-left: -12px;"></i>
-                      </div>
-                      <div class="title text-center" style="margin-top: 75px;">
-                        <h5>Pessoa<br>Jurídica</h5>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-
-                <div class="animated flipInY col-lg-2 col-md-2 col-sm-5 col-xs-6">
-                  <div class="tile-stats" style="width: 110px;height: 110px;">
-                    <a href="/entity/register/company">
-                      <div class="icon" >
-                        <i class="fa fa-sitemap" style="margin-left: -10px;"></i>
-                      </div>
-                      <div class="title text-center" style="margin-top: 75px;">
-                        <h5>Orgão<br>Público</h5>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-
-                <div class="animated flipInY col-lg-2 col-md-2 col-sm-5 col-xs-6">
-                  <div class="tile-stats" style="width: 110px;height: 110px;">
-                    <div class="icon" >
-                      <i class="fa fa-address-card-o" style="margin-left: -15px;"></i>
-                    </div>
-                    <div class="title text-center" style="margin-top: 75px;">
-                      <h5>Empresa<br>Extrangeira</h5>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="animated flipInY col-lg-2 col-md-2 col-sm-5 col-xs-6">
-                  <div class="tile-stats" style="width: 110px;height: 110px;">
-                    <div class="icon" >
-                      <i class="fa fa-address-book-o" style="margin-left: -5px;"></i>
-                    </div>
-                    <div class="title text-center" style="margin-top: 75px;">
-                      <h5>Pessoa<br>Extrangeira</h5>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="animated flipInY col-lg-2 col-md-2 col-sm-5 col-xs-6">
-                  <div class="tile-stats" style="width: 110px;height: 110px;">
-                    <div class="icon" >
-                      <i class="fa fa-user-secret" style="margin-left: -5px;"></i>
-                    </div>
-                    <div class="title text-center" style="margin-top: 75px;">
-                      <h5>Outro</h5>
-                    </div>
-                  </div>
-                </div>
-
-                <!--
-                <div class="animated flipInY col-lg-2 col-md-2 col-sm-5 col-xs-12">
-                  <div class="tile-stats">
-                    <div class="icon"><i class="fa fa-comments-o"></i>
-                    </div>
-                    <div class="count">179</div>
-
-                    <h3>New Sign ups</h3>
-                    <p>Lorem ipsum psdea itgum rixt.</p>
-                  </div>
-                </div>
-                <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                  <div class="tile-stats">
-                    <div class="icon"><i class="fa fa-sort-amount-desc"></i>
-                    </div>
-                    <div class="count">179</div>
-
-                    <h3>New Sign ups</h3>
-                    <p>Lorem ipsum psdea itgum rixt.</p>
-                  </div>
-                </div>
-                <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                  <div class="tile-stats">
-                    <div class="icon"><i class="fa fa-check-square-o"></i>
-                    </div>
-                    <div class="count">179</div>
-
-                    <h3>New Sign ups</h3>
-                    <p>Lorem ipsum psdea itgum rixt.</p>
-                  </div>
-                </div>
-                -->
-              </div>
-            </div>
-            <div class="modal-footer">
-              <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>-->
-            </div>
-
-          </div>
-        </div>
-      </div>
-
   </body>
   {% compress js %}
     <!-- Bootstrap -->
@@ -563,8 +435,33 @@
     ga('send', 'pageview');
     </script>
   -->
+    <script>
+      function readjust_window(){
+        sh = window.innerHeight // screen.availHeight; - PEGA O TAMANHO DA TELA DO DISPOSITIVO
+	      sw  = window.innerWidth
+	      readjust_menu(sw,sh);
+      }
+
+      function readjust_menu(sw,sh){
+        if(sw < 600){
+          //alert("vou esconder o nome do usuario pra ganhar espaco")
+          $("#profile_email_active").hide();
+        }
+        else{
+          $("#profile_email_active").show();
+        }
+      }
+
+      function set_width_size(value){
+        alert("cheguei aqui?")
+        //window.width(500)
+        window.resizeTo(400, 300);
+        alert("foi");
+      }
+    </script>
 
     <script>
+      readjust_window()
       NProgress.done();
       working();
     </script>

@@ -1,11 +1,10 @@
-alert("Carreguei o controller do contatos")
 application.controller('register_phone_entity', function ($scope) {
 	$scope.contacts = []
 	$scope.contact_selected = null
 
 	/*Controller of contacts*/
 	$scope.save_tel = function () {
-		alert("Entrando no controlador")
+		//alert("Entrando no controlador")
 		//var cpf_cnpj = $('#cpf_cnpj').val();
 		var cpf_cnpj = '14960175796';
 		var data_paramters = {
@@ -110,7 +109,7 @@ application.controller('register_phone_entity', function ($scope) {
 });
 
 application.controller('register_entity_email', function ($scope) {
-	alert("cheguei no controller do email agora")
+	//alert("cheguei no controller do email agora")
 	/*Variaveis*/
 	$scope.emails = []
 	$scope.teste = 'BEM VINDO AO CONTROLLER EMAIL'

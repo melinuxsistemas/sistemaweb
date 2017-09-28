@@ -67,8 +67,8 @@ class EntityAPI:
         if resultado:
             try:
                 entity.save()
-                response_dict = response_format_success(entity, ['cpf_cnpj','entity_name','fantasy_name','birth_date_foundation'])
-                entity.show_fields_value()
+                response_dict = response_format_success(entity, ['id','cpf_cnpj','entity_name','entity_type','birth_date_foundation','created_date'])
+                #entity.show_fields_value()
             except Exception as e:
                 print("VEJA A EXCECAO QUE DEU: ",e)
                 response_dict = response_format_error(format_exception_message(entity.model_exceptions))
@@ -87,7 +87,7 @@ class EntityAPI:
             #print("RESPONSE FULL EXCEPTIONS: ", full_exceptions)
             response_dict = response_format_error(full_exceptions)
 
-        print("RESPONSE_DICT: ",response_dict)
+        #print("RESPONSE_DICT: ",response_dict)
         return HttpResponse(json.dumps(response_dict))
 
     def save_email (request):
@@ -123,19 +123,24 @@ class EntityAPI:
         return HttpResponse(json.dumps(response_dict))
 
     def load_entities (request):
-        list_entities = Entity.objects.all()
+        list_entities = Entity.objects.all().order_by('-id')
         response_dict = []
         for entity in list_entities:
-            entity.show_fields_value()
+            #entity.show_fields_value()
             response_entity = {}
             response_entity['id'] = entity.id
             response_entity['entity_type'] = entity.entity_type
             response_entity['cpf_cnpj'] = entity.cpf_cnpj
-            response_entity['name'] = entity.entity_name
-            response_entity['birth_date_foundation'] = entity.birth_date_foundation.strftime('%d/%m/%Y')
-            #print("OLHA A DATA DE NASC",entity.birth_date_foundation)
+            response_entity['entity_name'] = entity.entity_name
+            if(entity.birth_date_foundation is not None):
+                response_entity['birth_date_foundation'] = entity.birth_date_foundation.strftime('%d/%m/%Y')
+            else:
+                response_entity['birth_date_foundation'] = None
+
             response_entity['created_date'] = entity.created_date.strftime('%d/%m/%Y')
+            response_entity['selected'] = ''
             #print ("OLHA A DATA DE CRIAÇÂO",entity.created_date)
+            #print("VEJA OS DADOS: ",response_entity)
             response_dict.append(response_entity)
         return HttpResponse(json.dumps(response_dict))
 

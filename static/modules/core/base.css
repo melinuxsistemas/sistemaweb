@@ -18,6 +18,18 @@ button[type="submit"] {
   width: 140px;
 }
 
+.selected td{
+	background: #0283f3; !important;
+}
+
+.selected:hover {
+		/*background-color:rgba(255, 255, 255, 0.0); !important;*/
+}
+
+tr.linha_selecionavel{
+    cursor: pointer;
+}
+
 .field.bad .alert {
   top: 0px;
   left: 0;

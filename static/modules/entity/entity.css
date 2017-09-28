@@ -1,3 +1,12 @@
+.main_content{
+	padding: 0px;
+}
+
+.main_content .x_panel{
+	padding: 10px;
+	margin-bottom: 0px;
+}
+
 .x_content {
 	margin-top: 10px;
 	padding: 10px;
@@ -70,17 +79,4 @@
 #table_entity .row_entity .col_created_date{
 	width: 140px;
 	text-align: center;
-}
-
-
-.selected {
-    background-color: #0283f3; !important;
-}
-
-.selected:hover {
-		background-color: #0283f3; !important;
-}
-
-tr.linha_selecionavel{
-    cursor: pointer;
 }
