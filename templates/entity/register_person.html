@@ -129,7 +129,7 @@
 											<th class="center" style="width: 30px; height: 30px;"></th>
 											<th class="center" style="width:150px;">Tipo de Contato</th>
 											<th class="center" style="width:180px;">Telefone</th>
-											<th class="center" style="width:150px;">Operadora</th>
+											<th class="center" style="width:150px;">Complemento</th>
 											<th class="center" >Nome</th>
 										</tr>
 									</thead>
@@ -139,7 +139,7 @@
 												<td class="center" style="width: 30px; height: 30px;">{{ $index+1 }}</td>
 												<td class="center" style="width:150px;">{{ contact.type_contact }}</td>
 												<td class="center" style="width:180px;">{{ contact.phone }}</td>
-												<td class="center" style="width:150px;">{{ contact.operadora }}</td>
+												<td class="center" style="width:150px;">{{ contact.complemento }}</td>
 												<td class="center" >{{ contact.name }}</td>
 											</tr>
 
@@ -150,6 +150,7 @@
 												<td style="width:150px;"></td>
 												<td></td>
 											</tr>
+
 										{% endverbatim %}
 									</tbody>
 								</table>
@@ -160,7 +161,10 @@
 									<button role="button" class="btn btn-sm btn-success form-control"  data-toggle="modal" data-target="#modal_add_phone">Adicionar Contato</button>
 								</div>
 								<div class="col-lg-2" style="float: left">
-									<button role="button" class="btn btn-sm btn-success form-control" ng-disabled="contact_selected == null"  ng-click="delete_contact()">Remover Contato</button>
+									<button role="button" class="btn btn-sm btn-warning form-control" ng-disabled="contact_selected == null"  ng-click="load_field_contact()">Alterar Contato</button>
+								</div>
+								<div class="col-lg-2" style="float: left">
+									<button role="button" class="btn btn-sm btn-danger form-control" ng-disabled="contact_selected == null"  ng-click="delete_contact()">Remover Contato</button>
 								</div>
 							</div>
 							<!--Modal de adicao de Telefone -->
@@ -196,7 +200,7 @@
 													<div class="row">
 
 														<div class="col-lg-2">
-															<div class="form-group field field_required" id="field_phone">
+															<div class="form-group field field_required" id="field_ddd">
 																<sub><label id="lb_ddd" for="ddd">{{ form_register_number.ddd.label }}</label></sub><br/>
 																{{ form_register_number.ddd }}
 																<div class="alert"></div>
@@ -212,9 +216,9 @@
 														</div>
 
 														<div class="col-lg-5">
-															<div class="form-group field" id="field_operadora">
-																<sub><label id="lb_operadora" for="operadora">{{ form_register_number.operadora.label }}</label> </sub><br/>
-																{{ form_register_number.operadora }}
+															<div class="form-group field" id="field_complemento">
+																<sub><label id="lb_complemento" for="complemento">{{ form_register_number.complemento.label }}</label> </sub><br/>
+																{{ form_register_number.complemento }}
 																<div class="alert"></div>
 															</div>
 														</div>
@@ -222,7 +226,7 @@
 											</form>
 										</div>
 										<div class="modal-footer">
-											<button role="button" class="btn btn-sm btn-success form-control" data-toggle="modal" ng-click="save_tel()">Salvar</button>
+											<button id="button_contact_save" role="button" class="btn btn-sm btn-success form-control" data-toggle="modal" ng-click="changing_contact? change_contact() : save_tel()">Salvar</button>
 										</div>
 									</div>
 								</div>
@@ -381,5 +385,6 @@
             //validate_field_entity('birth_date_foundation')
         }
     </script>
+
 
 {% endblock %}

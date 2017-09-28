@@ -12,7 +12,6 @@ application.controller('identification_controller', function($scope) {
 	$scope.search             = '';     // set the default search/filter term
 
 	$scope.minimal_quantity_rows = [0,1,2,3,4,5,6,7,8,9];
-	$scope.entity_test = [1]
   $scope.entity_selected = null
   $scope.list_entities = []
 
@@ -163,7 +162,6 @@ application.controller('identification_controller', function($scope) {
 });
 
 application.controller('register_person_controller', function($scope) {
-  alert("Chengando?")
   $scope.cpf_cnpj = "";
   $scope.entity_name = "";
   $scope.fantasy_name = "";
@@ -172,7 +170,6 @@ application.controller('register_person_controller', function($scope) {
   $scope.teste = "TESTE"
 
   $scope.save_person = function () {
-    alert("Agora eu venho?")
     $scope.cpf_cnpj = $('#cpf_cnpj').val();
     $scope.birth_date_foundation = $('#birth_date_foundation').val();
 
@@ -203,10 +200,6 @@ application.controller('register_person_controller', function($scope) {
     }
     request_api("/api/entity/register/person/save",data_paramters,validade_function,success_function,fail_function)
   }
-
-  $scope.teste_f = function () {
-    alert("Poxa crush pq q vc n aber")
-	}
 });
 
 application.controller('register_company_controller', function ($scope) {

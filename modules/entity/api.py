@@ -92,13 +92,16 @@ class EntityAPI:
 
     def save_email (request):
         resultado , form = AbstractAPI.filter_request(request,FormRegisterEmailEntity)
-        print('O resultado é:',resultado)
-        email = Email()
-        email.entity_id = 1
-        email.form_to_object(form)
-        email.send_xml = request.POST['send_xml']
-        email.send_suitcase = request.POST['send_suitcase']
-        email.show_fields_value()
+        email_form = request.POST['email']
+        emails_lst = Email.objects.filter(entity_id=1)
+
+        if resultado:
+            email = Email()
+            email.entity_id = 1
+            email.form_to_object(form)
+            email.send_xml = request.POST['send_xml']
+            email.send_suitcase = request.POST['send_suitcase']
+            email.show_fields_value()
 
         try:
             email.save()
@@ -109,24 +112,39 @@ class EntityAPI:
         return HttpResponse(json.dumps(response_dict))
 
     def save_number(request):
+        print("Ja chego no save number")
         resultado, form = AbstractAPI.filter_request(request, FormRegisterPhone)
+        resultado = True
         contact = Contact()
         contact.entity_id = 1
         contact.form_to_object(form)
         contact.show_fields_value()
-        try:
-            contact.save()
-            response_dict = response_format_success(contact,['entity','name','type_contact','ddd','phone','operadora'])
-            #contact.show_fields_value()
-        except:
-            response_dict = response_format_error(False)
+        if resultado:
+            try:
+                contact.save()
+                response_dict = response_format_success(contact,['entity','name','type_contact','ddd','phone','complemento'])
+                print("Saindo do save number")
+                #contact.show_fields_value()
+            except Exception as e:
+                print("Veja o q acontece",e)
+                response_dict = response_format_error(format_exception_message(contact.model_exceptions))
+                print("O resultado da Exception é:  ",response_dict)
+        else:
+            contact.check_validators()
+            model_exceptions = format_exception_message(contact.model_exceptions)
+            form_exceptions = form.format_validate_response()
+
+            full_exceptions = {}  # dict(form_exceptions, **model_exceptions);
+            full_exceptions.update(model_exceptions)
+            full_exceptions.update(form_exceptions)
+            response_dict = response_format_error(full_exceptions)
+        print("RESPONSE DICT",response_dict)
         return HttpResponse(json.dumps(response_dict))
 
     def load_entities (request):
         list_entities = Entity.objects.all().order_by('-id')
         response_dict = []
         for entity in list_entities:
-            #entity.show_fields_value()
             response_entity = {}
             response_entity['id'] = entity.id
             response_entity['entity_type'] = entity.entity_type
@@ -139,8 +157,6 @@ class EntityAPI:
 
             response_entity['created_date'] = entity.created_date.strftime('%d/%m/%Y')
             response_entity['selected'] = ''
-            #print ("OLHA A DATA DE CRIAÇÂO",entity.created_date)
-            #print("VEJA OS DADOS: ",response_entity)
             response_dict.append(response_entity)
         return HttpResponse(json.dumps(response_dict))
 
@@ -158,11 +174,11 @@ class EntityAPI:
                 xml = 'Sim'
             else:
                 xml = 'Não'
-            response_email['send_xml'] = xml
             if item.send_suitcase:
                 suitcase = 'Sim'
             else:
                 suitcase = 'Não'
+            response_email['send_xml'] = xml
             response_email['send_suitcase'] = suitcase
             response_dict.append(response_email)
         return HttpResponse(json.dumps(response_dict))
@@ -176,7 +192,7 @@ class EntityAPI:
             response_contacts['id'] = item.id
             response_contacts['type_contact'] = item.type_contact
             response_contacts['phone'] = '(' + item.ddd + ')' + item.phone
-            response_contacts['operadora'] = item.operadora
+            response_contacts['complemento'] = item.complemento
             response_contacts['name'] = item.name
             response_dict.append(response_contacts)
         return HttpResponse(json.dumps(response_dict))
@@ -192,7 +208,36 @@ class EntityAPI:
         response_dict = []
         return HttpResponse(json.dumps(response_dict))
 
+    def load_contact (request, id_contact):
+        response_contact = {}
+        print (id_contact)
+        try:
+            contact = Contact.objects.get(id=id_contact)
+            response_contact['type_contact'] = contact.type_contact
+            response_contact['phone'] = contact.phone
+            response_contact['name'] = contact.name
+            response_contact['ddd'] = contact.ddd
+            response_contact['complemento'] = contact.complemento
+        except:
+            response_contact = response_format_error(False)
+        print("OLHA O Q EU VOU RETORNAR: response_contact", response_contact)
+        return HttpResponse(json.dumps(response_contact))
 
+    def update_contact (request):
+        id_contact = request.POST['id']
+        phone = request.POST['phone']
+        name = request.POST['name']
+        ddd = request.POST['ddd']
+        type_contact = request.POST['type_contact']
+        complemento = request.POST['complemento']
+        contact = Contact.objects.get(id=id_contact)
+
+        try:
+            Contact.objects.filter(id=id_contact).update(phone= phone, name=name,ddd=ddd,type_contact=type_contact,complemento=complemento)
+            response_dict = response_format_success(contact,['phone','name','ddd','type_contact','complemento'])
+        except:
+            response_dict = response_format_error(False)
+        return  HttpResponse(json.dumps(response_dict))
 
     """
     def register_delete(request, email):

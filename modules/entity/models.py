@@ -1,7 +1,8 @@
 from django.db import models
 from modules.core.config import ERRORS_MESSAGES
-from modules.entity.validators import cpf_cnpj_validator, min_words_name_validator, future_birthdate_validator, maximum_age_person_validator, minimum_age_person_validator, \
-    required_validator, cpf_validator, cnpj_validator
+from modules.entity.validators import cpf_cnpj_validator, min_words_name_validator, future_birthdate_validator, \
+    maximum_age_person_validator, minimum_age_person_validator, \
+    required_validator, cpf_validator, cnpj_validator,only_numeric
 from django.core.validators import MinLengthValidator
 
 from modules.user.validators import email_format_validator, email_dangerous_symbols_validator
@@ -157,15 +158,43 @@ class Entity(models.Model,BaseModel):
 
 class Contact (models.Model,BaseModel):
 
+    models_exceptions = []
+
     id = models.AutoField(primary_key=True, unique=True)
     entity = models.ForeignKey(to=Entity,on_delete=models.CASCADE,null=True,error_messages=ERRORS_MESSAGES)
     type_contact = models.CharField("Tipo de Contato",max_length=10,  error_messages=ERRORS_MESSAGES)
     name = models.CharField("Nome", max_length=30, null=False, error_messages=ERRORS_MESSAGES)
-    ddd = models.CharField("DDD", max_length=4, null=False, blank=False,  error_messages=ERRORS_MESSAGES)
-    phone = models.CharField("Numero de telefone", max_length=10, null=False, blank=False,  error_messages=ERRORS_MESSAGES)
-    operadora = models.CharField("Operadora Telefonica", max_length=10, null=True, blank=True, error_messages=ERRORS_MESSAGES)
+    ddd = models.CharField("DDD", max_length=4,validators=[only_numeric], null=False, blank=False,  error_messages=ERRORS_MESSAGES)
+    phone = models.CharField("Numero de telefone",validators=[only_numeric],max_length=10, null=False, blank=False,  error_messages=ERRORS_MESSAGES)
+    complemento = models.CharField("Complemento", max_length=32, null=True, blank=True, error_messages=ERRORS_MESSAGES)
     details = models.CharField("Detalhes",max_length=10, error_messages=ERRORS_MESSAGES)
     history = models.CharField("Histórico de Alterações", max_length=500)
+
+    def save(self, *args, **kwargs):
+        self.model_exceptions = self.check_validators()
+        if self.model_exceptions == []:
+            try:
+                super(Contact, self).save(*args, **kwargs)
+            except Exception as exception:
+                self.model_exceptions.append(exception)
+                raise exception
+        else:
+            raise self.model_exceptions[0]
+
+    def check_validators(self):
+        self.model_exceptions = []
+
+        try:
+            only_numeric(self.phone)
+        except Exception as e:
+            self.model_exceptions.append(e)
+
+        try:
+            only_numeric(self.ddd)
+        except Exception as e:
+            self.model_exceptions.append(e)
+
+        return self.model_exceptions
 
 class Email (models.Model, BaseModel):
 

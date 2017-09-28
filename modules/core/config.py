@@ -9,5 +9,6 @@ ERRORS_MESSAGES = {
     'minimum_age_person':'Precisa ter mais de 18 anos.',
     'maximum_age_person':'Precisa ter menos que 150 anos.',
 
-    'name_min_words':'Informe o nome completo'
+    'name_min_words':'Informe o nome completo',
+    'not all numeric':'Este campo só pode conter numeros'
 }

@@ -208,17 +208,17 @@ class FormCompanyEntity(AbstractFormEntity):
     """
 
 class FormRegisterPhone (FormAbstractEmail):
-    def clean(self):
+    '''def clean(self):
         form_data = self.cleaned_data
         print("Olha o clean Phone",form_data)
-        return  form_data
+        return  form_data'''
 
     type_contact = forms.CharField(
         label="Tipo de contato",
         max_length=10,
         widget=forms.TextInput(
             attrs={
-                'id':'type_contact', 'name': 'type_contact', 'class': 'form-control'
+                'id':'type_contact', 'name': 'type_contact', 'class': 'form-control',
             }
         )
     )
@@ -253,12 +253,12 @@ class FormRegisterPhone (FormAbstractEmail):
         )
     )
 
-    operadora = forms.CharField(
-        label="Operadora",
-        max_length=10,
+    complemento = forms.CharField(
+        label="Complemento",
+        max_length=32,
         widget= forms.TextInput(
             attrs={
-                'id':'operadora', 'name':'operadora', 'class':'form-control'
+                'id':'complemento', 'name':'complemento', 'class':'form-control'
             }
         )
     )
@@ -284,6 +284,19 @@ class FormRegisterPhone (FormAbstractEmail):
             }
         )
     )
+
+    def format_validate_response(self):
+        response_errors = {}
+        if self.errors:
+            errors = self.errors
+            for campo in errors:
+                response_errors[campo] = []
+                for erro in errors[campo]:
+                    erro_format = str(erro)
+                    erro_format = erro_format.replace("['", "")
+                    erro_format = erro_format.replace("']", "")
+                    response_errors[campo].append(erro_format)
+        return response_errors
 
 class FormRegisterEmailEntity (FormAbstractEmail):
 
