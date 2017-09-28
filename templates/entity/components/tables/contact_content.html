@@ -5,7 +5,127 @@
 
 		<div class="clearfix"></div>
 	</div>
-	<div class="x_content">
 
+	<div class="x_content">
+		<div id="controler_contact" ng-controller="register_phone_entity">
+			<div class="row">
+				<div class="col-md-12">
+					<table id="table_contact" class="table table-striped table-bordered table-hover">
+						<thead>
+							<tr class="row_contact linha_selecionavel" style="font-size:10px;">
+								<th class='col_index text-center' ng-click="sortType = 'contact_code'; sortReverse = !sortReverse"></th>
+
+								<th class="col_contact_type text-center" ng-hide='S0 || S1 || S2' ng-click="sortType = 'type_contact'; sortReverse = !sortReverse">Tipo</th>
+
+								<th class='col_contact_name text-center' ng-click="sortType = 'contact_name'; sortReverse = !sortReverse">Nome/Razão Social</th>
+
+								<th class="col_phone_number text-center" ng-hide='S0 || S1 || S2' ng-click="sortType = 'phone_number'; sortReverse = !sortReverse">Telefone</th>
+
+								<th class='col_contact_complemento text-center' ng-hide='S0 || S1 || S2 || S3 || S4' ng-click="sortType = 'inicio'; sortReverse = !sortReverse">Complemento</th>
+
+							</tr>
+						</thead>
+					<tbody>
+						{% verbatim %}
+							<tr class="row_contact linha_selecionavel {{ contact.selected }}" ng-click="select_contact(contact)" pagination-id="paginate_contacts" dir-paginate="contact in contacts | filter: get_filter_column() | itemsPerPage:10 | orderBy:sortType:sortReverse as resultado">
+								<td class='col_index'>{{ $index+1 }}</td><!-- $index+1 -->
+
+									<td class="col_contact_type" ng-hide='S0 || S1 || S2' ng-class="{true:'left', false:'center'}[contact.type_contact=='']">
+										{{ contact.type_contact }}
+									</td>
+
+									<td class="col_name" ng-hide='S0 || S1 || S2' ng-class="{true:'left', false:'center'}[contact.name =='']">
+										{{ contact.name }}
+									</td>
+
+									<td class="col_phone_number">
+										{{ contact.phone_number }}
+									</td>
+
+									<td class="col_complemento" ng-hide='S0 || S1 || S2 || S3 || S4' ng-class="{true:'left', false:'center'}[contact.complemento=='']" style="width: 80px;">
+										{{contact.complemento }}
+									</td>
+						{% endverbatim %}
+							</tr>
+					</tbody>
+				</table>
+				</div>
+		</div>
+			<div class="row">
+				<div class="col-lg-2" style="float: right">
+					<button role="button" class="btn btn-sm btn-success form-control"  data-toggle="modal" data-target="#modal_add_phone">Adicionar Contato</button>
+				</div>
+				<div class="col-lg-2" style="float: left">
+					<button id="teste" role="button" class="btn btn-sm btn-warning form-control" ng-disabled="contact_selected == null "  ng-click="load_field_contact()">Alterar Contato</button>
+				</div>
+				<div class="col-lg-2" style="float: left">
+					<button role="button" class="btn btn-sm btn-danger form-control" ng-disabled="contact_selected === null"  ng-click="delete_contact()">Remover Contato</button>
+				</div>
+			</div>
+			<!--Modal de adicao de Telefone -->
+			<div id="modal_add_phone" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+				<div class="modal-dialog" style="width: 50%; solid-opacity: #fff">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+							<h5 style="font-weight: bold">Adicionar Contato</h5>
+						</div>
+						<div class="modal-body" style="margin-left: 20px">
+							<form id="form-save-contact">
+								{% csrf_token %}
+									<div class="row">
+										<div class="col-lg-4">
+											<div class="form-group field field_required" id="field_type_contact">
+												<sub><label id="lb_type_contact" for="type_contact">{{ form_register_number.type_contact.label }}</label></sub><br/>
+												{{ form_register_number.type_contact }}
+												<div class="alert"></div>
+											</div>
+										</div>
+
+										<div class="col-lg-8">
+											<div class="form-group field field_required" id="field_name">
+												<sub><label id="lb_name" for="name">{{ form_register_number.name.label }}</label></sub><br/>
+												{{ form_register_number.name }}
+												<div class="alert"></div>
+											</div>
+										</div>
+
+									</div>
+
+									<div class="row">
+
+										<div class="col-lg-2">
+											<div class="form-group field field_required" id="field_ddd">
+												<sub><label id="lb_ddd" for="ddd">{{ form_register_number.ddd.label }}</label></sub><br/>
+												{{ form_register_number.ddd }}
+												<div class="alert"></div>
+											</div>
+										</div>
+
+										<div class="col-lg-5">
+											<div class="form-group field field_required" id="field_phone">
+												<sub><label id="lb_phone" for="phone">{{ form_register_number.phone.label }}</label></sub><br/>
+												{{ form_register_number.phone }}
+												<div class="alert"></div>
+											</div>
+										</div>
+
+										<div class="col-lg-5">
+											<div class="form-group field" id="field_complemento">
+												<sub><label id="lb_complemento" for="complemento">{{ form_register_number.complemento.label }}</label> </sub><br/>
+												{{ form_register_number.complemento }}
+												<div class="alert"></div>
+											</div>
+										</div>
+									</div>
+							</form>
+						</div>
+						<div class="modal-footer">
+							<button id="button_contact_save" role="button" class="btn btn-sm btn-success form-control" data-toggle="modal" ng-click="changing_contact? change_contact() : save_tel()">Salvar</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
