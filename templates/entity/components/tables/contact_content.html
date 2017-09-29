@@ -1,11 +1,46 @@
-<div class="x_panel">
-	<div class="x_title">
-		<h2>Contatos <!--<small>Click to validate</small>--></h2>
-		{% include "entity/components/toolbars/entity_toolbar.html" %}
+<div id="contacts_controller" ng-controller="contacts_controller">
 
-		<div class="clearfix"></div>
-	</div>
-	<div class="x_content">
+	<div class="x_panel">
+		<div class="x_title">
+			<h2>Contatos <!--<small>Click to validate</small>--></h2>
+				<ul class="nav navbar-right panel_toolbox">
+					<div class="btn-group" role="group" aria-label="...">
+						<a id='bt_identification' href="#entity_identification" data-toggle="tab" role="button" class="btn btn-sm btn-success">Entidades</a><!-- data-toggle="modal" data-target="#modal_add_entity" -->
+						<a id='bt_contacts' href="#entity_contact" data-toggle="tab" role="button" class="btn btn-sm btn-default pull-left" ng-class="{true:'desabilitado', false:''}[registro_selecionado==null]" style='margin-left: 5px;'> Contatos</a><!-- data-toggle="modal" data-target="#modal_entity_email" ng-click="carregar_indicacao()" -->
 
+						<div class="btn-group" role="group">
+							<button type="button" id='bt_outras_acoes' class="btn btn-sm btn-default dropdown-toggle desabilitado" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu dropdown-menu-right">
+								<li><a href="#">Action</a></li>
+								<li><a href="#">Another action</a></li>
+								<li><a href="#">Desativar</a></li>
+								<!--<li role="separator" class="divider"></li>
+								<li><a href="#modal_justificativa" id="bt_desativar_cliente" data-toggle="modal">Desativar</a></li>-->
+							</ul>
+						</div>
+					</div>
+				</ul>
+
+			<div class="clearfix"></div>
+		</div>
+		<div class="x_content">
+			<div class="row">
+				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+					<!-- ESPACO PARA AS COISAS DOS CONTATOS -->
+
+				</div>
+
+				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+					<!-- ESPACO PARA AS COISAS DOS EMAILS -->
+
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
+
+
+
+
+
