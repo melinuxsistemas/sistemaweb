@@ -94,7 +94,8 @@
 		$('#birth_date_foundation').mask('99/99/9999');
 
 		angular.element(document.getElementById('identification_controller')).scope().load_entities();
-		angular.element(document.getElementById('controler_contact')).scope().load_contacts();
+
+
 
 		window.onresize = function(event) {
 			angular.element(document.getElementById('identification_controller')).scope().readjust_screen()

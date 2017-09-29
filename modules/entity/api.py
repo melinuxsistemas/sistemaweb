@@ -111,12 +111,12 @@ class EntityAPI:
             response_dict = response_format_error(False)
         return HttpResponse(json.dumps(response_dict))
 
-    def save_number(request):
+    def save_number(request, id_entity):
         print("Ja chego no save number")
         resultado, form = AbstractAPI.filter_request(request, FormRegisterPhone)
         resultado = True
         contact = Contact()
-        contact.entity_id = 1
+        contact.entity_id = id_entity
         contact.form_to_object(form)
         contact.show_fields_value()
         if resultado:
@@ -183,8 +183,9 @@ class EntityAPI:
             response_dict.append(response_email)
         return HttpResponse(json.dumps(response_dict))
 
-    def load_contacts(request, cpf_cnpj):
-        contacts = Contact.objects.filter(entity_id=1)
+    def load_contacts(request, id_entity):
+        print("ID ENTITYy:  ",id_entity )
+        contacts = Contact.objects.filter(entity_id=id_entity)
 
         response_dict = []
         for item in contacts:
