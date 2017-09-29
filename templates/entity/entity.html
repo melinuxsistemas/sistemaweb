@@ -6,6 +6,7 @@
 	<script src="{% static 'bower_components/nprogress/nprogress.js' %}"></script>
 	<link href="{% static 'bower_components/nprogress/nprogress.css' %}" rel="stylesheet">
 	<link href="{% static 'modules/entity/entity.css' %}" rel="stylesheet">
+	<link href="{% static 'modules/entity/contact.css' %}" rel="stylesheet">
 	<script src="{% static 'custom/dir_pagination/dirPagination.js'%}"></script>
 
   <style>
@@ -93,6 +94,7 @@
 		$('#birth_date_foundation').mask('99/99/9999');
 
 		angular.element(document.getElementById('identification_controller')).scope().load_entities();
+		angular.element(document.getElementById('controler_contact')).scope().load_contacts();
 
 		window.onresize = function(event) {
 			angular.element(document.getElementById('identification_controller')).scope().readjust_screen()

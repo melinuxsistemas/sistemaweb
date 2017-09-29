@@ -1,0 +1,78 @@
+.main_content{
+	padding: 0px;
+}
+
+.main_content .x_panel{
+	padding: 10px;
+	margin-bottom: 0px;
+}
+
+.x_content {
+	margin-top: 10px;
+	padding: 10px;
+	padding-top:0px;
+	padding-bottom:0px;
+}
+
+.panel_toolbox{
+	margin-top: -2px;
+	margin-right: -5px;
+}
+
+.panel_toolbox .btn-group{
+	margin-left: 5px;
+}
+
+
+/* Style for table entities */
+#table_contact{
+	width: 100%;
+}
+
+#table_contact tbody{
+	font-size: 13px;
+}
+
+#table_contact .row_contact td{
+	padding-top: 0px;
+	padding-bottom: 0px;
+	height: 28px;
+	vertical-align: middle;
+}
+
+#table_contact .row_contact td span{
+	height: 26px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	vertical-align: middle;
+}
+
+#table_contact .row_contact .col_index{
+	width: 30px;
+	text-align: center;
+}
+
+#table_contact .row_contact th.col_entity_name{
+	text-align: center;
+}
+
+#table_contact .row_contact .col_contact_name{
+	text-align: left;
+	padding-left: 8px;
+}
+
+#table_contact .row_contact .col_contact_type{
+	width: 20px;
+	text-align: center;
+}
+
+
+#table_contact .row_contact .col_phone_number{
+	width: 140px;
+	text-align: center;
+}
+
+#table_contact .row_contact .col_contact_complemento{
+	width: 140px;
+	text-align: center;
+}

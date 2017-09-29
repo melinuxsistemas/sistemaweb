@@ -3,14 +3,16 @@ application.controller('register_phone_entity', function ($scope) {
 	$scope.contact_selected = null;
 	$scope.changing_contact = false;
 
+
 	/*Quando o modal ficar off, limpamos os campos e as variaveis controladoras, remover class wrong_field*/
 	$('#modal_add_phone').on('hidden.bs.modal', function () {
 		$(this).find("input,textarea,select").val('').end();
-		$scope.changing_contact = false
-		$scope.contact_selected = null
+		$scope.verify_disable();
+		$scope.contact_selected.selected = ''
+		$scope.changing_contact = false;
+		$scope.contact_selected = null;
 		clean_wrong_field('ddd')
 		clean_wrong_field('phone')
-
 	});
 
 	/*Controller of contacts*/
@@ -76,9 +78,7 @@ application.controller('register_phone_entity', function ($scope) {
 		})
 	};
 
-	$scope.select_table_row_contact = function (contact) {
-
-
+	/**$scope.select_table_row_contact = function (contact) {
 		if ($scope.contact_selected !== null) {
 			if ($scope.contact_selected == contact) {
 				$scope.unselect_table_row();
@@ -106,6 +106,33 @@ application.controller('register_phone_entity', function ($scope) {
 		$("#table_contacts").children("tr").eq($scope.contact_selected).removeClass('selected')
 		$scope.contact_selected = null
 	};
+	**/
+	$scope.select_contact = function(contact){
+    if ($scope.contact_selected !==  null){
+      if($scope.contact_selected == contact){
+        $scope.unselect_row_contact();
+      }
+      else{
+        $scope.unselect_row_contact();
+        $scope.select_row_contact(contact);
+        //$scope.carregar_indicacao_selecionada();
+      }
+    }
+    else{
+      $scope.select_row_contact(contact);
+    }
+    $scope.$apply();
+  }
+
+  $scope.select_row_contact = function (contact) {
+  	$scope.contact_selected = contact;
+		$scope.contact_selected.selected = 'selected';
+  }
+
+  $scope.unselect_row_contact = function () {
+		$scope.contact_selected.selected = '';
+    $scope.contact_selected = null;
+  }
 
 	$scope.check_disable = function () {
 		if ($scope.email_selected == null){
@@ -177,6 +204,46 @@ application.controller('register_phone_entity', function ($scope) {
 			$('#modal_add_phone').modal('hide');
 			notify('error','Sem alterações','Para salvar alterações, realize uma')
 		}
+	}
+
+
+  $scope.S9 = false;  // Giant Screen:   1921 or more
+	$scope.S8 = false;  // Larger Screen:  1680 ~ 1920
+	$scope.S7 = false;  // Giant Screen:   1367 ~ 1680
+	$scope.S6 = false;  // Larger Screen:  1025 ~ 1366
+	$scope.S5 = false;  // Giant Screen:    801 ~ 1024
+	$scope.S4 = false;  // Larger Screen:   641 ~ 800
+	$scope.S3 = false;  // Large Screen:    481 ~ 640
+	$scope.S2 = false;  // Medium Screen:   321 ~ 480
+	$scope.S1 = false;  // Small Screen:    241 ~ 320
+	$scope.S0 = false;  // Smaller Screen:    0 ~ 240
+
+
+	$scope.readjust_screen = function (){
+		$scope.screen_height = window.innerHeight
+		$scope.screen_width  = window.innerWidth
+		$scope.S9 = false;  // Giant Screen:   1921 or more
+		$scope.S8 = false;  // Larger Screen:  1680 ~ 1920
+		$scope.S7 = false;  // Giant Screen:   1367 ~ 1680
+		$scope.S6 = false;  // Larger Screen:  1025 ~ 1366
+		$scope.S5 = false;  // Giant Screen:    801 ~ 1024
+		$scope.S4 = false;  // Larger Screen:   641 ~ 800
+		$scope.S3 = false;  // Large Screen:    481 ~ 640
+		$scope.S2 = false;  // Medium Screen:   321 ~ 480
+		$scope.S1 = false;  // Small Screen:    241 ~ 320
+		$scope.S0 = false;  // Smaller Screen:    0 ~ 240
+
+		if ($scope.screen_width <= 240){ $scope.S0 = true; }
+		else if ($scope.screen_width <= 320){ $scope.S1 = true; }
+		else if ($scope.screen_width <= 480){ $scope.S2 = true;	}
+		else if ($scope.screen_width <= 640){ $scope.S3 = true; }
+		else if ($scope.screen_width <= 800){ $scope.S4 = true; }
+		else if ($scope.screen_width <= 1024){ $scope.S5 = true; }
+		else if ($scope.screen_width <= 1366){ $scope.S6 = true; }
+		else if ($scope.screen_width <= 1680){ $scope.S7 = true; }
+		else if ($scope.screen_width <= 1920){ $scope.S8 = true; }
+		else{ $scope.S9 = true; }
+		$scope.$apply();
 	}
 });
 
