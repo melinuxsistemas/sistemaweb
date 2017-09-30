@@ -76,10 +76,6 @@ application.controller('identification_controller', function($scope) {
 
 	$scope.get_filter_column = function(){
 			var filter_search_by = $scope.filter_by_options[$scope.filter_by_index];
-			//if($scope.search != ""){
-			//	alert("ja tinha pesquisado algo, melhor apagar o conteudo..")
-			//}
-			//alert("VEJA O QUE EU QUERO ENTAO: "+filter_search_by)
 			switch (filter_search_by) {
 					case 'entity_code':
 							//alert("filtrar por entity_code");
@@ -159,7 +155,6 @@ application.controller('identification_controller', function($scope) {
 		else{ $scope.S9 = true; }
 		$scope.$apply();
 	}
-
 });
 
 application.controller('register_person_controller', function($scope) {

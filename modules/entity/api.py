@@ -150,6 +150,7 @@ class EntityAPI:
             response_entity['entity_type'] = entity.entity_type
             response_entity['cpf_cnpj'] = entity.cpf_cnpj
             response_entity['entity_name'] = entity.entity_name
+            response_entity['fantasy_name'] = entity.fantasy_name
             if(entity.birth_date_foundation is not None):
                 response_entity['birth_date_foundation'] = entity.birth_date_foundation.strftime('%d/%m/%Y')
             else:

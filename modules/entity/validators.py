@@ -14,14 +14,17 @@ def required_validator(value):
         return False
 
 
-
 def minimum_age_person_validator(value):
-    if value is not None:
-        value = value.date()
+    if value is not None and value != "":
+        try:
+            value = value.date()
+        except:
+            raise ValidationError(_("birth_date_foundation: Age must be numbers only."), code='maximum_age_person')
+            return False
         current_date = datetime.datetime.now().date()
         time_diff = ((current_date-value).days)/365.25
-        if (time_diff < 18):
-            raise ValidationError(_("birth_date_foundation: Age must be greather than 18 years."), code='minimum_age_person')
+        if(time_diff < 18):
+            raise ValidationError(_("birth_date_foundation: Age must be greather then 18 years"), code='maximum_age_person')
             return False
     return True
 

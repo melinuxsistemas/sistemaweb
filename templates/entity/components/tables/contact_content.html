@@ -1,13 +1,13 @@
 <div id="contact_controller" ng-controller="register_phone_entity">
 	<div class="x_panel">
 		<div class="x_title">
-			<h2>Contatos <!--<small>Click to validate</small>--></h2>
+			<h2>Entidades <span class="navigation_icon"><i class="fa fa-chevron-right fa-lg" aria-hidden="true"></i></span> Contatos <span class="navigation_icon"><i class="fa fa-chevron-right fa-lg" aria-hidden="true"></i></span>{% verbatim %} {{ entity_selected.entity_name|lowercase }}{% endverbatim %}<!--<small>Click to validate</small>--></h2>
 			<ul class="nav navbar-right panel_toolbox">
 				<div class="btn-group" role="group" aria-label="...">
-					<a id='bt_identification' href="#entity_identification" data-toggle="tab" role="button" class="btn btn-sm btn-success">Voltar Entidade</a><!-- data-toggle="modal" data-target="#modal_add_entity" -->
-					<a id='bt_add_contacts' href="#" data-toggle="modal" data-target="#modal_add_phone" role="button" class="btn btn-sm btn-default pull-left" ng-click="contact_selected? load_field_contact(): return(true);"  style='margin-left: 5px; width: 120px' > <span ng-if="contact_selected">Alterar</span><span ng-if="!contact_selected">Adicionar</span></a>
+					<a id='bt_add_contacts' href="#" data-toggle="modal" data-target="#modal_add_phone" role="button" class="btn btn-sm btn-success pull-left" ng-click="contact_selected? load_field_contact(): return(true);"  style='margin-left: 5px; width: 40px' > <span ng-if="contact_selected">Alterar</span><span ng-if="!contact_selected"><i class="fa fa-plus" aria-hidden="true"></i></span></a>
+					<a id='bt_identification' href="#entity_identification" data-toggle="tab" role="button" class="btn btn-sm btn-default">Voltar</a><!-- data-toggle="modal" data-target="#modal_add_entity" -->
 
-					<div class="btn-group" role="group">
+					<!--<div class="btn-group" role="group">
 						<button type="button" id='bt_outras_acoes' class="btn btn-sm btn-default dropdown-toggle desabilitado" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu dropdown-menu-right">
@@ -15,9 +15,9 @@
 							<li><a href="#">Another action</a></li>
 							<li><a id="bt_delete_contact" href="#" role="button" class="btn btn-sm btn-danger " ng-class="{true:'disabled', false:''}[contact_selected==null]"  ng-click="delete_contact()">Deletar Contato</a></li>
 							<!--<li role="separator" class="divider"></li>
-							<li><a href="#modal_justificativa" id="bt_desativar_cliente" data-toggle="modal">Desativar</a></li>-->
+							<li><a href="#modal_justificativa" id="bt_desativar_cliente" data-toggle="modal">Desativar</a></li>--
 						</ul>
-					</div>
+					</div>-->
 				</div>
 				</ul>
 			<div class="clearfix"></div>
@@ -42,6 +42,10 @@
 						</thead>
 					<tbody>
 						{% verbatim %}
+							<tr ng-if="(contacts|filter:filterIds()).length == 0">
+								<td colspan="8" class="text-center">Nenhum Contato Cadastrado!</td>
+							</tr>
+
 							<tr class="row_contact linha_selecionavel {{ contact.selected }}" ng-click="select_contact(contact)" pagination-id="paginate_contacts" dir-paginate="contact in contacts | filter: get_filter_column() | itemsPerPage:10 | orderBy:sortType:sortReverse as resultado">
 								<td class='col_index'>{{ $index+1 }}</td><!-- $index+1 -->
 

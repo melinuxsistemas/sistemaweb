@@ -1,6 +1,7 @@
 application.controller('register_phone_entity', function ($scope) {
 	$scope.contacts = [];
 	$scope.contact_selected = null;
+	$scope.entity_selected = null;
 	$scope.changing_contact = false;
 
 
@@ -42,10 +43,11 @@ application.controller('register_phone_entity', function ($scope) {
 	};
 
 	$scope.load_contacts = function () {
-		var id = angular.element(document.getElementById('identification_controller')).scope().entity_selected.id;
+		$scope.entity_selected = angular.element(document.getElementById('identification_controller')).scope().entity_selected;
+		var id = $scope.entity_selected.id;
 		$.ajax({
 				type: 'GET',
-				url: "/api/entity/list/contacts/" + id +'/',
+				url: "/api/entity/list/contacts/"+id+'/',
 
 				success: function (data) {
 					$scope.contacts = JSON.parse(data)
@@ -56,8 +58,7 @@ application.controller('register_phone_entity', function ($scope) {
 					alert("Não foi possivel carregar a lista")
 			}
 		})
-
-
+		$scope.$apply();
 	};
 
 	$scope.delete_contact = function () {
