@@ -101,3 +101,11 @@ tr.linha_selecionavel{
   color: #5A738E;
   font-weight: bold ;
 }
+
+.fade_right {
+    width: 100px;
+    height: 100px;
+    background: red;
+    -webkit-transition: width 2s; /* Safari */
+    transition: width 2s;
+}

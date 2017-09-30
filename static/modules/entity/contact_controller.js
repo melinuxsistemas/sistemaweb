@@ -16,7 +16,6 @@ application.controller('register_phone_entity', function ($scope) {
 
 	/*Controller of contacts*/
 	$scope.save_tel = function () {
-		alert("Vindo aqui")
 		$scope.contact_selected = null;
 		var id_entity = angular.element(document.getElementById('identification_controller')).scope().entity_selected.id;
 		var data_paramters = {
@@ -39,7 +38,6 @@ application.controller('register_phone_entity', function ($scope) {
 		}
 
 		fail_function = function () {
-			alert("error")
 			notify('error','Error ao tentar salvar','Não foi possivel salvar o contato')
 		}
 		request_api("/api/entity/register/contact/" + id_entity +"/", data_paramters, validate_contact, success_function, fail_function)
@@ -61,8 +59,7 @@ application.controller('register_phone_entity', function ($scope) {
 					alert("Não foi possivel carregar a lista")
 			}
 		})
-
-
+		$scope.$apply();
 	};
 
 	$scope.delete_contact = function () {
@@ -250,48 +247,35 @@ application.controller('register_phone_entity', function ($scope) {
 
 application.controller('register_email_entity', function ($scope) {
 	/*Variaveis*/
-	$scope.emails = [];
-	$scope.email_selected = null;
-	$scope.changing_email = false;
-
-	$('#modal_add_email').on('hidden.bs.modal', function () {
-		$(this).find("input,textarea,select").val('').end();
-		$scope.email_selected.selected = '';
-		$scope.changing_email = false;
-		$scope.email_selected = null;
-		clean_wrong_field('email');
-	});
+	$scope.emails = []
+	$scope.email_selected = null
 
 	$scope.save_email = function () {
-		alert
-		var id_entity = angular.element(document.getElementById('identification_controller')).scope().entity_selected.id;
-
 		var data_paramters = {
 			email : $('#email').val(),
 			name : $('#name').val(),
 			send_xml : $('#send_xml').val(),
-			send_suitcase : $('#send_suitcase').val(),
-			type_class : 'Contact'
-		};
+			send_suitcase : $('#send_suitcase').val()
+		}
 
 		sucess_function = function () {
-			$scope.load_emails();
+			$scope.load_emails()
 			$('#modal_add_email').modal('hide')
 
-		};
+		}
 
-		fail_function = function (message) {
-			notify('error','Não foi possivel salver',message)
-		};
-		request_api("/api/entity/register/contact/" + id_entity +"/", data_paramters, validate_email, sucess_function, fail_function)
+		fail_function = function () {
+			alert("Email já cadasrasdo!\nInforme outro endereço de email")
+		}
+		request_api("/api/entity/register/email", data_paramters, validate_email, sucess_function, fail_function)
 
-	};
+	}
 
 	$scope.load_emails = function () {
-		var id = angular.element(document.getElementById('identification_controller')).scope().entity_selected.id;
 		$.ajax({
+			//Por hora a tabela esta fixa
 			type: "GET",
-			url: "/api/entity/list/emails/" + id +"/",
+			url: "/api/entity/list/emails/" + "14960175796/",
 
 			success: function (data) {
 				$scope.emails = JSON.parse(data)

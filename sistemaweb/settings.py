@@ -110,7 +110,8 @@ BOWER_INSTALLED_APPS = (
     'https://github.com/yairEO/validator.git',
     'smartwizard',
     'multiple-select', # PODE SER QUE NAO IREMOS USAR MAIS
-    'jQuery-Smart-Wizard#3.3.1'
+    'jQuery-Smart-Wizard#3.3.1',
+    'angular-utils-pagination'
 )
 
 WSGI_APPLICATION = 'sistemaweb.wsgi.application'

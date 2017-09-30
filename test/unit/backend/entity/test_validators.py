@@ -23,14 +23,35 @@ class ValidatorsTest(TestCase):
         ]
         self.execute_case_list(case_list, min_words_name_validator)
 
-
+    def test_minimum_age_person_validator(self):
+        case_list = [
+            [None, True, "Testar validacao da idade minima com valor None. (OK)"],
+            ['', True, "Testar validacao de idade minima com string vazia. (OK)"],
+            [' ', False, "Testar validacao de idade minima com texto contendo um espaço em branco. (OK)"],
+            ['TESTE', False, "Testar validacao de idade minima com uma palavra. (OK)"],
+            ['20', True, "Testar validacao de idade minima usando uma string contendo numeros. (OK)"],
+            #[15, False, "Testar validacao de idade minima com um numero menor que o minimo. (OK)"],
+            #[18, True, "Testar validacao de idade minima com um numero igual ao minimo. (OK)"],
+            #[25, True, "Testar validacao de idade minima com um numero maior que o minimo. (OK)"]
+        ]
+        self.execute_case_list(case_list, minimum_age_person_validator)
 
     def execute_case_list(self,case_list, validator):
         for value, expected_result, description in case_list:
-            print("VEJA OS VALORES: ",value, expected_result, description)
+            print("VEJA OS VALORES: ", value, expected_result, description)
+            if validator == minimum_age_person_validator:
+                if type(value) == int:
+                    value = value.date()
+                    current_date = datetime.datetime.now().date()
+                    time_diff = ((current_date - value).days) / 365.25
+                    print("VEJA A DIFERENCA PRO ANO ATUAL: ", time_diff)
+
+
             try:
                 result = validator(value)
             except:
                 result = False
             self.assertEqual(result, expected_result, description)
+
+
 
