@@ -225,30 +225,33 @@ class FormRegisterPhone (FormAbstractEmail):
 
     name = forms.CharField(
         label="Nome Completo",
+        required=True,
         max_length=30,
         widget=forms.TextInput(
             attrs={
-                'id': 'name_contact', 'name': 'name_contact', 'class': 'form-control'
+                'id': 'name_contact', 'name': 'name_contact', 'class': 'form-control', 'required':'true'
             }
         )
     )
 
     ddd = forms.CharField(
         label="DDD",
+        required= True,
         max_length=4,
         widget= forms.TextInput(
             attrs={
-                'id':'ddd','name':'ddd','class':'form-control'
+                'id':'ddd','name':'ddd','class':'form-control', 'required':'true'
             }
         )
     )
 
     phone = forms.CharField(
         label="Telefone",
+        required=True,
         max_length=10,
         widget= forms.TextInput(
             attrs={
-                'id':'phone_number','name':'phone_number','class':'form-control'
+                'id':'phone_number','name':'phone_number','class':'form-control', 'required':'true'
             }
         )
     )

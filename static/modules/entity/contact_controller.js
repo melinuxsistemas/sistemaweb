@@ -7,7 +7,6 @@ application.controller('register_phone_entity', function ($scope) {
 	/*Quando o modal ficar off, limpamos os campos e as variaveis controladoras, remover class wrong_field*/
 	$('#modal_add_phone').on('hidden.bs.modal', function () {
 		$(this).find("input,textarea,select").val('').end();
-		$scope.verify_disable();
 		$scope.contact_selected.selected = ''
 		$scope.changing_contact = false;
 		$scope.contact_selected = null;
@@ -17,51 +16,48 @@ application.controller('register_phone_entity', function ($scope) {
 
 	/*Controller of contacts*/
 	$scope.save_tel = function () {
-		//var cpf_cnpj = $('#cpf_cnpj').val();
-		$scope.contact_selected = null
-		var cpf_cnpj = '14960175796';
+		$scope.contact_selected = null;
+		var id_entity = angular.element(document.getElementById('identification_controller')).scope().entity_selected.id;
 		var data_paramters = {
 			type_contact: $('#type_contact').val(),
 			name: $('#name_contact').val(),
 			ddd: $('#ddd').val(),
 			phone: $('#phone_number').val(),
 			complemento: $('#complemento').val(),
-			id_entity: cpf_cnpj
+			id_entity: id_entity
 		}
 
 		success_function = function (message) {
 			//check_response_message_form('#form-save-contact',message)
 			notify('success','Contato Adicionado','Seu contato foi registrado')
 			$scope.load_contacts()
-			$scope.reset_form()
 			$('#modal_add_phone').modal('hide')
 
 		}
 
 		fail_function = function () {
-			alert("Deu Ruim")
+			notify('error','Error ao tentar salvar','Não foi possivel salvar o contato')
 		}
-		request_api("/api/entity/register/phone", data_paramters, validate_contact, success_function, fail_function)
-	};
-
-	$scope.reset_form = function () {
-		document.getElementById("form-save-contact").reset();
+		request_api("/api/entity/register/phone/" + id_entity +"/", data_paramters, validate_contact, success_function, fail_function)
 	};
 
 	$scope.load_contacts = function () {
+		var id = angular.element(document.getElementById('identification_controller')).scope().entity_selected.id;
 		$.ajax({
-			type: 'GET',
-			url: "/api/entity/list/contacts/" + '14960175796/',
+				type: 'GET',
+				url: "/api/entity/list/contacts/" + id +'/',
 
-			success: function (data) {
-				$scope.contacts = JSON.parse(data)
-				$scope.$apply();
-			},
+				success: function (data) {
+					$scope.contacts = JSON.parse(data)
+					$scope.$apply();
+				},
 
-			failure: function (data) {
-				alert("Não foi possivel carregar a lista")
-			},
+				failure: function (data) {
+					alert("Não foi possivel carregar a lista")
+			}
 		})
+
+
 	};
 
 	$scope.delete_contact = function () {

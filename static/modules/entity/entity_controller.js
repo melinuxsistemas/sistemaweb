@@ -106,6 +106,7 @@ application.controller('identification_controller', function($scope) {
     }
     else{
       $scope.select_row(entity);
+      //angular.element(document.getElementById('controler_contact')).scope().load_contacts();
     }
     $scope.$apply();
   }

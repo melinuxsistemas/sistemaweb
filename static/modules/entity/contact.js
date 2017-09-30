@@ -1,6 +1,5 @@
 //Validadores do modulo de contatos
-
-function validate_contact(){
+function validate_phone_ddd() {
 	clean_wrong_field('ddd');
 	clean_wrong_field('phone');
 	var error = false;
@@ -19,6 +18,11 @@ function validate_contact(){
 		return false
 	}
 	return true
+}
+
+function validate_contact(){
+	/*Criar validações para campos vazios*/
+	return (validate_phone_ddd())
 }
 
 function is_a_number(string) {
