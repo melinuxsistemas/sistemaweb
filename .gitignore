@@ -39,3 +39,5 @@ modules/user/migrations/0002_auto_20170802_1745.py
 report_coverage.xml
 templates/core/components/
 templates/entity/components/teste/
+/conf/user/setup.py
+modules/user/migrations/0002_auto_20170929_1645.py
