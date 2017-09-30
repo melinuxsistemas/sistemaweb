@@ -2,6 +2,7 @@ application.controller('register_phone_entity', function ($scope) {
 	$scope.contacts = [];
 	$scope.contact_selected = null;
 	$scope.changing_contact = false;
+	$scope.entity_selected = null
 
 
 	/*Quando o modal ficar off, limpamos os campos e as variaveis controladoras, remover class wrong_field*/
@@ -44,7 +45,8 @@ application.controller('register_phone_entity', function ($scope) {
 	};
 
 	$scope.load_contacts = function () {
-		var id = angular.element(document.getElementById('identification_controller')).scope().entity_selected.id;
+		$scope.entity_selected =  angular.element(document.getElementById('identification_controller')).scope().entity_selected;
+		var id = $scope.entity_selected.id
 		var type_class = 'Contact'
 		$.ajax({
 				type: 'GET',
@@ -75,6 +77,14 @@ application.controller('register_phone_entity', function ($scope) {
 			},
 		})
 	};
+
+	$scope.load_field_email = function () {
+		alert("Vindo aqui, Falta fazer")
+	}
+
+	$scope.change_email = function () {
+		alert("Vindo aqui, Falta fazer")
+	}
 
 	/**$scope.select_table_row_contact = function (contact) {
 		if ($scope.contact_selected !== null) {
@@ -249,6 +259,8 @@ application.controller('register_email_entity', function ($scope) {
 	/*Variaveis*/
 	$scope.emails = []
 	$scope.email_selected = null
+	$scope.changing_email = null
+	$scope.entity_selected = null
 
 	$scope.save_email = function () {
 		var data_paramters = {

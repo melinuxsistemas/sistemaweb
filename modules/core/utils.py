@@ -26,7 +26,7 @@ def response_format(result,message,object,list_fields):
         response_dict['data-object'] = response_dict['data-object'].replace('{','{"id":'+str(object.id)+', "selected":"", ')
         if('created_date' in list_fields):
             response_dict['data-object'] = response_dict['data-object'].replace('}',', "created_date":"'+object.created_date.strftime('%d/%m/%Y')+'"}')
-
+            print(response_dict['data-object'])
     else:
         response_dict['data-object'] = None
     return response_dict
