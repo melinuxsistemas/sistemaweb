@@ -91,13 +91,13 @@
 									</td>
 
 									<td class="col_birth_date_foundation" ng-hide='S0 || S1 || S2 || S3 || S4' ng-class="{true:'left', false:'center'}[entity.birth_date_foundation=='']" style="width: 80px;">
-										{{entity.birth_date_foundation }}
+										{{entity.birth_date_foundation| date:"dd/MM/yyyy"  }}
 										<!--<span ng-if="entity.birth_date_foundation">{{entity.birth_date_foundation }}</span>
 										<span ng-if="!entity.birth_date_foundation"></span>-->
 									</td>
 
 									<td class="col_created_date" ng-hide='S0 || S1 || S2 || S3 || S4 || S5' ng-class="{true:'left', false:'center'}[entity.created_date=='']" style="width: 80px;">
-										{{ entity.created_date}}
+										{{ entity.created_date| date:"dd/MM/yyyy"}}
 										<!--<span ng-if="entity.created_date">{{ entity.created_date}}</span>
 										<span ng-if="!entity.created_date"></span>-->
 									</td>
