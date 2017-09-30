@@ -78,43 +78,6 @@ application.controller('register_phone_entity', function ($scope) {
 		})
 	};
 
-	$scope.load_field_email = function () {
-		alert("Vindo aqui, Falta fazer")
-	}
-
-	$scope.change_email = function () {
-		alert("Vindo aqui, Falta fazer")
-	}
-
-	/**$scope.select_table_row_contact = function (contact) {
-		if ($scope.contact_selected !== null) {
-			if ($scope.contact_selected == contact) {
-				$scope.unselect_table_row();
-				$scope.$apply();
-			}
-			else {
-				$scope.unselect_table_row();
-				$scope.contact_selected = contact
-
-				$("#table_contacts").children("tr").eq(contact).addClass('selected')
-				$scope.$apply();
-
-				//$scope.carregar_indicacao_selecionada();
-			}
-		}
-		else {
-			$("#table_contacts").children("tr").eq(contact).addClass('selected')
-			$scope.contact_selected = contact;
-			$scope.$apply();
-			//$scope.carregar_indicacao_selecionada();
-		}
-	};
-
-	$scope.unselect_table_row = function () {
-		$("#table_contacts").children("tr").eq($scope.contact_selected).removeClass('selected')
-		$scope.contact_selected = null
-	};
-	**/
 	$scope.select_contact = function(contact){
     if ($scope.contact_selected !==  null){
       if($scope.contact_selected == contact){
@@ -259,15 +222,37 @@ application.controller('register_email_entity', function ($scope) {
 	/*Variaveis*/
 	$scope.emails = []
 	$scope.email_selected = null
-	$scope.changing_email = null
+	$scope.changing_email = false
 	$scope.entity_selected = null
 
+	$('#modal_add_email').on('hidden.bs.modal', function () {
+		$(this).find("input,textarea,select").val('').end();
+		$scope.email_selected.selected = '';
+		$scope.changing_email = false;
+		$scope.email_selected = null;
+		clean_wrong_field('email');
+		clean_wrong_field('nome')
+	});
+
+	$scope.load_field_email = function () {
+		alert("Vindo aqui, Falta fazer")
+	}
+
+	$scope.change_email = function () {
+		alert("Vindo aqui, Falta fazer")
+	}
+
 	$scope.save_email = function () {
+		alert("Vindo")
+		$scope.entity_selected = angular.element(document.getElementById('identification_controller')).scope().entity_selected
+		alert('opegtp')
+		var id_entity = $scope.entity_selected.id
 		var data_paramters = {
 			email : $('#email').val(),
 			name : $('#name').val(),
 			send_xml : $('#send_xml').val(),
-			send_suitcase : $('#send_suitcase').val()
+			send_suitcase : $('#send_suitcase').val(),
+			type_class : 'Email'
 		}
 
 		sucess_function = function () {
@@ -277,65 +262,105 @@ application.controller('register_email_entity', function ($scope) {
 		}
 
 		fail_function = function () {
-			alert("Email já cadasrasdo!\nInforme outro endereço de email")
+			notify('error','Falha na operação','Não foi possível savar o email')
 		}
-		request_api("/api/entity/register/email", data_paramters, validate_email, sucess_function, fail_function)
+		request_api("/api/entity/register/email/" + id_entity +"/", data_paramters, validate_email, sucess_function, fail_function)
 
 	}
 
 	$scope.load_emails = function () {
+		alert("Tentando carregar")
+		$scope.entity_selected =  angular.element(document.getElementById('identification_controller')).scope().entity_selected;
+		var id = $scope.entity_selected.id
+		var type_class = 'Email'
+		alert("Carregeui")
 		$.ajax({
-			//Por hora a tabela esta fixa
-			type: "GET",
-			url: "/api/entity/list/emails/" + "14960175796/",
+				type: 'GET',
+				url: "/api/entity/list/emails/" + id +'/' + type_class +'/',
 
-			success: function (data) {
-				$scope.emails = JSON.parse(data)
-				$scope.$apply()
-			},
+				success: function (data) {
+					alert("Nao consigo fazer isso")
+					$scope.emails = JSON.parse(data)
+					alert("Olha o q pego	"+JSON.stringify($scope.emails))
+					$scope.$apply();
+				},
 
-			failure : function (data) {
-				alert("Não foi possível carregar a lista")
+				failure: function (data) {
+					alert("Não foi possivel carregar a lista")
 			}
+		});
+		$scope.$apply();
+	};
 
-		})
-	}
+	$scope.select_email = function(email){
+    if ($scope.email_selected !==  null){
+      if($scope.email_selected == email){
+        $scope.unselect_row_email();
+      }
+      else{
+        $scope.unselect_row_email();
+        $scope.select_row_email(email);
+        //$scope.carregar_indicacao_selecionada();
+      }
+    }
+    else{
+      $scope.select_row_email(email);
+    }
+    $scope.$apply();
+  }
 
-	$scope.select_table_row_email = function (email) {
+  $scope.select_row_email = function (email) {
+  	$scope.email_selected = email;
+		$scope.email_selected.selected = 'selected';
+  }
 
-		alert(JSON.stringify($scope.email_selected))
-		if ($scope.email_selected !== null) {
-			if ($scope.email_selected == email) {
-				alert("emails iguais eu removo seleção")
-				$scope.unselect_table_row_email();
-				$scope.$apply();
-			}
-			else {
-				alert("Primeiro desmarco, para selecionar outro")
-				$scope.unselect_table_row_email();
-				$scope.email_selected = email
-				//alert(JSON.stringify($scope.email_selected.$$hashKey))
-				alert(JSON.stringify($scope.email_selected.id))
-				$("#table_emails").children("tr").eq(email).addClass('selected')
-				$scope.$apply();
-				//$scope.carregar_indicacao_selecionada();
-			}
-		}
-		else {
-			alert("Selecionando uma linha")
-			$("#table_emails").children("tr").eq(email).addClass('selected')
-			$scope.email_selected = email;
-			$scope.$apply();
-		}
-	}
+  $scope.unselect_row_email = function () {
+		$scope.email_selected.selected = '';
+    $scope.email_selected = null;
+  }
 
-	$scope.unselect_table_row_email = function () {
-		$("#table_emails").children("tr").eq($scope.email_selected).removeClass('selected')
-		$scope.email_selected = null
-		}
 
 	$scope.delete_email = function () {
 		var email_delete = $scope.email_selected.id
 		alert('olha o email')
+	}
+
+	$scope.S9 = false;  // Giant Screen:   1921 or more
+	$scope.S8 = false;  // Larger Screen:  1680 ~ 1920
+	$scope.S7 = false;  // Giant Screen:   1367 ~ 1680
+	$scope.S6 = false;  // Larger Screen:  1025 ~ 1366
+	$scope.S5 = false;  // Giant Screen:    801 ~ 1024
+	$scope.S4 = false;  // Larger Screen:   641 ~ 800
+	$scope.S3 = false;  // Large Screen:    481 ~ 640
+	$scope.S2 = false;  // Medium Screen:   321 ~ 480
+	$scope.S1 = false;  // Small Screen:    241 ~ 320
+	$scope.S0 = false;  // Smaller Screen:    0 ~ 240
+
+
+	$scope.readjust_screen = function (){
+		$scope.screen_height = window.innerHeight
+		$scope.screen_width  = window.innerWidth
+		$scope.S9 = false;  // Giant Screen:   1921 or more
+		$scope.S8 = false;  // Larger Screen:  1680 ~ 1920
+		$scope.S7 = false;  // Giant Screen:   1367 ~ 1680
+		$scope.S6 = false;  // Larger Screen:  1025 ~ 1366
+		$scope.S5 = false;  // Giant Screen:    801 ~ 1024
+		$scope.S4 = false;  // Larger Screen:   641 ~ 800
+		$scope.S3 = false;  // Large Screen:    481 ~ 640
+		$scope.S2 = false;  // Medium Screen:   321 ~ 480
+		$scope.S1 = false;  // Small Screen:    241 ~ 320
+		$scope.S0 = false;  // Smaller Screen:    0 ~ 240
+
+		if ($scope.screen_width <= 240){ $scope.S0 = true; }
+		else if ($scope.screen_width <= 320){ $scope.S1 = true; }
+		else if ($scope.screen_width <= 480){ $scope.S2 = true;	}
+		else if ($scope.screen_width <= 640){ $scope.S3 = true; }
+		else if ($scope.screen_width <= 800){ $scope.S4 = true; }
+		else if ($scope.screen_width <= 1024){ $scope.S5 = true; }
+		else if ($scope.screen_width <= 1366){ $scope.S6 = true; }
+		else if ($scope.screen_width <= 1680){ $scope.S7 = true; }
+		else if ($scope.screen_width <= 1920){ $scope.S8 = true; }
+		else{ $scope.S9 = true; }
+		$scope.$apply();
 	}
 });

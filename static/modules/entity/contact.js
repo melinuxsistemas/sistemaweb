@@ -31,8 +31,6 @@ function is_a_number(string) {
 
 
 function  validate_email() {
-	alert("Olhao q eu estou pegando"+$('#email').val())
 	var response = email_is_valid('email')
-	alert("Olha o return"+response)
 	return response
 }

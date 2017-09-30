@@ -76,3 +76,23 @@
 	width: 140px;
 	text-align: center;
 }
+
+#table_emails .row_contact .col_email_email{
+	width: 500px;
+	text-align: left;
+}
+
+#table_emails .row_contact .col_email_name{
+	width: 500px;
+	text-align: left;
+}
+
+#table_emails .row_contact .col_email_xml{
+	width: 120px;
+	text-align: left;
+}
+
+#table_emails .row_contact .col_email_suitcase{
+	width: 120px;
+	text-align: left;
+}
