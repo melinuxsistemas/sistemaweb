@@ -7,6 +7,14 @@ import hashlib
 import threading
 import datetime
 
+from datetime import date, datetime
+
+def json_serial(obj):
+    """JSON serializer for objects not serializable by default json code"""
+
+    if isinstance(obj, (datetime, date)):
+        return obj.isoformat()
+    raise TypeError ("Type %s not serializable" % type(obj))
 
 def response_format_success(object,list_fields):
     return response_format(True, '', object, list_fields)
@@ -19,13 +27,13 @@ def response_format(result,message,object,list_fields):
     response_dict['success'] = result
     response_dict['message'] = message
     if result:
-        response_dict['data-object'] = serializers.serialize('json', [object], fields=tuple(list_fields))
+        response_dict['data-object'] = serializers.serialize('json', [object], fields=tuple(list_fields),)
         response_dict['data-object'] = response_dict['data-object'][1:-1]
         aux = response_dict['data-object'][response_dict['data-object'].index('"fields":'):].replace('"fields": ',"").replace("}}","}")
         response_dict['data-object'] = aux
         response_dict['data-object'] = response_dict['data-object'].replace('{','{"id":'+str(object.id)+', "selected":"", ')
-        if('created_date' in list_fields):
-            response_dict['data-object'] = response_dict['data-object'].replace('}',', "created_date":"'+object.created_date.strftime('%d/%m/%Y')+'"}')
+        #if('created_date' in list_fields):
+        #    response_dict['data-object'] = response_dict['data-object'].replace('}',', "created_date":"'+object.created_date.strftime('%d/%m/%Y')+'"}')
 
     else:
         response_dict['data-object'] = None

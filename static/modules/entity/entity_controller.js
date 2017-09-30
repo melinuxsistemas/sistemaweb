@@ -34,7 +34,8 @@ application.controller('identification_controller', function($scope) {
       //window.location = "/"//register/confirm/"+$scope.email;
       if(result == true){
       	check_response_message_form('#form-save-entity', message);
-				$scope.list_entities.push(object)
+				//$scope.list_entities.push(object)
+				$scope.list_entities.splice(0, 0, object);
 				$scope.$apply();
 				document.getElementById("form-save-entity").reset();
 				$("#modal_identification").modal('hide');

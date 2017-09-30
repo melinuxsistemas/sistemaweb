@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 
 from modules.core.api import AbstractAPI
 from modules.core.config import ERRORS_MESSAGES
-from modules.core.utils import response_format_success, response_format_error, generate_activation_code
+from modules.core.utils import response_format_success, response_format_error, generate_activation_code, json_serial
 from modules.core.comunications import send_generate_activation_code
 from modules.entity.forms import FormCompanyEntity, FormPersonEntity, FormRegisterPhone, FormRegisterEmailEntity
 from modules.entity.models import Entity, Contact, Email
@@ -151,15 +151,15 @@ class EntityAPI:
             response_entity['cpf_cnpj'] = entity.cpf_cnpj
             response_entity['entity_name'] = entity.entity_name
             response_entity['fantasy_name'] = entity.fantasy_name
-            if(entity.birth_date_foundation is not None):
-                response_entity['birth_date_foundation'] = entity.birth_date_foundation.strftime('%d/%m/%Y')
-            else:
-                response_entity['birth_date_foundation'] = None
+            #if(entity.birth_date_foundation is not None):
+            response_entity['birth_date_foundation'] = entity.birth_date_foundation#.strftime('%d/%m/%Y')
+            #else:
+            #    response_entity['birth_date_foundation'] = None
 
-            response_entity['created_date'] = entity.created_date.strftime('%d/%m/%Y')
+            response_entity['created_date'] = entity.created_date#.strftime('%d/%m/%Y')
             response_entity['selected'] = ''
             response_dict.append(response_entity)
-        return HttpResponse(json.dumps(response_dict))
+        return HttpResponse(json.dumps(response_dict, default=json_serial))
 
     def load_emails (request, cpf_cnpj):
         print("Vindo aqui")
