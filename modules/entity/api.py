@@ -13,6 +13,29 @@ from sistemaweb import settings
 import json
 
 
+def cria_dict(type_object, item):
+    if (type_object == 'Email'):
+        if item.send_xml:
+            xml = 'Sim'
+        else:
+            xml = 'Não'
+        if item.send_suitcase:
+            suitcase = 'Sim'
+        else:
+            suitcase = 'Não'
+        return {'name': item.name, 'email': item.name, 'send_xml': xml, 'send_suitcase': suitcase}
+    if (type_object == 'Contact'):
+        return {'id': item.id, 'type_contact': item.type_contact, 'phone': '(' + item.ddd + ')' + item.phone,
+                'complemento': item.complemento, 'name': item.name}
+    if (type_object == 'Entity'):
+        if item.birth_date_foundation is not None:
+            date = item.birth_date_foundation.strftime('%d/%m/%Y')
+        else:
+            date = None
+        return {'id': item.id, 'birth_date_foundation': date, 'entity_type' : item.entity_type,
+            'cpf_cnpj' : item.cpf_cnpj, 'entity_name' : item.entity_name,'created_date' : item.created_date.strftime('%d/%m/%Y'),
+        'selected' : ''}
+
 def format_exception_message(exceptions):
     message_dict = {}
     if type(exceptions) == list:
@@ -60,6 +83,7 @@ class EntityAPI:
 
     @login_required
     def save_person(request):
+        print("Vindo aqui save_person")
         resultado, form = AbstractAPI.filter_request(request, FormPersonEntity)
         entity = Entity()
         entity.form_to_object(form)
@@ -90,10 +114,10 @@ class EntityAPI:
         #print("RESPONSE_DICT: ",response_dict)
         return HttpResponse(json.dumps(response_dict))
 
-    def save_email (request):
+    '''def save_email (request,id_entity):
+        #Falta deixar padronizado criando save da class Email
+
         resultado , form = AbstractAPI.filter_request(request,FormRegisterEmailEntity)
-        email_form = request.POST['email']
-        emails_lst = Email.objects.filter(entity_id=1)
 
         if resultado:
             email = Email()
@@ -111,8 +135,10 @@ class EntityAPI:
             response_dict = response_format_error(False)
         return HttpResponse(json.dumps(response_dict))
 
-    def save_number(request, id_entity):
-        print("Ja chego no save number")
+        def save_number(request, id_entity):
+        list = {"Email": Email, "Entity": Entity}
+        test = list["Email"]()
+        test.show_fields_value()
         resultado, form = AbstractAPI.filter_request(request, FormRegisterPhone)
         resultado = True
         contact = Contact()
@@ -139,8 +165,80 @@ class EntityAPI:
             full_exceptions.update(form_exceptions)
             response_dict = response_format_error(full_exceptions)
         print("RESPONSE DICT",response_dict)
+        return HttpResponse(json.dumps(response_dict))'''
+
+    #SAVE GENÉRICO
+    def save_genérico (request,id_entity):
+        #No request eu terei q passar o Form e a Classe
+        type_object = request.POST['type_class']
+        list_class = {"Email": Email, "Contact": Contact}
+        list_forms = {"Email": FormRegisterEmailEntity, "Contact": FormRegisterPhone }
+        object = list_class[type_object]()
+        form_object = list_forms[type_object]
+
+        #object.show_fields_value()
+        print("Olha o form",form_object)
+        result , form = AbstractAPI.filter_request(request,form_object)
+        result = True
+        if result:
+            object.entity_id = id_entity
+            object.form_to_object(form)
+            object.show_fields_value()
+            try:
+                object.save()
+                #falta fazer lista de campos dinamica
+                response_dict = response_format_success(object,['entity', 'name', 'type_contact', 'ddd', 'phone', 'complemento'])
+                print("Saindo do save")
+            except Exception as e:
+                print("Veja o q acontece", e)
+                response_dict = response_format_error(format_exception_message(object.model_exceptions))
+                print("O resultado da Exception é:  ", response_dict)
+        else:
+            object.check_validators()
+            model_exceptions = format_exception_message(object.model_exceptions)
+            form_exceptions = form.format_validate_response()
+
+            full_exceptions = {}  # dict(form_exceptions, **model_exceptions);
+            full_exceptions.update(model_exceptions)
+            full_exceptions.update(form_exceptions)
+            response_dict = response_format_error(full_exceptions)
+
         return HttpResponse(json.dumps(response_dict))
 
+    #LOAD TABELA GENÉRICO
+    def load_generico (request,id_entity,type_class):
+        # No request eu terei q passar o Form e a Classe
+        type_object = type_class
+        list_class = {"Email": Email, "Contact": Contact, "Entity": Entity}
+        object = list_class[type_object]
+        if id_entity != 'entity':
+            list_objects = object.objects.filter(entity_id=id_entity)
+        else:
+            list_objects = object.objects.all().order_by('-id')
+
+        response_dict = []
+        for item in list_objects:
+            dict = cria_dict(type_object,item)
+            response_dict.append(dict)
+
+        return HttpResponse(json.dumps(response_dict))
+
+    #DELETE GENÉRICO
+    def delete_generico (request,id,type_class):
+        list_class = {"Email": Email, "Contact": Contact, "Entity": Entity}
+        type_object = list_class[type_class]
+        object = type_object.objects.get(id=id)
+        try:
+            object.desativar()
+        except:
+            pass
+        return HttpResponse(json.dumps({}))
+
+
+
+
+
+    '''# Carrega a lista de Entidades
     def load_entities (request):
         list_entities = Entity.objects.all().order_by('-id')
         response_dict = []
@@ -160,6 +258,7 @@ class EntityAPI:
             response_dict.append(response_entity)
         return HttpResponse(json.dumps(response_dict))
 
+    # Carrega a lista de Email
     def load_emails (request, cpf_cnpj):
         print("Vindo aqui")
         #precisa ainda pegar o id do request
@@ -183,6 +282,7 @@ class EntityAPI:
             response_dict.append(response_email)
         return HttpResponse(json.dumps(response_dict))
 
+    #Carrega a lista de Contatos
     def load_contacts(request, id_entity):
         print("ID ENTITYy:  ",id_entity )
         contacts = Contact.objects.filter(entity_id=id_entity)
@@ -196,8 +296,9 @@ class EntityAPI:
             response_contacts['complemento'] = item.complemento
             response_contacts['name'] = item.name
             response_dict.append(response_contacts)
-        return HttpResponse(json.dumps(response_dict))
+        return HttpResponse(json.dumps(response_dict))'''
 
+    #Deleta um contato
     def delete_contact (request, id_contact):
         print("Ja vindo aqui",id_contact)
         contact = Contact.objects.filter(id=id_contact)
@@ -209,7 +310,8 @@ class EntityAPI:
         response_dict = []
         return HttpResponse(json.dumps(response_dict))
 
-    def load_contact (request, id_contact):
+    #Carrega os dados de um Contato para o Modal
+    def load_field_contact (request, id_contact):
         response_contact = {}
         print (id_contact)
         try:
@@ -224,6 +326,7 @@ class EntityAPI:
         print("OLHA O Q EU VOU RETORNAR: response_contact", response_contact)
         return HttpResponse(json.dumps(response_contact))
 
+    #Atualiza os dados de um Contato
     def update_contact (request):
         id_contact = request.POST['id']
         phone = request.POST['phone']

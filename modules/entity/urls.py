@@ -4,13 +4,12 @@ from modules.entity.api import EntityAPI
 
 urlpatterns = [
     url(r'register/person/save$', EntityAPI.save_person),
-    url(r'register/phone/(?P<id_entity>[^/]+)/',EntityAPI.save_number),
-    url(r'register/email',EntityAPI.save_email),
-    url(r'load_entities/',EntityAPI.load_entities),
-    url(r'list/contacts/(?P<id_entity>[^/]+)/',EntityAPI.load_contacts),
-    url(r'list/emails/(?P<cpf_cnpj>[^/]+)/',EntityAPI.load_emails),
-    url(r'delete/phone/(?P<id_contact>[^/]+)/',EntityAPI.delete_contact),
-    url(r'fields/contacts/(?P<id_contact>[^/]+)/',EntityAPI.load_contact),
+    url(r'register/contact/(?P<id_entity>[^/]+)/',EntityAPI.save_genérico),
+    url(r'load_entities/(?P<id_entity>[^/]+)/(?P<type_class>[^/]+)/',EntityAPI.load_generico),
+    url(r'list/contacts/(?P<id_entity>[^/]+)/(?P<type_class>[^/]+)/',EntityAPI.load_generico),
+    url(r'list/emails/(?P<id_entity>[^/]+)/(?P<type_class>[^/]+)/',EntityAPI.load_generico),
+    url(r'delete/phone/(?P<id>[^/]+)/(?P<type_class>[^/]+)/',EntityAPI.delete_generico),
+    url(r'fields/contacts/(?P<id_contact>[^/]+)/',EntityAPI.load_field_contact),
     url(r'update/phone',EntityAPI.update_contact)
     # APIs administrativas
     #url(r'register/delete/(?P<email>[^/]+)/', EntityAPI.register_delete),

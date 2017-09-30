@@ -16,6 +16,7 @@ application.controller('register_phone_entity', function ($scope) {
 
 	/*Controller of contacts*/
 	$scope.save_tel = function () {
+		alert("Vindo aqui")
 		$scope.contact_selected = null;
 		var id_entity = angular.element(document.getElementById('identification_controller')).scope().entity_selected.id;
 		var data_paramters = {
@@ -24,11 +25,13 @@ application.controller('register_phone_entity', function ($scope) {
 			ddd: $('#ddd').val(),
 			phone: $('#phone_number').val(),
 			complemento: $('#complemento').val(),
-			id_entity: id_entity
-		}
+			id_entity: id_entity,
+			type_class : 'Contact'
+		};
 
-		success_function = function (message) {
+		success_function = function () {
 			//check_response_message_form('#form-save-contact',message)
+			alert("Sucesso")
 			notify('success','Contato Adicionado','Seu contato foi registrado')
 			$scope.load_contacts()
 			$('#modal_add_phone').modal('hide')
@@ -36,16 +39,18 @@ application.controller('register_phone_entity', function ($scope) {
 		}
 
 		fail_function = function () {
+			alert("error")
 			notify('error','Error ao tentar salvar','Não foi possivel salvar o contato')
 		}
-		request_api("/api/entity/register/phone/" + id_entity +"/", data_paramters, validate_contact, success_function, fail_function)
+		request_api("/api/entity/register/contact/" + id_entity +"/", data_paramters, validate_contact, success_function, fail_function)
 	};
 
 	$scope.load_contacts = function () {
 		var id = angular.element(document.getElementById('identification_controller')).scope().entity_selected.id;
+		var type_class = 'Contact'
 		$.ajax({
 				type: 'GET',
-				url: "/api/entity/list/contacts/" + id +'/',
+				url: "/api/entity/list/contacts/" + id +'/' + type_class +'/',
 
 				success: function (data) {
 					$scope.contacts = JSON.parse(data)
@@ -64,7 +69,7 @@ application.controller('register_phone_entity', function ($scope) {
 
 		var contact_delete = $scope.contact_selected.id
 		$.ajax({
-			url: "/api/entity/delete/phone/" + contact_delete.toString(),
+			url: "/api/entity/delete/phone/" + contact_delete + "/Contact",
 			success : function () {
 				$scope.contact_selected = null
 				$scope.load_contacts()
@@ -245,35 +250,48 @@ application.controller('register_phone_entity', function ($scope) {
 
 application.controller('register_email_entity', function ($scope) {
 	/*Variaveis*/
-	$scope.emails = []
-	$scope.email_selected = null
+	$scope.emails = [];
+	$scope.email_selected = null;
+	$scope.changing_email = false;
+
+	$('#modal_add_email').on('hidden.bs.modal', function () {
+		$(this).find("input,textarea,select").val('').end();
+		$scope.email_selected.selected = '';
+		$scope.changing_email = false;
+		$scope.email_selected = null;
+		clean_wrong_field('email');
+	});
 
 	$scope.save_email = function () {
+		alert
+		var id_entity = angular.element(document.getElementById('identification_controller')).scope().entity_selected.id;
+
 		var data_paramters = {
 			email : $('#email').val(),
 			name : $('#name').val(),
 			send_xml : $('#send_xml').val(),
-			send_suitcase : $('#send_suitcase').val()
-		}
+			send_suitcase : $('#send_suitcase').val(),
+			type_class : 'Contact'
+		};
 
 		sucess_function = function () {
-			$scope.load_emails()
+			$scope.load_emails();
 			$('#modal_add_email').modal('hide')
 
-		}
+		};
 
-		fail_function = function () {
-			alert("Email já cadasrasdo!\nInforme outro endereço de email")
-		}
-		request_api("/api/entity/register/email", data_paramters, validate_email, sucess_function, fail_function)
+		fail_function = function (message) {
+			notify('error','Não foi possivel salver',message)
+		};
+		request_api("/api/entity/register/contact/" + id_entity +"/", data_paramters, validate_email, sucess_function, fail_function)
 
-	}
+	};
 
 	$scope.load_emails = function () {
+		var id = angular.element(document.getElementById('identification_controller')).scope().entity_selected.id;
 		$.ajax({
-			//Por hora a tabela esta fixa
 			type: "GET",
-			url: "/api/entity/list/emails/" + "14960175796/",
+			url: "/api/entity/list/emails/" + id +"/",
 
 			success: function (data) {
 				$scope.emails = JSON.parse(data)

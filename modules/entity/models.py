@@ -80,6 +80,7 @@ class Entity(models.Model,BaseModel):
     history = models.CharField("Histórico de Alterações",max_length=500,null=True, blank=True)
 
     def save(self, *args, **kwargs):
+        print("VINDO SALVAR ESSE DEMONIO")
         self.model_exceptions = self.check_validators()
         if self.model_exceptions == []:
             try:
@@ -153,6 +154,10 @@ class Entity(models.Model,BaseModel):
         return form_data
         """
 
+    def desativar (self):
+        print("11Consegui deletar???")
+        self.registration_status = 2
+
     def __unicode__(self):
         return self.cpf_cnpj
 
@@ -193,8 +198,10 @@ class Contact (models.Model,BaseModel):
             only_numeric(self.ddd)
         except Exception as e:
             self.model_exceptions.append(e)
-
         return self.model_exceptions
+
+    def desativar (self):
+        self.delete()
 
 class Email (models.Model, BaseModel):
 
@@ -206,3 +213,34 @@ class Email (models.Model, BaseModel):
     send_suitcase = models.BooleanField("Envia Mala", error_messages=ERRORS_MESSAGES)
     details = models.CharField("Detalhes", max_length=10, error_messages=ERRORS_MESSAGES)
     history = models.CharField("Histórico de Alterações", max_length=500,error_messages=ERRORS_MESSAGES)
+
+    model_exceptions = []
+
+    def save(self, *args, **kwargs):
+        self.model_exceptions = self.check_validators()
+        if self.model_exceptions == []:
+            try:
+                super(Email, self).save(*args, **kwargs)
+            except Exception as exception:
+                self.model_exceptions.append(exception)
+                raise exception
+        else:
+            raise self.model_exceptions[0]
+
+    def check_validators(self):
+        self.model_exceptions = []
+
+        try:
+            email_format_validator(self.email)
+        except Exception as e:
+            self.model_exceptions.append(e)
+
+        try:
+            email_dangerous_symbols_validator(self.email)
+        except Exception as e:
+            self.model_exceptions.append(e)
+        return self.model_exceptions
+
+    def desativar (self):
+        print("44Consegui deletar???")
+        self.delete(self)
