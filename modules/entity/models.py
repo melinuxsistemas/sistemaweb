@@ -242,5 +242,4 @@ class Email (models.Model, BaseModel):
         return self.model_exceptions
 
     def desativar (self):
-        print("44Consegui deletar???")
-        self.delete(self)
+        self.delete()

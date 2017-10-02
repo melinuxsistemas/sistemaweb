@@ -231,21 +231,56 @@ application.controller('register_email_entity', function ($scope) {
 		$scope.changing_email = false;
 		$scope.email_selected = null;
 		clean_wrong_field('email');
-		clean_wrong_field('nome')
+		clean_wrong_field('nome');
+		clean_wrong_field('send_xml');
+		clean_wrong_field('send_suitcase');
 	});
 
 	$scope.load_field_email = function () {
-		alert("Vindo aqui, Falta fazer")
+		$scope.changing_email = true;
+		var xml = false;
+		var suitcase = false;
+		if ($scope.email_selected.send_xml === 'Sim'){
+			xml = true;
+		}
+		if ($scope.email_selected.send_suitcase === 'Sim') {
+			suitcase = true;
+		}
+		//alert("XML:"+xml+"\nSC:"+suitcase)
+		$('#email').val($scope.email_selected.email);
+		$('#name').val($scope.email_selected.name);
+		/*Falta preencer os dados do campo select*/
+		alert("tentando carregar:	"+ $('#send_xml option[value= false] ').attr('selected', 'selected'))
+		$('#send_xml option[value= false] ').attr('selected', 'selected').change;
+		$("#send_xml option[text=" + $scope.email_selected.send_xml  +"]").attr("selected","selected")
+		//$('#send_suitcase').selectedIndex(suitcase);
+
 	}
 
 	$scope.change_email = function () {
-		alert("Vindo aqui, Falta fazer")
+		var data_paramters = {
+				id : $scope.email_selected.id,
+				email :$('#email').val(),
+        name : $('#name').val(),
+        send_xml : $('#send_xml').val(),
+				send_suitcase : $('#send_suitcase').val()
+		}
+
+		success_function = function () {
+			$scope.load_emails();
+			$('#modal_add_email').modal('hide');
+			notify('success','Email Alterado','Seu email foi alterado com sucesso')
+		}
+
+		fail_function = function () {
+			notify("error","Email não alterado",'Não consiguimos alterar o email')
+		}
+		request_api("/api/entity/update/email", data_paramters, validate_email, success_function, fail_function)
 	}
 
 	$scope.save_email = function () {
-		alert("Vindo")
+		alert("Vindo no controlador de salvar")
 		$scope.entity_selected = angular.element(document.getElementById('identification_controller')).scope().entity_selected
-		alert('opegtp')
 		var id_entity = $scope.entity_selected.id
 		var data_paramters = {
 			email : $('#email').val(),
@@ -269,19 +304,16 @@ application.controller('register_email_entity', function ($scope) {
 	}
 
 	$scope.load_emails = function () {
-		alert("Tentando carregar")
 		$scope.entity_selected =  angular.element(document.getElementById('identification_controller')).scope().entity_selected;
 		var id = $scope.entity_selected.id
 		var type_class = 'Email'
-		alert("Carregeui")
 		$.ajax({
 				type: 'GET',
 				url: "/api/entity/list/emails/" + id +'/' + type_class +'/',
 
 				success: function (data) {
-					alert("Nao consigo fazer isso")
 					$scope.emails = JSON.parse(data)
-					alert("Olha o q pego	"+JSON.stringify($scope.emails))
+					alert("Olha ai"+JSON.stringify($scope.emails))
 					$scope.$apply();
 				},
 
@@ -322,7 +354,16 @@ application.controller('register_email_entity', function ($scope) {
 
 	$scope.delete_email = function () {
 		var email_delete = $scope.email_selected.id
-		alert('olha o email')
+		$.ajax({
+			url: "/api/entity/delete/phone/" + email_delete + "/Email",
+			success : function () {
+				$scope.email_selected = null
+				$scope.load_emails()
+				notify('success','Email Removido','Seu email foi removido do sistema')
+				$scope.$apply()
+			},
+		})
+
 	}
 
 	$scope.S9 = false;  // Giant Screen:   1921 or more

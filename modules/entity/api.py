@@ -23,7 +23,7 @@ def cria_dict(type_object, item):
             suitcase = 'Sim'
         else:
             suitcase = 'Não'
-        return {'name': item.name, 'email': item.name, 'send_xml': xml, 'send_suitcase': suitcase}
+        return {'id':item.id,'name': item.name, 'email': item.email, 'send_xml': xml, 'send_suitcase': suitcase}
     if (type_object == 'Contact'):
         return {'id': item.id, 'type_contact': item.type_contact, 'phone': '(' + item.ddd + ')' + item.phone,
                 'complemento': item.complemento, 'name': item.name}
@@ -236,69 +236,6 @@ class EntityAPI:
 
 
 
-
-
-    '''# Carrega a lista de Entidades
-    def load_entities (request):
-        list_entities = Entity.objects.all().order_by('-id')
-        response_dict = []
-        for entity in list_entities:
-            response_entity = {}
-            response_entity['id'] = entity.id
-            response_entity['entity_type'] = entity.entity_type
-            response_entity['cpf_cnpj'] = entity.cpf_cnpj
-            response_entity['entity_name'] = entity.entity_name
-            response_entity['fantasy_name'] = entity.fantasy_name
-            #if(entity.birth_date_foundation is not None):
-            response_entity['birth_date_foundation'] = entity.birth_date_foundation#.strftime('%d/%m/%Y')
-            #else:
-            #    response_entity['birth_date_foundation'] = None
-
-            response_entity['created_date'] = entity.created_date#.strftime('%d/%m/%Y')
-            response_entity['selected'] = ''
-            response_dict.append(response_entity)
-        return HttpResponse(json.dumps(response_dict, default=json_serial))
-
-    # Carrega a lista de Email
-    def load_emails (request, cpf_cnpj):
-        print("Vindo aqui")
-        #precisa ainda pegar o id do request
-        list_emails = Email.objects.filter(entity_id=1)
-        response_dict = []
-        for item in list_emails:
-            response_email = {}
-            response_email['id'] = item.id
-            response_email['email'] = item.email
-            response_email['name'] = item.name
-            if item.send_xml:
-                xml = 'Sim'
-            else:
-                xml = 'Não'
-            if item.send_suitcase:
-                suitcase = 'Sim'
-            else:
-                suitcase = 'Não'
-            response_email['send_xml'] = xml
-            response_email['send_suitcase'] = suitcase
-            response_dict.append(response_email)
-        return HttpResponse(json.dumps(response_dict))
-
-    #Carrega a lista de Contatos
-    def load_contacts(request, id_entity):
-        print("ID ENTITYy:  ",id_entity )
-        contacts = Contact.objects.filter(entity_id=id_entity)
-
-        response_dict = []
-        for item in contacts:
-            response_contacts = {}
-            response_contacts['id'] = item.id
-            response_contacts['type_contact'] = item.type_contact
-            response_contacts['phone'] = '(' + item.ddd + ')' + item.phone
-            response_contacts['complemento'] = item.complemento
-            response_contacts['name'] = item.name
-            response_dict.append(response_contacts)
-        return HttpResponse(json.dumps(response_dict))'''
-
     #Deleta um contato
     def delete_contact (request, id_contact):
         print("Ja vindo aqui",id_contact)
@@ -329,6 +266,7 @@ class EntityAPI:
 
     #Atualiza os dados de um Contato
     def update_contact (request):
+
         id_contact = request.POST['id']
         phone = request.POST['phone']
         name = request.POST['name']
@@ -336,6 +274,7 @@ class EntityAPI:
         type_contact = request.POST['type_contact']
         complemento = request.POST['complemento']
         contact = Contact.objects.get(id=id_contact)
+        contact.show_fields_value()
 
         try:
             Contact.objects.filter(id=id_contact).update(phone= phone, name=name,ddd=ddd,type_contact=type_contact,complemento=complemento)
@@ -343,6 +282,22 @@ class EntityAPI:
         except:
             response_dict = response_format_error(False)
         return  HttpResponse(json.dumps(response_dict))
+
+    def update_email (request):
+        id_email = request.POST['id']
+        email = request.POST['email']
+        name = request.POST['name']
+        send_xml = request.POST['send_xml']
+        send_suitcase = request.POST['send_suitcase']
+        email_object = Email.objects.get(id=id_email)
+        email_object.show_fields_value()
+
+        try:
+            Email.objects.filter(id=id_email).update(email=email, name=name, send_xml=send_xml, send_suitcase=send_suitcase)
+            response_dict = response_format_success(email_object,['email', 'name', 'send_xml', 'send_suitcase'])
+        except:
+            response_dict = response_format_error(False)
+        return HttpResponse(json.dumps(response_dict))
 
     """
     def register_delete(request, email):

@@ -11,7 +11,8 @@ urlpatterns = [
     url(r'list/emails/(?P<id_entity>[^/]+)/(?P<type_class>[^/]+)/',EntityAPI.load_generico),
     url(r'delete/phone/(?P<id>[^/]+)/(?P<type_class>[^/]+)/',EntityAPI.delete_generico),
     url(r'fields/contacts/(?P<id_contact>[^/]+)/',EntityAPI.load_field_contact),
-    url(r'update/phone',EntityAPI.update_contact)
+    url(r'update/phone',EntityAPI.update_contact),
+    url(r'update/email',EntityAPI.update_email)
     # APIs administrativas
     #url(r'register/delete/(?P<email>[^/]+)/', EntityAPI.register_delete),
 ]

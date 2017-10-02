@@ -126,7 +126,7 @@
 										<td colspan="8" class="text-center">Nenhum Email Cadastrado!</td>
 									</tr>
 
-									<tr class="row_contact linha_selecionavel {{ contact.selected }}" ng-click="select_email(email)" pagination-id="paginate_emails" dir-paginate="email in emails | filter: get_filter_column() | itemsPerPage:10 | orderBy:sortType:sortReverse as resultado">
+									<tr class="row_contact linha_selecionavel {{ email.selected }}" ng-click="select_email(email)" pagination-id="paginate_emails" dir-paginate="email in emails | filter: get_filter_column() | itemsPerPage:10 | orderBy:sortType:sortReverse as resultado">
 										<td class='col_index'>{{ $index+1 }}</td><!-- $index+1 -->
 
 											<td class="col_contact_name" ng-hide='S0 || S1 || S2' ng-class="{true:'left', false:'center'}[email.name=='']">

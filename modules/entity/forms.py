@@ -304,7 +304,7 @@ class FormRegisterPhone (FormAbstractEmail):
 class FormRegisterEmailEntity (FormAbstractEmail):
 
     boolean_email = (
-        (True,'SIM'),
+        (True,'Sim'),
         (False,'Não')
     )
 

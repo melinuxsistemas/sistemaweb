@@ -29,8 +29,19 @@ function is_a_number(string) {
 	return !(isNaN(string))
 }
 
+function field_empty(field) {
+	var test_field = $('#'+field).val();
+	if (test_field === null || test_field === ''){
+		set_wrong_field(field,'informe esse campo')
+		return false
+	}
+	return true
+}
 
 function  validate_email() {
-	var response = email_is_valid('email')
-	return response
+	var response = email_is_valid('email');
+	var empty_xml = field_empty('send_xml');
+	var empty_suitcase = field_empty('name');
+	var empty_name = field_empty('send_suitcase');
+	return response && empty_xml && empty_suitcase && empty_name;
 }
