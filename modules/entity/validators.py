@@ -185,10 +185,12 @@ def cnpj_validator(value):
 
 
 def only_numeric(value):
+
     if value is not None:
+        print('OLHA O VALUE:',value)
         if value.isnumeric():
             return True
-    raise ValidationError(_("phone: Please enter value with only numeric type."), code='not all numeric')
+    raise ValidationError(_("phone: Please enter value with only numeric type."), code='not_all_numeric')
     return False
 
 if __name__ == "__main__":

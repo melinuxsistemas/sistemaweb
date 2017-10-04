@@ -6,7 +6,7 @@
 				<h2><a id="back_entities" href="#entity_identification" data-toggle="tab" style="padding-right: 6px">Entidades</a><span class="navigation_icon"><i class="fa fa-chevron-right fa-lg" aria-hidden="true"></i></span>{% verbatim %} {{ entity_selected.entity_name|lowercase }}{% endverbatim %}:  Contatos<!--<small>Click to validate</small>--></h2>
 				<ul class="nav navbar-right panel_toolbox">
 					<div class="btn-group" role="group" aria-label="...">
-						<a id='bt_identification' href="#entity_identification" data-toggle="tab" role="button" class="btn btn-sm btn-default " style='width: 40px; padding-right: 4px' title="Volar para Entidades"><i class="fa fa-arrow-left" aria-hidden="true" style="margin-left: -6px"></i></a><!-- data-toggle="modal" data-target="#modal_add_entity" -->
+						<a id='bt_identification' href="#entity_identification" data-toggle="tab" role="button" class="btn btn-sm btn-default " style='width: 40px; padding-right: 4px' title="Voltar para Entidades"><i class="fa fa-arrow-left" aria-hidden="true" style="margin-left: -6px"></i></a><!-- data-toggle="modal" data-target="#modal_add_entity" -->
 
 						<a id='bt_update_contacts' href="#" data-toggle="modal" data-target="#modal_add_phone" role="button" class="btn btn-sm btn-default pull-left" ng-click="load_field_contact()" ng-class="{ 'disabled': contact_selected == null}"  style='width: 40px' title="Alterar" ><i class="fa fa-pencil" aria-hidden="true"></i></a>
 						<a id='bt_delete_contacts' href="#"role="button" class="btn btn-sm btn-default pull-left" ng-click="delete_contact()" ng-class="{ 'disabled': contact_selected == null}" style='; width: 40px' title="Deletar"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
@@ -53,21 +53,21 @@
 								</tr>
 
 								<tr class="row_contact linha_selecionavel {{ contact.selected }}" ng-click="select_contact(contact)" pagination-id="paginate_contacts" dir-paginate="contact in contacts | filter: get_filter_column() | itemsPerPage:10 | orderBy:sortType:sortReverse as resultado">
-									<td class='col_index'>{{ $index+1 }}</td><!-- $index+1 -->
+									<td class='col_index'>{{ contact.id }}</td><!-- $index+1 -->
 
-										<td class="col_contact_type" ng-hide='S0 || S1 || S2' ng-class="{true:'left', false:'center'}[contact.type_contact=='']">
-											{{ contact.type_contact }}
-										</td>
+									<td class="col_contact_type" ng-hide='S0 || S1 || S2' ng-class="{true:'left', false:'center'}[contact.type_contact=='']">
+										{{ contact.type_contact }}
+									</td>
 
-										<td class="col_name" ng-hide='S0 || S1 || S2' ng-class="{true:'left', false:'center'}[contact.name =='']">
-											{{ contact.name }}
-										</td>
+									<td class="col_name" ng-hide='S0 || S1 || S2' ng-class="{true:'left', false:'center'}[contact.name =='']">
+										{{ contact.name }}
+									</td>
 
-										<td class="col_phone_number">
-											{{ contact.phone }}
-										</td>
+									<td class="col_phone_number">
+										({{ contact.ddd }}) {{ contact.phone }}
+									</td>
 
-										<td class="col_complemento" ng-hide='S0 || S1 || S2 || S3 || S4' ng-class="{true:'left', false:'center'}[contact.complemento=='']" style="width: 80px;">
+									<td class="col_complemento" ng-hide='S0 || S1 || S2 || S3 || S4'  style="">
 											{{contact.complemento }}
 										</td>
 							{% endverbatim %}
@@ -75,8 +75,6 @@
 						</tbody>
 					</table>
 					</div>
-				<div class="row">
-				</div>
 				</div>
 				{% include "entity/components/modal/form_contact.html" %}
 			</div>

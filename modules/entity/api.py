@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.core import serializers
 
 from modules.core.api import AbstractAPI
 from modules.core.config import ERRORS_MESSAGES
@@ -166,6 +167,71 @@ class EntityAPI:
             response_dict = response_format_error(full_exceptions)
         print("RESPONSE DICT",response_dict)
         return HttpResponse(json.dumps(response_dict))'''
+    #Versão Padronizada das APIs
+    def save_tel (request, id_entity):
+        result, form = AbstractAPI.filter_request(request, FormRegisterPhone)
+        contact = Contact()
+        contact.form_to_object(form)
+        if result:
+            try:
+                contact.show_fields_value()
+                contact.save()
+                response_dict = response_format_success(contact)
+            except Exception as e:
+                response_dict = response_format_error(format_exception_message(contact.model_exceptions))
+        else:
+            contact.check_validators()
+            model_exceptions = format_exception_message(contact.model_exceptions)
+            form_exceptions = form.format_validate_response()
+            full_exceptions = {}  # dict(form_exceptions, **model_exceptions);
+            full_exceptions.update(model_exceptions)
+            full_exceptions.update(form_exceptions)
+            response_dict = response_format_error(full_exceptions)
+
+        return HttpResponse(json.dumps(response_dict))
+
+    def load_tel (request,id_entity):
+        response_dict = []
+        list_contacts = Contact.objects.filter(entity_id=int(id_entity)).order_by("-id")
+        for contact in list_contacts:
+            response_object = json.loads(serializers.serialize('json', [contact]))[0]
+            response_object['fields']['id'] = response_object['pk']
+            response_object = response_object['fields']
+            response_dict.append(response_object)
+        return HttpResponse(json.dumps(response_dict))
+
+    def update_tel (request):
+        result, form = AbstractAPI.filter_request(request, FormRegisterPhone)
+        id = request.POST['id']
+        print("id=",id)
+        contact = Contact.objects.get(id=id)
+        contact.form_to_object(form)
+        if result:
+            try:
+                contact.show_fields_value()
+                contact.save()
+                response_dict = response_format_success(contact)
+            except Exception as e:
+                response_dict = response_format_error(format_exception_message(contact.model_exceptions))
+        else:
+            contact.check_validators()
+            model_exceptions = format_exception_message(contact.model_exceptions)
+            form_exceptions = form.format_validate_response()
+            full_exceptions = {}  # dict(form_exceptions, **model_exceptions);
+            full_exceptions.update(model_exceptions)
+            full_exceptions.update(form_exceptions)
+            response_dict = response_format_error(full_exceptions)
+
+        return HttpResponse(json.dumps(response_dict))
+
+    def delete_tel (request,id_contact):
+        contact = Contact.objects.get(id=id_contact)
+        try:
+            contact.desativar()
+        except:
+            pass
+        return HttpResponse(json.dumps({}))
+
 
     #SAVE GENÉRICO
     def save_genérico (request,id_entity):
@@ -179,7 +245,7 @@ class EntityAPI:
         #object.show_fields_value()
         print("Olha o form",form_object)
         result , form = AbstractAPI.filter_request(request,form_object)
-        result = True
+
         if result:
             object.entity_id = id_entity
             object.form_to_object(form)
@@ -204,6 +270,7 @@ class EntityAPI:
             response_dict = response_format_error(full_exceptions)
 
         return HttpResponse(json.dumps(response_dict))
+
 
     #LOAD TABELA GENÉRICO
     def load_generico (request,id_entity,type_class):
@@ -234,8 +301,6 @@ class EntityAPI:
             pass
         return HttpResponse(json.dumps({}))
 
-
-
     #Deleta um contato
     def delete_contact (request, id_contact):
         print("Ja vindo aqui",id_contact)
@@ -248,40 +313,6 @@ class EntityAPI:
         response_dict = []
         return HttpResponse(json.dumps(response_dict))
 
-    #Carrega os dados de um Contato para o Modal
-    def load_field_contact (request, id_contact):
-        response_contact = {}
-        print (id_contact)
-        try:
-            contact = Contact.objects.get(id=id_contact)
-            response_contact['type_contact'] = contact.type_contact
-            response_contact['phone'] = contact.phone
-            response_contact['name'] = contact.name
-            response_contact['ddd'] = contact.ddd
-            response_contact['complemento'] = contact.complemento
-        except:
-            response_contact = response_format_error(False)
-        print("OLHA O Q EU VOU RETORNAR: response_contact", response_contact)
-        return HttpResponse(json.dumps(response_contact))
-
-    #Atualiza os dados de um Contato
-    def update_contact (request):
-
-        id_contact = request.POST['id']
-        phone = request.POST['phone']
-        name = request.POST['name']
-        ddd = request.POST['ddd']
-        type_contact = request.POST['type_contact']
-        complemento = request.POST['complemento']
-        contact = Contact.objects.get(id=id_contact)
-        contact.show_fields_value()
-
-        try:
-            Contact.objects.filter(id=id_contact).update(phone= phone, name=name,ddd=ddd,type_contact=type_contact,complemento=complemento)
-            response_dict = response_format_success(contact,['phone','name','ddd','type_contact','complemento'])
-        except:
-            response_dict = response_format_error(False)
-        return  HttpResponse(json.dumps(response_dict))
 
     def update_email (request):
         id_email = request.POST['id']
