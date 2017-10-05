@@ -59,6 +59,10 @@
 #table_contact .row_contact .col_contact_name{
 	text-align: left;
 	padding-left: 8px;
+	white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px;
 }
 
 #table_contact .row_contact .col_contact_type{
@@ -68,7 +72,7 @@
 
 
 #table_contact .row_contact .col_phone_number{
-	width: 140px;
+	width: 108px;
 	text-align: center;
 }
 
@@ -77,22 +81,58 @@
 	text-align: center;
 }
 
+
+#table_emails{
+	width: 100%;
+}
+
+#table_emails tbody{
+	font-size: 13px;
+}
+
+#table_emails .row_contact td{
+	padding-top: 0px;
+	padding-bottom: 0px;
+	height: 28px;
+	vertical-align: middle;
+}
+
+#table_emails .row_contact td span{
+	height: 26px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	vertical-align: middle;
+}
+
 #table_emails .row_contact .col_email_email{
 	width: 500px;
 	text-align: left;
 }
 
 #table_emails .row_contact .col_email_name{
-	width: 500px;
+	width: 400px;
 	text-align: left;
+	white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 400px;
 }
 
 #table_emails .row_contact .col_email_xml{
 	width: 120px;
 	text-align: left;
+	white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 50px;
 }
 
 #table_emails .row_contact .col_email_suitcase{
 	width: 120px;
 	text-align: left;
+	white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 50px;
+
 }
