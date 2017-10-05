@@ -58,7 +58,7 @@ application.controller('identification_controller', function($scope) {
   $scope.load_entities = function () {
     $.ajax({
       type: 'GET',
-      url: "/api/entity/load_entities/entity/Entity/",
+      url: "/api/entity/list/entities/",
 
       success: function (data) {
         $scope.list_entities = JSON.parse(data)
