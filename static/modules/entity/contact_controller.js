@@ -3,6 +3,7 @@ application.controller('register_phone_entity', function ($scope) {
 	$scope.contact_selected = null;
 	$scope.changing_contact = false;
 	$scope.entity_selected = null;
+	$scope.minimal_rows_tables = [0,1,2,3,4,5,6,7,8,9]
 
 
 	/*Quando o modal ficar off, limpamos os campos e as variaveis controladoras, remover class wrong_field*/
@@ -54,9 +55,11 @@ application.controller('register_phone_entity', function ($scope) {
 
 	/*Carregar Lista com os contatos*/
 	$scope.load_contacts = function () {
+
 		$scope.reset_contact();
 		$scope.entity_selected =  angular.element(document.getElementById('identification_controller')).scope().entity_selected;
 		var id = $scope.entity_selected.id
+		$('#title_contact').text($scope.entity_selected.entity_name)
 		$.ajax({
 				type: 'GET',
 				url: "/api/entity/list/contacts/" + id +'/',
@@ -114,12 +117,13 @@ application.controller('register_phone_entity', function ($scope) {
 		/*Verifica se o modal Alterar possui mudanças*/
 		if ($scope.equals_fields_contact(data_paramters)) {
 				success_function = function (result,message,data_object) {
-					//check_response_message_form('#form-save-contact',message)
-					$scope.contacts.splice($scope.contact_selected,1)
-					var contact = data_object
-					$scope.contacts.push(contact)
+					var contact = data_object;
+					var index = $scope.contacts.indexOf($scope.contact_selected)
+					$scope.contacts.splice(index,1);
+					$scope.contacts.splice(index,0, contact);
 					$('#modal_add_phone').modal('hide');
 					notify('success','Contato Alterado',"Seu contato foi atualizado com sucesso")
+					$scope.$apply();
 				}
 
 				fail_function = function () {
@@ -177,6 +181,7 @@ application.controller('register_phone_entity', function ($scope) {
   };
 
 
+
 	/*$scope.check_disable = function () {
 		if ($scope.email_selected == null){
 			return true
@@ -232,6 +237,8 @@ application.controller('register_email_entity', function ($scope) {
 	$scope.email_selected = null;
 	$scope.changing_email = false;
 	$scope.entity_selected = null;
+	$scope.minimal_rows_table_email = [0,1,2,3,4,5,6,7,8,9]//angular.element(document.getElementById('contact_controller')).scope().minimal_rows_tables;
+
 
 
 	$('#modal_add_email').on('hidden.bs.modal', function () {
@@ -253,14 +260,14 @@ application.controller('register_email_entity', function ($scope) {
 	};
 
 	$scope.load_field_email = function () {
-		alert("Vindo aqui")
+		alert("OLha o q eu pego\n"+JSON.stringify($scope.email_selected))
 		$scope.changing_email = true;
 		var xml = "False";
 		var suitcase = "False";
-		if ($scope.email_selected.send_xml === 'Sim'){
+		if ($scope.email_selected.send_xml === true || $scope.email_selected.send_xml === 'True'){
 			xml = "True";
 		}
-		if ($scope.email_selected.send_suitcase === 'Sim') {
+		if ($scope.email_selected.send_suitcase === true ||  $scope.email_selected.send_suitcase === 'True') {
 			suitcase = "True";
 		}
 		//alert("XML:"+xml+"\nSC:"+suitcase)
@@ -280,12 +287,14 @@ application.controller('register_email_entity', function ($scope) {
 		}
 
 		success_function = function (result,message,data_object) {
-			$scope.emails.splice($scope.email_selected,1);
 			var data_email = data_object;
-			$scope.emails.push(data_email);
+			var index = $scope.emails.indexOf($scope.email_selected)
+			$scope.emails.splice(index,1);
+			$scope.emails.splice(index,0,data_email);
+			alert(JSON.stringify(data_email))
 			$('#modal_add_email').modal('hide');
-			notify('success','Email Alterado',"Seu email foi atualizado com sucesso")
 			$scope.$apply();
+			notify('success','Email Alterado',"Seu email foi atualizado com sucesso")
 		}
 
 		fail_function = function () {
@@ -306,19 +315,17 @@ application.controller('register_email_entity', function ($scope) {
 		};
 
 		sucess_function = function (result,message,data_object) {
-			alert("OLHA O Q EU TO pegANDO:	"+data_object);
-			alert("OLHA O Q EU TO pegANDO 4444:	"+JSON.stringify(data_object));
 			var data_email = data_object;
 			$scope.emails.push(data_email);
 			notify('success','Email salvo','Seu Email foi salvo com sucesso');
 			$('#modal_add_email').modal('hide');
 			$scope.$apply()
+
 		};
 
 		fail_function = function () {
 			notify('error','Falha na operação','Não foi possível savar o email')
 		};
-		alert("Consigo vir aqu?")
 		request_api("/api/entity/register/email", data_paramters,validate_email, sucess_function, fail_function)
 
 	}
@@ -386,6 +393,20 @@ application.controller('register_email_entity', function ($scope) {
 		$scope.email_selected.selected = '';
     $scope.email_selected = null;
   }
+
+  /*$scope.update_minimal_table = function () {
+		var emails = $scope.emails.length
+		alert(emails)
+		var lenght = $scope.minimal_rows_table_email.length
+		alert(lenght)
+		if (lenght <=  emails){
+			$scope.minimal_rows_table_email.push(1)
+			alert("Olha o lista"+$scope.minimal_rows_table_email);
+			angular.element(document.getElementById('contact_controller')).scope().minimal_rows_tables = $scope.minimal_rows_table_email
+			$scope.$apply();
+			alert("Olha A lista agora	"+angular.element(document.getElementById('contact_controller')).scope().minimal_rows_tables)
+		}
+	}*/
 
 
 
