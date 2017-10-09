@@ -1,6 +1,7 @@
 from django.test import TestCase
-from modules.entity.models import Entity
-from test.unit.backend.entity.factory import create_simple_valid_company
+from modules.entity.models import Entity, Contact, Email
+from test.unit.backend.entity.factory import create_simple_valid_company, create_simple_valid_contac, \
+    create_simple_valid_person
 
 
 class EntityTest(TestCase):
@@ -8,7 +9,7 @@ class EntityTest(TestCase):
     def test_create_entity(self):
         try:
             entity = Entity()
-            self.assertTrue(isinstance(entity, Entity), 'Entidade instanciada corretamente (OK)')
+            self.assertTrue(isinstance(entity, Entity), 'ontato instanciada corretamente (OK)')
             self.assertEquals(entity.__unicode__(), entity.cpf_cnpj,"Representacao do objeto com unicode (OK)")
         except:
             entity = None
@@ -67,3 +68,210 @@ class EntityTest(TestCase):
             #print("ERRO: ",exception)
             result = False
         self.assertEquals(result, True, "Teste de criacao de entidade com documento correto para o seu tipo (PF ou PJ). (OK)")
+
+    #Tests Entity->Contact
+    def test_create_entity_contact (self):
+        try:
+            contact = Contact()
+            self.assertTrue(isinstance(contact, Contact), 'Entidade instanciada corretamente (OK)')
+            #self.assertEquals(contact.__unicode__(), contact.cpf_cnpj,"Representacao do objeto com unicode (OK)")
+        except:
+            entity = None
+            self.assertIsNone(entity,"Entidade Não criada (OK)")
+
+    def test_validation_create_entity_contact(self):
+        variacoes = [
+            ['','',False],
+            [None,None,False],
+            ['123456789','',False],
+            ['','27',False],
+            ['12345678AA','27',False],
+            ['123456789','A27',False],
+            ['123456789','27',True]
+        ]
+
+        for item in variacoes:
+            #print("VOU TESTAR OS VALORES: (",item[0],") e (",item[0],")")
+            contact = Contact()
+            contact.type_contact = 'TEST'
+            contact.name = 'TESTE CONTACT'
+            contact.phone = item[0]
+            contact.ddd = item[1]
+            contact.complemento = 'teste teste'
+            try:
+                contact.save()
+                result = True
+            except Exception as exception:
+                #print("ERRO: ",exception)
+                result = False
+            self.assertEquals(result,item[2],"Teste de criação (OK)")
+
+    def test_create_entity_valid_contact(self):
+        contact = create_simple_valid_contac()
+        try:
+            contact.save()
+            result = True
+        except Exception as exception:
+            #print("ERRO: ",exception)
+            result = False
+        self.assertEquals(result, True, "Teste de criacao de entidade com documento incorreto para o seu tipo (PF ou PJ). (OK)")
+
+    def test_create_entity_wrong_cotact(self):
+
+        contact = create_simple_valid_contac()
+        contact.phone = "3030323a"
+        try:
+            contact.save()
+            result = True
+        except Exception as exception:
+            #print("ERRO: ",exception)
+            result = False
+        self.assertEquals(result, False, "Teste de criacao de entidade com documento incorreto para o seu tipo (PF ou PJ). (OK)")
+
+
+    #Testes Entity-Email
+    def test_create_entity_email(self):
+        try:
+            email = Email()
+            self.assertTrue(isinstance(email,Email), 'Contato instanciada corretamente (OK)')
+
+        except:
+            entity = None
+            self.assertIsNone(entity, "Entidade Não criada (OK)")
+
+    def test_validation_create_entity_email(self):
+        cont= 0
+
+        entity = create_simple_valid_person()
+        entity.save()
+        print(Entity.objects.all())
+        entity = Entity.objects.get(cpf_cnpj=12859855750)
+
+        variacoes = [
+            [None, True, 'gianordolilucas@gmail.com', False],
+            [True,None,'gianordolilucas@gmail.com',False],
+            ['',False,'gianordolilucas@gmail.com',False],
+            [False, '', 'gianordolilucas@gmail.com', False],
+            [False,True,None,False],
+            [True,True,'',False],
+            [False,False,'teste@',False],
+            [False, False, '@.com', False],
+            [False, False, 'teste_teste@@.com', False],
+            [True,True,'gianordolilucas@gmail.com',True],
+            #[False, False, 'gianordolilucas@gmail.com', True]
+        ]
+
+        email = Email()
+        email.email = 'gianordolilucas@gmail.com'
+        email.name = 'TESTE EMAIL'
+        email.send_xml = False
+        email.send_suitcase = False
+        email.entity = entity
+
+        try:
+            email.save()
+            print("OLHA AI DEU")
+        except:
+            print("NEM FORA CONSIGO SALVAR")
+
+        email = Email()
+        email.email = 'gianordolilucas@gmail.com'
+        email.name = 'TESTE EMAIL'
+        email.send_xml = True
+        email.send_suitcase = True
+        email.entity = entity
+
+        try:
+            email.save()
+            print("OLHA AI DEU 2")
+        except:
+            print("NEM FORA CONSIGO SALVAR 2")
+
+        email = Email()
+        email.email = 'gianordolilucas@gmail.com'
+        email.name = 'TESTE EMAIL'
+        email.send_xml = None
+        email.send_suitcase = True
+        email.entity = entity
+
+        try:
+            email.save()
+            print("OLHA AI DEU 3")
+        except:
+            print("NEM FORA CONSIGO SALVAR 3")
+
+        email = Email()
+        email.email = 'gianordolilucas@gmail.com'
+        email.name = 'TESTE EMAIL'
+        email.send_xml = ''
+        email.send_suitcase = True
+        email.entity = entity
+
+        try:
+            email.save()
+            print("OLHA AI DEU 4")
+        except:
+            print("NEM FORA CONSIGO SALVAR 4")
+
+        email = Email()
+        email.email = 'gianordolilucas@gmail.com'
+        email.name = 'TESTE EMAIL'
+        email.send_xml = True
+        email.send_suitcase = ''
+        email.entity = entity
+
+        try:
+            email.save()
+            print("OLHA AI DEU 5")
+        except:
+            print("NEM FORA CONSIGO SALVAR 5")
+
+        email = Email()
+        email.email = 'gianordolilucas@gmail.com'
+        email.name = 'TESTE EMAIL'
+        email.send_xml = True
+        email.send_suitcase = None
+        email.entity = entity
+
+        try:
+            email.save()
+            print("OLHA AI DEU 6")
+        except:
+            print("NEM FORA CONSIGO SALVAR 6")
+
+        email = Email()
+        email.email = 'gianordolilucas@gmail.com'
+        email.name = 'TESTE EMAIL'
+        email.send_xml = ''
+        email.send_suitcase = ''
+        email.entity = entity
+
+        try:
+            email.save()
+            print("OLHA AI DEU 7")
+        except:
+            print("NEM FORA CONSIGO SALVAR 7")
+        erro
+        '''
+        for item in variacoes:
+            #print("VOU TESTAR OS VALORES: (",item[0],") e (",item[0],")")
+            email = Email()
+            email.email = item[2]
+            email.name = 'TESTE EMAIL'
+            email.send_xml = item[0]
+            email.send_suitcase = item[1]
+            email.entity = entity
+            try:
+                email.save()
+                result = True
+            except Exception as exception:
+                result = False
+                print("Cont:    ",cont)
+                print("Exept:    ", exception)
+                cont+=1
+            self.assertEquals(result,item[3],"Teste de criação (OK)")
+        '''
+
+
+
+
