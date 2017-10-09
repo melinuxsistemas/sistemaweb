@@ -1,7 +1,7 @@
 from unittest import TestCase
 import unittest
 
-from modules.entity.forms import FormPersonEntity, FormCompanyEntity
+from modules.entity.forms import FormPersonEntity, FormCompanyEntity, FormRegisterPhone
 from test.unit.backend.core.test_forms import TestAbstractForm
 
 
@@ -77,3 +77,20 @@ class RegisterEntityFormTest (TestAbstractForm):
             self.add_case_valid_format(
                 {'cpf_cnpj': '49518089000171', 'entity_name': 'Teste teste', 'fantasy_name': 'teste',
                  'birth_date_foundation': '10/10/2017', 'relations_company': 0, 'company_activities':0, 'market_segment':'Atacadista'}, 'CNPJ, Razao and Date are correct (OK)')'''
+
+class RegisterFormPhone (TestAbstractForm):
+
+    def __init__(self,*args,**kwargs):
+        unittest.TestCase.__init__(self, *args, **kwargs)
+        self.set_formulary(FormRegisterPhone)
+
+        self.add_case_valid_format({'type_contact':'FIXO','phone':'32322525','ddd':'27', 'name':'TESTE TESTE','complemento':'TESTE'})
+
+        self.add_case_invalid_format({'type_contact': 'FIXO', 'phone': None, 'ddd': '27', 'name': 'TESTE TESTE', 'complemento': 'TESTE'})
+        self.add_case_invalid_format({'type_contact': 'FIXO', 'phone': '32322525', 'ddd': None, 'name': 'TESTE TESTE', 'complemento': 'TESTE'})
+        self.add_case_invalid_size({'type_contact': 'FIXO', 'phone': '', 'ddd': '27', 'name': 'TESTE TESTE', 'complemento': 'TESTE'})
+        self.add_case_invalid_size({'type_contact': 'FIXO', 'phone': '32322552', 'ddd': '', 'name': 'TESTE TESTE', 'complemento': 'TESTE'})
+        self.add_case_invalid_size({'type_contact': 'FIXO', 'phone': '32322525', 'ddd': '27', 'name': '', 'complemento': 'TESTE'})
+        self.add_case_invalid_format({'type_contact': 'FIXO', 'phone': '32322525', 'ddd': '27', 'name': None, 'complemento': 'TESTE'})
+
+
