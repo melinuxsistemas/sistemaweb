@@ -1,7 +1,7 @@
 from unittest import TestCase
 import unittest
 
-from modules.entity.forms import FormPersonEntity, FormCompanyEntity, FormRegisterPhone
+from modules.entity.forms import FormPersonEntity, FormCompanyEntity, FormRegisterPhone, FormRegisterEmailEntity
 from test.unit.backend.core.test_forms import TestAbstractForm
 
 
@@ -81,16 +81,34 @@ class RegisterEntityFormTest (TestAbstractForm):
 class RegisterFormPhone (TestAbstractForm):
 
     def __init__(self,*args,**kwargs):
+        super(RegisterFormPhone, self).__init__()
         unittest.TestCase.__init__(self, *args, **kwargs)
         self.set_formulary(FormRegisterPhone)
 
-        self.add_case_valid_format({'type_contact':'FIXO','phone':'32322525','ddd':'27', 'name':'TESTE TESTE','complemento':'TESTE'})
+        self.add_case_valid_format({'type_contact':'FIXO','phone':'32322525','ddd':'27', 'name':'TESTE TESTE','complemento':'TESTE'},"Valid form Contact. (OK)")
 
-        self.add_case_invalid_format({'type_contact': 'FIXO', 'phone': None, 'ddd': '27', 'name': 'TESTE TESTE', 'complemento': 'TESTE'})
-        self.add_case_invalid_format({'type_contact': 'FIXO', 'phone': '32322525', 'ddd': None, 'name': 'TESTE TESTE', 'complemento': 'TESTE'})
-        self.add_case_invalid_size({'type_contact': 'FIXO', 'phone': '', 'ddd': '27', 'name': 'TESTE TESTE', 'complemento': 'TESTE'})
-        self.add_case_invalid_size({'type_contact': 'FIXO', 'phone': '32322552', 'ddd': '', 'name': 'TESTE TESTE', 'complemento': 'TESTE'})
-        self.add_case_invalid_size({'type_contact': 'FIXO', 'phone': '32322525', 'ddd': '27', 'name': '', 'complemento': 'TESTE'})
-        self.add_case_invalid_format({'type_contact': 'FIXO', 'phone': '32322525', 'ddd': '27', 'name': None, 'complemento': 'TESTE'})
+        self.add_case_invalid_format({'type_contact': 'FIXO', 'phone': None, 'ddd': '27', 'name': 'TESTE TESTE', 'complemento': 'TESTE'},"Contact phone is not valid. (OK)")
+        self.add_case_invalid_format({'type_contact': 'FIXO', 'phone': '32322525', 'ddd': None, 'name': 'TESTE TESTE', 'complemento': 'TESTE'},"Contact ddd is not valid (OK)")
+        self.add_case_invalid_size({'type_contact': 'FIXO', 'phone': '', 'ddd': '27', 'name': 'TESTE TESTE', 'complemento': 'TESTE'},"Contac phone is not valid. (OK)")
+        self.add_case_invalid_size({'type_contact': 'FIXO', 'phone': '32322552', 'ddd': '', 'name': 'TESTE TESTE', 'complemento': 'TESTE'},"Contact dd is not valid. (OK)")
+        self.add_case_invalid_size({'type_contact': 'FIXO', 'phone': '32322525', 'ddd': '27', 'name': '', 'complemento': 'TESTE'},"Contact name is not valid. (OK)")
+        self.add_case_invalid_format({'type_contact': 'FIXO', 'phone': '32322525', 'ddd': '27', 'name': None, 'complemento': 'TESTE'},"Contact name is not valid. (OK)")
+
+class RegisterFormEmail (TestAbstractForm):
+
+    def __init__(self,*args,**kwargs):
+        unittest.TestCase.__init__(self, *args,**kwargs)
+        self.set_formulary(FormRegisterEmailEntity)
+
+        self.add_case_invalid_size({'email': '','name':'TESTE','send_xml':True,'send_suitcase':False},"Email invalid email size. (OK)")
+        self.add_case_invalid_size({'email': 'teste@teste.com', 'name': '', 'send_xml': True, 'send_suitcase': False},'Email invalid name size. (OK)')
+        self.add_case_invalid_size({'email': 'teste@teste.com', 'name': 'TESTE', 'send_xml': '', 'send_suitcase': True},'Email invalid send_xml size. (OK)')
+        self.add_case_invalid_size({'email': 'teste@teste.com', 'name': 'TESTE', 'send_xml': True, 'send_suitcase': ''},'Email invalid send_suitcase size. (OK)')
+        self.add_case_invalid_format({'email': None, 'name': 'TESTE', 'send_xml': False, 'send_suitcase': True},'Email invalid email format. (OK)')
+        self.add_case_invalid_format({'email': 'teste@teste.com', 'name': None, 'send_xml': False, 'send_suitcase': False},'Email invalid name format. (OK)')
+        self.add_case_invalid_format({'email': 'teste@teste.com', 'name': 'TESTE', 'send_xml': None, 'send_suitcase': True},'Email invalid send_xml format. (OK)')
+        self.add_case_invalid_format({'email': 'teste@teste.com', 'name': 'TESTE', 'send_xml': False, 'send_suitcase': None},'Email invalid send_suitcase format. (OK)')
+
+
 
 

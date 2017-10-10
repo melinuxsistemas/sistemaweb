@@ -24,3 +24,11 @@ def create_simple_valid_contac():
     contact.ddd = '27'
     contact.complemento = 'TESTE TESTE'
     return contact
+
+def create_simple_valid_email():
+    email = Email()
+    email.name = 'Test'
+    email.email = 'teste@teste.com'
+    email.send_suitcase = True
+    email.send_xml = True
+    return email

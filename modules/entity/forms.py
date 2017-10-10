@@ -209,10 +209,6 @@ class FormCompanyEntity(AbstractFormEntity):
     """
 
 class FormRegisterPhone (forms.Form):
-    '''def clean(self):
-        form_data = self.cleaned_data
-        print("Olha o clean Phone",form_data)
-        return  form_data'''
 
     type_contact = forms.CharField(
         label="Tipo de contato",
