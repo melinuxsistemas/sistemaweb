@@ -30,7 +30,7 @@ function validate_form_change_password(){
       var validator = new FormValidator();
       validator.texts = messages;
       validator.settings.alerts = true;
-
+      alert("OLHA O ALL FORM"+JSON.stringify($('#form_change_password')))
       result = validator.checkAll($('#form_change_password'));
       return result.valid
   //return true;//(email_is_valid("email") && validate_password("senha"));

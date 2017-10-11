@@ -22,15 +22,10 @@ function validate_phone_ddd() {
 
 function validate_contact(){
 	/*Criar validações para campos vazios*/
-	return (validate_phone_ddd() && not_empty('name_contact') && not_empty('phone_number') && not_empty('ddd'))
+	return (validate_phone_ddd() && contains_minimal_size('name_contact',3) && field_empty('phone_number') && field_empty('ddd'))
 }
 
-function not_empty(field) {
-	if ($('#'+field).val() != ''){
-		return true
-	}
-	return false
-}
+
 function is_a_number(string) {
 	return !(isNaN(string))
 }

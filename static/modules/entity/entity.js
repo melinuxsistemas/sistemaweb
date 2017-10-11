@@ -29,13 +29,12 @@ function get_custom_messages(){
 
 function validate_all_form (){
 
-  var validator = new FormValidator();
-  validator.texts = get_custom_messages();
-  validator.settings.alerts = true;
-  var result = validator.checkAll($('#form-save-entity'));
-  //alert("validate all form: "+result.valid)
-  return result.valid
+      var validator = new FormValidator();
+      validator.texts = get_message_validators();
+      validator.settings.alerts = true;
 
+      result = validator.checkAll($('#form-save-entity'));
+      return result.valid
 }
 
 function validate_field_entity (id_field){
@@ -48,13 +47,11 @@ function validate_field_entity (id_field){
 }
 
 function validate_form_regiter_person (){
-  var result = ( validate_date_person("birth_date_foundation") && validate_all_form() && validate_cpf('cpf_cnpj'))
-  alert(result)
+  var result = ( validate_date_person("birth_date_foundation") & !is_empty('entity_name') & validate_cpf('cpf_cnpj'))
   return result;
 }
 
 function validate_cpf (cpf_cnpj){
-  //alert("Chegando no validate cpf")
   var cpf = $('#'+cpf_cnpj).val();
   cpf = cpf.replace(/[^\d]+/g,'');
   var result = true;
@@ -107,9 +104,7 @@ function validate_cpf (cpf_cnpj){
 }
 
 function validate_date_person(birth_date_foundation) {
-  //alert("chego pello menos")
   var data = $('#'+birth_date_foundation).val();
-	//alert("Olha a data"+data)
 
   if(!(data === "__/__/____") && !(data === '')) {
   	var date_current = new Date;
@@ -117,11 +112,9 @@ function validate_date_person(birth_date_foundation) {
 		var split = data.split('/');
 		var year_data = split[2];
 		var age = year_current - year_data;
-    //alert("Olha a idade"+age)
-		if (age < 0){
+    if (age < 0){
 			set_wrong_field(birth_date_foundation,'Informe uma data válida')
-      //alert("Não salvo datas futuras")
-			return notify("error","Data Inválida","Este campo não permite data futura.")
+      return notify("error","Data Inválida","Este campo não permite data futura.")
 		}
 
 		else if(age<18 ){
@@ -129,7 +122,6 @@ function validate_date_person(birth_date_foundation) {
 			return notify("error","Data Inválida","Pessoa física precisa ter 18 anos ou mais.");
 		}
 		else if (age>=18 && age<=150){
-		  //alert("Com a data " +age +"Retorno Verdade")
 			clean_wrong_field(birth_date_foundation)
   		return true;
 		}
@@ -139,6 +131,8 @@ function validate_date_person(birth_date_foundation) {
 			return notify("error","Data Inválida","Pessoa Física precisa ter menos de 150 anos.")
 		}
 	}
+	//Retorna True para datas vazia (Campo n obrigatório)
+	return true;
 }
 
 function validate_form_regiter_company() {

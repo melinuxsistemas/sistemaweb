@@ -43,7 +43,7 @@ class AbstractFormEntity (forms.Form):
         widget=forms.TextInput(
             attrs={
                 'id': 'cpf_cnpj', 'class': "form-control ", 'type': "text",
-                'autocomplete': "off", 'ng-model': 'cpf_cnpj'
+                'autocomplete': "off", 'ng-model': 'cpf_cnpj', 'required':'required'
             }
         )
     )
@@ -57,7 +57,7 @@ class AbstractFormEntity (forms.Form):
         widget=forms.TextInput(
             attrs={
                 'id': 'entity_name', 'name': 'entity_name', 'class': "form-control uppercase", 'type': "text",
-                'autocomplete': "off", 'ng-model': 'entity_name', 'required': "True", #'pattern':'\S[a-z,A-Z]{2} \S[a-z,A-Z]{2}',
+                'autocomplete': "off", 'ng-model': 'entity_name', 'required': 'required', #'pattern':'\S[a-z,A-Z]{2} \S[a-z,A-Z]{2}',
                 'data-validate-length-range': '6'
             }
         )
@@ -208,6 +208,7 @@ class FormCompanyEntity(AbstractFormEntity):
         self.fields['registration_status'].widget                       = forms.HiddenInput()
     """
 
+
 class FormRegisterPhone (forms.Form):
 
     type_contact = forms.CharField(
@@ -298,6 +299,7 @@ class FormRegisterPhone (forms.Form):
                     erro_format = erro_format.replace("']", "")
                     response_errors[campo].append(erro_format)
         return response_errors
+
 
 class FormRegisterEmailEntity (FormAbstractEmail):
 
