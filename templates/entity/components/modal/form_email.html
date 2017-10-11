@@ -1,0 +1,56 @@
+<div id="modal_add_email" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+	<div class="modal-dialog"  style='position: absolute;width: 35%; left:50%;transform: translate(-50%, 0%);'>
+		<form id="form-save-email" autocomplete="off" ng-submit="changing_email? change_email() : save_email()" novalidate><!--  -->
+			<div class="modal-content">
+				{% csrf_token %}
+					<div class="modal-header" style="height: 40px;padding-top: 3px;margin-right:1px;">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="reset_email()" style="margin-top: 7px;margin-right:0px;">×</button>
+							<h5 class='modal_title' style="font-weight: bold">Adicionar Email</h5>
+					</div>
+					<div class="modal-body" style="padding: 10px 25px 0px 25px;">
+						{% csrf_token %}
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="form-group field field_required" id="field_email">
+									<sub><label id="label_email" for="email">{{ form_register_email.email.label }}</label> </sub>
+									{{ form_register_email.email }}
+									<div class="alert"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row no-gutters">
+							<!-- Campo Nome-->
+							<div class="col-lg-12">
+								<div class="form-group field field_required" id="field_name">
+									<sub><label id="label_name" for="name">{{ form_register_email.name.label }}</label> </sub>
+									{{ form_register_email.name }}
+									<div class="alert"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row no-gutters">
+							<div class="col-lg-6">
+								<div class="field field_required" id="field_send_xml">
+									<sub><label id="label_send_xml" for="send_xml">{{ form_register_email.send_xml.label }}</label> </sub>
+									{{ form_register_email.send_xml }}
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="form-group field field_required" id="field_send_suitcase">
+									<sub><label id="label_send_suitcase" for="send_suitcase">{{ form_register_email.send_suitcase.label }}</label> </sub>
+									{{ form_register_email.send_suitcase }}
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer" style="margin-right:1px;">
+						<div class="row" style="margin-top: 0px;margin-left: 0px;margin-right: 0px;padding-top: 0px;padding-bottom: 0px;">
+							<div class="col-lg-offset-10 col-lg-2 col-md-offset-10 col-md-2 col-sm-offset-10 col-sm-2 col-xs-offset-8 col-xs-4">
+								<button type="submit" href="#" class="btn btn-sm btn-success form-control pull-right" style="line-height: 24px;margin-right: -10px;margin-bottom: 0px;">Salvar</button>
+							</div>
+						</div>
+					</div>
+			</div>
+		</form>
+	</div>
+</div>

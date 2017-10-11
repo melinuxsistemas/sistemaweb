@@ -40,6 +40,25 @@ class DjangoWebTest:
         self.web_controller.enter_text('confirm_password', confirm_password)
         self.web_controller.click('button_send')
 
+    def add_entity (self, cpf_cnpj, entity_name, birth_date_foundation,fantasy_name ,observation):
+        while self.get_title() != 'SistemaWeb - Base Page':
+            time.sleep(1)
+        self.web_controller.click('button_menu_entidade')
+        self.web_controller.click('button_submenu_entidade')
+        while self.get_title() != 'SistemaWeb - Cadastrar Entidade':
+            time.sleep(1)
+        time.sleep(4)
+        self.web_controller.click('bt_identification')
+        self.web_controller.enter_text('cpf_cnpj',cpf_cnpj)
+        self.web_controller.enter_text('entity_name', entity_name)
+        self.web_controller.enter_text('fantasy_name', fantasy_name)
+        self.web_controller.enter_text('birth_date_foundation', birth_date_foundation)
+        self.web_controller.enter_text('observation', observation)
+        time.sleep(4)
+        self.web_controller.click('submit_entity')
+
+
+
     def change_password_behave (self, password ,new_password, confirm_password):
         while self.get_title() != 'SistemaWeb - Perfil do Usuário':
             time.sleep(1)
