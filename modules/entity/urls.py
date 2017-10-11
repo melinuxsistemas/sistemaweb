@@ -1,20 +1,20 @@
 from django.conf.urls import url
-from modules.entity.api import EntityAPI
+from modules.entity.api import EntityController
 
 
 urlpatterns = [
-    url(r'register/person/save$', EntityAPI.save_person),
-    url(r'list/entities/',EntityAPI.load_entities),
+    url(r'register/person/save$', EntityController().save_person),
+    url(r'list/entities/',EntityController().load),
     #Rotas Contatos
-    url(r'register/contact',EntityAPI.save_tel),
-    url(r'delete/phone/(?P<id_contact>[^/]+)',EntityAPI.delete_tel),
-    url(r'update/phone',EntityAPI.update_tel),
-    url(r'list/contacts/(?P<id_entity>[^/]+)/',EntityAPI.load_tel),
+    url(r'register/contact',EntityController().save_tel),
+    url(r'delete/phone/(?P<id_contact>[^/]+)',EntityController().delete_tel),
+    url(r'update/phone',EntityController().update_tel),
+    url(r'list/contacts/(?P<id_entity>[^/]+)/',EntityController().load_tel),
     #Rotas Emails
-    url(r'register/email',EntityAPI.save_email),
-    url(r'update/email',EntityAPI.update_email),
-    url(r'list/emails/(?P<id_entity>[^/]+)/',EntityAPI.load_email),
-    url(r'delete/email/(?P<id_email>[^/]+)',EntityAPI.delete_email),
+    url(r'register/email',EntityController().save_email),
+    url(r'update/email',EntityController().update_email),
+    url(r'list/emails/(?P<id_entity>[^/]+)/',EntityController().load_email),
+    url(r'delete/email/(?P<id_email>[^/]+)',EntityController().delete_email),
 
 
     #Falta Consertar APIs do Email

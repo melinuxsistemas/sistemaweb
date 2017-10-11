@@ -1,42 +1,17 @@
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.core import serializers
 
+from libs.default.core import json_serial, BaseController
 from modules.core.api import AbstractAPI
 from modules.core.config import ERRORS_MESSAGES
-from modules.core.utils import response_format_success, response_format_error, generate_activation_code, json_serial
-from modules.core.comunications import send_generate_activation_code
-from modules.entity.forms import FormCompanyEntity, FormPersonEntity, FormRegisterPhone, FormRegisterEmailEntity
+from modules.core.utils import response_format_success, response_format_error
+from modules.entity.forms import FormRegisterPhone, FormRegisterEmailEntity, FormPersonEntity
 from modules.entity.models import Entity, Contact, Email
-from modules.user.models import User
 from django.http import HttpResponse
-from django.http import Http404
-from sistemaweb import settings
 import json
 
-
-def cria_dict(type_object, item):
-    if (type_object == 'Email'):
-        if item.send_xml:
-            xml = 'Sim'
-        else:
-            xml = 'Não'
-        if item.send_suitcase:
-            suitcase = 'Sim'
-        else:
-            suitcase = 'Não'
-        return {'id':item.id,'name': item.name, 'email': item.email, 'send_xml': xml, 'send_suitcase': suitcase}
-    if (type_object == 'Contact'):
-        return {'id': item.id, 'type_contact': item.type_contact, 'phone': '(' + item.ddd + ')' + item.phone,
-                'complemento': item.complemento, 'name': item.name}
-    if (type_object == 'Entity'):
-        if item.birth_date_foundation is not None:
-            date = item.birth_date_foundation.strftime('%d/%m/%Y')
-        else:
-            date = None
-        return {'id': item.id, 'birth_date_foundation': date, 'entity_type' : item.entity_type,
-            'cpf_cnpj' : item.cpf_cnpj, 'entity_name' : item.entity_name,'created_date' : item.created_date.strftime('%d/%m/%Y'),
-        'selected' : ''}
-
+"""
 def format_exception_message(exceptions):
     message_dict = {}
     if type(exceptions) == list:
@@ -61,33 +36,42 @@ def format_exception_message(exceptions):
                     except_parts = except_parts.split(': ')
                     field = except_parts[1].split('.')[1]
 
-            """ 
+            ""
             Quando temos apenas um erro esse e o formato da excessao:
                django.core.exceptions.ValidationError: ['cpf_cnpj: Cpf number is not valid.']
             
             Contudo pode ser que o mesmo campo tenha duas validacoes com erro 
             sendo necessario adequar essa funcao para tratar isso.
-            """
+            ""
             message_dict[field] = ERRORS_MESSAGES[status_code]
 
     else:
-        print("VEJA O QUE TEMOS: ", exceptions, type(exceptions))
+        #print("VEJA O QUE TEMOS: ", exceptions, type(exceptions))
         paramters = exceptions.args[0].split(': ')
         code_status = exceptions.args[1]
         field = paramters[0]
         #value = paramters[1]
         message_dict[field] = ERRORS_MESSAGES[code_status]
     return message_dict
+"""
 
+class EntityController(BaseController):
 
-class EntityAPI:
+    @method_decorator(login_required)
+    def save_person(self, request):
+        return self.save(request, FormPersonEntity)
 
+    @method_decorator(login_required)
+    def load(self, request):
+        return self.filter(request, Entity)
+
+    @method_decorator(login_required)
+    def update(self, request):
+        return self.update(request, Entity)
+
+    """
     @login_required
-    # Versão Padronizada das APIs
-
-    #APIs para a Entidade
     def save_person(request):
-        print("Vindo aqui save_person")
         resultado, form = AbstractAPI.filter_request(request, FormPersonEntity)
         entity = Entity()
         entity.form_to_object(form)
@@ -117,14 +101,27 @@ class EntityAPI:
 
         #print("RESPONSE_DICT: ",response_dict)
         return HttpResponse(json.dumps(response_dict))
-    def load_entities(request):
-        response_dict = []
-        list_entities = Entity.objects.all().order_by("-id")
-        for entity in list_entities:
-            response_object = json.loads(serializers.serialize('json', [entity]))[0]
-            response_object['fields']['id'] = response_object['pk']
-            response_object = response_object['fields']
-            response_dict.append(response_object)
+    """
+
+    def save_email (request):
+        resultado , form = AbstractAPI.filter_request(request,FormRegisterEmailEntity)
+        email_form = request.POST['email']
+        emails_lst = Email.objects.filter(entity_id=1)
+
+        if resultado:
+            email = Email()
+            email.entity_id = 1
+            email.form_to_object(form)
+            email.send_xml = request.POST['send_xml']
+            email.send_suitcase = request.POST['send_suitcase']
+            email.show_fields_value()
+
+        try:
+            email.save()
+            response_dict = response_format_success(email,['entity','name','email','send_xml','send_suitcase'])
+        except:
+            print("Nao salvei")
+            response_dict = response_format_error(False)
         return HttpResponse(json.dumps(response_dict))
 
     #APIs para o Contatc
@@ -337,6 +334,38 @@ class EntityAPI:
 
 
     
+    def load_contact (request, id_contact):
+        response_contact = {}
+        print (id_contact)
+        try:
+            contact = Contact.objects.get(id=id_contact)
+            response_contact['type_contact'] = contact.type_contact
+            response_contact['phone'] = contact.phone
+            response_contact['name'] = contact.name
+            response_contact['ddd'] = contact.ddd
+            response_contact['complemento'] = contact.complemento
+        except:
+            response_contact = response_format_error(False)
+
+        return HttpResponse(json.dumps(response_contact))
+
+    def update_contact (request):
+        id_contact = request.POST['id']
+        phone = request.POST['phone']
+        name = request.POST['name']
+        ddd = request.POST['ddd']
+        type_contact = request.POST['type_contact']
+        complemento = request.POST['complemento']
+        contact = Contact.objects.get(id=id_contact)
+
+        try:
+            Contact.objects.filter(id=id_contact).update(phone= phone, name=name,ddd=ddd,type_contact=type_contact,complemento=complemento)
+            response_dict = response_format_success(contact,['phone','name','ddd','type_contact','complemento'])
+        except:
+            response_dict = response_format_error(False)
+        return  HttpResponse(json.dumps(response_dict))
+
+    ""
     def register_delete(request, email):
         user = User.objects.get_user_email(email)
         if user is not None:
@@ -437,5 +466,6 @@ class EntityAPI:
             response_dict = response_format_error(form.format_validate_response())
 
         return HttpResponse(json.dumps(response_dict))
+    ""
     '''
 
