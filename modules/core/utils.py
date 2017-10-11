@@ -7,14 +7,14 @@ import hashlib
 import threading
 import datetime
 
-from datetime import date, datetime
+#from datetime import date, datetime
 
-def json_serial(obj):
-    """JSON serializer for objects not serializable by default json code"""
-
-    if isinstance(obj, (datetime, date)):
-        return obj.isoformat()
-    raise TypeError ("Type %s not serializable" % type(obj))
+#def json_serial(obj):
+#    """JSON serializer for objects not serializable by default json code"""
+#
+#    if isinstance(obj, (datetime, date)):
+#        return obj.isoformat()
+#    raise TypeError ("Type %s not serializable" % type(obj))
 
 def response_format_success(object,list_fields):
     return response_format(True, '', object, list_fields)

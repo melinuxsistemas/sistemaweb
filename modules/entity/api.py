@@ -1,18 +1,16 @@
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
+from libs.default.core import json_serial, BaseController
 from modules.core.api import AbstractAPI
 from modules.core.config import ERRORS_MESSAGES
-from modules.core.utils import response_format_success, response_format_error, generate_activation_code, json_serial
-from modules.core.comunications import send_generate_activation_code
-from modules.entity.forms import FormCompanyEntity, FormPersonEntity, FormRegisterPhone, FormRegisterEmailEntity
+from modules.core.utils import response_format_success, response_format_error
+from modules.entity.forms import FormRegisterPhone, FormRegisterEmailEntity, FormPersonEntity
 from modules.entity.models import Entity, Contact, Email
-from modules.user.models import User
 from django.http import HttpResponse
-from django.http import Http404
-from sistemaweb import settings
 import json
 
-
+"""
 def format_exception_message(exceptions):
     message_dict = {}
     if type(exceptions) == list:
@@ -37,27 +35,40 @@ def format_exception_message(exceptions):
                     except_parts = except_parts.split(': ')
                     field = except_parts[1].split('.')[1]
 
-            """ 
+            ""
             Quando temos apenas um erro esse e o formato da excessao:
                django.core.exceptions.ValidationError: ['cpf_cnpj: Cpf number is not valid.']
             
             Contudo pode ser que o mesmo campo tenha duas validacoes com erro 
             sendo necessario adequar essa funcao para tratar isso.
-            """
+            ""
             message_dict[field] = ERRORS_MESSAGES[status_code]
 
     else:
-        print("VEJA O QUE TEMOS: ", exceptions, type(exceptions))
+        #print("VEJA O QUE TEMOS: ", exceptions, type(exceptions))
         paramters = exceptions.args[0].split(': ')
         code_status = exceptions.args[1]
         field = paramters[0]
         #value = paramters[1]
         message_dict[field] = ERRORS_MESSAGES[code_status]
     return message_dict
+"""
 
+class EntityController(BaseController):
 
-class EntityAPI:
+    @method_decorator(login_required)
+    def save_person(self, request):
+        return self.save(request, FormPersonEntity)
 
+    @method_decorator(login_required)
+    def load(self, request):
+        return self.filter(request, Entity)
+
+    @method_decorator(login_required)
+    def update(self, request):
+        return self.update(request, Entity)
+
+    """
     @login_required
     def save_person(request):
         resultado, form = AbstractAPI.filter_request(request, FormPersonEntity)
@@ -89,6 +100,7 @@ class EntityAPI:
 
         #print("RESPONSE_DICT: ",response_dict)
         return HttpResponse(json.dumps(response_dict))
+    """
 
     def save_email (request):
         resultado , form = AbstractAPI.filter_request(request,FormRegisterEmailEntity)
@@ -222,7 +234,7 @@ class EntityAPI:
             response_contact['complemento'] = contact.complemento
         except:
             response_contact = response_format_error(False)
-        print("OLHA O Q EU VOU RETORNAR: response_contact", response_contact)
+
         return HttpResponse(json.dumps(response_contact))
 
     def update_contact (request):

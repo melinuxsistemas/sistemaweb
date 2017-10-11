@@ -61,7 +61,7 @@ class WorkingManager:
         return self.register(tag="PROG-FRONT",request_page=page)
 
     def register_test_front(self):
-        print("TEM QUE REGISTRAR QUE VOU RODAR O TEST DE FRONT")
+        #print("TEM QUE REGISTRAR QUE VOU RODAR O TEST DE FRONT")
         return self.register(tag="TEST-FRONT")
 
     def register_test_backend(self):

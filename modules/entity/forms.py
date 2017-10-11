@@ -1,10 +1,15 @@
 from django import forms
+
+from libs.default.core import BaseForm
 from modules.core.config import ERRORS_MESSAGES
 from modules.core.forms import FormAbstractEmail
+from modules.entity.models import Entity
 from modules.entity.validators import cpf_cnpj_validator, future_birthdate_validator, min_words_name_validator
 
 
 class AbstractFormEntity (forms.Form):
+
+    model = Entity
 
     options_entity_type = (
         (0, "Pessoa Física"),
@@ -137,7 +142,8 @@ class AbstractFormEntity (forms.Form):
         return response_errors
 
 
-class FormPersonEntity(AbstractFormEntity):
+class FormPersonEntity(AbstractFormEntity, BaseForm):
+
     def __init__(self, *args, **kwargs):
         super(AbstractFormEntity, self).__init__(*args, **kwargs)
         #self.fields['cpf_cnpj'].label = "CPF"
