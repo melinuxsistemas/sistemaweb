@@ -34,7 +34,7 @@ function execute_ajax(url,request_method,data_paramters,success_function,fail_fu
           notify('error',"Falha na operação",message)
         }
         else {
-          fail_function(message);
+          fail_function(result,message,null);
         }
       }
       NProgress.done();

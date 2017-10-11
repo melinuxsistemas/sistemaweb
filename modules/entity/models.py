@@ -80,6 +80,7 @@ class Entity(models.Model,BaseModel):
     history = models.CharField("Histórico de Alterações",max_length=500,null=True, blank=True)
 
     def save(self, *args, **kwargs):
+        print("VINDO SALVAR ESSE DEMONIO")
         self.model_exceptions = self.check_validators()
         if self.model_exceptions == []:
             try:
@@ -153,6 +154,10 @@ class Entity(models.Model,BaseModel):
         return form_data
         """
 
+    def desativar (self):
+        print("11Consegui deletar???")
+        self.registration_status = 2
+
     def __unicode__(self):
         return self.cpf_cnpj
 
@@ -161,7 +166,7 @@ class Contact (models.Model,BaseModel):
     models_exceptions = []
 
     id = models.AutoField(primary_key=True, unique=True)
-    entity = models.ForeignKey(to=Entity,on_delete=models.CASCADE,null=True,error_messages=ERRORS_MESSAGES)
+    entity = models.ForeignKey(to=Entity,on_delete=models.CASCADE,null=False,error_messages=ERRORS_MESSAGES)
     type_contact = models.CharField("Tipo de Contato",max_length=10,  error_messages=ERRORS_MESSAGES)
     name = models.CharField("Nome", max_length=30, null=False, error_messages=ERRORS_MESSAGES)
     ddd = models.CharField("DDD", max_length=4,validators=[only_numeric], null=False, blank=False,  error_messages=ERRORS_MESSAGES)
@@ -193,16 +198,48 @@ class Contact (models.Model,BaseModel):
             only_numeric(self.ddd)
         except Exception as e:
             self.model_exceptions.append(e)
-
         return self.model_exceptions
+
+    def desativar (self):
+        self.delete()
 
 class Email (models.Model, BaseModel):
 
     id = models.AutoField(primary_key=True, unique=True)
-    email = models.EmailField(('Email'), max_length=255, validators=[email_format_validator, email_dangerous_symbols_validator], error_messages=ERRORS_MESSAGES)
-    name = models.CharField("Nome", max_length=30, null=False, error_messages=ERRORS_MESSAGES)
-    entity = models.ForeignKey(to=Entity, on_delete=models.CASCADE, null=True, error_messages=ERRORS_MESSAGES)
-    send_xml = models.BooleanField("Envia XML", error_messages=ERRORS_MESSAGES)
-    send_suitcase = models.BooleanField("Envia Mala", error_messages=ERRORS_MESSAGES)
+    email = models.EmailField(('Email'), null=False,blank=False, max_length=255, validators=[email_format_validator, email_dangerous_symbols_validator], error_messages=ERRORS_MESSAGES)
+    name = models.CharField("Nome", max_length=30, null=False,blank=False, error_messages=ERRORS_MESSAGES)
+    entity = models.ForeignKey(to=Entity, on_delete=models.CASCADE, null=False,blank=False, error_messages=ERRORS_MESSAGES)
+    send_xml = models.BooleanField("Envia XML", null=False,blank=False,error_messages=ERRORS_MESSAGES)
+    send_suitcase = models.BooleanField("Envia Mala",null=False,blank=False, error_messages=ERRORS_MESSAGES)
     details = models.CharField("Detalhes", max_length=10, error_messages=ERRORS_MESSAGES)
     history = models.CharField("Histórico de Alterações", max_length=500,error_messages=ERRORS_MESSAGES)
+
+    model_exceptions = []
+
+    def save(self, *args, **kwargs):
+        self.model_exceptions = self.check_validators()
+        if self.model_exceptions == []:
+            try:
+                super(Email, self).save(*args, **kwargs)
+            except Exception as exception:
+                self.model_exceptions.append(exception)
+                raise exception
+        else:
+            raise self.model_exceptions[0]
+
+    def check_validators(self):
+        self.model_exceptions = []
+
+        try:
+            email_format_validator(self.email)
+        except Exception as e:
+            self.model_exceptions.append(e)
+
+        try:
+            email_dangerous_symbols_validator(self.email)
+        except Exception as e:
+            self.model_exceptions.append(e)
+        return self.model_exceptions
+
+    def desativar (self):
+        self.delete()

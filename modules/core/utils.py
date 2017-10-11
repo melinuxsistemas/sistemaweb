@@ -16,7 +16,7 @@ import datetime
 #        return obj.isoformat()
 #    raise TypeError ("Type %s not serializable" % type(obj))
 
-def response_format_success(object,list_fields):
+def response_format_success(object,list_fields=None):
     return response_format(True, '', object, list_fields)
 
 def response_format_error(message):
@@ -27,7 +27,10 @@ def response_format(result,message,object,list_fields):
     response_dict['success'] = result
     response_dict['message'] = message
     if result:
-        response_dict['data-object'] = serializers.serialize('json', [object], fields=tuple(list_fields),)
+        if list_fields is not None:
+            response_dict['data-object'] = serializers.serialize('json', [object], fields=tuple(list_fields))
+        else:
+            response_dict['data-object'] = serializers.serialize('json', [object] )
         response_dict['data-object'] = response_dict['data-object'][1:-1]
         aux = response_dict['data-object'][response_dict['data-object'].index('"fields":'):].replace('"fields": ',"").replace("}}","}")
         response_dict['data-object'] = aux

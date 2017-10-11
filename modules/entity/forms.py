@@ -3,6 +3,7 @@ from django import forms
 from libs.default.core import BaseForm
 from modules.core.config import ERRORS_MESSAGES
 from modules.core.forms import FormAbstractEmail
+from modules.entity.models import BaseModel
 from modules.entity.models import Entity
 from modules.entity.validators import cpf_cnpj_validator, future_birthdate_validator, min_words_name_validator
 
@@ -213,11 +214,7 @@ class FormCompanyEntity(AbstractFormEntity):
         self.fields['registration_status'].widget                       = forms.HiddenInput()
     """
 
-class FormRegisterPhone (FormAbstractEmail):
-    '''def clean(self):
-        form_data = self.cleaned_data
-        print("Olha o clean Phone",form_data)
-        return  form_data'''
+class FormRegisterPhone (forms.Form):
 
     type_contact = forms.CharField(
         label="Tipo de contato",
@@ -265,6 +262,7 @@ class FormRegisterPhone (FormAbstractEmail):
     complemento = forms.CharField(
         label="Complemento",
         max_length=32,
+        required=False,
         widget= forms.TextInput(
             attrs={
                 'id':'complemento', 'name':'complemento', 'class':'form-control'
@@ -310,7 +308,7 @@ class FormRegisterPhone (FormAbstractEmail):
 class FormRegisterEmailEntity (FormAbstractEmail):
 
     boolean_email = (
-        (True,'SIM'),
+        (True,'Sim'),
         (False,'Não')
     )
 

@@ -1,4 +1,4 @@
-from modules.entity.models import Entity
+from modules.entity.models import *
 
 
 def create_simple_valid_person():
@@ -16,3 +16,19 @@ def create_simple_valid_company():
     entity.entity_name = 'EMPRESA DE TESTES LTDA'
     entity.fantasy_name = 'EMPRESA DE TESTE'
     return entity
+
+def create_simple_valid_contac():
+    contact = Contact()
+    contact.type_contact = 'FIXO'
+    contact.phone = '30304040'
+    contact.ddd = '27'
+    contact.complemento = 'TESTE TESTE'
+    return contact
+
+def create_simple_valid_email():
+    email = Email()
+    email.name = 'Test'
+    email.email = 'teste@teste.com'
+    email.send_suitcase = True
+    email.send_xml = True
+    return email

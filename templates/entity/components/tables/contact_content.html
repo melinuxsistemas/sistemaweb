@@ -1,81 +1,180 @@
-<div id="contact_controller" ng-controller="register_phone_entity">
-	<div class="x_panel">
-		<div class="x_title">
-			<h2>Entidades <span class="navigation_icon"><i class="fa fa-chevron-right fa-lg" aria-hidden="true"></i></span> Contatos <span class="navigation_icon"><i class="fa fa-chevron-right fa-lg" aria-hidden="true"></i></span>{% verbatim %} {{ entity_selected.entity_name|lowercase }}{% endverbatim %}<!--<small>Click to validate</small>--></h2>
+<div class="x_panel">
+	<div class="x_title">
+		<div class="row">
+			<h2 id="title_contact" style="padding-left: 10px"></h2>
 			<ul class="nav navbar-right panel_toolbox">
-				<div class="btn-group" role="group" aria-label="...">
-					<a id='bt_add_contacts' href="#" data-toggle="modal" data-target="#modal_add_phone" role="button" class="btn btn-sm btn-success pull-left" ng-click="contact_selected? load_field_contact(): return(true);"  style='margin-left: 5px; width: 40px' > <span ng-if="contact_selected">Alterar</span><span ng-if="!contact_selected"><i class="fa fa-plus" aria-hidden="true"></i></span></a>
-					<a id='bt_identification' href="#entity_identification" data-toggle="tab" role="button" class="btn btn-sm btn-default">Voltar</a><!-- data-toggle="modal" data-target="#modal_add_entity" -->
-
-					<!--<div class="btn-group" role="group">
-						<button type="button" id='bt_outras_acoes' class="btn btn-sm btn-default dropdown-toggle desabilitado" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu dropdown-menu-right">
-							<li><a href="#">Action</a></li>
-							<li><a href="#">Another action</a></li>
-							<li><a id="bt_delete_contact" href="#" role="button" class="btn btn-sm btn-danger " ng-class="{true:'disabled', false:''}[contact_selected==null]"  ng-click="delete_contact()">Deletar Contato</a></li>
-							<!--<li role="separator" class="divider"></li>
-							<li><a href="#modal_justificativa" id="bt_desativar_cliente" data-toggle="modal">Desativar</a></li>--
-						</ul>
-					</div>-->
+				<div class="btn-group" role="group" aria-label="..." style="; padding-right: 20px">
+					<a id='bt_identification' href="#entity_identification" data-toggle="tab" role="button" class="btn btn-sm btn-default " style='width: 100px' title="Voltar para Entidades"><i class="fa fa-arrow-left" aria-hidden="true" style="margin-left: -6px"> Voltar</i></a>
 				</div>
-				</ul>
-			<div class="clearfix"></div>
+			</ul>
 		</div>
-		<div class="x_content">
-			<div class="row">
-				<div class="col-md-12">
-					<table id="table_contact" class="table table-striped table-bordered table-hover">
-						<thead>
-							<tr class="row_contact linha_selecionavel" style="font-size:10px;">
-								<th class='col_index text-center' ng-click="sortType = 'contact_code'; sortReverse = !sortReverse"></th>
+	</div>
+	<div class="x_content">
+		<div class="row">
+			<div class="col-lg-6">
+				<div id="contact_controller" ng-controller="register_phone_entity">
+					<div class="row">
+						<div class="col-lg-12 col-md-12 col-sm-12"col-xs-12>
+							<div class="x_panel">
+								<div class="x_title">
+									<h2>Contatos:</h2>
+									<ul class="nav navbar-right panel_toolbox">
+										<div class="btn-group" role="group" aria-label="..." >
+											<a id='bt_update_contacts' href="#" data-toggle="modal" data-target="#modal_add_phone" role="button" class="btn btn-sm btn-default pull-left" ng-click="load_field_contact()" ng-class="{ 'disabled': contact_selected == null}"  style='width: 40px' title="Alterar Telefone" ><i class="fa fa-pencil" aria-hidden="true"></i></a>
+											<a id='bt_delete_contacts' href="#"role="button" class="btn btn-sm btn-default pull-left" ng-click="delete_contact()" ng-class="{ 'disabled': contact_selected == null}" style='; width: 40px' title="Deletar Telefone"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+											<a id='bt_add_contacts' href="#" data-toggle="modal" data-target="#modal_add_phone" role="button" class="btn btn-sm btn-success pull-left"  style='margin-left: 5px; width: 40px' title="Adicionar Telefone" ><i class="fa fa-plus" aria-hidden="true"></i></a>
+										</div>
+										</ul>
+									<div class="clearfix"></div>
+								</div>
+								<div class="x_content">
+									<div class="row">
+										<div class="col-md-12">
+											<table id="table_contact" class="table table-striped table-bordered table-hover">
+												<thead>
+													<tr class="row_contact linha_selecionavel" style="font-size:10px;">
 
-								<th class="col_contact_type text-center" ng-hide='S0 || S1 || S2' ng-click="sortType = 'type_contact'; sortReverse = !sortReverse">Tipo</th>
+														<th class="col_contact_type text-center" ng-hide='S0 || S1 || S2' ng-click="sortType = 'type_contact'; sortReverse = !sortReverse">Tipo</th>
 
-								<th class='col_contact_name text-center' ng-click="sortType = 'contact_name'; sortReverse = !sortReverse">Nome/Razão Social</th>
+														<th class='col_contact_name text-center' ng-click="sortType = 'contact_name'; sortReverse = !sortReverse">Nome/Razão Social</th>
 
-								<th class="col_phone_number text-center" ng-hide='S0 || S1 || S2' ng-click="sortType = 'phone_number'; sortReverse = !sortReverse">Telefone</th>
+														<th class="col_phone_number text-center" ng-hide='S0 || S1 || S2' ng-click="sortType = 'phone_number'; sortReverse = !sortReverse">Telefone</th>
 
-								<th class='col_contact_complemento text-center' ng-hide='S0 || S1 || S2 || S3 || S4' ng-click="sortType = 'inicio'; sortReverse = !sortReverse">Complemento</th>
+														<th class='col_contact_complemento text-center' ng-hide='S0 || S1 || S2 || S3 || S4' ng-click="sortType = 'inicio'; sortReverse = !sortReverse">Complemento</th>
 
-							</tr>
-						</thead>
-					<tbody>
-						{% verbatim %}
-							<tr ng-if="(contacts|filter:filterIds()).length == 0">
-								<td colspan="8" class="text-center">Nenhum Contato Cadastrado!</td>
-							</tr>
+													</tr>
+												</thead>
+											<tbody>
+												{% verbatim %}
+													<!--<tr ng-if="(contacts|filter:filterIds()).length == 0">
+														<td colspan="8" class="text-center">Nenhum Contato Cadastrado!</td>
+													</tr>-->
 
-							<tr class="row_contact linha_selecionavel {{ contact.selected }}" ng-click="select_contact(contact)" pagination-id="paginate_contacts" dir-paginate="contact in contacts | filter: get_filter_column() | itemsPerPage:10 | orderBy:sortType:sortReverse as resultado">
-								<td class='col_index'>{{ $index+1 }}</td><!-- $index+1 -->
+													<tr class="row_contact linha_selecionavel {{ contact.selected }}" ng-click="select_contact(contact)" pagination-id="paginate_contacts" dir-paginate="contact in contacts | filter: get_filter_column() | itemsPerPage:10 | orderBy:sortType:sortReverse as resultado">
 
-									<td class="col_contact_type" ng-hide='S0 || S1 || S2' ng-class="{true:'left', false:'center'}[contact.type_contact=='']">
-										{{ contact.type_contact }}
-									</td>
+														<td class="col_contact_type" ng-hide='S0 || S1 || S2 || S3 || S4' ng-class="{true:'left', false:'center'}[contact.type_contact=='']">
+															{{ contact.type_contact }}
+														</td>
 
-									<td class="col_name" ng-hide='S0 || S1 || S2' ng-class="{true:'left', false:'center'}[contact.name =='']">
-										{{ contact.name }}
-									</td>
+														<td class="col_contact_name" ng-hide='S0 || S1 || S2' ng-class="{true:'left', false:'center'}[contact.name =='']">
+															{{ contact.name }}
+														</td>
 
-									<td class="col_phone_number">
-										{{ contact.phone }}
-									</td>
+														<td class="col_phone_number">
+															({{ contact.ddd }}) {{ contact.phone }}
+														</td>
 
-									<td class="col_complemento" ng-hide='S0 || S1 || S2 || S3 || S4' ng-class="{true:'left', false:'center'}[contact.complemento=='']" style="width: 80px;">
-										{{contact.complemento }}
-									</td>
-						{% endverbatim %}
-							</tr>
-					</tbody>
-				</table>
+														<td class="col_complemento" ng-hide='S0 || S1 || S2 || S3 || S4'  style="">
+																{{contact.complemento }}
+														</td>
+													</tr>
+
+													<tr class="row_contact angular-repeat" ng-repeat="k in minimal_rows_tables.slice(contacts.length,minimal_rows_tables.length)">
+														<td class="col_contact_type" ng-hide='S0 || S1 || S2'></td>
+
+														<td class='col_contact_name'> </td>
+
+														<td class="col_phone_number" ng-hide='S0 || S1 || S2'></td>
+
+														<td class='col_contact_complemento' ng-hide='S0 || S1 || S2 || S3 || S4'></td>
+													</tr>
+
+												{% endverbatim %}
+											</tbody>
+										</table>
+										</div>
+									</div>
+									{% include "entity/components/modal/form_contact.html" %}
+								</div>
+						</div>
+						</div>
+					</div>
 				</div>
-			<div class="row">
 			</div>
+			<div class="col-lg-6">
+				<div id="email_controller" ng-controller="register_email_entity">
+					<div class="row">
+						<div class="col-lg-12 col-md-12 col-sm-12"col-xs-12>
+							<div class="x_panel">
+								<div class="x_title">
+									<h2>Emails:</h2>
+									<ul class="nav navbar-right panel_toolbox">
+										<div class="btn-group" role="group" aria-label="...">
+											<a id='bt_update_email' href="#" data-toggle="modal" data-target="#modal_add_email" role="button" class="btn btn-sm btn-default pull-left" ng-click="load_field_email()" ng-class="{ 'disabled': email_selected == null}"  style='width: 40px' title="Alterar Email" ><i class="fa fa-pencil" aria-hidden="true"></i></a>
+											<a id='bt_delete_email' href="#"role="button" class="btn btn-sm btn-default pull-left" ng-click="delete_email()" ng-class="{ 'disabled': email_selected == null}" style='; width: 40px' title="Deletar Email"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+											<a id='bt_add_email' href="#" data-toggle="modal" data-target="#modal_add_email" role="button" class="btn btn-sm btn-success pull-left"  style='margin-left: 5px; width: 40px' title="Adicionar Email" ><i class="fa fa-plus" aria-hidden="true"></i></a>
+										</div>
+										</ul>
+									<div class="clearfix"></div>
+								</div>
+								<div class="x_content">
+									<div class="row">
+										<div class="col-md-12">
+											<table id="table_emails" class="table table-striped table-bordered table-hover">
+												<thead>
+													<tr class="row_contact linha_selecionavel" style="font-size:10px;">
+
+														<th class="col_email_name text-center" ng-hide='S0 || S1 || S2' ng-click="sortType = 'name'; sortReverse = !sortReverse">Nome</th>
+
+														<th class='col_email_email text-center' ng-click="sortType = 'email'; sortReverse = !sortReverse">Email</th>
+
+														<th class="col_email_xml text-center" ng-hide='S0 || S1 || S2' ng-click="sortType = 'send_xml'; sortReverse = !sortReverse" title="Enviar XML"><a class="fa fa-send"  style="margin-left: 8px"></a></th>
+
+														<th class='col_email_suitcase text-center' ng-hide='S0 || S1 || S2 || S3 || S4' ng-click="sortType = 'send_suitcase'; sortReverse = !sortReverse" title="Enviar Mala"><a class="fa fa-suitcase"  style="margin-left: 8px"></a></th>
+
+													</tr>
+												</thead>
+											<tbody>
+												{% verbatim %}
+													<!--<tr ng-if="(emails|filter:filterIds()).length == 0">
+														<td colspan="8" class="text-center">Nenhum Email Cadastrado!</td>
+													</tr>-->
+
+													<tr class="row_contact linha_selecionavel {{ email.selected }}" ng-click="select_email(email)" pagination-id="paginate_emails" dir-paginate="email in emails | filter: get_filter_column() | itemsPerPage:10 | orderBy:sortType:sortReverse as resultado">
+
+														<td class="col_email_name" ng-hide='S0 || S1 || S2' ng-class="{true:'left', false:'center'}[email.name=='']">
+															{{ email.name }}
+														</td>
+
+														<td class="col_email_email" ng-class="{true:'left', false:'center'}[email.email =='']">
+															{{ email.email }}
+														</td>
+
+														<td class="col_email_xml" ng-hide='S0 || S1 || S2 || S3 || S4'>
+															<span ng-if="email.send_xml == true || email.send_xml == 'True'">Sim</span>
+															<span ng-if="!(email.send_xml == true|| email.send_xml == 'True')">Não</span>
+														</td>
+
+														<td class="col_email_suitcase" ng-hide='S0 || S1 || S2 || S3 || S4' ng-class="center" style="width: 80px;">
+															<span ng-if="email.send_suitcase == true || email.send_suitcase == 'True'">Sim</span>
+															<span ng-if="!(email.send_suitcase == true|| email.send_suitcase == 'True')">Não</span>
+														</td>
+													</tr>
+
+													<tr class="row_contact angular-repeat" ng-repeat="k in minimal_rows_table_email.slice(emails.length,minimal_rows_table_email.length)">
+														<td class="col_email_name" ng-hide='S0 || S1 || S2'></td>
+
+														<td class='col_email_email'> </td>
+
+														<td class="col_email_xml" ng-hide='S0 || S1 || S2'></td>
+
+														<td class='col_email_suitcase' ng-hide='S0 || S1 || S2 || S3 || S4'></td>
+													</tr>
+
+												{% endverbatim %}
+											</tbody>
+										</table>
+										</div>
+									<div class="row">
+									</div>
+									</div>
+									{% include "entity/components/modal/form_email.html" %}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
-			{% include "entity/components/modal/form_contact.html" %}
+		</div>
 	</div>
 </div>
-
-
-
-

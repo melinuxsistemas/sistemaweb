@@ -33,7 +33,7 @@ function validate_all_form (){
   validator.texts = get_custom_messages();
   validator.settings.alerts = true;
   var result = validator.checkAll($('#form-save-entity'));
-  alert("validate all form: "+result.valid)
+  //alert("validate all form: "+result.valid)
   return result.valid
 
 }
@@ -54,7 +54,7 @@ function validate_form_regiter_person (){
 }
 
 function validate_cpf (cpf_cnpj){
-  alert("Chegando no validate cpf")
+  //alert("Chegando no validate cpf")
   var cpf = $('#'+cpf_cnpj).val();
   cpf = cpf.replace(/[^\d]+/g,'');
   var result = true;
@@ -75,7 +75,6 @@ function validate_cpf (cpf_cnpj){
       cpf === "77777777777" ||
       cpf === "88888888888" ||
       cpf === "99999999999") {
-      alert("Vai ficar falso")
       result = false;
   }
   // Valida 1o digito
@@ -108,9 +107,9 @@ function validate_cpf (cpf_cnpj){
 }
 
 function validate_date_person(birth_date_foundation) {
-  alert("chego pello menos")
+  //alert("chego pello menos")
   var data = $('#'+birth_date_foundation).val();
-	alert("Olha a data"+data)
+	//alert("Olha a data"+data)
 
   if(!(data === "__/__/____") && !(data === '')) {
   	var date_current = new Date;
@@ -118,10 +117,10 @@ function validate_date_person(birth_date_foundation) {
 		var split = data.split('/');
 		var year_data = split[2];
 		var age = year_current - year_data;
-    alert("Olha a idade"+age)
+    //alert("Olha a idade"+age)
 		if (age < 0){
 			set_wrong_field(birth_date_foundation,'Informe uma data válida')
-      alert("Não salvo datas futuras")
+      //alert("Não salvo datas futuras")
 			return notify("error","Data Inválida","Este campo não permite data futura.")
 		}
 
@@ -130,7 +129,7 @@ function validate_date_person(birth_date_foundation) {
 			return notify("error","Data Inválida","Pessoa física precisa ter 18 anos ou mais.");
 		}
 		else if (age>=18 && age<=150){
-		  alert("Com a data " +age +"Retorno Verdade")
+		  //alert("Com a data " +age +"Retorno Verdade")
 			clean_wrong_field(birth_date_foundation)
   		return true;
 		}

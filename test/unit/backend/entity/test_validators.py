@@ -53,5 +53,15 @@ class ValidatorsTest(TestCase):
                 result = False
             self.assertEqual(result, expected_result, description)
 
+    def test_only_numeric_phone_validator(self):
+        case_list = [
+            [None,False,"Testar validação do telefone com valor None. (OK)"],
+            ['',False,"Testar validação do telefone com string vazia. (OK)"],
+            [' ',False,'Testar validação do telefone com texto contendo espaço vazio. (OK)'],
+            ['TESTE123',False,'Testar validação do telefone com valor contento letras. (OK)'],
+            ['30304050',True,'Testar validação do telefone com string contendo somente numeros. (OK)']
+        ]
+        self.execute_case_list(case_list, only_numeric)
+
 
 

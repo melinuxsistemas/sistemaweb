@@ -1,0 +1,69 @@
+<div id="modal_add_phone" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+	<div class="modal-dialog"  style='position: absolute;width: 80%; left:50%;transform: translate(-50%, 0%);'>
+		<form id="form-save-contact" autocomplete="off" ng-submit="changing_contact? change_contact() : save_tel()" novalidate><!--  -->
+			<div class="modal-content">
+				{% csrf_token %}
+					<div class="modal-header" style="height: 40px;padding-top: 3px;margin-right:1px;">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="margin-top: 7px;margin-right:0px;">×</button>
+							<h5 class='modal_title' style="font-weight: bold">Adicionar Contato</h5>
+					</div>
+					<div class="modal-body" style="padding: 10px 25px 0px 25px;">
+						{% csrf_token %}
+							<div class="row">
+								<div class="col-lg-4">
+									<div class="form-group field field_required" id="field_type_contact">
+										<sub><label id="lb_type_contact" for="type_contact">{{ form_register_number.type_contact.label }}</label></sub><br/>
+										{{ form_register_number.type_contact }}
+										<div class="alert"></div>
+									</div>
+								</div>
+
+								<div class="col-lg-8">
+									<div class="form-group field field_required" id="field_name">
+										<sub><label id="lb_name" for="name">{{ form_register_number.name.label }}</label></sub><br/>
+										{{ form_register_number.name }}
+										<div class="alert"></div>
+									</div>
+								</div>
+
+							</div>
+
+							<div class="row">
+
+								<div class="col-lg-2">
+									<div class="form-group field field_required" id="field_ddd">
+										<sub><label id="lb_ddd" for="ddd">{{ form_register_number.ddd.label }}</label></sub><br/>
+										{{ form_register_number.ddd }}
+										<div class="alert"></div>
+									</div>
+								</div>
+
+								<div class="col-lg-5">
+									<div class="form-group field field_required" id="field_phone">
+										<sub><label id="lb_phone" for="phone">{{ form_register_number.phone.label }}</label></sub><br/>
+										{{ form_register_number.phone }}
+										<div class="alert"></div>
+									</div>
+								</div>
+
+								<div class="col-lg-5">
+									<div class="form-group field" id="field_complemento">
+										<sub><label id="lb_complemento" for="complemento">{{ form_register_number.complemento.label }}</label> </sub><br/>
+										{{ form_register_number.complemento }}
+										<div class="alert"></div>
+									</div>
+								</div>
+							</div>
+					</div>
+
+					<div class="modal-footer" style="margin-right:1px;">
+						<div class="row" style="margin-top: 0px;margin-left: 0px;margin-right: 0px;padding-top: 0px;padding-bottom: 0px;">
+							<div class="col-lg-offset-10 col-lg-2 col-md-offset-10 col-md-2 col-sm-offset-10 col-sm-2 col-xs-offset-8 col-xs-4">
+								<button type="submit" href="#" class="btn btn-sm btn-success form-control pull-right" style="line-height: 24px;margin-right: -10px;margin-bottom: 0px;">Salvar</button>
+							</div>
+						</div>
+					</div>
+			</div>
+		</form>
+	</div>
+</div>

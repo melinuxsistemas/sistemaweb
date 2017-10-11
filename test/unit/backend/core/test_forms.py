@@ -72,6 +72,8 @@ class TestAbstractForm(TestCase):
         for item in list_cases:
             form_data = self.populate_form_data(item)
             form = self.formulary(data=form_data)
+            print("OLHA O FORM: ",form)
+            print("OLHA O FORM DATA:    ",form_data)
             result = form.is_valid()
             self.assertEquals(form.is_valid(), item['expected_result'], item['success_message'])
 

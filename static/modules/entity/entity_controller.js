@@ -33,6 +33,7 @@ application.controller('identification_controller', function($scope) {
 
       //window.location = "/"//register/confirm/"+$scope.email;
       if(result == true){
+      	alert("Vindo")
       	check_response_message_form('#form-save-entity', message);
 				//$scope.list_entities.push(object)
 				$scope.list_entities.splice(0, 0, object);
@@ -57,7 +58,7 @@ application.controller('identification_controller', function($scope) {
   $scope.load_entities = function () {
     $.ajax({
       type: 'GET',
-      url: "/api/entity/load_entities/",
+      url: "/api/entity/list/entities/",
 
       success: function (data) {
         $scope.list_entities = JSON.parse(data)
