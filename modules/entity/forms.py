@@ -8,7 +8,7 @@ from modules.entity.models import Entity
 from modules.entity.validators import cpf_cnpj_validator, future_birthdate_validator, min_words_name_validator
 
 
-class AbstractFormEntity (forms.Form):
+class AbstractFormEntity (forms.Form,BaseForm):
 
     model = Entity
 
@@ -143,7 +143,7 @@ class AbstractFormEntity (forms.Form):
         return response_errors
 
 
-class FormPersonEntity(AbstractFormEntity, BaseForm):
+class FormPersonEntity(AbstractFormEntity):
 
     def __init__(self, *args, **kwargs):
         super(AbstractFormEntity, self).__init__(*args, **kwargs)
@@ -216,11 +216,18 @@ class FormCompanyEntity(AbstractFormEntity):
 
 
 class FormRegisterPhone (forms.Form):
+    options_type_contact = (
+        (0, ''),
+        (1, "Celular"),
+        (2, "Fixo"),
+        (3, "SAC"),
+        (4, "FAX")
+    )
 
-    type_contact = forms.CharField(
+    type_contact = forms.ChoiceField(
         label="Tipo de contato",
-        max_length=10,
-        widget=forms.TextInput(
+        choices=options_type_contact,
+        widget=forms.Select(
             attrs={
                 'id':'type_contact', 'name': 'type_contact', 'class': 'form-control',
             }
@@ -228,18 +235,18 @@ class FormRegisterPhone (forms.Form):
     )
 
     name = forms.CharField(
-        label="Nome Completo",
+        label="Nome",
         required=True,
         max_length=30,
         widget=forms.TextInput(
             attrs={
-                'id': 'name_contact', 'name': 'name_contact', 'class': 'form-control', 'required':'true'
+                'id': 'name_contact', 'name': 'name_contact', 'class': 'form-control uppercase', 'required':'true'
             }
         )
     )
 
     ddd = forms.CharField(
-        label="DDD",
+        label="Prefixo",
         required= True,
         max_length=4,
         widget= forms.TextInput(
@@ -266,7 +273,7 @@ class FormRegisterPhone (forms.Form):
         required=False,
         widget= forms.TextInput(
             attrs={
-                'id':'complemento', 'name':'complemento', 'class':'form-control'
+                'id':'complemento', 'name':'complemento ', 'class':'form-control uppercase'
             }
         )
     )
@@ -277,7 +284,7 @@ class FormRegisterPhone (forms.Form):
         required=False,
         widget=forms.Textarea(
             attrs={
-                'id': 'observations', 'name': 'observations', 'class': "form-control uppercase", 'cols': 2, 'rows': 3,
+                'id': 'observations', 'name': 'observations', 'class': "form-control", 'cols': 2, 'rows': 3,
                 'type': "text", 'ng-model': 'observations'
             }
         )
@@ -323,7 +330,7 @@ class FormRegisterEmailEntity (FormAbstractEmail):
         max_length=30,
         widget=forms.TextInput(
             attrs={
-                'id': 'name', 'name': 'name', 'class': 'form-control', 'ng-model': 'name', 'placeholder':'Nome..'
+                'id': 'name', 'name': 'name', 'class': 'form-control uppercase', 'ng-model': 'name', 'placeholder':'Nome..'
                 ,'autocomplete': 'off' , 'type': "text"
             }
         )

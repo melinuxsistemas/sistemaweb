@@ -13,6 +13,12 @@ function validate_phone_ddd() {
 		set_wrong_field('ddd','Campo contém letras')
 		error = true
 	}
+	alert("OLHA OS TAMAANHOS:"+ddd.length)
+	if (!(ddd.length==2 || ddd.length == 4)){
+		alert("Entro aqui pra n deixar passar")
+		set_wrong_field('ddd','Campo errado')
+		error = true
+	}
 	if (error) {
 		notify('error','Numero ou DDD inválido','Esses campos só podem conter numeros')
 		return false
