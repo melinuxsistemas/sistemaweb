@@ -167,10 +167,17 @@ class EntityController(BaseController):
             response_object = json.loads(serializers.serialize('json', [contact]))[0]
             response_object['fields']['id'] = response_object['pk']
             response_object['fields']['type_contact'] = options_type_contact[contact.type_contact]
+            response_object['fields']['id_type_contact'] = contact.type_contact
             response_object = response_object['fields']
             response_dict.append(response_object)
         return HttpResponse(json.dumps(response_dict))
     def update_tel (request):
+        options_type_contact = {
+            1: "CELULAR",
+            2: "FIXO",
+            3: "SAC",
+            4: "FAX",
+        }
         result, form = AbstractAPI.filter_request(request, FormRegisterPhone)
         id = request.POST['id']
         print("id=",id)
@@ -180,6 +187,7 @@ class EntityController(BaseController):
             try:
                 contact.show_fields_value()
                 contact.save()
+                contact.type_contact = options_type_contact[int(contact.type_contact)]
                 response_dict = response_format_success(contact)
             except Exception as e:
                 response_dict = response_format_error(format_exception_message(contact.model_exceptions))

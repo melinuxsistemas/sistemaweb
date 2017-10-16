@@ -44,7 +44,7 @@ application.controller('register_phone_entity', function ($scope) {
 		$scope.contact_selected.selected = ''
 		$scope.changing_contact = false;
 		$scope.contact_selected = null;
-		$('#type_contact').val(1)
+		$('#type_contact').val(1);
 		clean_wrong_field('ddd')
 		clean_wrong_field('phone')
 		$scope.$apply()
@@ -73,6 +73,7 @@ application.controller('register_phone_entity', function ($scope) {
 		success_function = function (result,message,data_object) {
 			notify('success','Contato Adicionado','Seu contato foi registrado');
 			var new_contact = data_object;
+			alert(new_contact.type_contact)
 			$scope.contacts.push(new_contact);
 			$scope.$apply()
 			$('#modal_add_phone').modal('hide')
@@ -97,6 +98,7 @@ application.controller('register_phone_entity', function ($scope) {
 
 				success: function (data) {
 					$scope.contacts = JSON.parse(data)
+					alert(JSON.stringify($scope.contacts[0]))
 					$scope.$apply();
 				},
 
@@ -126,7 +128,8 @@ application.controller('register_phone_entity', function ($scope) {
 	/*Função que carreaga os campos do formulario de Contatos*/
 	$scope.load_field_contact = function () {
 		$scope.changing_contact = true;
-		$('#type_contact :selected').text(($scope.contact_selected.type_contact));
+		//$('#type_contact :selected').text(($scope.contact_selected.type_contact));
+		$('#type_contact').val($scope.contact_selected.id_type_contact);
 		$('#phone_number').val($scope.contact_selected.phone);
 		$('#ddd').val($scope.contact_selected.ddd);
 		$('#name_contact').val($scope.contact_selected.name).toUpperCase()
