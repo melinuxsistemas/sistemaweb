@@ -43,47 +43,37 @@
 {% block conteudo_principal %}
 <div id="angular_content" ng-cloak ng-app="modules.entity">
 
-	<!--<ul class="nav nav-tabs">
-		<li class="active"><a data-toggle="tab" href="#entity_identification">Entidade</a></li>
-		<li><a data-toggle="tab" href="#entity_contact">Contatos</a></li>
-		<li><a data-toggle="tab" href="#entity_endereco">Endereços</a></li>
-	</ul>-->
-
 	<div class="main_content">
 		<div class="tab-content">
 			<div id="entity_identification" class="tab-pane fade in active">
-				{% include "entity/components/tables/identification_content.html" %}
+				{% include "entity/components/content/identification.html" %}
 			</div>
 
 			<div id="entity_contact" class="tab-pane fade">
-				{% include "entity/components/tables/contact_content.html" %}
+				{% include "entity/components/content/contact.html" %}
 			</div>
+
 			<div id="entity_endereco" class="tab-pane fade">
-				{% include "entity/components/tables/location_content.html" %}
+				{% include "entity/components/content/location.html" %}
 			</div>
 		</div>
-
-
-
-
-
 	</div>
 </div>
 
 
 <!--Modal de adicao de Email
 <div ng-controller="register_email_entity"><!-- Falta add um controlador--
-		<div id="modal_add_email" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
-			<div class="modal-dialog" style="width: 50%">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<div id="modal_add_email" class="form fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+			<div class="form-dialog" style="width: 50%">
+				<div class="form-content">
+					<div class="form-header">
+						<button type="button" class="close" data-dismiss="form" aria-hidden="true">×</button>
 						<h5 style="font-weight: bold">Adicionar endereço de Email</h5>
 					</div>
-					<div class="modal-body">
+					<div class="form-body">
 						{% verbatim %}{{ teste }}{% endverbatim %}
 					</div>
-					<div class="modal-footer">
+					<div class="form-footer">
 						<button role="button" class="btn btn-sm btn-success form-control" ng-click="save_email()">Salvar</button>
 					</div>
 				</div>

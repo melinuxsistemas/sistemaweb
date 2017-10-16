@@ -84,7 +84,7 @@
                   <!--<li class="menu-header"><a><i id="button_menu_entidade" class="fa fa-home"></i>Entidades<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
 
-                      <li><a data-toggle="modal" data-target=".bs-example-modal-lg">Adicionar Entidade</a></li>
+                      <li><a data-toggle="form" data-target=".bs-example-form-lg">Adicionar Entidade</a></li>
                     </ul>
                   </li>
                   -->
@@ -229,12 +229,14 @@
         <!-- top navigation -->
         <div class="top_nav">
           <div class="nav_menu" style="height: 30px;">
-            <nav style="">
+            <nav>
               <div class="nav toggle" style="height: 30px;margin-top: 0px; width: 45px;margin-left: -8px;border: 1px solid #DDD;border-radius: 0px;">
-                <div style="padding: 0px; margin-top: -16px;margin-left: -1px;">
-									<a id="menu_toggle"><i class="fa fa-bars fa-1x"></i></a><!--fa fa-bars---->
+                <div style="padding: 0px; margin-top: -12px;margin-left: -1px;">
+									<a id="menu_toggle"><i class="fa fa-bars fa-lg"></i></a><!--fa fa-bars---->
 								</div>
               </div>
+
+              <!--<div style="background: blue; width: 200px;float:left;">oi</div>-->
               <!--<span style="font-size: 16px;font-weight: bold;">Cadastro de Entidades</span>-->
 
               <ul class="nav  navbar-right" style="height: 30px;">
@@ -264,10 +266,9 @@
                   </ul>
                 </li>
 
-
                 <li class="">
                   <a  href="javascript:;" class="dropdown-toggle info-number" style="height: 30px;margin-top:0px; padding-top:6px;" data-toggle="dropdown" aria-expanded="false">
-                    <i class="fa fa-question-circle"></i>
+                    <i class="fa fa-question" aria-hidden="true"></i>
                     <span class="badge bg-green"></span>
                   </a>
                 </li>
@@ -336,10 +337,65 @@
                     </li>
                   </ul>
                 </li>
+
+                <!--
+                <li id='control_desktop' class="responsive_control" style="border-right: 2px dashed #ccc;">
+                  <a  href="javascript:;" class="dropdown-toggle info-number" style="height: 30px;margin-top:0px; padding-top:6px;" data-toggle="dropdown" aria-expanded="false">
+                    <i class="fa fa-desktop" aria-hidden="true"></i>
+                  </a>
+                </li>
+
+                <li id='control_notebook' class="responsive_control">
+                  <a  href="javascript:;" class="dropdown-toggle info-number" style="height: 30px;margin-top:0px; padding-top:6px;" data-toggle="dropdown" aria-expanded="false">
+                    <i class="fa fa-laptop" aria-hidden="true"></i>
+                  </a>
+                </li>
+
+                <li id='control_tablet' class="responsive_control">
+                  <a  href="javascript:;" class="dropdown-toggle info-number" style="height: 30px;margin-top:0px; padding-top:6px;" data-toggle="dropdown" aria-expanded="false">
+                    <i class="fa fa-tablet" aria-hidden="true"></i>
+                  </a>
+                </li>
+
+                <li id='control_mobile' class="responsive_control">
+                  <a  href="javascript:;" class="dropdown-toggle info-number" style="height: 30px;margin-top:0px; padding-top:6px;" data-toggle="dropdown" aria-expanded="false">
+                    <i class="fa fa-mobile" aria-hidden="true"></i>
+                  </a>
+                </li>
+                -->
               </ul>
             </nav>
           </div>
         </div>
+
+        <!--
+        <script>
+          $(".responsive_control").click(function(){
+            var control = $(this).attr('id')
+            if(control == "control_mobile"){
+              alert("COLOCAR NO TAMANHO DE MOBILE")
+              document.body.style.width = '30%';
+            }
+
+            if(control == "control_tablet"){
+              alert("COLOCAR NO TAMANHO DE TABLET")
+              document.body.style.width = '50%';
+            }
+
+            if(control == "control_notebook"){
+              alert("COLOCAR NO TAMANHO DE NOTEBOOK")
+              document.body.style.width = '75%';
+            }
+
+            if(control == "control_desktop"){
+              alert("COLOCAR NO TAMANHO DE DEKTOP")
+              document.body.style.width = '100%';
+            }
+
+            //document.body.style.width = '700px';
+          });
+        </script>
+        -->
         <!-- /top navigation -->
 
         <!-- page content -->

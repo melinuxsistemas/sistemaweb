@@ -1,25 +1,36 @@
 <div id="identification_controller" ng-controller="identification_controller">
 	<div class="x_panel">
 		<div class="x_title">
-			<h2>Entidades</h2>
+			<h2 style="width: 100px;">Entidades</h2>
 			<ul class="nav navbar-right panel_toolbox">
 				<div class="btn-group" role="group" aria-label="...">
-					<a id='bt_identification' href="#entity_identification" data-toggle="modal" data-target="#modal_identification" role="button" class="btn btn-sm btn-success">Nova Entidade</a><!-- data-toggle="modal" data-target="#modal_add_entity" -->
-					<a id='bt_contacts' href="#entity_contact" data-toggle="tab" role="button" class="btn btn-sm btn-default pull-left" ng-class="{true:'desabilitado', false:''}[registro_selecionado==null]" onclick="angular.element(document.getElementById('contact_controller')).scope().load_contacts();angular.element(document.getElementById('email_controller')).scope().load_emails();" style='margin-left: 5px;'> Contatos</a><!-- data-toggle="modal" data-target="#modal_entity_email" ng-click="carregar_indicacao()" -->
-					<a id='bt_locations' href="#entity_locations" data-toggle="tab" role="button" class="btn btn-sm btn-default pull-left" ng-class="{true:'desabilitado', false:''}[registro_selecionado==null]" onclick="angular.element(document.getElementById('contact_controller')).scope().load_contacts();" style='margin-left: 5px;'> Endereços</a><!-- data-toggle="modal" data-target="#modal_entity_email" ng-click="carregar_indicacao()" -->
-					<a id='bt_credit' href="#entity_credit" data-toggle="tab" role="button" class="btn btn-sm btn-default pull-left" ng-class="{true:'desabilitado', false:''}[registro_selecionado==null]" onclick="angular.element(document.getElementById('contact_controller')).scope().load_contacts();" style='margin-left: 5px;'> Crédito</a><!-- data-toggle="modal" data-target="#modal_entity_email" ng-click="carregar_indicacao()" -->
-					<a id='bt_history' href="#entity_history" data-toggle="tab" role="button" class="btn btn-sm btn-default pull-left" ng-class="{true:'desabilitado', false:''}[registro_selecionado==null]" onclick="angular.element(document.getElementById('contact_controller')).scope().load_contacts();" style='margin-left: 5px;'> Histórico</a><!-- data-toggle="modal" data-target="#modal_entity_email" ng-click="carregar_indicacao()" -->
+					<style>
+						a.btn {
+							color: #999;
+							width: 35px;
+						}
 
+						.panel_toolbox ul li a{
+							padding-left: 8px;
+						}
+					</style>
+					<a id='bt_identification' href="#entity_identification" data-toggle="modal" data-target="#modal_identification" role="button" class="btn btn-sm btn-success" title="Adicionar nova Entidade" style="color: #fff;padding-right: 6px;width: 40px;"><i class="fa fa-user-plus fa-lg" aria-hidden="true"></i></a><!-- data-toggle="form" data-target="#modal_add_entity" -->
+					<a id='bt_contacts' href="#entity_contact" data-toggle="tab" ng-hide="S1 || S2" role="button" class="btn btn-sm btn-default pull-left" ng-class="{true:'desabilitado', false:''}[registro_selecionado==null]" onclick="angular.element(document.getElementById('contact_controller')).scope().load_contacts();angular.element(document.getElementById('email_controller')).scope().load_emails();" title="Contatos" style='color: #999;margin-left: 5px;'><i class="fa fa-address-book-o fa-lg" style="margin-left:-1px;" aria-hidden="true"></i></a><!-- data-toggle="form" data-target="#modal_entity_email" ng-click="carregar_indicacao()" -->
+					<a id='bt_locations' href="#entity_locations" data-toggle="tab" ng-hide="S1 || S2" role="button" class="btn btn-sm btn-default pull-left" ng-class="{true:'desabilitado', false:''}[registro_selecionado==null]" onclick="angular.element(document.getElementById('contact_controller')).scope().load_contacts();" title="Endereços" style='color: #999;margin-left: 5px;'><i class="fa fa-map-marker fa-lg" aria-hidden="true"></i></a><!-- data-toggle="form" data-target="#modal_entity_email" ng-click="carregar_indicacao()" -->
+					<a id='bt_credit' href="#entity_credit" data-toggle="tab" ng-hide="S1 || S2" role="button" class="btn btn-sm btn-default pull-left" ng-class="{true:'desabilitado', false:''}[registro_selecionado==null]" onclick="angular.element(document.getElementById('contact_controller')).scope().load_contacts();" style='color: #999;margin-left: 5px;' title="Crédito"><i class="fa fa-credit-card fa-lg" aria-hidden="true" style="margin-left: -2px;"></i></a><!-- data-toggle="form" data-target="#modal_entity_email" ng-click="carregar_indicacao()" -->
+					<a id='bt_history' href="#entity_history" data-toggle="tab" ng-hide="S1 || S2" role="button" class="btn btn-sm btn-default pull-left" ng-class="{true:'desabilitado', false:''}[registro_selecionado==null]" onclick="angular.element(document.getElementById('contact_controller')).scope().load_contacts();" style='color: #999;margin-left: 5px;' title="Histórico"><i class="fa fa-history fa-lg" aria-hidden="true"></i></a><!-- data-toggle="form" data-target="#modal_entity_email" ng-click="carregar_indicacao()" -->
 
 					<div class="btn-group" role="group">
 						<button type="button" id='bt_outras_acoes' class="btn btn-sm btn-default dropdown-toggle desabilitado" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span>
 						</button>
-						<ul class="dropdown-menu dropdown-menu-right">
-							<li><a href="#">Action</a></li>
-							<li><a href="#">Another action</a></li>
+						<ul class="dropdown-menu pull-right dropdown-menu-right">
+							<li ng-show="S1 || S2" ng-class="{true:'desabilitado', false:''}[registro_selecionado==null]" onclick="angular.element(document.getElementById('contact_controller')).scope().load_contacts();angular.element(document.getElementById('email_controller')).scope().load_emails();"><a href="#"><i class="fa fa-address-book-o" style="margin-left:-1px;" aria-hidden="true"></i> Contatos</a></li>
+							<li ng-show="S1 || S2" ng-class="{true:'desabilitado', false:''}[registro_selecionado==null]" onclick=""><a href="#"><i class="fa fa-map-marker" aria-hidden="true" style="width: 10px;"></i> Endereços</a></li>
+							<li ng-show="S1 || S2" ng-class="{true:'desabilitado', false:''}[registro_selecionado==null]" onclick=""><a href="#"><i class="fa fa-credit-card" aria-hidden="true" style="margin-left: -2px;"></i> Créditos</a></li>
+							<li ng-show="S1 || S2" ng-class="{true:'desabilitado', false:''}[registro_selecionado==null]" onclick=""><a href="#"><i class="fa fa-history" aria-hidden="true"></i> Histórico</a></li>
 							<li><a href="#">Desativar</a></li>
 							<!--<li role="separator" class="divider"></li>
-							<li><a href="#modal_justificativa" id="bt_desativar_cliente" data-toggle="modal">Desativar</a></li>-->
+							<li><a href="#modal_justificativa" id="bt_desativar_cliente" data-toggle="form">Desativar</a></li>-->
 						</ul>
 					</div>
 				</div>
@@ -28,6 +39,7 @@
 		</div>
 
 		<div class="x_content">
+			{% verbatim %}S0:{{ S0 }} S1:{{ S1 }} S2:{{ S2 }} S3:{{ S3 }} S4:{{ S4 }} S5:{{ S5 }} S6:{{ S6 }} S7:{{ S7 }} S8:{{ S8 }} S9:{{ S9 }} {% endverbatim %}
 			{% verbatim %}
 			<!--<small>
 				{{ screen_width }}x{{ screen_height }}
@@ -150,5 +162,5 @@
 		</div>
 	</div>
 
-	{% include "entity/components/modal/form_identification.html" %}
+	{% include "entity/components/form/identification.html" %}
 </div>
