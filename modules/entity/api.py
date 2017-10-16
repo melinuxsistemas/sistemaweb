@@ -126,6 +126,12 @@ class EntityController(BaseController):
 
     #APIs para o Contatc
     def save_tel (request):
+        options_type_contact = {
+            1: "CELULAR",
+            2: "FIXO",
+            3: "SAC",
+            4: "FAX",
+        }
         result, form = AbstractAPI.filter_request(request, FormRegisterPhone)
         contact = Contact()
         contact.form_to_object(form)
@@ -133,8 +139,9 @@ class EntityController(BaseController):
         if result:
             try:
                 contact.save()
-                contact.show_fields_value()
+                contact.type_contact = options_type_contact[int(contact.type_contact)]
                 response_dict = response_format_success(contact)
+                contact.show_fields_value()
             except Exception as e:
                 response_dict = response_format_error(format_exception_message(contact.model_exceptions))
         else:
@@ -148,11 +155,18 @@ class EntityController(BaseController):
 
         return HttpResponse(json.dumps(response_dict))
     def load_tel (request,id_entity):
+        options_type_contact = {
+            1: "CELULAR",
+            2: "FIXO",
+            3: "SAC",
+            4: "FAX",
+        }
         response_dict = []
         list_contacts = Contact.objects.filter(entity_id=int(id_entity)).order_by("-id")
         for contact in list_contacts:
             response_object = json.loads(serializers.serialize('json', [contact]))[0]
             response_object['fields']['id'] = response_object['pk']
+            response_object['fields']['type_contact'] = options_type_contact[contact.type_contact]
             response_object = response_object['fields']
             response_dict.append(response_object)
         return HttpResponse(json.dumps(response_dict))

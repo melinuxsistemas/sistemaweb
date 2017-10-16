@@ -217,9 +217,8 @@ class FormCompanyEntity(AbstractFormEntity):
 
 class FormRegisterPhone (forms.Form):
     options_type_contact = (
-        (0, ''),
-        (1, "Celular"),
-        (2, "Fixo"),
+        (1, "CELULAR"),
+        (2, "FIXO"),
         (3, "SAC"),
         (4, "FAX")
     )

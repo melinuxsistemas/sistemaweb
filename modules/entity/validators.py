@@ -193,6 +193,15 @@ def only_numeric(value):
     raise ValidationError(_("phone: Please enter value with only numeric type."), code='not_all_numeric')
     return False
 
+def validate_ddd(value,type):
+    size = len(value)
+    if((type == '3') and (size==4)):
+        return True
+    if (size==2):
+        return True
+    raise ValidationError(_("ddd: Prefix number is not valid"), code='not_all_numeric')
+    return False
+
 if __name__ == "__main__":
     import doctest
     result = doctest.testmod()  # verbose=True)
