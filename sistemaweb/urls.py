@@ -32,7 +32,7 @@ urlpatterns = [
     url(r'^profile/$', view_usuario.profile_page),
 
     url(r'^entity/$', view_entity.entity_page),
-    url(r'^entity/register/(?P<entity_type>[^/]+)/$', view_entity.register_entity),
+    #url(r'^entity/register/(?P<entity_type>[^/]+)/$', view_entity.register_entity),
     url(r'^permissions/register/$', view_autonomy.register_autonomy),
 
     url(r'^system/environment', view_core.configure_environment),

@@ -152,7 +152,7 @@ LANGUAGE_CODE = 'pt-br'
 TIME_ZONE = 'America/Sao_Paulo'
 
 USE_I18N = True
-
+DATE_INPUT_FORMATS = ('%d/%m/%Y','%Y-%m-%d')
 USE_L10N = True
 
 LOGIN_REDIRECT_URL = "/"

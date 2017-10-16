@@ -6,60 +6,17 @@ from libs.default.core import json_serial, BaseController
 from modules.core.api import AbstractAPI
 from modules.core.config import ERRORS_MESSAGES
 from modules.core.utils import response_format_success, response_format_error
-from modules.entity.forms import FormRegisterPhone, FormRegisterEmailEntity, FormPersonEntity
+from modules.entity.forms import EntityPhoneForm, EntityEmailForm, EntityIdentificationForm
 from modules.entity.models import Entity, Contact, Email
 from django.http import HttpResponse
 import json
 
-"""
-def format_exception_message(exceptions):
-    message_dict = {}
-    if type(exceptions) == list:
-        #print("VEJAMOS O QUE TEMOS: ",exceptions)
-        for item in exceptions:
-            #print("VEJA OS ARGUMENTOS: ",item.args)
-            if len(item.args) > 1:
-                status_code = item.args[1]
-                except_parts = str(item).replace("['", "").replace("']", "")
-                if ": " in except_parts:
-                    except_parts = except_parts.split(': ')
-                    field = except_parts[0]
 
-                else:
-                    field = "Erro! Formato de mensagem nao foi gerado pois o campo do formulario e desconhecido."
-            else:
-                if 'UNIQUE' in item.args[0]:
-                    status_code = 'unique'
-
-                except_parts = str(item)
-                if ": " in except_parts:
-                    except_parts = except_parts.split(': ')
-                    field = except_parts[1].split('.')[1]
-
-            ""
-            Quando temos apenas um erro esse e o formato da excessao:
-               django.core.exceptions.ValidationError: ['cpf_cnpj: Cpf number is not valid.']
-            
-            Contudo pode ser que o mesmo campo tenha duas validacoes com erro 
-            sendo necessario adequar essa funcao para tratar isso.
-            ""
-            message_dict[field] = ERRORS_MESSAGES[status_code]
-
-    else:
-        #print("VEJA O QUE TEMOS: ", exceptions, type(exceptions))
-        paramters = exceptions.args[0].split(': ')
-        code_status = exceptions.args[1]
-        field = paramters[0]
-        #value = paramters[1]
-        message_dict[field] = ERRORS_MESSAGES[code_status]
-    return message_dict
-"""
-
-class EntityController(BaseController):
+class ContactController(BaseController):
 
     @method_decorator(login_required)
-    def save_person(self, request):
-        return self.save(request, FormPersonEntity)
+    def save(self, request):
+        return super().save(request, EntityPhoneForm)
 
     @method_decorator(login_required)
     def load(self, request):
@@ -68,6 +25,25 @@ class EntityController(BaseController):
     @method_decorator(login_required)
     def update(self, request):
         return self.update(request, Entity)
+
+
+class EntityController(BaseController):
+
+    @method_decorator(login_required)
+    def save_person(self, request):
+        return self.save(request, EntityIdentificationForm)
+
+    @method_decorator(login_required)
+    def load(self, request):
+        return self.filter(request, Entity)
+
+    @method_decorator(login_required)
+    def update(self, request):
+        return self.update(request, Entity)
+
+    @method_decorator(login_required)
+    def disable(self, request):
+        return self.disable(request, Entity)
 
     """
     @login_required
@@ -126,7 +102,7 @@ class EntityController(BaseController):
 
     #APIs para o Contatc
     def save_tel (request):
-        result, form = AbstractAPI.filter_request(request, FormRegisterPhone)
+        result, form = AbstractAPI.filter_request(request, EntityPhoneForm)
         contact = Contact()
         contact.form_to_object(form)
         contact.entity_id = int(request.POST['id_entity'])

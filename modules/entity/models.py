@@ -6,6 +6,7 @@ from modules.entity.validators import cpf_cnpj_validator, min_words_name_validat
 from django.core.validators import MinLengthValidator
 
 from modules.user.validators import email_format_validator, email_dangerous_symbols_validator
+from sistemaweb import settings
 
 
 class BaseModel:
@@ -63,8 +64,6 @@ class Entity(models.Model,BaseModel):
         (8, "Extrativista"),
     )
 
-    model_exceptions = []
-
     entity_type = models.CharField("Tipo de Entidade:", max_length=2, null=False, default='PF', choices=options_type_entity, error_messages=ERRORS_MESSAGES)
     cpf_cnpj = models.CharField("CPF ou CNPJ", max_length=32, unique=True, null=False, validators=[cpf_cnpj_validator,required_validator], error_messages=ERRORS_MESSAGES)
     entity_name = models.CharField("Nome ou Razão Social", null=False, blank=False, max_length=64,validators=[min_words_name_validator,MinLengthValidator(1)], error_messages=ERRORS_MESSAGES)
@@ -80,17 +79,10 @@ class Entity(models.Model,BaseModel):
     history = models.CharField("Histórico de Alterações",max_length=500,null=True, blank=True)
 
     def save(self, *args, **kwargs):
-        print("VINDO SALVAR ESSE DEMONIO")
-        self.model_exceptions = self.check_validators()
-        if self.model_exceptions == []:
-            try:
-                super(Entity, self).save(*args, **kwargs)
-            except Exception as exception:
-                self.model_exceptions.append(exception)
-                raise exception
-        else:
-            raise self.model_exceptions[0]
+        self.full_clean()
+        super(Entity, self).save(*args, **kwargs)
 
+    """
     def check_validators(self):
         self.model_exceptions = []
         if self.entity_type == "PF":
@@ -119,6 +111,8 @@ class Entity(models.Model,BaseModel):
             except Exception as e:
                 self.model_exceptions.append(e)
         return self.model_exceptions
+    """
+
 
     """
     def clean(self):
@@ -155,13 +149,13 @@ class Entity(models.Model,BaseModel):
         """
 
     def desativar (self):
-        print("11Consegui deletar???")
+        print("Consegui deletar???")
         self.registration_status = 2
 
     def __unicode__(self):
         return self.cpf_cnpj
 
-class Contact (models.Model,BaseModel):
+class Contact(models.Model,BaseModel):
 
     models_exceptions = []
 

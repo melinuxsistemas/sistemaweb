@@ -17,12 +17,11 @@ function execute_ajax(url,request_method,data_paramters,success_function,fail_fu
     url: url,
     data: data_paramters,
     success: function(data) {
-
-      var response = $.parseJSON(data);
+    	var response = $.parseJSON(data);
       var message = response['message']
-      var result = response['success']
+      var result = response['result']
+      var data_object = $.parseJSON(response['object'])
       if (result == true) {
-        var data_object = $.parseJSON(response['data-object'])
         //var moment_date = moment(data_object['fields']['joined_date']).format("DD/MM/YYYY - HH:mm:ss")
         if (success_function != null) {
           success_function(result,message,data_object);
@@ -34,7 +33,7 @@ function execute_ajax(url,request_method,data_paramters,success_function,fail_fu
           notify('error',"Falha na operação",message)
         }
         else {
-          fail_function(result,message,null);
+          fail_function(result,message,data_object);
         }
       }
       NProgress.done();
@@ -42,7 +41,7 @@ function execute_ajax(url,request_method,data_paramters,success_function,fail_fu
     },
     failure: function(data){
       NProgress.done();
-      return notify('error','Falha na Operação',"Erro na requisição assincrona ao servidor.")
+      //return notify('error','Falha na Operação',"Erro na requisição assincrona ao servidor.")
     }
   });
 }

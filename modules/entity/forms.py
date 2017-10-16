@@ -3,12 +3,13 @@ from django import forms
 from libs.default.core import BaseForm
 from modules.core.config import ERRORS_MESSAGES
 from modules.core.forms import FormAbstractEmail
-from modules.entity.models import BaseModel
+from modules.entity.models import BaseModel, Contact
 from modules.entity.models import Entity
 from modules.entity.validators import cpf_cnpj_validator, future_birthdate_validator, min_words_name_validator
+from sistemaweb import settings
 
 
-class AbstractFormEntity (forms.Form):
+class EntityIdentificationForm(forms.Form, BaseForm):
 
     model = Entity
 
@@ -25,11 +26,7 @@ class AbstractFormEntity (forms.Form):
         (9, "Falecido/Encerrou Atividade"),
     )
 
-    entity_type = forms.CharField(
-        label="Tipo",
-        max_length=2,
-        validators=[],
-        required=True,
+    entity_type = forms.CharField(label="Tipo",max_length=2,validators=[],required=True,
         error_messages=ERRORS_MESSAGES,
         widget=forms.TextInput(
             attrs={
@@ -39,11 +36,7 @@ class AbstractFormEntity (forms.Form):
         )
     )
 
-    cpf_cnpj = forms.CharField(
-        label="CPF",
-        max_length=32,
-        #validators=[cpf_cnpj_validator],
-        required=True,
+    cpf_cnpj = forms.CharField(label="CPF",max_length=32,validators=[cpf_cnpj_validator],required=True,
         error_messages=ERRORS_MESSAGES,
         widget=forms.TextInput(
             attrs={
@@ -53,11 +46,7 @@ class AbstractFormEntity (forms.Form):
         )
     )
 
-    entity_name = forms.CharField(
-        label="Nome Completo",
-        max_length=64,
-        required=True,
-        #validators=[min_words_name_validator],
+    entity_name = forms.CharField(label="Nome Completo",max_length=64,required=True,validators=[min_words_name_validator],
         error_messages=ERRORS_MESSAGES,
         widget=forms.TextInput(
             attrs={
@@ -69,9 +58,7 @@ class AbstractFormEntity (forms.Form):
     )
 
     fantasy_name = forms.CharField(
-        label="Nome Fantasia",
-        max_length=32,
-        required=False,
+        label="Nome Fantasia",max_length=32,required=False,
         error_messages=ERRORS_MESSAGES,
         widget=forms.TextInput(
             attrs={
@@ -81,24 +68,19 @@ class AbstractFormEntity (forms.Form):
         )
     )
 
-    birth_date_foundation = forms.DateTimeField(
-        label="Data de Nascimento",
+    birth_date_foundation = forms.DateField(
+        label="Data de Nascimento",required=False,validators=[future_birthdate_validator],
         error_messages=ERRORS_MESSAGES,
-        required=False,
-        #validators=[future_birthdate_validator],
-        widget=forms.TextInput(
+        widget=forms.DateInput(
             attrs= {
                 'id': 'birth_date_foundation', 'class': "form-control optional", 'type':'text',
-                'ng-model': 'birth_date_foundation'
+                'ng-model': 'birth_date_foundation',
             }
         )
     )
 
-    registration_status = forms.ChoiceField(
-        choices=options_status_register,
+    registration_status = forms.ChoiceField(choices=options_status_register,required=False,initial=0,
         error_messages=ERRORS_MESSAGES,
-        required=False,
-        initial=0,
         widget= forms.Select(
             attrs={
                 'id': 'registration_status','name': 'registration_status', 'class': "form-control ",
@@ -108,9 +90,7 @@ class AbstractFormEntity (forms.Form):
     )
 
     comments = forms.CharField(
-        label="Observações",
-        max_length= 500,
-        required=False,
+        label="Observações",max_length= 500,required=False,
         widget=forms.Textarea(
             attrs={
                 'id': 'observations', 'name': 'observations', 'class': "form-control uppercase", 'cols':2,'rows':3,
@@ -129,32 +109,88 @@ class AbstractFormEntity (forms.Form):
         )
     )
 
-    def format_validate_response(self):
-        response_errors = {}
-        if self.errors:
-            errors = self.errors
-            for campo in errors:
-                response_errors[campo] = []
-                for erro in errors[campo]:
-                    erro_format = str(erro)
-                    erro_format = erro_format.replace("['", "")
-                    erro_format = erro_format.replace("']", "")
-                    response_errors[campo].append(erro_format)
-        return response_errors
+    """ I N F O R M A C O E S   C O M P L E M E N T A R E S """
+    options_tributary_regime = (
+        (0, "PESSOA FÍSICA"), (1, "MICRO EMPREENDEDOR INDIVIDUAL"),
+        (2, "SIMPLES NACIONAL"), (3, "LUCRO PRESUMIDO"),
+        (4, "LUCRO REAL")
+    )
+
+    options_relation_type = (
+        (0, "Cliente"), (1, "Fornecedor"),
+        (2, "Funcionário"), (3, "Transportador"),
+        (4, "Banco"), (5, "Representante")
+    )
+
+    options_activity = (
+        (0, "Consumidor"), (1, "Comércio"), (2, "Serviços"),
+        (3, "Indústria"), (4, "Transporte"), (5, "Importação"),
+        (6, "Exportação"), (7, "Produtor Rural"), (8, "Extrativista"),
+    )
+
+    options_buy_destination = (
+        (0, "CONSUMO"), (1, "REVENDA"), (2, "INSUMO DE PRODUÇÃO"),
+        (3, "PRODUÇÃO"), (4, "PRESTAÇÃO DE SERVIÇO"),
+    )
+
+    observation_fiscal_note = forms.CharField(
+        label="Observações complementares nota fiscal",max_length= 128,required=False,
+        widget=forms.Textarea(
+            attrs={
+                'id': 'observations', 'name': 'observations', 'class': "form-control uppercase", 'cols':2,'rows':3,
+                'type': "text", 'ng-model': 'observations'
+            }
+        )
+    )
+
+    delivery_route = forms.ModelChoiceField(
+        label="Rota de Entrega", queryset=Contact.objects.all(), required=False,
+        error_messages=ERRORS_MESSAGES,
+        widget=forms.Select(
+            attrs={
+                'id': 'delivery_route', 'class': "form-control optional", 'type': "text",
+                'autocomplete': "off", 'ng-model': 'delivery_route',
+            }
+        )
+    )
+
+    buy_destination = forms.MultipleChoiceField(label="Destino da Compra", choices=options_buy_destination, error_messages=ERRORS_MESSAGES,
+         widget=forms.CheckboxSelectMultiple(
+             attrs={'id': 'buy_destination', 'class': 'form-control', 'ng-model': 'buy_destination'}
+         )
+     )
 
 
-class FormPersonEntity(AbstractFormEntity, BaseForm):
+    tributary_regime = forms.MultipleChoiceField(label="Regime Tributário", choices=options_tributary_regime, error_messages=ERRORS_MESSAGES,
+        widget=forms.CheckboxSelectMultiple(
+          attrs={'id': 'tributary_regime', 'class': 'form-control', 'ng-model': 'tributary_regime'}
+        )
+    )
 
-    def __init__(self, *args, **kwargs):
-        super(AbstractFormEntity, self).__init__(*args, **kwargs)
-        #self.fields['cpf_cnpj'].label = "CPF"
-        #self.fields['entity_name'].label = 'Nome Completo'
-        #self.fields['fantasy_name'].label = 'Apelido'
-        #self.fields['birth_date_foundation'].label = "Data de Nascimento"
+    relations_company = forms.MultipleChoiceField(label="Tipo de Relação", choices=options_relation_type,error_messages=ERRORS_MESSAGES,
+        widget=forms.CheckboxSelectMultiple(
+            attrs={'id': 'relation_type', 'class': 'form-control', 'name': 'relation_type','ng-model': 'relation_type'}
+            )
+        )
+
+    company_activities = forms.MultipleChoiceField(label="Tipo de Atividade Empresarial", choices=options_activity,
+                                                   error_messages=ERRORS_MESSAGES, widget=forms.CheckboxSelectMultiple(
+            attrs={'id': 'activity', 'class': 'form-contro', 'name': 'activity', 'ng-model': 'activity'}))
+
+    market_segment = forms.CharField(label="Segmento de Mercado", max_length=20, widget=forms.TextInput(
+        attrs={'id': 'market_segment', 'class': 'form-control', 'type': 'text', 'ng-model': 'market_segment',
+            'list': 'options_segments'}))
+
+"""
+class EntityIdentificationFormOld(BaseForm):
+
+    #def __init__(self, *args, **kwargs):
+    #    super(AbstractFormEntity, self).__init__(*args, **kwargs)
+
 
     def clean(self):
         form_data = self.cleaned_data
-        """
+        ""
         if len(self.cleaned_data) == len(self.fields):
             if form_data['password'] != form_data['confirm_password']:
                 self._errors["password"] = [
@@ -165,11 +201,12 @@ class FormPersonEntity(AbstractFormEntity, BaseForm):
                 self._errors["password"] = [
                     "Nova Senha: Precisa ser diferente da senha antiga."]  # Will raise a error message
                 del form_data['password']
-        """
+        ""
         return form_data
 
-
-class FormCompanyEntity(AbstractFormEntity):
+"""
+"""
+class EntityCompanyIdentificationForm(AbstractFormEntity):
     options_relation_type = (
         (0, "Cliente"), (1, "Fornecedor"),
         (2, "Funcionário"), (3, "Transportador"),
@@ -201,7 +238,7 @@ class FormCompanyEntity(AbstractFormEntity):
         self.fields['fantasy_name'].label = 'Nome Fantasia'
         self.fields['birth_date_foundation'].label = "Data de Fundação"
 
-    """
+    ""
     #def __init__(self, *args, **kwargs):
         super(AbstractFormEntity, self).__init__(*args, **kwargs)
 
@@ -212,17 +249,31 @@ class FormCompanyEntity(AbstractFormEntity):
         self.fields['market_segment'].widget.attrs['placeholder']       = "Segmento Mercado"
         self.fields['comments'].widget.attrs['placeholder']             = 'Obervações'
         self.fields['registration_status'].widget                       = forms.HiddenInput()
-    """
+    ""
+"""
 
 
-class FormRegisterPhone (forms.Form):
+class EntityPhoneForm (forms.Form, BaseForm):
 
-    type_contact = forms.CharField(
-        label="Tipo de contato",
-        max_length=10,
-        widget=forms.TextInput(
+    model = Contact
+
+    options_phone_type = (
+        ("CELL", "CELULAR"),
+        ("FIXO", "FIXO"),
+        ("SAC", "SAC"),
+        ("FAX", "FAX")
+    )
+
+    type_contact = forms.ChoiceField(
+        label="Tipo",
+        choices=options_phone_type,
+        error_messages=ERRORS_MESSAGES,
+        required=True,
+        initial='CELL',
+        widget=forms.Select(
             attrs={
-                'id':'type_contact', 'name': 'type_contact', 'class': 'form-control',
+                'id': 'type_contact', 'name': 'type_contact', 'class': "form-control",
+                'type': "text", 'ng-model': 'type_contact'
             }
         )
     )
@@ -307,7 +358,7 @@ class FormRegisterPhone (forms.Form):
         return response_errors
 
 
-class FormRegisterEmailEntity (FormAbstractEmail):
+class EntityEmailForm (FormAbstractEmail):
 
     boolean_email = (
         (True,'Sim'),

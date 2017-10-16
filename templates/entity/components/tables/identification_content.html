@@ -70,7 +70,7 @@
 									<td colspan="8" class="center">Nenhum Cliente Cadastrado!</td>
 								</tr>-->
 
-								<tr class="row_entity linha_selecionavel {{ entity.selected }}" ng-click="select(entity)" pagination-id="paginate_entities" dir-paginate="entity in list_entities | filter: get_filter_column() | itemsPerPage:10 | orderBy:sortType:sortReverse as resultado">
+								<tr class="row_entity linha_selecionavel {{ entity.selected }}" ng-click="select(entity)" pagination-id="paginate_entities" dir-paginate="entity in list_entities | filter: get_filter_column() | itemsPerPage:pagination_itens_per_page | orderBy:sortType:sortReverse as resultado">
 									<td class='col_index'>{{ entity.id }}</td><!-- $index+1 -->
 
 									<td class="col_entity_type" ng-hide='S0 || S1 || S2' ng-class="{true:'left', false:'center'}[entity.entity_type=='']">

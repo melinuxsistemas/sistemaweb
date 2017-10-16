@@ -16,6 +16,7 @@ application.controller('identification_controller', function($scope) {
   $scope.list_entities = []
 
   $scope.save = function () {
+  	alert("TO SALVANDO A IDENTIFICACAO DE UMA ENTIDADE")
     $scope.cpf_cnpj = $('#cpf_cnpj').val();
     $scope.birth_date_foundation = $('#birth_date_foundation').val();
 
@@ -30,10 +31,8 @@ application.controller('identification_controller', function($scope) {
     }
 
     success_function = function(result,message,object){
-
       //window.location = "/"//register/confirm/"+$scope.email;
       if(result == true){
-      	alert("Vindo")
       	check_response_message_form('#form-save-entity', message);
 				//$scope.list_entities.push(object)
 				$scope.list_entities.splice(0, 0, object);
@@ -43,10 +42,8 @@ application.controller('identification_controller', function($scope) {
       }
 		}
 
-    fail_function = function (message) {
-      alert("Nao deu")
+    fail_function = function (result,message,data_object) {
       check_response_message_form('#form-save-entity', message);
-      //notify('error','Formulário com dados inválidos',message.cpf_cnpj)
     }
 
     validade_function = function () {
@@ -130,10 +127,15 @@ application.controller('identification_controller', function($scope) {
 	$scope.S1 = false;  // Small Screen:    241 ~ 320
 	$scope.S0 = false;  // Smaller Screen:    0 ~ 240
 
-
 	$scope.readjust_screen = function (){
 		$scope.screen_height = window.innerHeight
 		$scope.screen_width  = window.innerWidth
+		$scope.pagination_itens_per_page = parseInt(($scope.screen_height/26)-11);
+
+		if ($scope.pagination_itens_per_page < 2){
+			$scope.pagination_itens_per_page = 2;
+		}
+
 		$scope.S9 = false;  // Giant Screen:   1921 or more
 		$scope.S8 = false;  // Larger Screen:  1680 ~ 1920
 		$scope.S7 = false;  // Giant Screen:   1367 ~ 1680
@@ -159,6 +161,7 @@ application.controller('identification_controller', function($scope) {
 	}
 });
 
+/*
 application.controller('register_person_controller', function($scope) {
   $scope.cpf_cnpj = "";
   $scope.entity_name = "";
@@ -168,6 +171,7 @@ application.controller('register_person_controller', function($scope) {
   $scope.teste = "TESTE"
 
   $scope.save_person = function () {
+  	alert("EH NESSE CARA AQUI QUE TO TENTANDO SALVAR ALGUEM")
     $scope.cpf_cnpj = $('#cpf_cnpj').val();
     $scope.birth_date_foundation = $('#birth_date_foundation').val();
 
@@ -199,6 +203,7 @@ application.controller('register_person_controller', function($scope) {
     request_api("/api/entity/register/person/save",data_paramters,validade_function,success_function,fail_function)
   }
 });
+*/
 
 application.controller('register_company_controller', function ($scope) {
     $scope.cpf_cnpj = "";

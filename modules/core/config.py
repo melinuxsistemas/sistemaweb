@@ -5,7 +5,7 @@ ERRORS_MESSAGES = {
     'required': 'Campo obrigatório',
     'unique':"Informação já cadastrada",
 
-    'future_date':'Data inválida',
+    'future_date':'Data de nascimento inválida',
     'minimum_age_person':'Precisa ter mais de 18 anos.',
     'maximum_age_person':'Precisa ter menos que 150 anos.',
 

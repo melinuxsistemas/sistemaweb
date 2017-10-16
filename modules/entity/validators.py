@@ -6,47 +6,52 @@ from django.utils.translation import ugettext_lazy as _
 
 def required_validator(value):
     if value is not None and value != "":
-        print("NAO EH NONE NEM VAZIO")
         return True
     else:
-        print("EH NONE OU VAZIO CARAI")
-        #raise ValidationError(_("This field is required."), code='required')
+        raise ValidationError(_("This field is required."), code='required')
         return False
 
 
 def minimum_age_person_validator(value):
-    if value is not None and value != "":
-        try:
-            value = value.date()
-        except:
-            raise ValidationError(_("birth_date_foundation: Age must be numbers only."), code='maximum_age_person')
-            return False
+    value = format_date_value(value)
+    if value is not None:
         current_date = datetime.datetime.now().date()
         time_diff = ((current_date-value).days)/365.25
         if(time_diff < 18):
-            raise ValidationError(_("birth_date_foundation: Age must be greather then 18 years"), code='maximum_age_person')
+            raise ValidationError(_("birth_date_foundation: Age must be greather then 18 years"), code='minimum_age_person')
             return False
+    else:
+        raise ValidationError(_("birth_date_foundation: Date not is valid."), code='invalid')
     return True
 
 
 def maximum_age_person_validator(value):
+    value = format_date_value(value)
     if value is not None:
-        value = value.date()
         current_date = datetime.datetime.now().date()
-        time_diff = ((current_date-value).days)/365.25
-        if(time_diff > 150):
-            raise ValidationError(_("birth_date_foundation: Age must be lower then 150 years"), code='maximum_age_person')
+        time_diff = ((current_date - value).days) / 365.25
+        if (time_diff > 150):
+            print("O CARA EH MTO VELHO ",time_diff)
+            raise ValidationError(_("birth_date_foundation: Person must be less then 150 years."), code='maximum_age_person')
             return False
+    else:
+        raise ValidationError(_("birth_date_foundation: Date not is valid."), code='invalid')
     return True
 
 
 def future_birthdate_validator(value):
+    value = format_date_value(value)
+    print("VIM VER SE O CARA NAO NASCEU NO FUTURO kk")
     if value is not None:
-        value = value.date()
+        print("OLHA O VALOR NAO EH NONE")
         current_date = datetime.datetime.now().date()
         if value > current_date:
+            print("OLHA ESSA DATA EH FUTURA, AINDA NAO CHEGOU ESSA DATA")
             raise ValidationError(_("birth_date_foundation: Date can not be future"), code='future_date')
             return False
+
+        print("OLHA A DATA NAO EH FUTURA")
+    print("OLHA NAO ERA NONE, E OU NAO ERA FUTURA")
     return True
 
 
@@ -78,6 +83,19 @@ def cpf_cnpj_validator(value):
         raise ValidationError(_("cpf_cnpj: Cpf ou Cnpj number is not valid."), code='document_invalid')
         return False
     return True
+
+
+def format_date_value(value):
+    if isinstance(value, datetime.date):
+        return value
+    elif isinstance(value, str):
+        try:
+            new_value = datetime.datetime.strptime(value, "%d/%m/%Y").date()
+            return new_value
+        except:
+            return None
+    else:
+        return None
 
 
 def cpf_validator(value):
