@@ -115,6 +115,7 @@ class User(PermissionsMixin, AbstractBaseUser):
     account_activated = models.BooleanField(default=False)
     activation_code   = models.CharField(max_length=46, null=True, blank=True, error_messages=ERRORS_MESSAGES)
     active_user       = models.BooleanField(default=False)
+    permissions = models.CharField(max_length=10, null=False, error_messages=ERRORS_MESSAGES)
 
     USERNAME_FIELD    = 'email'
     REQUIRED_FIELDS   = []
@@ -125,6 +126,14 @@ class User(PermissionsMixin, AbstractBaseUser):
         db_table = 'user'
         verbose_name = _('Usuário')
         verbose_name_plural = _('Usuários')
+        permissions = (
+            ("view_task", "Can see available tasks"),
+            ("change_task_status", "Can change the status of tasks"),
+            ("close_task", "Can remove a task by setting its status as closed"),
+        )
+
+    def has_perm(self, perm=None, obj=None):
+        return True
 
     def __unicode__(self):
         return self.email

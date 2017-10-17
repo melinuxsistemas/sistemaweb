@@ -98,7 +98,6 @@ application.controller('register_phone_entity', function ($scope) {
 
 				success: function (data) {
 					$scope.contacts = JSON.parse(data)
-					alert(JSON.stringify($scope.contacts[0]))
 					$scope.$apply();
 				},
 
