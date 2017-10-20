@@ -41,12 +41,12 @@ application.controller('register_phone_entity', function ($scope) {
 	/*Quando o modal ficar off, limpamos os campos e as variaveis controladoras, remover class wrong_field*/
 	$('#modal_add_phone').on('hidden.bs.modal', function () {
 		$(this).find("input,textarea,select").val('').end();
-		$scope.contact_selected.selected = ''
+		$scope.contact_selected.selected = '';
 		$scope.changing_contact = false;
 		$scope.contact_selected = null;
 		$('#type_contact').val(1);
-		clean_wrong_field('ddd')
-		clean_wrong_field('phone')
+		clean_wrong_field('ddd');
+		clean_wrong_field('phone');
 		$scope.$apply()
 	});
 
@@ -63,25 +63,24 @@ application.controller('register_phone_entity', function ($scope) {
 		var id_entity = angular.element(document.getElementById('identification_controller')).scope().entity_selected.id;
 		var data_paramters = {
 			type_contact: $('#type_contact').val(),
-			name: $('#name_contact').val(),
+			name: $('#name_contact').val().toUpperCase(),
 			ddd: clear_mask_numbers_contact($('#ddd').val()),
 			phone: clear_mask_numbers_contact($('#phone_number').val()),
-			complemento: $('#complemento').val(),
+			complemento: $('#complemento').val().toUpperCase(),
 			id_entity: id_entity
 		};
 
 		success_function = function (result,message,data_object) {
 			notify('success','Contato Adicionado','Seu contato foi registrado');
 			var new_contact = data_object;
-			alert(new_contact.type_contact)
+			alert(new_contact.type_contact);
 			$scope.contacts.push(new_contact);
-			$scope.$apply()
+			$scope.$apply();
 			$('#modal_add_phone').modal('hide')
 
 		}
 
 		fail_function = function (message) {
-			alert("Olha os errors:	"+JSON.stringify(message))
 			notify('error','Error ao tentar salvar','Não foi possivel salvar o contato')
 		}
 		request_api("/api/entity/register/contact/", data_paramters, validate_contact, success_function, fail_function)
@@ -131,8 +130,8 @@ application.controller('register_phone_entity', function ($scope) {
 		$('#type_contact').val($scope.contact_selected.id_type_contact);
 		$('#phone_number').val($scope.contact_selected.phone);
 		$('#ddd').val($scope.contact_selected.ddd);
-		$('#name_contact').val($scope.contact_selected.name).toUpperCase()
-		$('#complemento').val($scope.contact_selected.complemento).toUpperCase()
+		$('#name_contact').val($scope.contact_selected.name)
+		$('#complemento').val($scope.contact_selected.complemento)
 	};
 
 	/*Função para atualizar cotato*/
@@ -140,10 +139,10 @@ application.controller('register_phone_entity', function ($scope) {
 		var data_paramters = {
 			id : $scope.contact_selected.id,
 			type_contact: $('#type_contact').val(),
-			name: $('#name_contact').val(),
+			name: $('#name_contact').val().toUpperCase(),
 			ddd: clear_mask_numbers_contact($('#ddd').val()),
 			phone: clear_mask_numbers_contact($('#phone_number').val()),
-			complemento: $('#complemento').val()
+			complemento: $('#complemento').val().toUpperCase()
 		};
 
 		/*Verifica se o modal Alterar possui mudanças*/
@@ -286,13 +285,12 @@ application.controller('register_email_entity', function ($scope) {
 	});
 
 	$scope.reset_email = function () {
-		$scope.email_selected = null
-		$scope.changing_email = false
-		$scope.entity_selected = null
+		$scope.email_selected = null;
+		$scope.changing_email = false;
+		$scope.entity_selected = null;
 	};
 
 	$scope.load_field_email = function () {
-		alert("OLha o q eu pego\n"+JSON.stringify($scope.email_selected))
 		$scope.changing_email = true;
 		var xml = "False";
 		var suitcase = "False";
@@ -313,7 +311,7 @@ application.controller('register_email_entity', function ($scope) {
 		var data_paramters = {
 				id : $scope.email_selected.id,
 				email :$('#email').val(),
-        name : $('#name').val(),
+        name : $('#name').val().toUpperCase(),
         send_xml : $('#send_xml').val(),
 				send_suitcase : $('#send_suitcase').val()
 		}

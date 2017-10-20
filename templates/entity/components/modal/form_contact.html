@@ -9,7 +9,7 @@
 					</div>
 					<div class="modal-body" style="padding: 10px 25px 0px 25px;">
 						{% csrf_token %}
-							<div class="row">
+							<div class="row" style="margin-bottom: -15px">
 								<div class="col-lg-4">
 									<div class="form-group field field_required" id="field_type_contact">
 										<sub><label id="lb_type_contact" for="type_contact">{{ form_register_number.type_contact.label }}</label></sub><br/>
@@ -30,7 +30,7 @@
 
 							<div class="row">
 
-								<div class="col-lg-2">
+								<div class="col-lg-2" style="margin-top : -15px">
 									<div class="form-group field field_required" id="field_ddd">
 										<sub><label id="lb_ddd" for="ddd">{{ form_register_number.ddd.label }}</label></sub><br/>
 										{{ form_register_number.ddd }}
@@ -38,7 +38,7 @@
 									</div>
 								</div>
 
-								<div class="col-lg-5">
+								<div class="col-lg-5"style="margin-top: -15px">
 									<div class="form-group field field_required" id="field_phone">
 										<sub><label id="lb_phone" for="phone">{{ form_register_number.phone.label }}</label></sub><br/>
 										{{ form_register_number.phone }}
@@ -46,7 +46,7 @@
 									</div>
 								</div>
 
-								<div class="col-lg-5">
+								<div class="col-lg-5"style="margin-top: -15px">
 									<div class="form-group field" id="field_complemento">
 										<sub><label id="lb_complemento" for="complemento">{{ form_register_number.complemento.label }}</label> </sub><br/>
 										{{ form_register_number.complemento }}

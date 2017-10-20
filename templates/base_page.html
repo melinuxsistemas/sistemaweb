@@ -90,11 +90,9 @@
 
                   <li><a><i class="fa fa-pencil-square"></i>Cadastros <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-											{% if user.has_perm %}
-												{{ user.email }}
-												<li><a href="general_elements.html">Entidades</a></li>
-											{% endif %}
-                      <li><a href="media_gallery.html">Grupos Mercadológicos</a></li>
+											<li><a href="general_elements.html">Entidades</a></li>
+											<li><a href="/perms">Permissões</a></li>
+                      <li><a href="permss.html">Grupos Mercadológicos</a></li>
                       <li><a href="typography.html">Produtos</a></li>
 											<li><a href="vinculos.html">Vinculos de Produtos</a></li>
                       <li><a href="glyphicons.html">Agenda Telefônica</a></li>

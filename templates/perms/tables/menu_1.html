@@ -1,0 +1,40 @@
+<table id="table_contact" class="table table-striped table-bordered table-hover">
+
+	<thead>
+		<tr class="row_contact linha_selecionavel" style="font-size:10px;">
+
+			<th class="col_contact_type text-center" ng-hide='S0 || S1 || S2' ng-click="sortType = 'type_contact'; sortReverse = !sortReverse">Menu</th>
+
+			<th class='col_contact_name text-center' ng-click="sortType = 'contact_name'; sortReverse = !sortReverse">Nível de Permissão</th>
+
+		</tr>
+	</thead>
+
+	<tbody>
+		{% verbatim %}
+			<!--<tr ng-if="(contacts|filter:filterIds()).length == 0">
+				<td colspan="8" class="text-center">Nenhum Contato Cadastrado!</td>
+			</tr>-->
+
+			<tr class="row_contact linha_selecionavel {{ contact.selected }}" ng-click="select_contact(contact)" pagination-id="paginate_contacts" dir-paginate="contact in contacts | filter: get_filter_column() | itemsPerPage:10 | orderBy:sortType:sortReverse as resultado">
+
+				<td class="col_contact_type" ng-hide='S0 || S1 || S2 || S3 || S4' ng-class="{true:'left', false:'center'}[contact.type_contact=='']">
+					{{ contact.type_contact }}
+				</td>
+
+				<td class="col_contact_name" ng-hide='S0 || S1 || S2' ng-class="{true:'left', false:'center'}[contact.name =='']">
+					{{ contact.name }}
+				</td>
+
+				</td>
+			</tr>
+
+			<tr class="row_contact angular-repeat" ng-repeat="k in minimal_rows_tables.slice(contacts.length,minimal_rows_tables.length)">
+				<td class="col_contact_type" ng-hide='S0 || S1 || S2'></td>
+
+				<td class='col_contact_name'> </td>
+			</tr>
+
+		{% endverbatim %}
+	</tbody>
+	</table>
