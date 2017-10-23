@@ -8,10 +8,10 @@
 
 {% block conteudo_principal %}
 <div id="angular_content_perms" ng-cloak ng-app="modules.perms">
-  <div id="perms_indentification" ng-controller="perms_controller">
+  <div id="div_permission_controller" ng-controller="permission_controller">
     <div class="x_panel">
       <div class="x_title">
-        <h2>Menu: Cadastros</h2>
+        <h2>Menu: Cadastros {% verbatim %} - VEJA:{{ teste }}{% endverbatim %}</h2>
         <ul class="nav navbar-right panel_toolbox">
           <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
           </li>
@@ -22,11 +22,11 @@
       </div>
       <div class="x_content">
         <!-- start form for validation -->
-				<fieldset class="rating">
-					<input type="radio" id="star4" name="rating" value="0" /><label class = "full" for="star4" title="Excluir"></label>
-					<input type="radio" id="star3" name="rating" value="1" /><label class = "full" for="star3" title="Adicionar"></label>
-					<input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Visualizar"></label>
-					<input type="radio" id="star1" name="rating" value="3" /><label class = "full" for="star1" title="Sem Acesso"></label>
+				<fieldset id='permissions' class="rating">
+					<input type="radio" class="rating_item" id="star4" name="rating_permission" value="3" /><label id="rate_label_3" class = "full" for="star4" title="Excluir"></label>
+					<input type="radio" class="rating_item" id="star3" name="rating_permission" value="2" /><label id="rate_label_2" class = "full" for="star3" title="Adicionar"></label>
+					<input type="radio" class="rating_item" id="star2" name="rating_permission" value="1" /><label id="rate_label_1" class = "full" for="star2" title="Visualizar"></label>
+					<input type="radio" class="rating_item" id="star1" name="rating_permission" value="0" /><label id="rate_label_0" class = "full" for="star1" title="Sem Acesso"></label>
 				</fieldset>
       </div>
     </div>
@@ -43,16 +43,177 @@
       </div>
       <div class="x_content">
         <!-- start form for validation -->
-				<fieldset id="test" class="rating" ng-click="select_perm()">
-					<input type="radio" id="star5" name="ratingtwo" value="3" /><label class = "full" for="star5" title="Excluir"></label>
-					<input type="radio" id="star6" name="ratingtwo" value="2" /><label class = "full" for="star6" title="Adicionar"></label>
-					<input type="radio" id="star7" name="ratingtwo" value="1" /><label class = "full" for="star7" title="Visualizar"></label>
-					<input type="radio" id="star8" name="ratingtwo" value="0" /><label class = "full" for="star8" title="Sem Acesso"></label>
+				<fieldset id="test" class="rating" ng-mouseup="select_perm()">
+					<input type="radio" id="star5" name="ratingtwo" value="0" /><label class = "full" for="star5" title="Excluir"></label>
+					<input type="radio" id="star6" name="ratingtwo" value="1" /><label class = "full" for="star6" title="Adicionar"></label>
+					<input type="radio" id="star7" name="ratingtwo" value="2" /><label class = "full" for="star7" title="Visualizar"></label>
+					<input type="radio" id="star8" name="ratingtwo" value="3" /><label class = "full" for="star8" title="Sem Acesso"></label>
 				</fieldset>
 				{% include "perms/tables/menu_1.html" %}
       </div>
     </div>
-  </div>
+
+  	<div class="x_panel">
+      <div class="x_title">
+        <h2>Menu: Vendas</h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+          </li>
+          <li><a class="close-link"><i class="fa fa-close"></i></a>
+          </li>
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <!-- start form for validation -->
+				<fieldset id="test" class="rating" ng-mouseup="select_perm()">
+					<input type="radio" id="star5" name="ratingtwo" value="0" /><label class = "full" for="star5" title="Excluir"></label>
+					<input type="radio" id="star6" name="ratingtwo" value="1" /><label class = "full" for="star6" title="Adicionar"></label>
+					<input type="radio" id="star7" name="ratingtwo" value="2" /><label class = "full" for="star7" title="Visualizar"></label>
+					<input type="radio" id="star8" name="ratingtwo" value="3" /><label class = "full" for="star8" title="Sem Acesso"></label>
+				</fieldset>
+				{% include "perms/tables/menu_2.html" %}
+      </div>
+    </div>
+
+		<div class="x_panel">
+      <div class="x_title">
+        <h2>Menu: Serviços</h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+          </li>
+          <li><a class="close-link"><i class="fa fa-close"></i></a>
+          </li>
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <!-- start form for validation -->
+				<fieldset id="test" class="rating" ng-mouseup="select_perm()">
+					<input type="radio" id="star5" name="ratingtwo" value="0" /><label class = "full" for="star5" title="Excluir"></label>
+					<input type="radio" id="star6" name="ratingtwo" value="1" /><label class = "full" for="star6" title="Adicionar"></label>
+					<input type="radio" id="star7" name="ratingtwo" value="2" /><label class = "full" for="star7" title="Visualizar"></label>
+					<input type="radio" id="star8" name="ratingtwo" value="3" /><label class = "full" for="star8" title="Sem Acesso"></label>
+				</fieldset>
+				{% include "perms/tables/menu_2.html" %}
+      </div>
+    </div>
+
+		<div class="x_panel">
+      <div class="x_title">
+        <h2>Menu: Outras Operações</h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+          </li>
+          <li><a class="close-link"><i class="fa fa-close"></i></a>
+          </li>
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <!-- start form for validation -->
+				<fieldset id="test" class="rating" ng-mouseup="select_perm()">
+					<input type="radio" id="star5" name="ratingtwo" value="0" /><label class = "full" for="star5" title="Excluir"></label>
+					<input type="radio" id="star6" name="ratingtwo" value="1" /><label class = "full" for="star6" title="Adicionar"></label>
+					<input type="radio" id="star7" name="ratingtwo" value="2" /><label class = "full" for="star7" title="Visualizar"></label>
+					<input type="radio" id="star8" name="ratingtwo" value="3" /><label class = "full" for="star8" title="Sem Acesso"></label>
+				</fieldset>
+				{% include "perms/tables/menu_2.html" %}
+      </div>
+    </div>
+
+		<div class="x_panel">
+      <div class="x_title">
+        <h2>Menu: Finanças</h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+          </li>
+          <li><a class="close-link"><i class="fa fa-close"></i></a>
+          </li>
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <!-- start form for validation -->
+				<fieldset id="test" class="rating" ng-mouseup="select_perm()">
+					<input type="radio" id="star5" name="ratingtwo" value="0" /><label class = "full" for="star5" title="Excluir"></label>
+					<input type="radio" id="star6" name="ratingtwo" value="1" /><label class = "full" for="star6" title="Adicionar"></label>
+					<input type="radio" id="star7" name="ratingtwo" value="2" /><label class = "full" for="star7" title="Visualizar"></label>
+					<input type="radio" id="star8" name="ratingtwo" value="3" /><label class = "full" for="star8" title="Sem Acesso"></label>
+				</fieldset>
+				{% include "perms/tables/menu_2.html" %}
+      </div>
+    </div>
+
+		<div class="x_panel">
+      <div class="x_title">
+        <h2>Menu: Supervisão de Vendas</h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+          </li>
+          <li><a class="close-link"><i class="fa fa-close"></i></a>
+          </li>
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <!-- start form for validation -->
+				<fieldset id="test" class="rating" ng-mouseup="select_perm()">
+					<input type="radio" id="star5" name="ratingtwo" value="0" /><label class = "full" for="star5" title="Excluir"></label>
+					<input type="radio" id="star6" name="ratingtwo" value="1" /><label class = "full" for="star6" title="Adicionar"></label>
+					<input type="radio" id="star7" name="ratingtwo" value="2" /><label class = "full" for="star7" title="Visualizar"></label>
+					<input type="radio" id="star8" name="ratingtwo" value="3" /><label class = "full" for="star8" title="Sem Acesso"></label>
+				</fieldset>
+				{% include "perms/tables/menu_2.html" %}
+      </div>
+    </div>
+
+		<div class="x_panel">
+      <div class="x_title">
+        <h2>Menu: Gerências</h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+          </li>
+          <li><a class="close-link"><i class="fa fa-close"></i></a>
+          </li>
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <!-- start form for validation -->
+				<fieldset id="test" class="rating" ng-mouseup="select_perm()">
+					<input type="radio" id="star5" name="ratingtwo" value="0" /><label class = "full" for="star5" title="Excluir"></label>
+					<input type="radio" id="star6" name="ratingtwo" value="1" /><label class = "full" for="star6" title="Adicionar"></label>
+					<input type="radio" id="star7" name="ratingtwo" value="2" /><label class = "full" for="star7" title="Visualizar"></label>
+					<input type="radio" id="star8" name="ratingtwo" value="3" /><label class = "full" for="star8" title="Sem Acesso"></label>
+				</fieldset>
+				{% include "perms/tables/menu_2.html" %}
+      </div>
+    </div>
+
+		<div class="x_panel">
+      <div class="x_title">
+        <h2>Menu: Contabil</h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+          </li>
+          <li><a class="close-link"><i class="fa fa-close"></i></a>
+          </li>
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <!-- start form for validation -->
+				<fieldset id="test" class="rating" ng-mouseup="select_perm()">
+					<input type="radio" id="star5" name="ratingtwo" value="0" /><label class = "full" for="star5" title="Excluir"></label>
+					<input type="radio" id="star6" name="ratingtwo" value="1" /><label class = "full" for="star6" title="Adicionar"></label>
+					<input type="radio" id="star7" name="ratingtwo" value="2" /><label class = "full" for="star7" title="Visualizar"></label>
+					<input type="radio" id="star8" name="ratingtwo" value="3" /><label class = "full" for="star8" title="Sem Acesso"></label>
+				</fieldset>
+				{% include "perms/tables/menu_2.html" %}
+      </div>
+    </div>
+	</div>
 </div>
 {% endblock %}
 
@@ -60,5 +221,12 @@
 	{% load static %}
 	<link href="{% static 'modules/perms/perms.css' %}" rel="stylesheet">
 	<script src="{% static 'modules/perms/perms_controller.js' %}"></script>
+
+	<script>
+		$(document).ready(function() {
+				angular.element(document.getElementById('div_permission_controller')).scope().select_perm();
+		});
+
+	</script>
 
 {% endblock %}

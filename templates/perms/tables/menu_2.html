@@ -16,7 +16,7 @@
 				<td colspan="8" class="text-center">Nenhum Contato Cadastrado!</td>
 			</tr>-->
 
-			<tr class="row_contact linha_selecionavel {{ contact.selected }}" ng-click="select_contact(contact)" pagination-id="paginate_contacts" ng-repeat="k in list_menu_Compras">
+			<tr class="row_contact linha_selecionavel {{ contact.selected }}" ng-click="select_contact(contact)" pagination-id="paginate_contacts" ng-repeat="k in list_menu_Vendas">
 
 				<td class="col_contact_type" ng-hide='S0 || S1 || S2 || S3 || S4' ng-class="{true:'left', false:'center'}[contact.type_contact=='']">
 					{{ k }}

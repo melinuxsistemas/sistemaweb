@@ -219,4 +219,3 @@ function validate_date_foundation (birth_date_foundation){
     clean_wrong_field(birth_date_foundation);
     return true;
 }
-
