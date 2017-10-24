@@ -4,6 +4,9 @@
 var application = angular.module('modules.perms',[]);
 application.controller('permission_controller', function($scope) {
 
+	$scope.list_menu_Cadastros = ['Entidades','Permissões','Grupos Mercadológicos',
+		'Produtos','Vinculos de Produtos','Agenda Telefônica','Tabelas Auxíliares']
+
 	$scope.list_menu_Compras = ['Pedido e Fornecedoras','Lista para Reposição,',
 		'Pedidos para Cotação','Entrada de Mercadorias',
 		'Aquisição de Serviços','Corrigir Entrada','Devolução e Fornecedores',

@@ -1,11 +1,9 @@
-<table id="table_menu_compras" class="table table-striped table-bordered table-hover">
+<table id="table_menu_cadastro" class="table table-striped table-bordered table-hover">
 
 	<thead>
-		<tr class="row_contact linha_selecionavel" style="font-size:10px;">
+		<tr class="row_menu linha_selecionavel" style="font-size:10px;">
 
-			<th class="col_menu text-center" ng-hide='S0 || S1 || S2' ng-click="sortType = 'type_contact'; sortReverse = !sortReverse">Menu</th>
-
-			<th class='col_menu text-center' ng-click="sortType = 'contact_name'; sortReverse = !sortReverse">Nível de Permissão</th>
+			<th> <a class="col_menu_cabecario text-center">Menu</a> <b class="pull-right">Nível de Permissão</b></th>
 
 		</tr>
 	</thead>
@@ -16,25 +14,20 @@
 				<td colspan="8" class="text-center">Nenhum Contato Cadastrado!</td>
 			</tr>-->
 
-			<tr class="row_contact linha_selecionavel {{ contact.selected }}" ng-click="select_contact(contact)" pagination-id="paginate_contacts" ng-repeat="k in list_menu_Vendas">
+			<tr class="row_menu linha_selecionavel {{ contact.selected }}" ng-click="select_contact(contact)" pagination-id="paginate_contacts" ng-repeat="k in list_menu_Cadastros">
 
-				<td class="col_contact_type" ng-hide='S0 || S1 || S2 || S3 || S4' ng-class="{true:'left', false:'center'}[contact.type_contact=='']">
-					{{ k }}
-				</td>
+				<td class="col_menu">
+					<a>{{ k }}</a>
 
-				<td class="col_contact_name">
-					<fieldset id='permissions' class="rating">
-
-					<input type="radio" class="rating_item" id="star4" name="rating_permission" value="3"/><label id="rate_label_3" class = "full" for="star4" title="Excluir"></label>
-					<input type="radio" class="rating_item" id="star3" name="rating_permission" value="2" /><label id="rate_label_2" class = "full" for="star3" title="Adicionar"></label>
-					<input type="radio" class="rating_item" id="star2" name="rating_permission" value="1" /><label id="rate_label_1" class = "full" for="star2" title="Visualizar"></label>
-					<input type="radio" class="rating_item" id="star1" name="rating_permission" value="0" /><label id="rate_label_0" class = "full" for="star1" title="Sem Acesso"></label>
+					<fieldset id='fieldset_{{ k }}'  class="rating pull-right">
+					<input type="radio" class="rating_item" id="{{ k }}_3" name='{{ k }}' value="3"	/><label id="rate_label_3" class = "full" for="{{ k }}_3" title="Excluir"></label>
+					<input type="radio" class="rating_item" id="{{ k }}_2" name='{{ k }}' value="2" /><label id="rate_label_2" class = "full" for="{{ k }}_2" title="Adicionar"></label>
+					<input type="radio" class="rating_item" id="{{ k }}_1" name='{{ k }}' value="1" /><label id="rate_label_1" class = "full" for="{{ k }}_1" title="Visualizar"></label>
+					<input type="radio" class="rating_item" id="{{ k }}_0" name='{{ k }}' value="0" /><label id="rate_label_0" class = "full" for="{{ k }}_0" title="Sem Acesso"></label>
 
 					</fieldset>
 				</td>
-
 			</tr>
-
 		{% endverbatim %}
 	</tbody>
 	</table>

@@ -1,0 +1,33 @@
+<table id="table_menu_cadastro" class="table table-striped table-hover">
+
+	<thead>
+		<tr class="row_menu linha_selecionavel" style="font-size:10px;">
+
+			<th> <a class="col_menu_cabecario text-center">Menu</a> <b class="pull-right">Nível de Permissão</b></th>
+
+		</tr>
+	</thead>
+
+	<tbody>
+		{% verbatim %}
+			<!--<tr ng-if="(contacts|filter:filterIds()).length == 0">
+				<td colspan="8" class="text-center">Nenhum Contato Cadastrado!</td>
+			</tr>-->
+
+			<tr class="row_menu linha_selecionavel {{ contact.selected }}" ng-click="select_contact(contact)" pagination-id="paginate_contacts" ng-repeat="k in list_menu_Cadastros">
+
+				<td class="col_menu" style="height: 20px;padding-top:4px;padding-bottom:2px;padding-left: 8px;">
+					<div style="margin: 0px;padding: 0px;vertical-align: bottom;">
+						<a>{{ k }}</a>
+						<fieldset id='fieldset_{{ k }}'  class="rating pull-right" style="height: 0px;padding: 0px;margin-top: -2px;padding-right: 3px;">
+							<input type="radio" class="rating_item" id="{{ k }}_3" name='{{ k }}' value="3"	/><label id="rate_label_3" class="full" style="padding: 0px;margin:0px;height: 18px;" for="{{ k }}_3" title="Excluir"></label>
+							<input type="radio" class="rating_item" id="{{ k }}_2" name='{{ k }}' value="2" /><label id="rate_label_2" class = "full" for="{{ k }}_2" title="Adicionar"></label>
+							<input type="radio" class="rating_item" id="{{ k }}_1" name='{{ k }}' value="1" /><label id="rate_label_1" class = "full" for="{{ k }}_1" title="Visualizar"></label>
+							<input type="radio" class="rating_item" id="{{ k }}_0" name='{{ k }}' value="0" /><label id="rate_label_0" class = "full" for="{{ k }}_0" title="Sem Acesso"></label>
+						</fieldset>
+					</div>
+				</td>
+			</tr>
+		{% endverbatim %}
+	</tbody>
+	</table>

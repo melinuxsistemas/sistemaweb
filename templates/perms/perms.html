@@ -9,210 +9,254 @@
 {% block conteudo_principal %}
 <div id="angular_content_perms" ng-cloak ng-app="modules.perms">
   <div id="div_permission_controller" ng-controller="permission_controller">
-    <div class="x_panel">
-      <div class="x_title">
-        <h2>Menu: Cadastros {% verbatim %} - VEJA:{{ teste }}{% endverbatim %}</h2>
-        <ul class="nav navbar-right panel_toolbox">
-          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-          </li>
-          <li><a class="close-link"><i class="fa fa-close"></i></a>
-          </li>
-        </ul>
-        <div class="clearfix"></div>
-      </div>
-      <div class="x_content">
-        <!-- start form for validation -->
-				<fieldset id='permissions' class="rating">
-					<input type="radio" class="rating_item" id="star4" name="rating_permission" value="3" /><label id="rate_label_3" class = "full" for="star4" title="Excluir"></label>
-					<input type="radio" class="rating_item" id="star3" name="rating_permission" value="2" /><label id="rate_label_2" class = "full" for="star3" title="Adicionar"></label>
-					<input type="radio" class="rating_item" id="star2" name="rating_permission" value="1" /><label id="rate_label_1" class = "full" for="star2" title="Visualizar"></label>
-					<input type="radio" class="rating_item" id="star1" name="rating_permission" value="0" /><label id="rate_label_0" class = "full" for="star1" title="Sem Acesso"></label>
-				</fieldset>
-      </div>
-    </div>
 		<div class="x_panel">
-      <div class="x_title">
-        <h2>Menu: Compras</h2>
-        <ul class="nav navbar-right panel_toolbox">
-          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-          </li>
-          <li><a class="close-link"><i class="fa fa-close"></i></a>
-          </li>
-        </ul>
-        <div class="clearfix"></div>
-      </div>
-      <div class="x_content">
-        <!-- start form for validation -->
-				<fieldset id="test" class="rating" ng-mouseup="select_perm()">
-					<input type="radio" id="star5" name="ratingtwo" value="0" /><label class = "full" for="star5" title="Excluir"></label>
-					<input type="radio" id="star6" name="ratingtwo" value="1" /><label class = "full" for="star6" title="Adicionar"></label>
-					<input type="radio" id="star7" name="ratingtwo" value="2" /><label class = "full" for="star7" title="Visualizar"></label>
-					<input type="radio" id="star8" name="ratingtwo" value="3" /><label class = "full" for="star8" title="Sem Acesso"></label>
-				</fieldset>
-				{% include "perms/tables/menu_1.html" %}
-      </div>
-    </div>
+			<div class="x_title">
+				<h2>Definições de Permissão</h2>
+				<div class="clearfix"></div>
+			</div>
+			<div class="x_content">
+				<div class="row">
+					<div class="col-lg-4">
+						<!-- Menu Cadastros-->
+						<fieldset>
+							<a href="#" id="legend_cadastro" data-toggle="collapse" data-target="#permissions_cadastro">
+								<legend>Cadastros
+									<span class="pull-right">
+									<fieldset id='field_cadastro' class="rating">
+										<input type="radio" class="rating_item" id="star4" name="rating_permission" value="3" /><label id="rate_label_3" class = "full" for="star4" title="Excluir"></label>
+										<input type="radio" class="rating_item" id="star3" name="rating_permission" value="2" /><label id="rate_label_2" class = "full" for="star3" title="Adicionar"></label>
+										<input type="radio" class="rating_item" id="star2" name="rating_permission" value="1" /><label id="rate_label_1" class = "full" for="star2" title="Visualizar"></label>
+										<input type="radio" class="rating_item" id="star1" name="rating_permission" value="0" /><label id="rate_label_0" class = "full" for="star1" title="Sem Acesso"></label>
+									</fieldset>
+								</span>
+								</legend>
+							</a>
 
-  	<div class="x_panel">
-      <div class="x_title">
-        <h2>Menu: Vendas</h2>
-        <ul class="nav navbar-right panel_toolbox">
-          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-          </li>
-          <li><a class="close-link"><i class="fa fa-close"></i></a>
-          </li>
-        </ul>
-        <div class="clearfix"></div>
-      </div>
-      <div class="x_content">
-        <!-- start form for validation -->
-				<fieldset id="test" class="rating" ng-mouseup="select_perm()">
-					<input type="radio" id="star5" name="ratingtwo" value="0" /><label class = "full" for="star5" title="Excluir"></label>
-					<input type="radio" id="star6" name="ratingtwo" value="1" /><label class = "full" for="star6" title="Adicionar"></label>
-					<input type="radio" id="star7" name="ratingtwo" value="2" /><label class = "full" for="star7" title="Visualizar"></label>
-					<input type="radio" id="star8" name="ratingtwo" value="3" /><label class = "full" for="star8" title="Sem Acesso"></label>
-				</fieldset>
-				{% include "perms/tables/menu_2.html" %}
-      </div>
-    </div>
+							<div id="permissions_cadastro" style="padding: 0px;margin-top: -15px;padding-bottom: 0px">
+								{% include "perms/tables/menu_0.html" %}
+							</div>
 
-		<div class="x_panel">
-      <div class="x_title">
-        <h2>Menu: Serviços</h2>
-        <ul class="nav navbar-right panel_toolbox">
-          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-          </li>
-          <li><a class="close-link"><i class="fa fa-close"></i></a>
-          </li>
-        </ul>
-        <div class="clearfix"></div>
-      </div>
-      <div class="x_content">
-        <!-- start form for validation -->
-				<fieldset id="test" class="rating" ng-mouseup="select_perm()">
-					<input type="radio" id="star5" name="ratingtwo" value="0" /><label class = "full" for="star5" title="Excluir"></label>
-					<input type="radio" id="star6" name="ratingtwo" value="1" /><label class = "full" for="star6" title="Adicionar"></label>
-					<input type="radio" id="star7" name="ratingtwo" value="2" /><label class = "full" for="star7" title="Visualizar"></label>
-					<input type="radio" id="star8" name="ratingtwo" value="3" /><label class = "full" for="star8" title="Sem Acesso"></label>
-				</fieldset>
-				{% include "perms/tables/menu_2.html" %}
-      </div>
-    </div>
 
-		<div class="x_panel">
-      <div class="x_title">
-        <h2>Menu: Outras Operações</h2>
-        <ul class="nav navbar-right panel_toolbox">
-          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-          </li>
-          <li><a class="close-link"><i class="fa fa-close"></i></a>
-          </li>
-        </ul>
-        <div class="clearfix"></div>
-      </div>
-      <div class="x_content">
-        <!-- start form for validation -->
-				<fieldset id="test" class="rating" ng-mouseup="select_perm()">
-					<input type="radio" id="star5" name="ratingtwo" value="0" /><label class = "full" for="star5" title="Excluir"></label>
-					<input type="radio" id="star6" name="ratingtwo" value="1" /><label class = "full" for="star6" title="Adicionar"></label>
-					<input type="radio" id="star7" name="ratingtwo" value="2" /><label class = "full" for="star7" title="Visualizar"></label>
-					<input type="radio" id="star8" name="ratingtwo" value="3" /><label class = "full" for="star8" title="Sem Acesso"></label>
-				</fieldset>
-				{% include "perms/tables/menu_2.html" %}
-      </div>
-    </div>
+						</fieldset>
 
-		<div class="x_panel">
-      <div class="x_title">
-        <h2>Menu: Finanças</h2>
-        <ul class="nav navbar-right panel_toolbox">
-          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-          </li>
-          <li><a class="close-link"><i class="fa fa-close"></i></a>
-          </li>
-        </ul>
-        <div class="clearfix"></div>
-      </div>
-      <div class="x_content">
-        <!-- start form for validation -->
-				<fieldset id="test" class="rating" ng-mouseup="select_perm()">
-					<input type="radio" id="star5" name="ratingtwo" value="0" /><label class = "full" for="star5" title="Excluir"></label>
-					<input type="radio" id="star6" name="ratingtwo" value="1" /><label class = "full" for="star6" title="Adicionar"></label>
-					<input type="radio" id="star7" name="ratingtwo" value="2" /><label class = "full" for="star7" title="Visualizar"></label>
-					<input type="radio" id="star8" name="ratingtwo" value="3" /><label class = "full" for="star8" title="Sem Acesso"></label>
-				</fieldset>
-				{% include "perms/tables/menu_2.html" %}
-      </div>
-    </div>
+						</div>
 
-		<div class="x_panel">
-      <div class="x_title">
-        <h2>Menu: Supervisão de Vendas</h2>
-        <ul class="nav navbar-right panel_toolbox">
-          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-          </li>
-          <li><a class="close-link"><i class="fa fa-close"></i></a>
-          </li>
-        </ul>
-        <div class="clearfix"></div>
-      </div>
-      <div class="x_content">
-        <!-- start form for validation -->
-				<fieldset id="test" class="rating" ng-mouseup="select_perm()">
-					<input type="radio" id="star5" name="ratingtwo" value="0" /><label class = "full" for="star5" title="Excluir"></label>
-					<input type="radio" id="star6" name="ratingtwo" value="1" /><label class = "full" for="star6" title="Adicionar"></label>
-					<input type="radio" id="star7" name="ratingtwo" value="2" /><label class = "full" for="star7" title="Visualizar"></label>
-					<input type="radio" id="star8" name="ratingtwo" value="3" /><label class = "full" for="star8" title="Sem Acesso"></label>
-				</fieldset>
-				{% include "perms/tables/menu_2.html" %}
-      </div>
-    </div>
+						<div class="col-lg-4">
+						<!-- Menu Cadastros-->
+						<fieldset>
+							<a href="#" id="legend_cadastro" data-toggle="collapse" data-target="#permissions_cadastro">
+								<legend>Cadastros
+									<span class="pull-right">
+									<fieldset id='field_cadastro' class="rating">
+										<input type="radio" class="rating_item" id="star4" name="rating_permission" value="3" /><label id="rate_label_3" class = "full" for="star4" title="Excluir"></label>
+										<input type="radio" class="rating_item" id="star3" name="rating_permission" value="2" /><label id="rate_label_2" class = "full" for="star3" title="Adicionar"></label>
+										<input type="radio" class="rating_item" id="star2" name="rating_permission" value="1" /><label id="rate_label_1" class = "full" for="star2" title="Visualizar"></label>
+										<input type="radio" class="rating_item" id="star1" name="rating_permission" value="0" /><label id="rate_label_0" class = "full" for="star1" title="Sem Acesso"></label>
+									</fieldset>
+								</span>
+								</legend>
+							</a>
 
-		<div class="x_panel">
-      <div class="x_title">
-        <h2>Menu: Gerências</h2>
-        <ul class="nav navbar-right panel_toolbox">
-          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-          </li>
-          <li><a class="close-link"><i class="fa fa-close"></i></a>
-          </li>
-        </ul>
-        <div class="clearfix"></div>
-      </div>
-      <div class="x_content">
-        <!-- start form for validation -->
-				<fieldset id="test" class="rating" ng-mouseup="select_perm()">
-					<input type="radio" id="star5" name="ratingtwo" value="0" /><label class = "full" for="star5" title="Excluir"></label>
-					<input type="radio" id="star6" name="ratingtwo" value="1" /><label class = "full" for="star6" title="Adicionar"></label>
-					<input type="radio" id="star7" name="ratingtwo" value="2" /><label class = "full" for="star7" title="Visualizar"></label>
-					<input type="radio" id="star8" name="ratingtwo" value="3" /><label class = "full" for="star8" title="Sem Acesso"></label>
-				</fieldset>
-				{% include "perms/tables/menu_2.html" %}
-      </div>
-    </div>
+							<div id="permissions_cadastro" style="padding: 0px;margin-top: -15px;padding-bottom: 0px">
+								{% include "perms/tables/menu_0.html" %}
+							</div>
 
-		<div class="x_panel">
-      <div class="x_title">
-        <h2>Menu: Contabil</h2>
-        <ul class="nav navbar-right panel_toolbox">
-          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-          </li>
-          <li><a class="close-link"><i class="fa fa-close"></i></a>
-          </li>
-        </ul>
-        <div class="clearfix"></div>
-      </div>
-      <div class="x_content">
-        <!-- start form for validation -->
-				<fieldset id="test" class="rating" ng-mouseup="select_perm()">
-					<input type="radio" id="star5" name="ratingtwo" value="0" /><label class = "full" for="star5" title="Excluir"></label>
-					<input type="radio" id="star6" name="ratingtwo" value="1" /><label class = "full" for="star6" title="Adicionar"></label>
-					<input type="radio" id="star7" name="ratingtwo" value="2" /><label class = "full" for="star7" title="Visualizar"></label>
-					<input type="radio" id="star8" name="ratingtwo" value="3" /><label class = "full" for="star8" title="Sem Acesso"></label>
-				</fieldset>
-				{% include "perms/tables/menu_2.html" %}
-      </div>
-    </div>
+
+						</fieldset>
+
+						</div>
+
+						<div class="col-lg-4">
+						<!-- Menu Cadastros-->
+						<fieldset>
+							<a href="#" id="legend_cadastro" data-toggle="collapse" data-target="#permissions_cadastro">
+								<legend>Cadastros
+									<span class="pull-right">
+									<fieldset id='field_cadastro' class="rating">
+										<input type="radio" class="rating_item" id="star4" name="rating_permission" value="3" /><label id="rate_label_3" class = "full" for="star4" title="Excluir"></label>
+										<input type="radio" class="rating_item" id="star3" name="rating_permission" value="2" /><label id="rate_label_2" class = "full" for="star3" title="Adicionar"></label>
+										<input type="radio" class="rating_item" id="star2" name="rating_permission" value="1" /><label id="rate_label_1" class = "full" for="star2" title="Visualizar"></label>
+										<input type="radio" class="rating_item" id="star1" name="rating_permission" value="0" /><label id="rate_label_0" class = "full" for="star1" title="Sem Acesso"></label>
+									</fieldset>
+								</span>
+								</legend>
+							</a>
+
+							<div id="permissions_cadastro" style="padding: 0px;margin-top: -15px;padding-bottom: 0px">
+								{% include "perms/tables/menu_0.html" %}
+							</div>
+
+
+						</fieldset>
+
+						</div>
+					</div>
+
+
+				</div>
+
+				<div class="row">
+					<div class="col-lg-4">
+						<!-- Menu Cadastros-->
+						<fieldset>
+							<a href="#" id="legend_cadastro" data-toggle="collapse" data-target="#permissions_cadastro">
+								<legend>Cadastros
+									<span class="pull-right">
+									<fieldset id='field_cadastro' class="rating">
+										<input type="radio" class="rating_item" id="star4" name="rating_permission" value="3" /><label id="rate_label_3" class = "full" for="star4" title="Excluir"></label>
+										<input type="radio" class="rating_item" id="star3" name="rating_permission" value="2" /><label id="rate_label_2" class = "full" for="star3" title="Adicionar"></label>
+										<input type="radio" class="rating_item" id="star2" name="rating_permission" value="1" /><label id="rate_label_1" class = "full" for="star2" title="Visualizar"></label>
+										<input type="radio" class="rating_item" id="star1" name="rating_permission" value="0" /><label id="rate_label_0" class = "full" for="star1" title="Sem Acesso"></label>
+									</fieldset>
+								</span>
+								</legend>
+							</a>
+
+							<div id="permissions_cadastro" style="padding: 0px;margin-top: -15px;padding-bottom: 0px">
+								{% include "perms/tables/menu_0.html" %}
+							</div>
+
+
+						</fieldset>
+
+						</div>
+
+						<div class="col-lg-4">
+						<!-- Menu Cadastros-->
+						<fieldset>
+							<a href="#" id="legend_cadastro" data-toggle="collapse" data-target="#permissions_cadastro">
+								<legend>Cadastros
+									<span class="pull-right">
+									<fieldset id='field_cadastro' class="rating">
+										<input type="radio" class="rating_item" id="star4" name="rating_permission" value="3" /><label id="rate_label_3" class = "full" for="star4" title="Excluir"></label>
+										<input type="radio" class="rating_item" id="star3" name="rating_permission" value="2" /><label id="rate_label_2" class = "full" for="star3" title="Adicionar"></label>
+										<input type="radio" class="rating_item" id="star2" name="rating_permission" value="1" /><label id="rate_label_1" class = "full" for="star2" title="Visualizar"></label>
+										<input type="radio" class="rating_item" id="star1" name="rating_permission" value="0" /><label id="rate_label_0" class = "full" for="star1" title="Sem Acesso"></label>
+									</fieldset>
+								</span>
+								</legend>
+							</a>
+
+							<div id="permissions_cadastro" style="padding: 0px;margin-top: -15px;padding-bottom: 0px">
+								{% include "perms/tables/menu_0.html" %}
+							</div>
+
+
+						</fieldset>
+
+						</div>
+
+						<div class="col-lg-4">
+						<!-- Menu Cadastros-->
+						<fieldset>
+							<a href="#" id="legend_cadastro" data-toggle="collapse" data-target="#permissions_cadastro">
+								<legend>Cadastros
+									<span class="pull-right">
+									<fieldset id='field_cadastro' class="rating">
+										<input type="radio" class="rating_item" id="star4" name="rating_permission" value="3" /><label id="rate_label_3" class = "full" for="star4" title="Excluir"></label>
+										<input type="radio" class="rating_item" id="star3" name="rating_permission" value="2" /><label id="rate_label_2" class = "full" for="star3" title="Adicionar"></label>
+										<input type="radio" class="rating_item" id="star2" name="rating_permission" value="1" /><label id="rate_label_1" class = "full" for="star2" title="Visualizar"></label>
+										<input type="radio" class="rating_item" id="star1" name="rating_permission" value="0" /><label id="rate_label_0" class = "full" for="star1" title="Sem Acesso"></label>
+									</fieldset>
+								</span>
+								</legend>
+							</a>
+
+							<div id="permissions_cadastro" style="padding: 0px;margin-top: -15px;padding-bottom: 0px">
+								{% include "perms/tables/menu_0.html" %}
+							</div>
+
+
+						</fieldset>
+
+						</div>
+					</div>
+
+
+				</div>
+
+				<div class="row">
+					<div class="col-lg-4">
+						<!-- Menu Cadastros-->
+						<fieldset>
+							<a href="#" id="legend_cadastro" data-toggle="collapse" data-target="#permissions_cadastro">
+								<legend>Cadastros
+									<span class="pull-right">
+									<fieldset id='field_cadastro' class="rating">
+										<input type="radio" class="rating_item" id="star4" name="rating_permission" value="3" /><label id="rate_label_3" class = "full" for="star4" title="Excluir"></label>
+										<input type="radio" class="rating_item" id="star3" name="rating_permission" value="2" /><label id="rate_label_2" class = "full" for="star3" title="Adicionar"></label>
+										<input type="radio" class="rating_item" id="star2" name="rating_permission" value="1" /><label id="rate_label_1" class = "full" for="star2" title="Visualizar"></label>
+										<input type="radio" class="rating_item" id="star1" name="rating_permission" value="0" /><label id="rate_label_0" class = "full" for="star1" title="Sem Acesso"></label>
+									</fieldset>
+								</span>
+								</legend>
+							</a>
+
+							<div id="permissions_cadastro" style="padding: 0px;margin-top: -15px;padding-bottom: 0px">
+								{% include "perms/tables/menu_0.html" %}
+							</div>
+
+
+						</fieldset>
+
+						</div>
+
+						<div class="col-lg-4">
+						<!-- Menu Cadastros-->
+						<fieldset>
+							<a href="#" id="legend_cadastro" data-toggle="collapse" data-target="#permissions_cadastro">
+								<legend>Cadastros
+									<span class="pull-right">
+									<fieldset id='field_cadastro' class="rating">
+										<input type="radio" class="rating_item" id="star4" name="rating_permission" value="3" /><label id="rate_label_3" class = "full" for="star4" title="Excluir"></label>
+										<input type="radio" class="rating_item" id="star3" name="rating_permission" value="2" /><label id="rate_label_2" class = "full" for="star3" title="Adicionar"></label>
+										<input type="radio" class="rating_item" id="star2" name="rating_permission" value="1" /><label id="rate_label_1" class = "full" for="star2" title="Visualizar"></label>
+										<input type="radio" class="rating_item" id="star1" name="rating_permission" value="0" /><label id="rate_label_0" class = "full" for="star1" title="Sem Acesso"></label>
+									</fieldset>
+								</span>
+								</legend>
+							</a>
+
+							<div id="permissions_cadastro" style="padding: 0px;margin-top: -15px;padding-bottom: 0px">
+								{% include "perms/tables/menu_0.html" %}
+							</div>
+
+
+						</fieldset>
+
+						</div>
+
+						<div class="col-lg-4">
+						<!-- Menu Cadastros-->
+						<fieldset>
+							<a href="#" id="legend_cadastro" data-toggle="collapse" data-target="#permissions_cadastro">
+								<legend>Cadastros
+									<span class="pull-right">
+									<fieldset id='field_cadastro' class="rating">
+										<input type="radio" class="rating_item" id="star4" name="rating_permission" value="3" /><label id="rate_label_3" class = "full" for="star4" title="Excluir"></label>
+										<input type="radio" class="rating_item" id="star3" name="rating_permission" value="2" /><label id="rate_label_2" class = "full" for="star3" title="Adicionar"></label>
+										<input type="radio" class="rating_item" id="star2" name="rating_permission" value="1" /><label id="rate_label_1" class = "full" for="star2" title="Visualizar"></label>
+										<input type="radio" class="rating_item" id="star1" name="rating_permission" value="0" /><label id="rate_label_0" class = "full" for="star1" title="Sem Acesso"></label>
+									</fieldset>
+								</span>
+								</legend>
+							</a>
+
+							<div id="permissions_cadastro" style="padding: 0px;margin-top: -15px;padding-bottom: 0px">
+								{% include "perms/tables/menu_0.html" %}
+							</div>
+
+
+						</fieldset>
+
+						</div>
+					</div>
+
+
+				</div>
+
+			</div>
+		</div>
 	</div>
 </div>
 {% endblock %}
