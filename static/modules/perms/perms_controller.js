@@ -3,7 +3,6 @@
  */
 var application = angular.module('modules.perms',[]);
 application.controller('permission_controller', function($scope) {
-
 	$scope.list_menu_Cadastros = ['Entidades','Permissões','Grupos Mercadológicos',
 		'Produtos','Vinculos de Produtos','Agenda Telefônica','Tabelas Auxíliares']
 
@@ -35,6 +34,12 @@ application.controller('permission_controller', function($scope) {
 	$scope.list_menu_Contabil = ['Configurações Fiscais','Modelo de Documento','Tributação Produtos',
 		'Gerar Arquivos Governo','Ánalise Tributária','Planilha Sub. Tributária']
 
+	$scope.lista_all_menus = [
+			$scope.list_menu_Cadastros,$scope.list_menu_Compras,$scope.list_menu_Contabil,
+			$scope.list_menu_Financas,$scope.list_menu_Gerencia,$scope.list_menu_Outras_operacoes,
+			$scope.list_menu_Supervisao_vendas,$scope.list_menu_Vendas,$scope.list_menu_Servicos
+	]
+
 
 
 	$scope.select_perm = function ($scope) {
@@ -44,6 +49,29 @@ application.controller('permission_controller', function($scope) {
 		//alert(tesste);
 		//document.querySelector('input[name="ratingtwo"]:checked').value=3
 		$scope.$apply();
+	}
+
+	$scope.load_all = function () {
+		alert("Vindo aquie e entando preencher")
+		var list_respost = [
+				[1,1,1,1,1,1,1],
+				[2,2,2,2,2,2,2,2,2],
+				[3,3,3,3,3,3,3,3],
+				[0,0,0,0,0,0],
+				[1,1,1,1,1,1,1,1],
+				[0,0,0,0,0,0],
+				[3,3,3,3,3,3,3],
+				[0,0,0,0,1,1,1,1,3],
+				[3,3,3,3,3,0]
+		]
+		select_rating($scope.list_menu_Cadastros[0], 3)
+		for (i = 0;i < list_respost.size();i++){
+			for (j = 0; j <list_respost[i];j++){
+				select_rating($scope.lista_all_menus[i][j],list_respost[i][j])
+			}
+		}
+
+
 	}
 });
 
