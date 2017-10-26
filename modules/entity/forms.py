@@ -339,18 +339,18 @@ class EntityPhoneForm (forms.Form, BaseForm):
     )
 
     name = forms.CharField(
-        label="Nome Completo",
+        label="Nome",
         required=True,
         max_length=30,
         widget=forms.TextInput(
             attrs={
-                'id': 'name_contact', 'name': 'name_contact', 'class': 'form-control', 'required':'true'
+                'id': 'name_contact', 'name': 'name_contact', 'class': 'form-control uppercase', 'required':'true'
             }
         )
     )
 
     ddd = forms.CharField(
-        label="DDD",
+        label="Prefixo",
         required= True,
         max_length=4,
         widget= forms.TextInput(
@@ -377,7 +377,7 @@ class EntityPhoneForm (forms.Form, BaseForm):
         required=False,
         widget= forms.TextInput(
             attrs={
-                'id':'complemento', 'name':'complemento', 'class':'form-control'
+                'id':'complemento', 'name':'complemento ', 'class':'form-control uppercase'
             }
         )
     )
@@ -388,7 +388,7 @@ class EntityPhoneForm (forms.Form, BaseForm):
         required=False,
         widget=forms.Textarea(
             attrs={
-                'id': 'observations', 'name': 'observations', 'class': "form-control uppercase", 'cols': 2, 'rows': 3,
+                'id': 'observations', 'name': 'observations', 'class': "form-control", 'cols': 2, 'rows': 3,
                 'type': "text", 'ng-model': 'observations'
             }
         )
@@ -434,7 +434,7 @@ class EntityEmailForm (FormAbstractEmail):
         max_length=30,
         widget=forms.TextInput(
             attrs={
-                'id': 'name', 'name': 'name', 'class': 'form-control', 'ng-model': 'name', 'placeholder':'Nome..'
+                'id': 'name', 'name': 'name', 'class': 'form-control uppercase', 'ng-model': 'name', 'placeholder':'Nome..'
                 ,'autocomplete': 'off' , 'type': "text"
             }
         )

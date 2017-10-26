@@ -10,10 +10,10 @@ urlpatterns = [
     url(r'update/phone',EntityController().update_tel),
     url(r'list/contacts/(?P<id_entity>[^/]+)/',EntityController().load_tel),
     #Rotas Emails
-    url(r'register/email',EntityController().save_email),
-    url(r'update/email',EntityController().update_email),
-    url(r'list/emails/(?P<id_entity>[^/]+)/',EntityController().load_email),
-    url(r'delete/email/(?P<id_email>[^/]+)',EntityController().delete_email),
+    url(r'register/email',EntityController.save_email),
+    url(r'update/email',EntityController.update_email),
+    url(r'list/emails/(?P<id_entity>[^/]+)/',EntityController.load_email),
+    url(r'delete/email/(?P<id_email>[^/]+)',EntityController.delete_email),
 
 
     #Falta Consertar APIs do Email

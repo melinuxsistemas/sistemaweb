@@ -3,17 +3,50 @@ application.controller('register_phone_entity', function ($scope) {
 	$scope.contact_selected = null;
 	$scope.changing_contact = false;
 	$scope.entity_selected = null;
-	$scope.minimal_rows_tables = [0,1,2,3,4,5,6,7,8,9]
+	$scope.minimal_rows_tables = [0,1,2,3,4,5,6,7,8,9];
+	$scope.maskuse = null;
+	$scope.maskuse_ddd = null;
+
+
+	$('#type_contact').change(function() {
+
+		var type = $('#type_contact').val();
+		var maskuse;
+		$("#phone_number").val('');
+		$("#ddd").val('');
+
+		if (type == 1 ) {
+			$scope.maskuse =  "99999-9999";
+			$scope.maskuse_ddd = "(99)";
+		}
+		if (type ==2 || type==4) {
+			$scope.maskuse =  "9999-9999";
+			$scope.maskuse_ddd = "(99)";
+		}
+		if (type == 3) {
+			$scope.maskuse =  "999-9999";
+			$scope.maskuse_ddd = "9999";
+		}
+		$("#phone_number").mask($scope.maskuse);
+		$("#ddd").mask($scope.maskuse_ddd);
+		$scope.maskuse = null;
+		$scope.maskuse_ddd = null
+
+});
+
+
+
 
 
 	/*Quando o modal ficar off, limpamos os campos e as variaveis controladoras, remover class wrong_field*/
 	$('#modal_add_phone').on('hidden.bs.modal', function () {
 		$(this).find("input,textarea,select").val('').end();
-		$scope.contact_selected.selected = ''
+		$scope.contact_selected.selected = '';
 		$scope.changing_contact = false;
 		$scope.contact_selected = null;
-		clean_wrong_field('ddd')
-		clean_wrong_field('phone')
+		$('#type_contact').val(1);
+		clean_wrong_field('ddd');
+		clean_wrong_field('phone');
 		$scope.$apply()
 	});
 
@@ -30,24 +63,24 @@ application.controller('register_phone_entity', function ($scope) {
 		var id_entity = angular.element(document.getElementById('identification_controller')).scope().entity_selected.id;
 		var data_paramters = {
 			type_contact: $('#type_contact').val(),
-			name: $('#name_contact').val(),
-			ddd: $('#ddd').val(),
-			phone: $('#phone_number').val(),
-			complemento: $('#complemento').val(),
+			name: $('#name_contact').val().toUpperCase(),
+			ddd: clear_mask_numbers_contact($('#ddd').val()),
+			phone: clear_mask_numbers_contact($('#phone_number').val()),
+			complemento: $('#complemento').val().toUpperCase(),
 			id_entity: id_entity
 		};
 
 		success_function = function (result,message,data_object) {
 			notify('success','Contato Adicionado','Seu contato foi registrado');
 			var new_contact = data_object;
+			alert(new_contact.type_contact);
 			$scope.contacts.push(new_contact);
-			$scope.$apply()
+			$scope.$apply();
 			$('#modal_add_phone').modal('hide')
 
 		}
 
 		fail_function = function (message) {
-			alert("Olha os errors:	"+JSON.stringify(message))
 			notify('error','Error ao tentar salvar','Não foi possivel salvar o contato')
 		}
 		request_api("/api/entity/register/contact/", data_paramters, validate_contact, success_function, fail_function)
@@ -55,8 +88,6 @@ application.controller('register_phone_entity', function ($scope) {
 
 	/*Carregar Lista com os contatos*/
 	$scope.load_contacts = function () {
-
-		$scope.reset_contact();
 		$scope.entity_selected =  angular.element(document.getElementById('identification_controller')).scope().entity_selected;
 		var id = $scope.entity_selected.id
 		$('#title_contact').text($scope.entity_selected.entity_name)
@@ -78,14 +109,13 @@ application.controller('register_phone_entity', function ($scope) {
 
 	/*Deletar contato*/
 	$scope.delete_contact = function () {
-
-		var id_contact = $scope.contact_selected.id
+		var id_contact = $scope.contact_selected.id;
 		$.ajax({
 			url: "/api/entity/delete/phone/" + id_contact ,
 
 			success : function () {
-				alert("Olha a lista"+JSON.stringify($scope.contacts))
-				$scope.contacts.splice($scope.contact_selected,1)
+				var pos = $scope.contacts.indexOf($scope.contact_selected)
+				$scope.contacts.splice(pos,1);
 				$scope.contact_selected = null
 				notify('success','Contato Removido','Seu contato foi removido do sistema')
 				$scope.$apply()
@@ -96,7 +126,8 @@ application.controller('register_phone_entity', function ($scope) {
 	/*Função que carreaga os campos do formulario de Contatos*/
 	$scope.load_field_contact = function () {
 		$scope.changing_contact = true;
-		$('#type_contact').val($scope.contact_selected.type_contact)
+		//$('#type_contact :selected').text(($scope.contact_selected.type_contact));
+		$('#type_contact').val($scope.contact_selected.id_type_contact);
 		$('#phone_number').val($scope.contact_selected.phone);
 		$('#ddd').val($scope.contact_selected.ddd);
 		$('#name_contact').val($scope.contact_selected.name)
@@ -108,10 +139,10 @@ application.controller('register_phone_entity', function ($scope) {
 		var data_paramters = {
 			id : $scope.contact_selected.id,
 			type_contact: $('#type_contact').val(),
-			name: $('#name_contact').val(),
-			ddd: $('#ddd').val(),
-			phone: $('#phone_number').val(),
-			complemento: $('#complemento').val()
+			name: $('#name_contact').val().toUpperCase(),
+			ddd: clear_mask_numbers_contact($('#ddd').val()),
+			phone: clear_mask_numbers_contact($('#phone_number').val()),
+			complemento: $('#complemento').val().toUpperCase()
 		};
 
 		/*Verifica se o modal Alterar possui mudanças*/
@@ -254,13 +285,12 @@ application.controller('register_email_entity', function ($scope) {
 	});
 
 	$scope.reset_email = function () {
-		$scope.email_selected = null
-		$scope.changing_email = false
-		$scope.entity_selected = null
+		$scope.email_selected = null;
+		$scope.changing_email = false;
+		$scope.entity_selected = null;
 	};
 
 	$scope.load_field_email = function () {
-		alert("OLha o q eu pego\n"+JSON.stringify($scope.email_selected))
 		$scope.changing_email = true;
 		var xml = "False";
 		var suitcase = "False";
@@ -281,7 +311,7 @@ application.controller('register_email_entity', function ($scope) {
 		var data_paramters = {
 				id : $scope.email_selected.id,
 				email :$('#email').val(),
-        name : $('#name').val(),
+        name : $('#name').val().toUpperCase(),
         send_xml : $('#send_xml').val(),
 				send_suitcase : $('#send_suitcase').val()
 		}
@@ -308,7 +338,7 @@ application.controller('register_email_entity', function ($scope) {
 		var id_entity = $scope.entity_selected.id
 		var data_paramters = {
 			email : $('#email').val(),
-			name : $('#name').val(),
+			name : $('#name').val().toUpperCase(),
 			send_xml : $('#send_xml').val(),
 			send_suitcase : $('#send_suitcase').val(),
 			id_entity : id_entity
@@ -352,12 +382,12 @@ application.controller('register_email_entity', function ($scope) {
 
 	$scope.delete_email = function () {
 		var email_delete = $scope.email_selected.id;
-		alert("Vindo aquie")
 		$.ajax({
 			/*O ultimo elemento da url é o tipo*/
 			url: "/api/entity/delete/email/" + email_delete,
 			success : function () {
-				$scope.emails.splice($scope.email_selected,1);
+				var pos = $scope.emails.indexOf($scope.email_selected)
+				$scope.emails.splice(pos,1);
 				$scope.email_selected = null;
 				notify('success','Email Removido','Seu email foi removido do sistema');
 				$scope.$apply()

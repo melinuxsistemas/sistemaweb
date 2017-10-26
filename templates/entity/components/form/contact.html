@@ -1,5 +1,5 @@
 <div id="modal_add_phone" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
-	<div class="modal-dialog"  style='position: absolute;width: 80%; left:50%;transform: translate(-50%, 0%);'>
+	<div class="modal-dialog"  style='position: absolute;width: 40%; left:50%;transform: translate(-50%, 0%);'>
 		<form id="form-save-contact" autocomplete="off" ng-submit="changing_contact? change_contact() : save_tel()" novalidate><!--  -->
 			<div class="modal-content">
 				{% csrf_token %}
@@ -9,7 +9,7 @@
 					</div>
 					<div class="modal-body" style="padding: 10px 25px 0px 25px;">
 						{% csrf_token %}
-							<div class="row">
+							<div class="row" style="margin-bottom: -15px">
 								<div class="col-lg-4">
 									<div class="form-group field field_required container_custom_select" id="field_type_contact">
 										<sub><label id="lb_type_contact" for="type_contact">{{ form_register_phone.type_contact.label }}</label></sub><br/>
@@ -31,7 +31,7 @@
 
 							<div class="row">
 
-								<div class="col-lg-2">
+								<div class="col-lg-2" style="margin-top : -15px">
 									<div class="form-group field field_required" id="field_ddd">
 										<sub><label id="lb_ddd" for="ddd">{{ form_register_phone.ddd.label }}</label></sub><br/>
 										{{ form_register_phone.ddd }}
@@ -39,7 +39,7 @@
 									</div>
 								</div>
 
-								<div class="col-lg-5">
+								<div class="col-lg-5"style="margin-top: -15px">
 									<div class="form-group field field_required" id="field_phone">
 										<sub><label id="lb_phone" for="phone">{{ form_register_phone.phone.label }}</label></sub><br/>
 										{{ form_register_phone.phone }}
@@ -47,7 +47,7 @@
 									</div>
 								</div>
 
-								<div class="col-lg-5">
+								<div class="col-lg-5"style="margin-top: -15px">
 									<div class="form-group field" id="field_complemento">
 										<sub><label id="lb_complemento" for="complemento">{{ form_register_phone.complemento.label }}</label> </sub><br/>
 										{{ form_register_phone.complemento }}

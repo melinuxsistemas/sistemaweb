@@ -43,10 +43,10 @@ application.controller('identification_controller', function($scope) {
       entity_type: 'PF',
       registration_status: 0,
       cpf_cnpj: clear_mask_numbers($scope.cpf_cnpj),
-      entity_name: $scope.entity_name.toUpperCase(),
-      fantasy_name: $scope.fantasy_name.toUpperCase(),
+      entity_name: $('#entity_name').val().toUpperCase(),
+      fantasy_name: $('#fantasy_name').val().toUpperCase(),
       birth_date_foundation: $scope.birth_date_foundation,
-      comments: $scope.comments,
+      comments: $scope.comments
     }
 
     success_function = function(result,message,object){

@@ -36,7 +36,7 @@
 
 														<th class="col_contact_type text-center" ng-hide='S0 || S1 || S2' ng-click="sortType = 'type_contact'; sortReverse = !sortReverse">Tipo</th>
 
-														<th class='col_contact_name text-center' ng-click="sortType = 'contact_name'; sortReverse = !sortReverse">Nome/Razão Social</th>
+														<th class='col_contact_name text-center' ng-click="sortType = 'contact_name'; sortReverse = !sortReverse">Nome</th>
 
 														<th class="col_phone_number text-center" ng-hide='S0 || S1 || S2' ng-click="sortType = 'phone_number'; sortReverse = !sortReverse">Telefone</th>
 
@@ -64,7 +64,7 @@
 															({{ contact.ddd }}) {{ contact.phone }}
 														</td>
 
-														<td class="col_complemento" ng-hide='S0 || S1 || S2 || S3 || S4'  style="">
+														<td class="col_contact_complemento" ng-hide='S0 || S1 || S2 || S3 || S4'  style="">
 																{{contact.complemento }}
 														</td>
 													</tr>

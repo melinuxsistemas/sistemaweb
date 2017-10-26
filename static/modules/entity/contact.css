@@ -67,18 +67,22 @@
 
 #table_contact .row_contact .col_contact_type{
 	width: 20px;
-	text-align: center;
+	text-align: left;
 }
 
 
 #table_contact .row_contact .col_phone_number{
 	width: 108px;
-	text-align: center;
+	text-align: left;
 }
 
 #table_contact .row_contact .col_contact_complemento{
 	width: 140px;
-	text-align: center;
+	text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 140px;
 }
 
 
@@ -105,17 +109,21 @@
 }
 
 #table_emails .row_contact .col_email_email{
-	width: 500px;
-	text-align: left;
-}
-
-#table_emails .row_contact .col_email_name{
-	width: 400px;
+	width: 230px;
 	text-align: left;
 	white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 400px;
+  max-width: 230px;
+}
+
+#table_emails .row_contact .col_email_name{
+	width: 230px;
+	text-align: left;
+	white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 230px;
 }
 
 #table_emails .row_contact .col_email_xml{

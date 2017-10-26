@@ -1,11 +1,14 @@
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django.core.mail import send_mail
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager, Permission
 from modules.core.config import ERRORS_MESSAGES
 from modules.core.utils import generate_activation_code
 from modules.core.validators import check_password_format
+from modules.entity.models import Contact
 from modules.user.validators import email_format_validator,email_dangerous_symbols_validator
 
 
@@ -125,6 +128,28 @@ class User(PermissionsMixin, AbstractBaseUser):
         db_table = 'user'
         verbose_name = _('Usuário')
         verbose_name_plural = _('Usuários')
+
+
+    def user_gains_perms(request, user_id):
+        user = get_object_or_404(User, email=user_id)
+        # any permission check will cache the current set of permissions
+        user.has_perm('myapp.change_blogpost')
+
+        content_type = ContentType.objects.get_for_model(Contact)
+        permission = Permission.objects.get(
+            codename='change_blogpost',
+            content_type=content_type,
+        )
+        user.user_permissions.add(permission)
+        # Checking the cached permission set
+        user.has_perm('myapp.change_blogpost')  # False
+
+        # Request new instance of User
+        # Be aware that user.refresh_from_db() won't clear the cache.
+        user = get_object_or_404(User, pk=user_id)
+
+        # Permission cache is repopulated from the database
+        user.has_perm('myapp.change_blogpost')  # True
 
     def __unicode__(self):
         return self.email
