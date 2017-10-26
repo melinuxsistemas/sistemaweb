@@ -13,12 +13,12 @@
 			<tr class="row_menu" ng-repeat="k in list_menu_Compras">
 				<td class="col_menu" style="height: 20px;padding-top:4px;padding-bottom:2px;padding-left: 8px;">
 					<div style="margin: 0px;padding: 0px;vertical-align: bottom;">
-						<a>{{ k }}</a>
-						<fieldset id='fieldset_{{ k }}'  class="rating pull-right" style="height: 0px;padding: 0px;margin-top: -2px;padding-right: 3px;">
-							<input type="radio" class="rating_item" id="{{ k }}_3" name='{{ k }}' value="3"	/><label id="rate_label_3" class="full" style="padding: 0px;margin:0px;height: 18px;" for="{{ k }}_3" title="Excluir"></label>
-							<input type="radio" class="rating_item" id="{{ k }}_2" name='{{ k }}' value="2" /><label id="rate_label_2" class = "full" for="{{ k }}_2" title="Adicionar"></label>
-							<input type="radio" class="rating_item" id="{{ k }}_1" name='{{ k }}' value="1" /><label id="rate_label_1" class = "full" for="{{ k }}_1" title="Visualizar"></label>
-							<input type="radio" class="rating_item" id="{{ k }}_0" name='{{ k }}' value="0" /><label id="rate_label_0" class = "full" for="{{ k }}_0" title="Sem Acesso"></label>
+						<a>{{ k.label }}</a>
+						<fieldset id='fieldset_{{ k.id }}'  class="rating pull-right" style="height: 0px;padding: 0px;margin-top: -2px;padding-right: 3px;">
+							<input type="radio" class="rating_item" id="{{ k.id }}_3" name='{{ k.id }}' value="3"	/><label id="rate_label_{{ k.id }}_3" class="full" 	for="{{ k.id }}_3" title="Excluir"></label>
+							<input type="radio" class="rating_item" id="{{ k.id }}_2" name='{{ k.id }}' value="2" /><label id="rate_label_{{ k.id }}_2" class = "full" for="{{ k.id }}_2" title="Adicionar"></label>
+							<input type="radio" class="rating_item" id="{{ k.id }}_1" name='{{ k.id }}' value="1" /><label id="rate_label_{{ k.id }}_1" class = "full" for="{{ k.id }}_1" title="Visualizar"></label>
+							<input type="radio" class="rating_item" id="{{ k.id }}_0" name='{{ k.id }}' value="0" /><label id="rate_label_{{ k.id }}_0" class = "full" for="{{ k.id }}_0" title="Sem Acesso"></label>
 						</fieldset>
 					</div>
 				</td>

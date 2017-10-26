@@ -87,19 +87,18 @@ function desable_new_label(campo){
   })
 }
 
-/*
-$(".rating_item").click(function(){
+
+$("#fieldset_teste").click(function(){
   alert('Olha o name:'+this.name)
-  select_rating(this.name, this.value)
-})*/
+  //select_rating(this.name, this.value)
+})
 
 
 function select_rating(select_name, value) {
   //document.querySelector('input[name="ratingtwo"]:checked').value
-  //alert("Vindo no base  "+select_name)
   //alert("consigo ver o valor:"+$('#Entidade').val())
-  $("#"+select_name+" input[type=radio]").each(function (){
-    //$(this+ " label").addClass('selected_rating')
+  $("#fieldset_"+select_name+" input[type=radio]").each(function (){
+
     if( this.value <= value){
       $("#rate_label_"+select_name+"_"+this.value).addClass('selected_rating')
     }else{
