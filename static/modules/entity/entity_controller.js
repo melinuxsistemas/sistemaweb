@@ -4,19 +4,38 @@
 var application = angular.module('modules.entity', ['angularUtils.directives.dirPagination']);
 application.controller('identification_controller', function($scope) {
 
+	$scope.screen_height = SCREEN_PARAMTERS['screen_height']
+	$scope.screen_width  = SCREEN_PARAMTERS['screen_width']
+	$scope.screen_model  = SCREEN_PARAMTERS['screen_model']
+
+	$scope.table_maximun_items_per_page = SCREEN_PARAMTERS['table_maximun_items_per_page']
+	$scope.table_minimun_items          = SCREEN_PARAMTERS['table_minimun_items']
+	$scope.table_maximun_body_height    = SCREEN_PARAMTERS['table_maximun_body_height']
+	//alert("veja o tamanho: "+$scope.table_maximun_body_height)
+
+
 	$scope.sortType           = 'entity_code';    // set the default sort type
-	$scope.sortReverse        = false;  // set the default sort order
+	$scope.sortReverse        = false;            // set the default sort order
+	$scope.search             = '';              // set the default search/filter term
 	$scope.filter_by          = '1';
 	$scope.filter_by_index    = parseInt($scope.filter_by);
 	$scope.filter_by_options  = ["entity_code","entity_name", "cpf_cnpj"];
-	$scope.search             = '';     // set the default search/filter term
 
-	$scope.minimal_quantity_rows = [0,1,2,3,4,5,6,7,8,9];
+	$scope.loaded_entities = false;
   $scope.entity_selected = null
   $scope.list_entities = []
 
   $scope.save = function () {
   	alert("TO SALVANDO A IDENTIFICACAO DE UMA ENTIDADE")
+
+  	var fields = {};
+		$.each($('#form-save-entity').serializeArray(), function(i, field) {
+			alert("VEJA I: "+i+" - Field: "+field.name+" - Value: "+field.value)
+				fields[field.name] = field.value;
+		});
+		//$('#form-save-entity').serialize();
+  	alert("VEJA OS VALORES: "+JSON.stringify(fields))
+
     $scope.cpf_cnpj = $('#cpf_cnpj').val();
     $scope.birth_date_foundation = $('#birth_date_foundation').val();
 
@@ -58,11 +77,13 @@ application.controller('identification_controller', function($scope) {
       url: "/api/entity/list/entities/",
 
       success: function (data) {
-        $scope.list_entities = JSON.parse(data)
+        $scope.list_entities = JSON.parse(data);
+        $scope.loaded_entities = true;
         $scope.$apply();
       },
 
       failure: function (data) {
+        $scope.loaded_entities = true;
         alert("Não foi possivel carregar a lista")
       },
     })
@@ -116,47 +137,17 @@ application.controller('identification_controller', function($scope) {
     $scope.entity_selected = null;
   }
 
-  $scope.S9 = false;  // Giant Screen:   1921 or more
-	$scope.S8 = false;  // Larger Screen:  1680 ~ 1920
-	$scope.S7 = false;  // Giant Screen:   1367 ~ 1680
-	$scope.S6 = false;  // Larger Screen:  1025 ~ 1366
-	$scope.S5 = false;  // Giant Screen:    801 ~ 1024
-	$scope.S4 = false;  // Larger Screen:   641 ~ 800
-	$scope.S3 = false;  // Large Screen:    481 ~ 640
-	$scope.S2 = false;  // Medium Screen:   321 ~ 480
-	$scope.S1 = false;  // Small Screen:    241 ~ 320
-	$scope.S0 = false;  // Smaller Screen:    0 ~ 240
+
 
 	$scope.readjust_screen = function (){
-		$scope.screen_height = window.innerHeight
-		$scope.screen_width  = window.innerWidth
-		$scope.pagination_itens_per_page = parseInt(($scope.screen_height/26)-11);
+		//alert("ACIONEI O CONTROLE DO ANGULAR PRA VERIFICAR OS PARAMETROS")
+		$scope.screen_height = SCREEN_PARAMTERS['screen_height']
+		$scope.screen_width  = SCREEN_PARAMTERS['screen_width']
+		$scope.screen_model  = SCREEN_PARAMTERS['screen_model']
 
-		if ($scope.pagination_itens_per_page < 2){
-			$scope.pagination_itens_per_page = 2;
-		}
-
-		$scope.S9 = false;  // Giant Screen:   1921 or more
-		$scope.S8 = false;  // Larger Screen:  1680 ~ 1920
-		$scope.S7 = false;  // Giant Screen:   1367 ~ 1680
-		$scope.S6 = false;  // Larger Screen:  1025 ~ 1366
-		$scope.S5 = false;  // Giant Screen:    801 ~ 1024
-		$scope.S4 = false;  // Larger Screen:   641 ~ 800
-		$scope.S3 = false;  // Large Screen:    481 ~ 640
-		$scope.S2 = false;  // Medium Screen:   321 ~ 480
-		$scope.S1 = false;  // Small Screen:    241 ~ 320
-		$scope.S0 = false;  // Smaller Screen:    0 ~ 240
-
-		if ($scope.screen_width <= 240){ $scope.S0 = true; }
-		else if ($scope.screen_width <= 320){ $scope.S1 = true; }
-		else if ($scope.screen_width <= 480){ $scope.S2 = true;	}
-		else if ($scope.screen_width <= 640){ $scope.S3 = true; }
-		else if ($scope.screen_width <= 800){ $scope.S4 = true; }
-		else if ($scope.screen_width <= 1024){ $scope.S5 = true; }
-		else if ($scope.screen_width <= 1366){ $scope.S6 = true; }
-		else if ($scope.screen_width <= 1680){ $scope.S7 = true; }
-		else if ($scope.screen_width <= 1920){ $scope.S8 = true; }
-		else{ $scope.S9 = true; }
+		$scope.table_maximun_items_per_page = SCREEN_PARAMTERS['table_maximun_items_per_page']
+		$scope.table_minimun_items          = SCREEN_PARAMTERS['table_minimun_items']
+		$scope.table_maximun_body_heigth    = SCREEN_PARAMTERS['table_maximun_body_heigth']
 		$scope.$apply();
 	}
 });

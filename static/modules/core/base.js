@@ -71,6 +71,28 @@ function email_is_valid(id) {
   }
 }
 
+
+$('.selectpicker').on('changed.bs.select', function (event ,clickedIndex, newValue, oldValue) {
+	$(this).selectpicker('refresh');
+});
+
+function select_selectpicer(field_id,val){
+	$('#'+field_id).selectpicker('val', val);
+  $('#'+field_id).selectpicker('refresh');
+}
+
+function desable_selectpicer(select_id){
+	$('#'+select_id).prop('disabled', true);
+	$('#lb_'+select_id).addClass('disabled');
+  $('#'+select_id).selectpicker('refresh');
+}
+
+function enable_selectpicer(select_id){
+	$('#'+select_id).prop('disabled', false);
+	$('#lb_'+select_id).removeClass('disabled');
+  $('#'+select_id).selectpicker('refresh');
+}
+
 $(".menu-header").click(function(){
   desable_new_label(this);
 });

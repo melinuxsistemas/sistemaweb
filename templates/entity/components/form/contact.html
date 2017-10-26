@@ -11,39 +11,10 @@
 						{% csrf_token %}
 							<div class="row">
 								<div class="col-lg-4">
-									<div class="form-group field field_required" id="field_type_contact">
-
-										<style>
-										#field_type_contact{
-											position: relative;
-											display:inline-block
-											width: 100%;
-										}
-
-										#field_type_contact select {
-											background-color: #fff;
-											color: #777;
-											font-size: 10pt;
-											-moz-appearance: none;
-											-webkit-appearance: none;
-										}
-
-										#field_type_contact::before {
-												content: '';
-												display: block;
-												border: 5px solid transparent;
-												border-top-color: #777;
-												position: absolute;
-												right: 10px;
-												top: calc(50% + 4px);
-										}
-										</style>
+									<div class="form-group field field_required container_custom_select" id="field_type_contact">
 										<sub><label id="lb_type_contact" for="type_contact">{{ form_register_phone.type_contact.label }}</label></sub><br/>
 										{{ form_register_phone.type_contact }}
-
-
-
-										<div class="alert"></div>
+									<div class="alert"></div>
 									</div>
 								</div>
 

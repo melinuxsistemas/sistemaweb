@@ -24,7 +24,7 @@ class BaseModel:
                 pass
 
 
-class Entity(models.Model,BaseModel):
+class Entity(models.Model, BaseModel):
 
     class Meta:
         db_table = 'entity'
@@ -49,8 +49,9 @@ class Entity(models.Model,BaseModel):
         (1, "Fornecedor"),
         (2, "Funcionário"),
         (3, "Transportador"),
-        (4, "Banco"),
-        (5, "Representante")
+        (4, "Representante"),
+        (5, "Banco")
+
     )
     options_activities = (
         (0, "Consumidor"),
@@ -69,14 +70,29 @@ class Entity(models.Model,BaseModel):
     entity_name = models.CharField("Nome ou Razão Social", null=False, blank=False, max_length=64,validators=[min_words_name_validator,MinLengthValidator(1)], error_messages=ERRORS_MESSAGES)
     fantasy_name = models.CharField("Nome Fantasia", max_length=32, null=True, blank=True, error_messages=ERRORS_MESSAGES)
     birth_date_foundation = models.DateField("Data de Nascimento ou Fundação", null=True, blank=True, validators=[future_birthdate_validator, minimum_age_person_validator, maximum_age_person_validator], error_messages=ERRORS_MESSAGES)
-    relations_company = models.CharField("Tipo de Relação Empresarial", null=True, blank=True, max_length=512, error_messages=ERRORS_MESSAGES)
-    company_activities = models.CharField("Atividade Comercial", null=True, blank=True, max_length=512, error_messages=ERRORS_MESSAGES)
-    market_segments = models.CharField("Segmento de Mercado",max_length=512,null=True,blank=True)
+    natureza_juridica = models.CharField("Tipo de Relação", null=True, blank=True, max_length=64, error_messages=ERRORS_MESSAGES)
+    main_activity = models.ForeignKey('core.EconomicActivity')
+    relations_company = models.CharField("Tipo de Relação",choices=options_relation_company, null=True, blank=True, max_length=2, error_messages=ERRORS_MESSAGES)
     registration_status = models.IntegerField(choices=options_registration_status, default=0, error_messages=ERRORS_MESSAGES)
     comments = models.TextField("Observações",max_length=500,null=True, blank=True)
-    created_date = models.DateTimeField(auto_now_add=True,null=False)
-    last_update = models.DateTimeField(auto_now=True,null=False)
-    history = models.CharField("Histórico de Alterações",max_length=500,null=True, blank=True)
+    comments_fiscal_note = models.TextField("Observações para Nota Fiscal",max_length=512,null=True, blank=True)
+
+    # Complemento para pessoas Juridica
+    company_activities = models.CharField("Atividade Comercial", null=True, blank=True, max_length=512, error_messages=ERRORS_MESSAGES)
+    market_segments = models.CharField("Segmento de Mercado",null=True,max_length=512,blank=True, error_messages=ERRORS_MESSAGES)
+    tributary_regime = models.CharField("Regime Tributário",null=True,max_length=512,blank=True, error_messages=ERRORS_MESSAGES)
+    buy_destination = models.CharField("Destino da Compra",null=True,max_length=512,blank=True, error_messages=ERRORS_MESSAGES)
+
+    # Complemento para pessoa Fisica
+    entity_father = models.CharField("Nome Completo do Pai", null=True, blank=True, max_length=64, error_messages=ERRORS_MESSAGES)
+    entity_mother = models.CharField("Nome Completo da Mãe", null=True, blank=True, max_length=64, error_messages=ERRORS_MESSAGES)
+    entity_conjuge = models.CharField("Nome Completo do Conjuge", null=True, blank=True, max_length=64, error_messages=ERRORS_MESSAGES)
+    entity_occupation = models.CharField("Profissão", null=True, blank=True, max_length=64, error_messages=ERRORS_MESSAGES)
+
+    # Informacoes de Controle
+    created_date = models.DateTimeField(auto_now_add=True, null=False)
+    last_update = models.DateTimeField(auto_now=True, null=False)
+    history = models.CharField("Histórico de Alterações", max_length=500, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         self.full_clean()
@@ -155,6 +171,7 @@ class Entity(models.Model,BaseModel):
     def __unicode__(self):
         return self.cpf_cnpj
 
+
 class Contact(models.Model,BaseModel):
 
     models_exceptions = []
@@ -196,6 +213,7 @@ class Contact(models.Model,BaseModel):
 
     def desativar (self):
         self.delete()
+
 
 class Email (models.Model, BaseModel):
 

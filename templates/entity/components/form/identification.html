@@ -14,66 +14,218 @@
 					<div class="modal-header" style="height: 40px;padding-top: 3px;margin-right:1px;">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="margin-top: 7px;margin-right:0px;">×</button>
 							<h5 class='modal_title' style="font-weight: bold">Adicionar Entidade</h5>
+
+
 					</div>
 
-					<div class="modal-body" style="padding: 10px 25px 0px 25px;">
-						<div class="row">
-							<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
-								<div class="form-group field field_required" id="field_entity_type">
-									<sub><label id="lb_entity_type" for="entity_type">{{ form_entity.entity_type.label }}</label></sub>
-									{{ form_entity.entity_type }}
-									<div class="alert">
-									</div>
-								</div>
-							</div>
+					<div class="modal-body" style="padding: 20px 25px 0px 25px;">
+						<style>
+						.legend_background {
+							background: red; /* For browsers that do not support gradients */
+							background: -webkit-linear-gradient(left, white, #fafafb); /* For Safari 5.1 to 6.0 */
+							background: -o-linear-gradient(right, white, #fafafb); /* For Opera 11.1 to 12.0 */
+							background: -moz-linear-gradient(right,white, #fafafb); /* For Firefox 3.6 to 15 */
+							background: linear-gradient(to right, white, #fafafb); /* Standard syntax */
+						}
+						</style>
 
-							<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-								<div class="form-group field field_required" id="field_cpf_cnpj">
-									<sub><label id="lb_cpf_cnpj" for="cpf_cnpj">{{ form_entity.cpf_cnpj.label|upper }}</label></sub>
-									{{ form_entity.cpf_cnpj }}
-									<div class="alert">
+						<fieldset>
+							<a id='legend_identification' class="legend_background" data-toggle="collapse" data-target="#identification_information">
+								<legend class='legend_background' style="font-size:12px; font-weight: bold;display: block;cursor: pointer;">
+									Identificação<i class="fa fa-chevron-up pull-left" style="margin-top: 2px;font-size: 12px;" aria-hidden="true"></i>
+								</legend>
+							</a>
+							<div id="identification_information" class="collapse in" >
+								<div class="row no-gutters">
+									<div class="col-lg-2 col-md-2 col-sm-6 col-xs-12 ">
+										<div class="form-group field field_required" id="field_entity_type">
+											<sub><label id="lb_entity_type" for="entity_type">{{ form_entity.entity_type.label }}</label></sub>
+											{{ form_entity.entity_type }}
+											<div class="alert">
+											</div>
+										</div>
 									</div>
-								</div>
-							</div>
 
-							<div class="col-lg-4 col-md-2 col-sm-9 col-xs-12">
-								<div class="form-group field field_required" id="field_entity_name">
-									<sub><label id="lb_entity_name" for="entity_name">{{ form_entity.entity_name.label }}</label> </sub>
-									{{ form_entity.entity_name }}
-									<div class="alert">
+									<div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+										<div class="form-group field field_required" id="field_cpf_cnpj">
+											<sub><label id="lb_cpf_cnpj" for="cpf_cnpj">{{ form_entity.cpf_cnpj.label|upper }}</label></sub>
+											{{ form_entity.cpf_cnpj }}
+											<div class="alert">
+											</div>
+										</div>
 									</div>
-								</div>
-							</div>
 
-							<div class="col-lg-2 col-sm-7 col-xs-12">
-								<div class="form-group field " id="field_fantasy_name">
-									<sub><label id="lb_fantasy_name" for="fantasy_name">{{ form_entity.fantasy_name.label }}</label> </sub>
-									{{ form_entity.fantasy_name }}
-									<div class="alert">
+									<div class="col-lg-6 col-md-2 col-sm-12 col-xs-12">
+										<div class="form-group field field_required" id="field_entity_name">
+											<sub><label id="lb_entity_name" for="entity_name">{{ form_entity.entity_name.label }}</label> </sub>
+											{{ form_entity.entity_name }}
+											<div class="alert">
+											</div>
+										</div>
 									</div>
-								</div>
-							</div>
 
-							<div class="col-lg-2 col-sm-5 col-xs-12">
-								<div class="form-group field" id="field_birth_date_foundation">
-									<sub><label id="lb_birth_date_foundation" for="birth_date_foundation">{{ form_entity.birth_date_foundation.label }}</label> </sub>
-									{{ form_entity.birth_date_foundation }}
-									<div class="alert">
+									<div class="col-lg-2 col-sm-7 col-xs-12">
+										<div class="form-group field " id="field_fantasy_name">
+											<sub><label id="lb_fantasy_name" for="fantasy_name">{{ form_entity.fantasy_name.label }}</label> </sub>
+											{{ form_entity.fantasy_name }}
+											<div class="alert">
+											</div>
+										</div>
 									</div>
 								</div>
-							</div>
-						</div>
 
-						<div class="row">
-							<div class="col-lg-12 col-xs-12 col-sm-12">
-								<div class="form-group field field_required" id="field_comments">
-									<sub><label id="lb_comments" for="comments">{{ form_entity.comments.label }}</label> </sub>
-									{{ form_entity.comments }}
-									<div class="alert">
+								<div class="row no-gutters">
+									<div class="col-lg-2 col-sm-5 col-xs-12">
+										<div class="form-group field" id="field_birth_date_foundation">
+											<sub><label id="lb_birth_date_foundation" for="birth_date_foundation">{{ form_entity.birth_date_foundation.label }}</label> </sub>
+											{{ form_entity.birth_date_foundation }}
+											<div class="alert">
+											</div>
+										</div>
+									</div>
+
+									<div class="col-lg-2 col-sm-5 col-xs-12">
+										<div class="form-group field" id="field_relations_company">
+											<sub><label id="lb_relations_company" for="relations_company">{{ form_entity.relations_company.label }}</label> </sub>
+											{{ form_entity.relations_company }}
+											<div class="alert">
+											</div>
+										</div>
+									</div>
+
+									<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+										<div class="form-group field" id="field_natureza_juridica">
+											<sub><label id="lb_natureza_juridica" for="natureza_juridica">{{ form_entity.natureza_juridica.label }}</label> </sub>
+											{{ form_entity.natureza_juridica }}
+											<div class="alert">
+											</div>
+										</div>
+									</div>
+
+									<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+										<div class="form-group field" id="field_main_activity">
+											<sub><label id="lb_main_activity" for="main_activity">{{ form_entity.main_activity.label }}</label> </sub>
+											{{ form_entity.main_activity }}
+											<div class="alert">
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="row no-gutters" style="margin-top: -20px;">
+									<div class="col-lg-12 col-sm-12 col-xs-12">
+										<div class="form-group field" id="field_comments">
+											<sub><label id="lb_comments" for="comments">{{ form_entity.comments.label }}</label> </sub>
+											{{ form_entity.comments }}
+											<div class="alert">
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
+						</fieldset>
+
+						<fieldset>
+							<a id='legend_complementary' data-toggle="collapse" data-toggle="true" data-target="#complementary_information">
+								<legend class="legend_background" style="font-size:12px; font-weight: bold;display: block;cursor: pointer;">
+									Informações Complementares<i class="fa fa-chevron-down pull-left" style="margin-top: 2px;font-size: 12px;" aria-hidden="true"></i>
+								</legend>
+							</a>
+
+							<div id="complementary_information" class="collapse">
+								<div class="row no-gutters">
+									<div class="col-lg-6 col-sm-6 col-xs-12">
+										<div class="row no-gutters">
+											<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+												<div class="form-group field field_required" id="field_tributary_regime">
+													<sub><label id="lb_tributary_regime" for="tributary_regime">{{ form_entity.tributary_regime.label }}</label></sub>
+													{{ form_entity.tributary_regime }}
+													<div class="alert">
+													</div>
+												</div>
+
+												<div class="form-group field" id="field_entity_father">
+													<sub><label id="lb_entity_father" for="entity_father">{{ form_entity.entity_father.label }}</label></sub>
+													{{ form_entity.entity_father }}
+													<div class="alert">
+													</div>
+												</div>
+											</div>
+
+											<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+												<div class="form-group field" id="field_company_activities">
+													<sub><label id="lb_company_activities" for="company_activities">{{ form_entity.company_activities.label }}</label> </sub>
+													{{ form_entity.company_activities }}
+													<div class="alert">
+													</div>
+												</div>
+
+												<div class="form-group field" id="field_entity_mother">
+													<sub><label id="lb_entity_mother" for="entity_mother">{{ form_entity.entity_mother.label }}</label></sub>
+													{{ form_entity.entity_mother }}
+													<div class="alert">
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="row no-gutters">
+											<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+												<div class="form-group field" id="field_buy_destination">
+													<sub><label id="lb_buy_destination" for="buy_destination">{{ form_entity.buy_destination.label }}</label> </sub>
+													{{ form_entity.buy_destination }}
+													<div class="alert">
+													</div>
+												</div>
+
+												<div class="form-group field" id="field_entity_conjuge">
+													<sub><label id="lb_entity_conjuge" for="entity_conjuge">{{ form_entity.entity_conjuge.label }}</label> </sub>
+													{{ form_entity.entity_conjuge }}
+													<div class="alert">
+													</div>
+												</div>
+											</div>
+
+											<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+												<div class="form-group field" id="field_market_segment">
+													<sub><label id="lb_market_segment" for="market_segment">{{ form_entity.market_segment.label }}</label></sub>
+													{{ form_entity.market_segment }}
+													<div class="alert">
+													</div>
+												</div>
+
+												<div class="form-group field" id="field_entity_occupation">
+													<sub><label id="lb_entity_occupation" for="entity_occupation">{{ form_entity.entity_occupation.label }}</label></sub>
+													{{ form_entity.entity_occupation }}
+													<div class="alert">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-lg-6 col-sm-6 col-xs-12">
+										<div class="form-group field" id="field_observation_fiscal_note">
+											<sub><label id="lb_observation_fiscal_note" for="observation_fiscal_note">{{ form_entity.observation_fiscal_note.label }}</label> </sub>
+											{{ form_entity.observation_fiscal_note }}
+											<div class="alert">
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</fieldset>
+
+						<script>
+						$('#legend_complementary').click(function() {
+							$("i", this).toggleClass("fa-chevron-down fa-chevron-up");
+						});
+
+						$('#legend_identification').click(function() {
+							$("i", this).toggleClass("fa-chevron-up fa-chevron-down");
+						});
+						</script>
+
 					</div>
 
 					<div class="modal-footer" style="margin-right:1px;">

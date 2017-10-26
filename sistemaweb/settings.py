@@ -112,6 +112,7 @@ BOWER_INSTALLED_APPS = (
     'multiple-select', # PODE SER QUE NAO IREMOS USAR MAIS
     'jQuery-Smart-Wizard#3.3.1',
     'angular-utils-pagination',
+    'bootstrap-select'
 )
 
 WSGI_APPLICATION = 'sistemaweb.wsgi.application'
