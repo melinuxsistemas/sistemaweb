@@ -88,10 +88,7 @@ function desable_new_label(campo){
 }
 
 
-$("#fieldset_teste").click(function(){
-  alert('Olha o name:'+this.name)
-  //select_rating(this.name, this.value)
-})
+
 
 
 function select_rating(select_name, value) {
