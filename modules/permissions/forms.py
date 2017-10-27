@@ -67,3 +67,19 @@ class FormAutonomy (forms.Form):
             }
         )
     )
+
+class Cargo (forms.Form):
+
+    name = forms.CharField(
+        label='Cargo',
+        max_length=20,
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'id': 'cargo',
+                'class': 'form-control',
+                'ng-model' : 'cargo',
+                'name':'cargo'
+            }
+        )
+    )
