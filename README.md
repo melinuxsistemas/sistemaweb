@@ -59,6 +59,8 @@
       - Selecione a opção "Enable Django Support".
       - No campo Django Project Root informe a pasta que contem o arquivo settings.py do projeto.
       - Clique em apply e ok.
+
+    Adicionar comandos de execução ao PyCharm.
   
 - Instalar dependências Python com através do arquivo requirements.txt do projeto.
 

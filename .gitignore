@@ -2,7 +2,7 @@
 .idea/
 .sonar/
 /conf/configurations.py
-
+/data/
 /static/bower_components
 /static/compress
 *.pyc
