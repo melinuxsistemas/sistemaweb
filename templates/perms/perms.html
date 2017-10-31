@@ -18,7 +18,7 @@
 
 				<div class="row">
 					<!-- Menu Cadastros-->
-					<div class="col-lg-4">
+					<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 						<fieldset>
 							<a href="#" id="legend_cadastro" data-toggle="collapse" data-target="#permissions_cadastro">
 								<legend>Cadastros</legend>
@@ -30,7 +30,7 @@
 					</div>
 
 					<!-- Menu Compras-->
-					<div class="col-lg-4">
+					<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 						<fieldset>
 							<a href="#" id="legend_compras" data-toggle="collapse" data-target="#permissions_compras">
 								<legend>Compras</legend>
@@ -42,7 +42,7 @@
 					</div>
 
 					<!-- Menu Vendas-->
-					<div class="col-lg-4">
+					<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 						<fieldset>
 							<a href="#" id="legend_vendas" data-toggle="collapse" data-target="#permissions_vendas">
 								<legend>Vendas</legend>
@@ -57,7 +57,7 @@
 
 				<div class="row">
 					<!-- Menu Servicos-->
-					<div class="col-lg-4">
+					<div class="col-lg-4 col-md-4">
 						<fieldset>
 							<a href="#" id="legend_servicos" data-toggle="collapse" data-target="#permissions_servicos">
 								<legend>Serviços</legend>
@@ -145,9 +145,11 @@
 	<script>
 		$(document).ready(function() {
 				angular.element(document.getElementById('div_permission_controller')).scope().load_all();
+				$("input").click(function(){
+
+  				select_rating(this.name, this.value)
+				})
 		});
-
-
 	</script>
 
 
