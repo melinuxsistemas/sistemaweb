@@ -231,12 +231,12 @@ class EntityIdentificationForm(forms.Form, BaseForm):
         )
     )
 
-    observation_fiscal_note = forms.CharField(
+    comments_fiscal_note = forms.CharField(
         label="Observações complementares da nota fiscal", max_length=128, required=False,
         widget=forms.Textarea(
             attrs={
-                'id': 'observation_fiscal_note', 'name': 'observation_fiscal_note', 'class': "form-control uppercase", 'cols': 2, 'rows': 4,
-                'type': "text", 'ng-model': 'observation_fiscal_note','value':'ENTREGAR PREFERENCIALMENTE DAS 09H AS 16H.'
+                'id': 'comments_fiscal_note', 'name': 'comments_fiscal_note', 'class': "form-control uppercase", 'cols': 2, 'rows': 4,
+                'type': "text", 'ng-model': 'comments_fiscal_note','value':'ENTREGAR PREFERENCIALMENTE DAS 09H AS 16H.'
             }
         )
     )

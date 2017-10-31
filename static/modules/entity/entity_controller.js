@@ -30,11 +30,11 @@ application.controller('identification_controller', function($scope) {
 
   	var fields = {};
 		$.each($('#form-save-entity').serializeArray(), function(i, field) {
-			alert("VEJA I: "+i+" - Field: "+field.name+" - Value: "+field.value)
+			//alert("VEJA I: "+i+" - Field: "+field.name+" - Value: "+field.value)
 				fields[field.name] = field.value;
 		});
 		//$('#form-save-entity').serialize();
-  	alert("VEJA OS VALORES: "+JSON.stringify(fields))
+  	//alert("VEJA OS VALORES: "+JSON.stringify(fields))
 
     $scope.cpf_cnpj = $('#cpf_cnpj').val();
     $scope.birth_date_foundation = $('#birth_date_foundation').val();
@@ -49,7 +49,7 @@ application.controller('identification_controller', function($scope) {
       comments: $scope.comments
     }
 
-    success_function = function(result,message,object){
+    success_function = function(result,message,object,status){
       //window.location = "/"//register/confirm/"+$scope.email;
       if(result == true){
       	check_response_message_form('#form-save-entity', message);
@@ -61,7 +61,7 @@ application.controller('identification_controller', function($scope) {
       }
 		}
 
-    fail_function = function (result,message,data_object) {
+    fail_function = function (result,message,data_object,status) {
       check_response_message_form('#form-save-entity', message);
     }
 
@@ -77,7 +77,10 @@ application.controller('identification_controller', function($scope) {
       url: "/api/entity/list/entities/",
 
       success: function (data) {
+
         $scope.list_entities = JSON.parse(data);
+        $("#loading_tbody").fadeOut();
+        $scope.$apply();
         $scope.loaded_entities = true;
         $scope.$apply();
       },

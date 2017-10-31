@@ -64,5 +64,6 @@ def login_page(request):
 
 
 def logout_page(request):
+    print("VOU ENCERRAR A SESSAO TBM..")
     logout(request)
     return redirect("/login")

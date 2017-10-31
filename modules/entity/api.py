@@ -17,6 +17,7 @@ class ContactController(BaseController):
     @method_decorator(login_required)
     def save(self, request):
         return super().save(request, EntityPhoneForm)
+
     @method_decorator(login_required)
     def load(self, request):
         return self.filter(request, Entity)

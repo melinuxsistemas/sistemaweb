@@ -1,4 +1,7 @@
-from django.http import Http404
+import json
+
+import requests
+from django.http import Http404, HttpResponse
 from sistemaweb import settings
 
 

@@ -449,6 +449,8 @@
         <!-- /footer content -->
       </div>
     </div>
+
+    {% include 'session_security/all.html' %}
   </body>
   {% compress js %}
     <!-- Bootstrap -->
@@ -473,8 +475,6 @@
     <script src="{% static 'modules/core/base.js'%}"></script>
     <!--<script src="% static 'bower/pnotify/pnotify.buttons.js'%}"></script>
     <script src="% static 'bower/pnotify/dist/pnotify.nonblock.js'%}"></script>-->
-
-
     {% block recursos_complementares %}
 
     {% endblock %}
@@ -492,34 +492,11 @@
     ga('send', 'pageview');
     </script>
   -->
-    <script>
-      function readjust_window(){
-        sh = window.innerHeight // screen.availHeight; - PEGA O TAMANHO DA TELA DO DISPOSITIVO
-	      sw  = window.innerWidth
-	      readjust_menu(sw,sh);
-      }
-
-      function readjust_menu(sw,sh){
-        if(sw < 600){
-          //alert("vou esconder o nome do usuario pra ganhar espaco")
-          $("#profile_email_active").hide();
-        }
-        else{
-          $("#profile_email_active").show();
-        }
-      }
-
-      function set_width_size(value){
-        alert("cheguei aqui?")
-        //window.width(500)
-        window.resizeTo(400, 300);
-        alert("foi");
-      }
-    </script>
 
     <script>
-      readjust_window()
       NProgress.done();
+      configure_screen()
       working();
+      terminate_load_page()
     </script>
 </html>

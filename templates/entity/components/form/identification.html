@@ -7,13 +7,13 @@
 	}
 </style>
 <div id="modal_identification" class="modal fade" tabindex="-1" style='z-index: 10000;' role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
-	<div class="modal-dialog" ng-class="{true:'modal_auto_size', false:'modal_large_size'}[S0 || S1 || S2 || S3 || S4]">
+	<div class="modal-dialog" ng-class="{true:'modal_auto_size', false:'modal_large_size'}[screen_model <= 4]">
 		<form id="form-save-entity" autocomplete="off" ng-submit="save()" novalidate><!--  -->
 			<div class="modal-content">
 				{% csrf_token %}
 					<div class="modal-header" style="height: 40px;padding-top: 3px;margin-right:1px;">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="margin-top: 7px;margin-right:0px;">×</button>
-							<h5 class='modal_title' style="font-weight: bold">Adicionar Entidade</h5>
+							<h5 class='modal_title' style="font-weight: bold">Adicionar Entidade{% verbatim %}{{ screen_model }}{% endverbatim %}</h5>
 
 
 					</div>
@@ -205,9 +205,9 @@
 									</div>
 
 									<div class="col-lg-6 col-sm-6 col-xs-12">
-										<div class="form-group field" id="field_observation_fiscal_note">
-											<sub><label id="lb_observation_fiscal_note" for="observation_fiscal_note">{{ form_entity.observation_fiscal_note.label }}</label> </sub>
-											{{ form_entity.observation_fiscal_note }}
+										<div class="form-group field" id="field_comments_fiscal_note">
+											<sub><label id="lb_comments_fiscal_note" for="comments_fiscal_note">{{ form_entity.comments_fiscal_note.label }}</label> </sub>
+											{{ form_entity.comments_fiscal_note }}
 											<div class="alert">
 											</div>
 										</div>

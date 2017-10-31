@@ -1,6 +1,143 @@
 // Modulo de controle de parametros da tela
+var SCREEN_PARAMTERS = {}
+SCREEN_PARAMTERS['screen_width']  = ''
+SCREEN_PARAMTERS['screen_height'] = ''
+SCREEN_PARAMTERS['screen_model']  = ''
+SCREEN_PARAMTERS['table_maximun_items_per_page'] = ''
+SCREEN_PARAMTERS['table_maximun_body_height'] = ''
+SCREEN_PARAMTERS['table_minimun_items'] = ''
+
+var SESSION_PARAMTERS = {}
+SESSION_PARAMTERS['init_load_page']      = ''
+SESSION_PARAMTERS['load_page_duration']  = ''
+SESSION_PARAMTERS['setup_page_duration'] = ''
+
+SESSION_PARAMTERS['external_ip'] = null
+SESSION_PARAMTERS['internal_ipv4'] = null
+SESSION_PARAMTERS['internal_ipv6'] = null
+SESSION_PARAMTERS['country_code'] = ''
+SESSION_PARAMTERS['country_name'] = ''
+SESSION_PARAMTERS['region_name'] = ''
+SESSION_PARAMTERS['city'] = ''
+SESSION_PARAMTERS['zip_code'] = ''
+SESSION_PARAMTERS['time_zone'] = ''
+SESSION_PARAMTERS['latitude'] = ''
+SESSION_PARAMTERS['longitude'] = ''
+
+
+function get_session_paramters_freegeoip(){
+	// MAX QUERIES 15000 PER HOUR
+	get_session_paramters_internal_ip()
+	var url = 'http://freegeoip.net/json/'
+	$.ajax({
+    type: 'get',
+    url: url,
+    success: function(data) {
+    	//alert("FREEGEOIP: "+JSON.stringify(data))
+    	SESSION_PARAMTERS['external_ip'] = data.ip;
+			SESSION_PARAMTERS['country_code'] = data.country_code.toUpperCase();
+			SESSION_PARAMTERS['country_name'] = data.country_name.toUpperCase();
+			SESSION_PARAMTERS['region_name'] = data.region_name.toUpperCase();
+			SESSION_PARAMTERS['region_code'] = data.region_code.toUpperCase();
+			SESSION_PARAMTERS['city'] = data.city.toUpperCase();
+			SESSION_PARAMTERS['zip_code'] = data.zip_code
+			SESSION_PARAMTERS['time_zone'] = data.time_zone.toUpperCase();
+			SESSION_PARAMTERS['latitude'] = data.latitude
+			SESSION_PARAMTERS['longitude'] = data.longitude
+			//alert("VEJA COMO FICOU O FREEGEOIP: "+JSON.stringify(SESSION_PARAMTERS))
+    },
+    failure: function(data){
+
+    }
+  });
+}
+
+
+function get_session_paramters_ip_api(){
+	// MAX QUERIES 9000 POR HOUR
+	get_session_paramters_internal_ip()
+	var url = 'http://ip-api.com/json'
+	$.ajax({
+    type: 'get',
+    url: url,
+    success: function(data) {
+			//alert("IP-API: "+JSON.stringify(data))
+    	SESSION_PARAMTERS['external_ip'] = data.query
+			SESSION_PARAMTERS['country_code'] = data.countryCode.toUpperCase();
+			SESSION_PARAMTERS['country_name'] = data.country.toUpperCase();
+			SESSION_PARAMTERS['region_name'] = data.regionName.toUpperCase();
+			SESSION_PARAMTERS['region_code'] = data.region.toUpperCase();
+			SESSION_PARAMTERS['city'] = data.city.toUpperCase();
+			SESSION_PARAMTERS['zip_code'] = data.zip
+			SESSION_PARAMTERS['time_zone'] = data.timezone.toUpperCase();
+			SESSION_PARAMTERS['latitude'] = data.lat
+			SESSION_PARAMTERS['longitude'] = data.lon
+			//alert("VEJA COMO FICOU O IP-API: "+JSON.stringify(SESSION_PARAMTERS))
+    },
+    failure: function(data){
+
+    }
+  });
+}
+
+function get_session_paramters_internal_ip(){
+	window.RTCPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;   //compatibility for firefox and chrome
+    var pc = new RTCPeerConnection({iceServers:[]}), noop = function(){};
+    pc.createDataChannel("");    //create a bogus data channel
+    pc.createOffer(pc.setLocalDescription.bind(pc), noop);    // create offer and set local description
+    pc.onicecandidate = function(ice){  //listen for candidate events
+        if(!ice || !ice.candidate || !ice.candidate.candidate)  return;
+        var myIP = /([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/.exec(ice.candidate.candidate)[1];
+        //console.log('my IP: ', myIP);
+				if (myIP.indexOf(":") >= 0){
+					alert("IPv6: "+myIP)
+					if (SESSION_PARAMTERS['internal_ipv6'] == null){
+						SESSION_PARAMTERS['internal_ipv6'] = myIP
+					}
+				}
+				else if (myIP.indexOf(".") >= 0){
+					//alert("IPv4: "+myIP)
+					if (SESSION_PARAMTERS['internal_ipv4'] == null){
+						SESSION_PARAMTERS['internal_ipv4'] = myIP
+					}
+				}
+
+        pc.onicecandidate = noop;
+        //return myIP;
+    };
+}
+
+function verify_session_paramters(){
+	try{
+		get_session_paramters_freegeoip()
+	}
+	catch(erro){
+		get_session_paramters_ip_api()
+	}
+}
+
+function report_session_paramters(){
+	var url = '/api/user/session/register'
+	var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+  SESSION_PARAMTERS['csrfmiddlewaretoken'] = csrftoken;
+
+	$.ajax({
+    type: 'POST',
+    url: url,
+    data: SESSION_PARAMTERS,
+    success: function(data) {
+    	alert("olha o que veio: "+JSON.stringify(data))
+    },
+    failure: function(data){
+			alert("Erro na hora de salvar a sessao")
+    }
+  });
+}
+
+
+
+
 function verify_screen_paramters(){
-	var SCREEN_PARAMTERS = {}
 	screen_width = window.innerWidth
 	screen_height = window.innerHeight
 	SCREEN_PARAMTERS['screen_width'] = screen_width
@@ -30,24 +167,55 @@ function verify_screen_paramters(){
 	else{ SCREEN_PARAMTERS['screen_model'] = 9; }
 
 	pagination_itens_per_page = parseInt((screen_height/26)-12);
-	table_minimal_rows = Array.apply(null, Array(pagination_itens_per_page)).map(function (x, i) { return i; });
-	total_rows_height = pagination_itens_per_page*28;
-
 	if (pagination_itens_per_page < 2){
 		pagination_itens_per_page = 2;
 	}
 
+	table_minimal_rows = Array.apply(null, Array(pagination_itens_per_page)).map(function (x, i) { return i; });
+	total_rows_height = pagination_itens_per_page*28;
+
+
 	SCREEN_PARAMTERS['table_maximun_items_per_page'] = pagination_itens_per_page
 	SCREEN_PARAMTERS['table_maximun_body_height'] = total_rows_height
 	SCREEN_PARAMTERS['table_minimun_items'] = table_minimal_rows
-
 	return SCREEN_PARAMTERS
 }
 
-SCREEN_PARAMTERS = verify_screen_paramters();
+function configure_screen(){
+	if(SCREEN_PARAMTERS['screen_width'] < 600){
+		$("#profile_email_active").hide();
+	}
+	else{
+		$("#profile_email_active").show();
+	}
+}
+
+function start_load_page(){
+	SESSION_PARAMTERS['init_load_page'] = Date.now();
+}
+
+function terminate_load_page(){
+	alert("terminou a pagina..")
+	SESSION_PARAMTERS['load_page_duration'] = Date.now() - SESSION_PARAMTERS['init_load_page'];
+}
+
+function terminate_setup(){
+	SESSION_PARAMTERS['setup_page_duration'] = Date.now() - SESSION_PARAMTERS['init_load_page'];
+	SESSION_PARAMTERS['setup_page_duration'] = SESSION_PARAMTERS['setup_page_duration'] - SESSION_PARAMTERS['load_page_duration']
+}
 
 window.onresize = function(event) {
 	SCREEN_PARAMTERS = verify_screen_paramters();
-	post_screen_verified()
+	configure_screen()
+
+	try{
+		post_screen_verified()
+	}
+
+	catch(err){
+	}
+
 };
 
+start_load_page();
+verify_screen_paramters();

@@ -74,7 +74,12 @@ application.controller('register_controller', function($scope) {
 application.controller('login_controller', function($scope) {
 
   $scope.login_autentication = function () {
-    var data_paramters = {email: $scope.email, password: $scope.password}
+
+  	SESSION_PARAMTERS['email'] = $scope.email
+  	SESSION_PARAMTERS['password'] = $scope.password
+
+
+    var data_paramters = SESSION_PARAMTERS//{email: $scope.email, password: $scope.password}
     success_function = function(){
       window.location = "/";
     }

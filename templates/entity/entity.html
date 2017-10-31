@@ -105,10 +105,9 @@
 
 	$(document).ready(function(){
 		post_screen_verified();
-
-		$('#birth_date_foundation').mask('99/99/9999');
 		angular.element(document.getElementById('identification_controller')).scope().load_entities();
 
+		$('#birth_date_foundation').mask('99/99/9999');
 		$('#entity_type').selectpicker({selectOnTab:true});
 		$('#natureza_juridica').selectpicker({selectOnTab:true});
 		$('#main_activity').selectpicker({selectOnTab:true});
@@ -136,9 +135,10 @@
 		select_selectpicer('company_activities',[1,2,3,4])
 		select_selectpicer('buy_destination',1)
 		select_selectpicer('market_segment',[1,2])
-		$("#comments").val('ENTREGAR PREFERENCIALMENTE DE SEGUNDA A SEXTA DAS 09H AS 16H.')
+		$("#comments_fiscal_note").val('ENTREGAR PREFERENCIALMENTE DE SEGUNDA A SEXTA DAS 09H AS 16H.')
 
-
+		terminate_setup()
+		alert("PAGINA PRONTA EM "+SESSION_PARAMTERS['load_page_duration']+"ms E DADOS E CONFIGURACOES PRONTAS EM "+SESSION_PARAMTERS['setup_page_duration']+"ms")
 	});
 </script>
 

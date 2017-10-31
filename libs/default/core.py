@@ -1,16 +1,19 @@
+import sys
 from django.core.exceptions import ValidationError
 from modules.core.config import ERRORS_MESSAGES
 from django.http import Http404, HttpResponse
 from django.db import IntegrityError
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from django.core import serializers
 from sistemaweb import settings
+import datetime
 import json
 
 
 def json_serial(obj):
     """JSON serializer for objects not serializable by default json code"""
-    if isinstance(obj, (datetime, date)):
+
+    if isinstance(obj, (datetime, date, timedelta)):
         return obj.isoformat()
     raise TypeError ("Type %s not serializable" % type(obj))
 
@@ -92,15 +95,20 @@ class Response:
 class Operation:
 
     response = Response()
+    server_startup_time_process   = None
+    server_terminate_time_process = None
+    server_processing_time        = None
 
     def save(self,request, formulary=None):
+        self.__start_process(request,formulary)
         result, form = self.filter_request(request, formulary)
         object = form.get_object()
         if result:
             response_dict = self.execute(object,object.save)
         else:
             response_dict = self.__get_exceptions(object,form)
-        return HttpResponse(json.dumps(response_dict))
+        return self.__response(response_dict)
+
 
     def object(self):
         pass
@@ -166,6 +174,48 @@ class Operation:
         full_exceptions.update(form_exceptions)
         return self.response.error(full_exceptions)
 
+    def __start_process(self,request,formulary=None):
+        self.__request_path = request.path
+        self.__request_bytes = sys.getsizeof(request.body)
+        self.server_startup_time_process = datetime.datetime.now()
+    
+    def __terminate_process(self):
+        self.server_terminate_time_process = datetime.datetime.now()
+        self.server_processing_time = self.server_terminate_time_process - self.server_startup_time_process
+        print("Processo executado em",self.server_processing_time)#,"ou",self.server_processing_time.total_seconds())
+
+    def __response(self,response_dict):
+        import sys
+
+        self.__terminate_process()
+        response_dict['status'] = {}
+        response_dict['status']['request_path'] = self.__request_path
+        response_dict['status']['request_size'] = self.__request_bytes
+        response_dict['status']['response_size'] = "RESPONSE_SIZE"
+        response_dict['status']['server_processing_time_duration'] = self.server_processing_time.total_seconds()  # datetime.datetime.now()
+        response_dict['status']['cliente_processing_time_duration'] = ''
+
+        data = json.dumps(response_dict, default=json_serial)
+        #print("OLHA O TAMANHO DO JSON: ",sys.getsizeof(data))
+        data = data.replace('RESPONSE_SIZE',str(sys.getsizeof(data)-16))
+        response = HttpResponse(data)  # after generate response noramlization reduce size in 16 bytes
+
+        #print("RESPONSE: ", sys.getsizeof(response.content))
+
+        """
+        
+        ['__bytes__', '__class__', '__contains__', '__delattr__', '__delitem__', '__dict__', '__dir__', '__doc__', '__eq__', 
+        '__format__', '__ge__', '__getattribute__', '__getitem__', '__gt__', '__hash__', '__init__', '__init_subclass__',
+         '__iter__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', 
+         '__setattr__', '__setitem__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', '_charset', '_closable_objects', 
+         '_container', '_content_type_for_repr', '_convert_to_charset', '_handler_class', '_headers', '_reason_phrase',
+          'charset', 'close', 'closed', 'content', 'cookies', 'delete_cookie', 'flush', 'get', 'getvalue', 'has_header', 
+          'items', 'make_bytes', 'readable', 'reason_phrase', 'seekable', 'serialize', 'serialize_headers', 'set_cookie',
+           'set_signed_cookie', 'setdefault', 'status_code', 'streaming', 'tell', 'writable', 'write', 'writelines']
+        
+        """
+        #response.content = response.content.replace('RESPONSE_SIZE',str(sys.getsizeof(response.content)))
+        return response
 
 class BaseController(Operation, Response):
 

@@ -41,17 +41,12 @@ def maximum_age_person_validator(value):
 
 def future_birthdate_validator(value):
     value = format_date_value(value)
-    print("VIM VER SE O CARA NAO NASCEU NO FUTURO kk")
     if value is not None:
-        print("OLHA O VALOR NAO EH NONE")
         current_date = datetime.datetime.now().date()
         if value > current_date:
-            print("OLHA ESSA DATA EH FUTURA, AINDA NAO CHEGOU ESSA DATA")
+            print("O CARA NASCEU NO FUTURO??!")
             raise ValidationError(_("birth_date_foundation: Date can not be future"), code='future_date')
             return False
-
-        print("OLHA A DATA NAO EH FUTURA")
-    print("OLHA NAO ERA NONE, E OU NAO ERA FUTURA")
     return True
 
 

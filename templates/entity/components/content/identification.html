@@ -47,9 +47,6 @@
 			JA CARREGOU: {{ loaded_entities }}<br>
 			-->
 
-
-
-
 			<!--<small>
 
 				<a style='cursor: pointer' onclick="set_width_size(240)">S0:{{ S0 }}</a> -
@@ -95,7 +92,7 @@
 								}
 							</style>
 
-							<tbody ng-show="loaded_entities == false">
+							<tbody id="loading_tbody" ng-show="loaded_entities == false">
 								<tr class="row_entity loading" style='vertical-align: middle;height: {{ table_maximun_body_height }}px;'>
 									<td colspan="6" style='padding: 0px;' class="text-center">
 										Aguarde.. Carregando...<br><i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
@@ -108,7 +105,7 @@
 								<!--<tr ng-if="(list_entities|filter:filterIds()).length == 0">
 									<td colspan="8" class="center">Nenhum Cliente Cadastrado!</td>
 								</tr>   #FFFAFA  -->
-								<tbody ng-show="loaded_entities == true">
+								<tbody id="loaded_tbody" ng-show="loaded_entities == true">
 									<tr ng-show="loaded_entities == true" class="row_entity linha_selecionavel {{ entity.selected }}" ng-click="select(entity)" pagination-id="paginate_entities" dir-paginate="entity in list_entities | filter: get_filter_column() | itemsPerPage:table_maximun_items_per_page | orderBy:sortType:sortReverse as resultado">
 										<td class='col_index'>{{ entity.id }}</td><!-- $index+1 -->
 

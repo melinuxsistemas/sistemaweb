@@ -20,6 +20,7 @@
     {% load compress %}
     {% compress css %}
     <link rel="shortcut icon" href="{% static 'images/favicon_sistema.png' %}">
+
     <!-- NProgress -->
     <script src="{% static 'bower_components/nprogress/nprogress.js' %}"></script>
     <link href="{% static 'bower_components/nprogress/nprogress.css' %}" rel="stylesheet">
@@ -57,7 +58,6 @@
       <div class="login_wrapper">
         <div class="animate form login_form">
           <section class="login_content">
-
             {% block conteudo_principal %}
 
             {% endblock %}
@@ -77,6 +77,7 @@
   {% endcompress %}
 
   {% compress js %}
+  <script src="{% static 'modules/core/viewport_controll.js'%}"></script>
   <script src="{% static 'modules/core/base.js'%}"></script>
   <script src="{% static 'modules/core/base_api.js'%}"></script>
   <script src="{% static 'custom/js/working.js' %}"></script>
@@ -84,13 +85,19 @@
   <!-- PNotify -->
   <script src="{% static 'bower_components/pnotify/dist/pnotify.js' %}"></script>
   <script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+
+  <script>
+    //moment.lang(navigator.language)
+    NProgress.done();
+    working();
+  </script>
+
   {% block recursos_complementares %}
 
   {% endblock %}
   {% endcompress %}
   <script>
-      //moment.lang(navigator.language)
-      NProgress.done();
-      working();
+    verify_session_paramters()
+    terminate_setup()
   </script>
 </html>
