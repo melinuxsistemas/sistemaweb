@@ -169,3 +169,55 @@ class User(PermissionsMixin, AbstractBaseUser):
 
     def email_user(self, subject, message, from_email=None):
         send_mail(subject, message, from_email, [self.email])
+
+
+class Session(models.Model):
+    class Meta:
+        db_table = 'user_session'
+        verbose_name = _('Sessão')
+        verbose_name_plural = _('Sessões')
+
+    session_key = models.CharField("Chave de Sessão", max_length=32, null=False, error_messages=ERRORS_MESSAGES)
+
+    user = models.ForeignKey('User')
+    internal_ip = models.GenericIPAddressField("IP Interno:", null=False, error_messages=ERRORS_MESSAGES)
+    external_ip = models.GenericIPAddressField("IP Externo:", null=False, error_messages=ERRORS_MESSAGES)
+    country_name = models.CharField("País", max_length=50, null=False, error_messages=ERRORS_MESSAGES)
+    country_code = models.CharField("Sigla do País", max_length=2, null=False, error_messages=ERRORS_MESSAGES)
+    region_code  = models.CharField("Sigla do Estado", max_length=2, null=False, error_messages=ERRORS_MESSAGES)
+    region_name  = models.CharField("Estado", max_length=60, null=False, error_messages=ERRORS_MESSAGES)
+    city         = models.CharField("Cidade", max_length=100, null=False, error_messages=ERRORS_MESSAGES)
+    zip_code     = models.CharField("Código Postal", max_length=10, null=False, error_messages=ERRORS_MESSAGES)
+    time_zone    = models.CharField("Fuzo Horário", max_length=30, null=False, error_messages=ERRORS_MESSAGES)
+    latitude     = models.CharField("Latitude", max_length=20, null=False, error_messages=ERRORS_MESSAGES)
+    longitude    = models.CharField("Longitude", max_length=20, null=False, error_messages=ERRORS_MESSAGES)
+
+    is_expired   = models.BooleanField("Sessão Expirada", null=False,blank=False, default=False,error_messages=ERRORS_MESSAGES)
+    created_date = models.DateTimeField(auto_now_add=True, null=False)
+    terminate_date = models.DateTimeField(auto_now=True, null=False)
+
+
+class SessionTask(models.Model):
+    class Meta:
+        db_table = 'user_session_task'
+        verbose_name = _('Tarefa de Sessão')
+        verbose_name_plural = _('Tarefas de Sessões')
+
+    options_types_tasks = (
+        (1, "REQUEST PAGE"),
+        (2, "REQUEPES SERVICE"),
+    )
+
+    task_type    = models.CharField("Tipo da Requisição", max_length=1, null=False, default=2, choices=options_types_tasks, error_messages=ERRORS_MESSAGES)
+    task_path    = models.CharField("Requisição", max_length=200, null=False, error_messages=ERRORS_MESSAGES)
+
+    server_process_duration = models.PositiveIntegerField("Tempo de Processamento no Servidor (milisegundos)",null=True, blank=True)
+    client_loading_duration = models.PositiveIntegerField("Tempo de Recebimento da Página (milisegundos)",null=True, blank=True)
+    client_service_duration = models.PositiveIntegerField("Tempo de Carregamento dos Serviços (milisegundos)",null=True, blank=True)
+    client_request_duration = models.PositiveIntegerField("Duração da Requisição (milisegundos)", null=True, blank=True)
+
+    created_date = models.DateTimeField(auto_now_add=True, null=False)
+
+    #SESSION_PARAMTERS['init_load_page'] = ''
+    #SESSION_PARAMTERS['load_page_duration'] = ''
+    #SESSION_PARAMTERS['setup_page_duration'] = ''

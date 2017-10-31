@@ -11,17 +11,18 @@
 						{% csrf_token %}
 							<div class="row" style="margin-bottom: -15px">
 								<div class="col-lg-4">
-									<div class="form-group field field_required" id="field_type_contact">
-										<sub><label id="lb_type_contact" for="type_contact">{{ form_register_number.type_contact.label }}</label></sub><br/>
-										{{ form_register_number.type_contact }}
-										<div class="alert"></div>
+									<div class="form-group field field_required container_custom_select" id="field_type_contact">
+										<sub><label id="lb_type_contact" for="type_contact">{{ form_register_phone.type_contact.label }}</label></sub><br/>
+										{{ form_register_phone.type_contact }}
+									<div class="alert"></div>
 									</div>
 								</div>
 
 								<div class="col-lg-8">
 									<div class="form-group field field_required" id="field_name">
-										<sub><label id="lb_name" for="name">{{ form_register_number.name.label }}</label></sub><br/>
-										{{ form_register_number.name }}
+
+										<sub><label id="lb_name" for="name">{{ form_register_phone.name.label }}</label></sub><br/>
+										{{ form_register_phone.name }}
 										<div class="alert"></div>
 									</div>
 								</div>
@@ -32,24 +33,24 @@
 
 								<div class="col-lg-2" style="margin-top : -15px">
 									<div class="form-group field field_required" id="field_ddd">
-										<sub><label id="lb_ddd" for="ddd">{{ form_register_number.ddd.label }}</label></sub><br/>
-										{{ form_register_number.ddd }}
+										<sub><label id="lb_ddd" for="ddd">{{ form_register_phone.ddd.label }}</label></sub><br/>
+										{{ form_register_phone.ddd }}
 										<div class="alert"></div>
 									</div>
 								</div>
 
 								<div class="col-lg-5"style="margin-top: -15px">
 									<div class="form-group field field_required" id="field_phone">
-										<sub><label id="lb_phone" for="phone">{{ form_register_number.phone.label }}</label></sub><br/>
-										{{ form_register_number.phone }}
+										<sub><label id="lb_phone" for="phone">{{ form_register_phone.phone.label }}</label></sub><br/>
+										{{ form_register_phone.phone }}
 										<div class="alert"></div>
 									</div>
 								</div>
 
 								<div class="col-lg-5"style="margin-top: -15px">
 									<div class="form-group field" id="field_complemento">
-										<sub><label id="lb_complemento" for="complemento">{{ form_register_number.complemento.label }}</label> </sub><br/>
-										{{ form_register_number.complemento }}
+										<sub><label id="lb_complemento" for="complemento">{{ form_register_phone.complemento.label }}</label> </sub><br/>
+										{{ form_register_phone.complemento }}
 										<div class="alert"></div>
 									</div>
 								</div>

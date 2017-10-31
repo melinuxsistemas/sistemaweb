@@ -41,8 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'compressor','djangobower',
+    'compressor','djangobower','dbbackup',
     'django_nose','behave_django',
+    'session_security',
     'modules.core', 'modules.user', 'modules.entity',
 ]
 
@@ -54,7 +55,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'session_security.middleware.SessionSecurityMiddleware',
 ]
+
+SESSION_SECURITY_EXPIRE_AFTER= 600
+SESSION_SECURITY_WARN_AFTER= 540
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_SECURITY_INSECURE = True
 
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -114,6 +121,7 @@ BOWER_INSTALLED_APPS = (
     'multiple-select', # PODE SER QUE NAO IREMOS USAR MAIS
     'jQuery-Smart-Wizard#3.3.1',
     'angular-utils-pagination',
+    'bootstrap-select'
 )
 
 WSGI_APPLICATION = 'sistemaweb.wsgi.application'
@@ -126,6 +134,13 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'data/db.sqlite3'),
     }
 }
+
+DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
+DBBACKUP_STORAGE_OPTIONS = {'location': 'data/backup/'}
+DBBACKUP_DATE_FORMAT = '%Y%m%d%H%M%S'
+DBBACKUP_FILENAME_TEMPLATE = '{datetime}.{extension}'#backup_filename
+
+
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
@@ -154,7 +169,7 @@ LANGUAGE_CODE = 'pt-br'
 TIME_ZONE = 'America/Sao_Paulo'
 
 USE_I18N = True
-
+DATE_INPUT_FORMATS = ('%d/%m/%Y','%Y-%m-%d')
 USE_L10N = True
 
 LOGIN_REDIRECT_URL = "/"

@@ -18,6 +18,7 @@
     {% load static %}
     {% load compress %}
     {% compress css %}
+    <script src="{% static 'modules/core/viewport_controll.js'%}"></script>
     <link rel="shortcut icon" href="{% static 'images/favicon_sistema.png' %}">
 
     <!-- NProgress -->
@@ -81,18 +82,19 @@
               <div class="menu_section">
                 <ul class="nav side-menu">
 
-                  <li class="menu-header"><a><i id="button_menu_entidade" class="fa fa-home"></i>Entidades<span class="fa fa-chevron-down"></span></a>
+                  <!--<li class="menu-header"><a><i id="button_menu_entidade" class="fa fa-home"></i>Entidades<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a id="button_submenu_entidade" href="/entity">Cadastro de Entidades <span class="label label-success label_new pull-right">New</span></a></li>
-                      <li><a data-toggle="modal" data-target=".bs-example-modal-lg">Adicionar Entidade</a></li>
+
+                      <li><a data-toggle="form" data-target=".bs-example-form-lg">Adicionar Entidade</a></li>
                     </ul>
                   </li>
+                  -->
 
                   <li><a><i class="fa fa-pencil-square"></i>Cadastros <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-											<li><a href="general_elements.html">Entidades</a></li>
+											<li><a id="button_submenu_entidade" href="/entity">Entidades <span class="label label-success label_new pull-right">New</span></a></li>
 											<li><a href="/perms">Permissões</a></li>
-                      <li><a href="perms.html">Grupos Mercadológicos</a></li>
+                      <li><a href="media_gallery.html">Grupos Mercadológicos</a></li>
                       <li><a href="typography.html">Produtos</a></li>
 											<li><a href="vinculos.html">Vinculos de Produtos</a></li>
                       <li><a href="glyphicons.html">Agenda Telefônica</a></li>
@@ -137,22 +139,8 @@
 											<li><a href="fixed_footer.html">Serviço de Locação</a></li>
 											<li><a href="fixed_footer.html">Serviço de Logística</a></li>
 											<li><a href="fixed_footer.html">Representação Comercial</a></li>
-
                     </ul>
                   </li>
-
-									<li><a><i class="fa fa-book"></i>Outras Operações<span class="fa fa-chevron-down"></span> </a>
-										<ul class="nav child_menu">
-											<li><a href="fixed_footer.html">Tranfêrencias</a></li>
-											<li><a href="fixed_footer.html">Ordem de Abastecimento</a></li>
-											<li><a href="fixed_footer.html">Desmembramentos</a></li>
-											<li><a href="fixed_footer.html">Produção</a></li>
-											<li><a href="fixed_footer.html">Digitação de Balanço</a></li>
-											<li><a href="fixed_footer.html">Notas de Simples Remessa</a></li>
-											<li><a href="fixed_footer.html">Emissão de Notas Avulsas</a></li>
-											<li><a href="fixed_footer.html">Controle de Frota</a></li>
-										</ul>
-									</li>
 
                   <li><a><i class="fa fa-briefcase"></i>Finanças <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
@@ -165,7 +153,7 @@
                     </ul>
                   </li>
 
-                  <li><a><i class="fa fa-eye"></i>Supervisão de Vendas <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-eye"></i>Supervisão <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="page_403.html">Locais Atendidos</a></li>
                       <li><a href="page_404.html">Segmentos Atendidos</a></li>
@@ -202,6 +190,19 @@
                       <li><a href="/register">Planilha Sub. Tributária</a></li>
                     </ul>
                   </li>
+
+                  <li><a><i class="fa fa-book"></i>Outros <span class="fa fa-chevron-down"></span> </a>
+										<ul class="nav child_menu">
+											<li><a href="fixed_footer.html">Tranfêrencias</a></li>
+											<li><a href="fixed_footer.html">Ordem de Abastecimento</a></li>
+											<li><a href="fixed_footer.html">Desmembramentos</a></li>
+											<li><a href="fixed_footer.html">Produção</a></li>
+											<li><a href="fixed_footer.html">Digitação de Balanço</a></li>
+											<li><a href="fixed_footer.html">Notas de Simples Remessa</a></li>
+											<li><a href="fixed_footer.html">Emissão de Notas Avulsas</a></li>
+											<li><a href="fixed_footer.html">Controle de Frota</a></li>
+										</ul>
+									</li>
                 </ul>
 							</div>
 						</div>
@@ -229,12 +230,14 @@
         <!-- top navigation -->
         <div class="top_nav">
           <div class="nav_menu" style="height: 30px;">
-            <nav style="">
+            <nav>
               <div class="nav toggle" style="height: 30px;margin-top: 0px; width: 45px;margin-left: -8px;border: 1px solid #DDD;border-radius: 0px;">
-                <div style="padding: 0px; margin-top: -16px;margin-left: -1px;">
-									<a id="menu_toggle"><i class="fa fa-bars fa-1x"></i></a><!--fa fa-bars---->
+                <div style="padding: 0px; margin-top: -12px;margin-left: -1px;">
+									<a id="menu_toggle"><i class="fa fa-bars fa-lg"></i></a><!--fa fa-bars---->
 								</div>
               </div>
+
+              <!--<div style="background: blue; width: 200px;float:left;">oi</div>-->
               <!--<span style="font-size: 16px;font-weight: bold;">Cadastro de Entidades</span>-->
 
               <ul class="nav  navbar-right" style="height: 30px;">
@@ -264,10 +267,9 @@
                   </ul>
                 </li>
 
-
                 <li class="">
                   <a  href="javascript:;" class="dropdown-toggle info-number" style="height: 30px;margin-top:0px; padding-top:6px;" data-toggle="dropdown" aria-expanded="false">
-                    <i class="fa fa-question-circle"></i>
+                    <i class="fa fa-question" aria-hidden="true"></i>
                     <span class="badge bg-green"></span>
                   </a>
                 </li>
@@ -336,10 +338,65 @@
                     </li>
                   </ul>
                 </li>
+
+                <!--
+                <li id='control_desktop' class="responsive_control" style="border-right: 2px dashed #ccc;">
+                  <a  href="javascript:;" class="dropdown-toggle info-number" style="height: 30px;margin-top:0px; padding-top:6px;" data-toggle="dropdown" aria-expanded="false">
+                    <i class="fa fa-desktop" aria-hidden="true"></i>
+                  </a>
+                </li>
+
+                <li id='control_notebook' class="responsive_control">
+                  <a  href="javascript:;" class="dropdown-toggle info-number" style="height: 30px;margin-top:0px; padding-top:6px;" data-toggle="dropdown" aria-expanded="false">
+                    <i class="fa fa-laptop" aria-hidden="true"></i>
+                  </a>
+                </li>
+
+                <li id='control_tablet' class="responsive_control">
+                  <a  href="javascript:;" class="dropdown-toggle info-number" style="height: 30px;margin-top:0px; padding-top:6px;" data-toggle="dropdown" aria-expanded="false">
+                    <i class="fa fa-tablet" aria-hidden="true"></i>
+                  </a>
+                </li>
+
+                <li id='control_mobile' class="responsive_control">
+                  <a  href="javascript:;" class="dropdown-toggle info-number" style="height: 30px;margin-top:0px; padding-top:6px;" data-toggle="dropdown" aria-expanded="false">
+                    <i class="fa fa-mobile" aria-hidden="true"></i>
+                  </a>
+                </li>
+                -->
               </ul>
             </nav>
           </div>
         </div>
+
+        <!--
+        <script>
+          $(".responsive_control").click(function(){
+            var control = $(this).attr('id')
+            if(control == "control_mobile"){
+              alert("COLOCAR NO TAMANHO DE MOBILE")
+              document.body.style.width = '30%';
+            }
+
+            if(control == "control_tablet"){
+              alert("COLOCAR NO TAMANHO DE TABLET")
+              document.body.style.width = '50%';
+            }
+
+            if(control == "control_notebook"){
+              alert("COLOCAR NO TAMANHO DE NOTEBOOK")
+              document.body.style.width = '75%';
+            }
+
+            if(control == "control_desktop"){
+              alert("COLOCAR NO TAMANHO DE DEKTOP")
+              document.body.style.width = '100%';
+            }
+
+            //document.body.style.width = '700px';
+          });
+        </script>
+        -->
         <!-- /top navigation -->
 
         <!-- page content -->
@@ -392,6 +449,8 @@
         <!-- /footer content -->
       </div>
     </div>
+
+    {% include 'session_security/all.html' %}
   </body>
   {% compress js %}
     <!-- Bootstrap -->
@@ -416,8 +475,6 @@
     <script src="{% static 'modules/core/base.js'%}"></script>
     <!--<script src="% static 'bower/pnotify/pnotify.buttons.js'%}"></script>
     <script src="% static 'bower/pnotify/dist/pnotify.nonblock.js'%}"></script>-->
-
-
     {% block recursos_complementares %}
 
     {% endblock %}
@@ -435,34 +492,11 @@
     ga('send', 'pageview');
     </script>
   -->
-    <script>
-      function readjust_window(){
-        sh = window.innerHeight // screen.availHeight; - PEGA O TAMANHO DA TELA DO DISPOSITIVO
-	      sw  = window.innerWidth
-	      readjust_menu(sw,sh);
-      }
-
-      function readjust_menu(sw,sh){
-        if(sw < 600){
-          //alert("vou esconder o nome do usuario pra ganhar espaco")
-          $("#profile_email_active").hide();
-        }
-        else{
-          $("#profile_email_active").show();
-        }
-      }
-
-      function set_width_size(value){
-        alert("cheguei aqui?")
-        //window.width(500)
-        window.resizeTo(400, 300);
-        alert("foi");
-      }
-    </script>
 
     <script>
-      readjust_window()
       NProgress.done();
+      configure_screen()
       working();
+      terminate_load_page()
     </script>
 </html>

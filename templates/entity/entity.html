@@ -2,12 +2,17 @@
 {% block titulo_pagina %}SistemaWeb - Cadastrar Entidade {% endblock %}
 
 {% block recursos_necessarios %}
+
   {% load static %}
 	<script src="{% static 'bower_components/nprogress/nprogress.js' %}"></script>
 	<link href="{% static 'bower_components/nprogress/nprogress.css' %}" rel="stylesheet">
 	<link href="{% static 'modules/entity/entity.css' %}" rel="stylesheet">
 	<link href="{% static 'modules/entity/contact.css' %}" rel="stylesheet">
 	<script src="{% static 'bower_components/angularUtils-pagination/dirPagination.js'%}"></script>
+	<script src="{% static 'modules/entity/entity_controller.js' %}"></script>
+	<script src="{% static 'modules/entity/entity.js' %}"></script>
+	<script src="{% static 'modules/entity/contact_controller.js' %}"></script>
+	<script src="{% static 'modules/entity/contact.js' %}"></script>
 
   <style>
   .actionBar{
@@ -43,42 +48,36 @@
 {% block conteudo_principal %}
 <div id="angular_content" ng-cloak ng-app="modules.entity">
 
-	<!--<ul class="nav nav-tabs">
-		<li class="active"><a data-toggle="tab" href="#entity_identification">Entidade</a></li>
-		<li><a data-toggle="tab" href="#entity_contact">Contatos</a></li>
-		<li><a data-toggle="tab" href="#entity_endereco">Endereços</a></li>
-	</ul>-->
-
 	<div class="main_content">
 		<div class="tab-content">
 			<div id="entity_identification" class="tab-pane fade in active">
-				{% include "entity/components/tables/identification_content.html" %}
+				{% include "entity/components/content/identification.html" %}
 			</div>
 
 			<div id="entity_contact" class="tab-pane fade">
-				{% include "entity/components/tables/contact_content.html" %}
+				{% include "entity/components/content/contact.html" %}
 			</div>
+
 			<div id="entity_endereco" class="tab-pane fade">
-				{% include "entity/components/tables/location_content.html" %}
+				{% include "entity/components/content/location.html" %}
 			</div>
 		</div>
 	</div>
 </div>
 
-
 <!--Modal de adicao de Email
 <div ng-controller="register_email_entity"><!-- Falta add um controlador--
-		<div id="modal_add_email" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
-			<div class="modal-dialog" style="width: 50%">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<div id="modal_add_email" class="form fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+			<div class="form-dialog" style="width: 50%">
+				<div class="form-content">
+					<div class="form-header">
+						<button type="button" class="close" data-dismiss="form" aria-hidden="true">×</button>
 						<h5 style="font-weight: bold">Adicionar endereço de Email</h5>
 					</div>
-					<div class="modal-body">
+					<div class="form-body">
 						{% verbatim %}{{ teste }}{% endverbatim %}
 					</div>
-					<div class="modal-footer">
+					<div class="form-footer">
 						<button role="button" class="btn btn-sm btn-success form-control" ng-click="save_email()">Salvar</button>
 					</div>
 				</div>
@@ -90,41 +89,59 @@
 
 {% block recursos_complementares %}
 {% load static %}
+<!--<link rel="stylesheet" href="{% static 'bower_components/multiple-select/multiple-select.css' %}" type="text/css">
+<script type="text/javascript" src="{% static 'bower_components/multiple-select/multiple-select.js' %}"></script>-->
+<link rel="stylesheet" href="{% static 'bower_components/bootstrap-select/dist/css/bootstrap-select.min.css' %}" type="text/css">
+<script type="text/javascript" src="{% static 'bower_components/bootstrap-select/dist/js/bootstrap-select.min.js' %}"></script>
 
-	<script src="{% static 'modules/entity/entity_controller.js' %}"></script>
-	<script src="{% static 'modules/entity/entity.js' %}"></script>
-	<script src="{% static 'modules/entity/contact_controller.js' %}"></script>
-	<script src="{% static 'modules/entity/contact.js' %}"></script>
-
-<link rel="stylesheet" href="{% static 'custom/smartwizard/jQuery-Multiple-Select-Plugin-For-Bootstrap-Bootstrap-Multiselect/bootstrap-multiselect.css' %}" type="text/css">
-<script type="text/javascript" src="{% static 'custom/smartwizard/jQuery-Multiple-Select-Plugin-For-Bootstrap-Bootstrap-Multiselect/bootstrap-multiselect.js' %}"></script>
 <script type="text/javascript" src="{% static 'bower_components/validator/validator.js' %}"></script>
 
 <script type="text/javascript" src="{% static 'custom/mask/mask.js' %}"></script>
+
 <script type="text/javascript">
+	function post_screen_verified(){
+		angular.element(document.getElementById('identification_controller')).scope().readjust_screen()
+	}
+
 	$(document).ready(function(){
-		$('#cpf_cnpj').mask('999.999.999-99');
-		$('#birth_date_foundation').mask('99/99/9999');
+		post_screen_verified();
 		angular.element(document.getElementById('identification_controller')).scope().load_entities();
 
+		$('#birth_date_foundation').mask('99/99/9999');
+		$('#entity_type').selectpicker({selectOnTab:true});
+		$('#natureza_juridica').selectpicker({selectOnTab:true});
+		$('#main_activity').selectpicker({selectOnTab:true});
+		$('#relation_type').selectpicker({selectOnTab:true});
+
+		$('#market_segment').selectpicker({liveSearch: true});
+		$('#buy_destination').selectpicker({selectOnTab:true});
+		$('#tributary_regime').selectpicker({selectOnTab:true});
+		$('#company_activities').selectpicker({selectOnTab:true});
 
 
+		select_selectpicer('entity_type',2)
+		select_entity_type()
 
-		window.onresize = function(event) {
-			angular.element(document.getElementById('identification_controller')).scope().readjust_screen()
-			readjust_window()
-    };
+		$("#entity_name").val('EMPRESA DE TESTES')
+		$("#fantasy_name").val('TESTES')
+		$("#birth_date_foundation").val('15/01/1988')
+		$("#cpf_cnpj").val('88.888.888/0001-88')
+		select_selectpicer('relation_type',1)
+		select_selectpicer('natureza_juridica',1)
+		select_selectpicer('main_activity',1)
+		$("#comments").val('CLIENTE ESPECIAL')
 
+		select_selectpicer('tributary_regime',1)
+		select_selectpicer('company_activities',[1,2,3,4])
+		select_selectpicer('buy_destination',1)
+		select_selectpicer('market_segment',[1,2])
+		$("#comments_fiscal_note").val('ENTREGAR PREFERENCIALMENTE DE SEGUNDA A SEXTA DAS 09H AS 16H.')
 
-		angular.element(document.getElementById('identification_controller')).scope().readjust_screen()
-		readjust_window()
-
-		//alert("Tentando carregar")
-		//angular.element(document.getElementById('form-save-entity')).scope().save_person();
-		//alert("carregado")
-		//angular.element(document.getElementById('entity_table')).scope().select_table_row();
+		terminate_setup()
+		alert("PAGINA PRONTA EM "+SESSION_PARAMTERS['load_page_duration']+"ms E DADOS E CONFIGURACOES PRONTAS EM "+SESSION_PARAMTERS['setup_page_duration']+"ms")
 	});
 </script>
+
 
 <script>
 	//document.getElementById("cpf_cnpj").onblur = function () {validate_cpf_cnpj()};
