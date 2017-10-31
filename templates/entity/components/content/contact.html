@@ -3,8 +3,8 @@
 		<div class="row">
 			<h2 id="title_contact" style="padding-left: 10px"></h2>
 			<ul class="nav navbar-right panel_toolbox">
-				<div class="btn-group" role="group" aria-label="..." style="; padding-right: 20px">
-					<a id='bt_identification' href="#entity_identification" data-toggle="tab" role="button" class="btn btn-sm btn-default " style='width: 100px' title="Voltar para Entidades"><i class="fa fa-arrow-left" aria-hidden="true" style="margin-left: -6px"> Voltar</i></a>
+				<div class="btn-group" role="group" aria-label="..." style="padding-right: 10px">
+					<a id='bt_identification' href="#entity_identification" data-toggle="tab" role="button" class="btn btn-sm btn-default " style='width: 100px; font-family: Arial;' title="Voltar para Entidades"><i class="fa fa-arrow-left" aria-hidden="true" style="margin-left: -6px"> Voltar</i></a>
 				</div>
 			</ul>
 		</div>
@@ -17,7 +17,7 @@
 						<div class="col-lg-12 col-md-12 col-sm-12"col-xs-12>
 							<div class="x_panel">
 								<div class="x_title">
-									<h2>Contatos:</h2>
+									<h2>Contatos</h2>
 									<ul class="nav navbar-right panel_toolbox">
 										<div class="btn-group" role="group" aria-label="..." >
 											<a id='bt_update_contacts' href="#" data-toggle="modal" data-target="#modal_add_phone" role="button" class="btn btn-sm btn-default pull-left" ng-click="load_field_contact()" ng-class="{ 'disabled': contact_selected == null}"  style='width: 40px' title="Alterar Telefone" ><i class="fa fa-pencil" aria-hidden="true"></i></a>
@@ -84,7 +84,7 @@
 										</table>
 										</div>
 									</div>
-									{% include "entity/components/modal/form_contact.html" %}
+									{% include "entity/components/form/contact.html" %}
 								</div>
 						</div>
 						</div>
@@ -97,7 +97,13 @@
 						<div class="col-lg-12 col-md-12 col-sm-12"col-xs-12>
 							<div class="x_panel">
 								<div class="x_title">
-									<h2>Emails:</h2>
+									<h2>Emails <select class="form-control">
+                            <option>Choose option</option>
+                            <option>Option one</option>
+                            <option>Option two</option>
+                            <option>Option three</option>
+                            <option>Option four</option>
+                          </select></h2>
 									<ul class="nav navbar-right panel_toolbox">
 										<div class="btn-group" role="group" aria-label="...">
 											<a id='bt_update_email' href="#" data-toggle="modal" data-target="#modal_add_email" role="button" class="btn btn-sm btn-default pull-left" ng-click="load_field_email()" ng-class="{ 'disabled': email_selected == null}"  style='width: 40px' title="Alterar Email" ><i class="fa fa-pencil" aria-hidden="true"></i></a>
@@ -110,6 +116,7 @@
 								<div class="x_content">
 									<div class="row">
 										<div class="col-md-12">
+
 											<table id="table_emails" class="table table-striped table-bordered table-hover">
 												<thead>
 													<tr class="row_contact linha_selecionavel" style="font-size:10px;">
@@ -118,9 +125,9 @@
 
 														<th class='col_email_email text-center' ng-click="sortType = 'email'; sortReverse = !sortReverse">Email</th>
 
-														<th class="col_email_xml text-center" ng-hide='S0 || S1 || S2' ng-click="sortType = 'send_xml'; sortReverse = !sortReverse" title="Enviar XML"><a class="fa fa-send"  style="margin-left: 8px"></a></th>
+														<th class="col_email_xml text-center" ng-hide='S0 || S1 || S2' ng-click="sortType = 'send_xml'; sortReverse = !sortReverse" title="Enviar XML"><a class="fa fa-envelope-o"  style="margin-left: 8px"></a></th>
 
-														<th class='col_email_suitcase text-center' ng-hide='S0 || S1 || S2 || S3 || S4' ng-click="sortType = 'send_suitcase'; sortReverse = !sortReverse" title="Enviar Mala"><a class="fa fa-suitcase"  style="margin-left: 8px"></a></th>
+														<th class='col_email_suitcase text-center' ng-hide='S0 || S1 || S2 || S3 || S4' ng-click="sortType = 'send_suitcase'; sortReverse = !sortReverse" title="Enviar Mala"><a><i class="fa fa-file-text-o"  style="margin-left: 8px"></i></a></th>
 
 													</tr>
 												</thead>
@@ -168,7 +175,7 @@
 									<div class="row">
 									</div>
 									</div>
-									{% include "entity/components/modal/form_email.html" %}
+									{% include "entity/components/form/email.html" %}
 								</div>
 							</div>
 						</div>

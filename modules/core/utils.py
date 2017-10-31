@@ -1,5 +1,9 @@
+import json
+from json import JSONEncoder, JSONDecoder
+
 from django.core import serializers
 from django.core.mail import EmailMessage
+from django.utils import encoding
 
 from conf.configurations import SystemVariables
 from modules.user.validators import check_email_format
@@ -15,6 +19,7 @@ import datetime
 #    if isinstance(obj, (datetime, date)):
 #        return obj.isoformat()
 #    raise TypeError ("Type %s not serializable" % type(obj))
+
 
 def response_format_success(object,list_fields=None):
     return response_format(True, '', object, list_fields)

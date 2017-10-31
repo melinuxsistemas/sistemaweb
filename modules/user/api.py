@@ -8,7 +8,7 @@ from modules.core.api import AbstractAPI
 from modules.core.utils import response_format_success, response_format_error, generate_activation_code, generate_random_password
 from modules.core.comunications import send_generate_activation_code, resend_generate_activation_code ,send_reset_password
 from modules.user.forms import FormRegister, FormLogin, FormChangePassword, FormResetPassword
-from modules.user.models import User
+from modules.user.models import User, Session
 from django.contrib.auth import login
 from django.http import HttpResponse
 import json
@@ -81,6 +81,21 @@ class UsuarioAPI:
                         auth = User.objects.authenticate(request, email=email, password=password)
                         if auth is not None:
                             login(request, user)
+                            sessao = Session()
+                            sessao.user         = user
+                            sessao.session_key  = request.session.session_key
+                            sessao.internal_ip  = request.POST['internal_ipv4']
+                            sessao.external_ip  = request.POST['external_ip']
+                            sessao.country_name = request.POST['country_name']
+                            sessao.country_code = request.POST['country_code']
+                            sessao.region_code  = request.POST['region_code']
+                            sessao.region_name  = request.POST['region_name']
+                            sessao.city         = request.POST['city']
+                            sessao.zip_code     = request.POST['zip_code']
+                            sessao.time_zone    = request.POST['time_zone']
+                            sessao.latitude     = request.POST['latitude']
+                            sessao.longitude    = request.POST['longitude']
+                            sessao.save()
                             response_dict = response_format_success(user, ['email'])
                         else:
                             response_dict = response_format_error("Usuário ou senha incorreta.")
@@ -143,4 +158,3 @@ class UsuarioAPI:
         #    return redirect('/login')
 
         return HttpResponse(json.dumps(response_dict))
-

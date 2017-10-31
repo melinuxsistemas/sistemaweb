@@ -1,7 +1,7 @@
 from unittest import TestCase
 import unittest
 
-from modules.entity.forms import FormPersonEntity, FormCompanyEntity, FormRegisterPhone, FormRegisterEmailEntity
+from modules.entity.forms import EntityIdentificationForm, EntityCompanyIdentificationForm, FormRegisterPhone, FormRegisterEmailEntity
 from test.unit.backend.core.test_forms import TestAbstractForm
 
 
@@ -10,7 +10,7 @@ class RegisterEntityFormTest (TestAbstractForm):
     def __init__(self,*args, **kwargs):
         super(RegisterEntityFormTest, self).__init__()
         unittest.TestCase.__init__(self, *args, **kwargs)
-        self.set_formulary(FormPersonEntity)
+        self.set_formulary(EntityIdentificationForm)
 
         #test field cpf_cnpj
 
@@ -37,7 +37,7 @@ class RegisterEntityFormTest (TestAbstractForm):
     def __init__(self, *args, **kwargs):
             super(RegisterEntityFormTest, self).__init__()
             unittest.TestCase.__init__(self, *args, **kwargs)
-            self.set_formulary(FormCompanyEntity)
+            self.set_formulary(EntityCompanyIdentificationForm)
 
             # test field cpf_cnpj
 

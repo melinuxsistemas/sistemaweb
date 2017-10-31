@@ -24,7 +24,7 @@ urlpatterns = [
     url(r'^$', view_core.index),
     url(r'^admin/', admin.site.urls),
     url(r'^login/$', view_usuario.login_page),
-    url(r'^logout/$', view_usuario.logout_page),
+    url(r'^logout', view_usuario.logout_page),
     url(r'^register/$', view_usuario.register_page),
     url(r'^register/confirm/(?P<email>[^/]+)$', view_usuario.register_confirm_page),
     url(r'^register/activate/(?P<email>[^/]+)/(?P<activation_code>\w{0,46})/$', view_usuario.activate_user),
@@ -32,7 +32,7 @@ urlpatterns = [
     url(r'^profile/$', view_usuario.profile_page),
 
     url(r'^entity/$', view_entity.entity_page),
-    url(r'^entity/register/(?P<entity_type>[^/]+)/$', view_entity.register_entity),
+    #url(r'^entity/register/(?P<entity_type>[^/]+)/$', view_entity.register_entity),
     url(r'^perms/', view_autonomy.register_autonomy),
 
     url(r'^system/environment', view_core.configure_environment),
@@ -41,4 +41,5 @@ urlpatterns = [
     url(r'^api/entity/', include('modules.entity.urls')),
 
     url(r'^api/working/register', view_core.working),
+    url(r'session_security/', include('session_security.urls')),
 ]#+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

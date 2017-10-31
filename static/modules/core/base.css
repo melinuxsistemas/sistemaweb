@@ -1,3 +1,12 @@
+.disabled{
+	background: #EEE;
+	opacity: 0.7;
+}
+
+label.disabled{
+	background: #FFF;
+}
+
 .uppercase {
 	text-transform: uppercase;
 }
@@ -19,7 +28,7 @@ button[type="submit"] {
 }
 
 .selected td{
-	background: #0283f3; !important;
+	background: #0283f3 !important;
   color : white;
 }
 
@@ -110,3 +119,41 @@ tr.linha_selecionavel{
     transition: width 2s;
 }
 
+/*.bootstrap-select ul.dropdown-menu li:first-child {
+    display: none;
+};*/
+
+/*
+.row.no-gutter {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.row.no-gutter [class*='col-']:not(:first-child),
+.row.no-gutter [class*='col-']:not(:last-child) {
+  padding-right: 0px;
+  padding-left: 0px;
+  padding-bottom: 0px;
+}
+*/
+
+.field{
+padding: 0px;
+}
+
+.form-group{
+	padding-bottom: 0px;
+	padding-top: 0px;
+}
+
+.form-group .alert{
+	padding:0px;
+}
+
+/*
+.row.no-gutters > [class^="col-"],
+.row.no-gutters > [class*=" col-"] {
+  padding-right: 0;
+  padding-left: 0;
+}
+*/
