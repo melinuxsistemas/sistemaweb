@@ -85,6 +85,8 @@ if sys.platform == 'linux':
 else:
     if "lucas" in BASE_DIR:
         BOWER_PATH = 'C:/Users/lucas/AppData/Roaming/npm/bower.cmd'
+    elif "helde" in BASE_DIR:
+        BOWER_PATH = 'C:/Users/helde/AppData/Roaming/npm/bower.cmd'
     else:
         BOWER_PATH = 'C:/Users/diego/AppData/Roaming/npm/bower.cmd'
 
