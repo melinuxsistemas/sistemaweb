@@ -7,6 +7,6 @@ from modules.permissions.forms import FormAutonomy
 @login_required()
 def register_autonomy(request):
     form_autonomy = FormAutonomy()
-    template_url = "permissions/register_autonomy.html"
+    template_url = "perms/perms.html"
 
     return render(request,template_url,{'form_autonomy':form_autonomy})

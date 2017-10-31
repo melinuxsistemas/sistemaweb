@@ -141,7 +141,6 @@ class EntityController(BaseController):
                 contact.save()
                 contact.type_contact = options_type_contact[int(contact.type_contact)]
                 response_dict = response_format_success(contact)
-                contact.show_fields_value()
             except Exception as e:
                 response_dict = response_format_error(format_exception_message(contact.model_exceptions))
         else:

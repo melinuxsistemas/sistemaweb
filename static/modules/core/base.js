@@ -86,3 +86,20 @@ function desable_new_label(campo){
     }
   })
 }
+
+
+
+
+
+function select_rating(select_name, value) {
+  //document.querySelector('input[name="ratingtwo"]:checked').value
+  //alert("consigo ver o valor:"+$('#Entidade').val())
+  $("#fieldset_"+select_name+" input[type=radio]").each(function (){
+
+    if( this.value <= value){
+      $("#rate_label_"+select_name+"_"+this.value).addClass('selected_rating')
+    }else{
+      $("#rate_label_"+select_name+"_"+this.value).addClass('unselected_rating')
+    }
+  })
+}
