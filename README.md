@@ -84,7 +84,64 @@
 
     O Pylint estara analisando em tempo real o codigo fonte sugerindo possiveis melhorias e adequações a padrões de codificação internacional como o PEP8.
 
+- Configurar comandos para executar scripts no Pycharm.
+    - bower install :
+       - No campo "Name" digite ```bower install```
+       - No campo "Script" digite o caminho para o arquivo ```manage.py```
+       - No campo "Script parameters" digite ```bower install```
+    - behave test :
+       - No campo "Name" digite ```behave test```
+       - No campo "Script" digite o caminho para o arquivo ```manage.py```
+       - No campo "Script parameters" digite ```behave test```
+    - makemigrations :
+       - No campo "Name" digite ```makemigrations```
+       - No campo "Script" digite o caminho para o arquivo ```manage.py```
+       - No campo "Script parameters" digite ```makemigrations```
+    - migrate :
+       - No campo "Name" digite ```migrate```
+       - No campo "Script" digite o caminho para o arquivo ```manage.py```
+       - No campo "Script parameters" digite ```migrate```
+    - runtests :
+       - No campo "Name" digite ```runtests```
+       - No campo "Script" digite o caminho para o arquivo ```manage.py```
+       - No campo "Script parameters" digite ```tests -v 2```
+    - runtests entity :
+       - No campo "Name" digite ```runtests entity```
+       - No campo "Script" digite o caminho para o arquivo ```manage.py```
+       - No campo "Script parameters" digite ```test test\unit\backend\entity\ -v 2 --pattern="tests_*.py```
+    - runtests entity validators:
+       - No campo "Name" digite ```runtests entity validators```
+       - No campo "Script" digite o caminho para o arquivo ```manage.py```
+       - No campo "Script parameters" digite ```test test\unit\backend\entity\test_validators.py -v 2 --pattern="tests_*.py"```
+    - runserver:
+       - No campo "Name" digite ```runserver```
+       - No campo "Script" digite o caminho para o arquivo ```manage.py```
+       - No campo "Script parameters" digite ```runserver 0.0.0.0:8000```
+    - backup:
+       - No campo "Name" digite ```backup```
+       - No campo "Script" digite o caminho para o arquivo ```manage.py```
+       - No campo "Script parameters" digite ```dbbackup -v 3 -z --encrypt```
 
+- Gerando chave GPG
+    - Faça o download e instalação do GPG : https://www.gnupg.org/download/
+    - Via linha de comando ou Git Bash digite ```gpg --full-generate-key```.
+    - No prompt, especifique o tipo de chave que deseja, ou pressione Enter para aceitar o padrão ```RSA and RSA```.
+    - Escolha o tamanho da chave:
+        - o tamanho mínimo é 768 bits, o tamanho padrão é 1024 bits e o máximo sugerido é 2048 bits.
+    - Especifique o tempo que a chave deve ser válida.
+        - 0 = a chave não expira;
+        - d = a chave expira em n dias;
+        - w = a chave expira em n semanas;
+        - m = a chave expira em n meses;
+        - y = a chave expira em n anos.
+        - 1d equivale a 1 dia.
+    - No prompt confirme se tudo está correto digite ```s``` para sim ou ```n``` para não.
+    - Digite seu nome completo,não use apelidos ou códigos.
+    - Digite seu endereço de e-mail real para gerar sua chave GPG.
+    - Use o campo de comentários para incluir apelidos e outras informações.
+        - Algumas pessoas usam chaves diferentes para diferentes propósitos e identificam cada chave com um comentário, tal como "Office" ou "Open Source Projects."
+    - No prompt de confirmação, digite a letra ```O``` para continuar se todas as entradas estão corretas ou use as outras opções para consertar quaisquer problemas.
+    - Finalmente, digite uma frase secreta para sua chave secreta.
 
 ### Estrutura
 ```
