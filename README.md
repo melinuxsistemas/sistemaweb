@@ -84,7 +84,26 @@
 
     O Pylint estara analisando em tempo real o codigo fonte sugerindo possiveis melhorias e adequações a padrões de codificação internacional como o PEP8.
 
-
+- Gerando chave GPG
+    - Faça o download e instalação do GPG : https://www.gnupg.org/download/
+    - Via linha de comando ou Git Bash digite ```gpg --full-generate-key```.
+    - No prompt, especifique o tipo de chave que deseja, ou pressione Enter para aceitar o padrão ```RSA and RSA```.
+    - Escolha o tamanho da chave:
+        - o tamanho mínimo é 768 bits, o tamanho padrão é 1024 bits e o máximo sugerido é 2048 bits.
+    - Especifique o tempo que a chave deve ser válida.
+        - 0 = a chave não expira;
+        - d = a chave expira em n dias;
+        - w = a chave expira em n semanas;
+        - m = a chave expira em n meses;
+        - y = a chave expira em n anos.
+        - 1d equivale a 1 dia.
+    - No prompt confirme se tudo está correto digite ```s``` para sim ou ```n``` para não.
+    - Digite seu nome completo,não use apelidos ou códigos.
+    - Digite seu endereço de e-mail real para gerar sua chave GPG.
+    - Use o campo de comentários para incluir apelidos e outras informações.
+        - Algumas pessoas usam chaves diferentes para diferentes propósitos e identificam cada chave com um comentário, tal como "Office" ou "Open Source Projects."
+    - No prompt de confirmação, digite a letra ```O``` para continuar se todas as entradas estão corretas ou use as outras opções para consertar quaisquer problemas.
+    - Finalmente, digite uma frase secreta para sua chave secreta.
 
 ### Estrutura
 ```
