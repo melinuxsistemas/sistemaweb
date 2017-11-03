@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 import sys
+
+import project_properties
 from conf import configurations
 from conf.user.vars import UserConfigurations, WorkingConfig
 
@@ -221,8 +223,8 @@ EMAIL_PORT = 587
 
 CONFIG = configurations
 
-SELENIUM_GECKODRIVER_MOZILLA = configurations.geckodriver_path
-MOZILLA_FIREFOX_TEST_PATH = configurations.mozilla_firefox_path
+SELENIUM_GECKODRIVER_MOZILLA = project_properties.geckodriver_path
+MOZILLA_FIREFOX_TEST_PATH = project_properties.mozilla_firefox_path
 SELENIUM_URL_PROJECT_TEST = "http://127.0.0.1:8000/"
 
 from modules.core.working_api import WorkingManager

@@ -6,6 +6,7 @@ from django.core.mail import send_mail
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager, Permission
 from modules.core.config import ERRORS_MESSAGES
+from modules.core.permissions import MenuPermissions
 from modules.core.utils import generate_activation_code
 from modules.core.validators import check_password_format
 from modules.entity.models import Contact
@@ -223,7 +224,7 @@ class SessionAction(models.Model):
     #SESSION_PARAMTERS['setup_page_duration'] = ''
 
 
-class Permissions(models.Model, EntityPermission, ContactPermission):
+class Permissions(models.Model, MenuPermissions):
     #user = models.ForeignKey('User')
     user = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True)
     registration = models.CharField('Cadastros', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
