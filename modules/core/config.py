@@ -1,3 +1,5 @@
+from django.core.exceptions import PermissionDenied
+
 ERRORS_MESSAGES = {
     'invalid': 'Conteúdo inválido',
     'document_invalid': 'Documento inválido',
@@ -12,6 +14,50 @@ ERRORS_MESSAGES = {
     'name_min_words':'Informe o nome completo',
     'not_all_numeric':'Este campo só pode conter numeros'
 }
+
+
+def verify_permission(permission_level, required_level):
+    permission_level = int(permission_level)
+    print("SUA PERMISSAO:",permission_level," - NIVEL EXIGIDO: ",required_level)
+    if permission_level >= required_level:
+        return True
+    else:
+        return False
+
+
+class MenuOption:
+
+    title = None
+    permission_position = None
+    url = None
+
+    def __init__(self, title, id, url):
+        self.title = title
+        self.id = id
+        self.url = url
+
+
+class MenuRegistration:
+    entities = MenuOption(id=0, title='Entidades', url='/entity')
+    permissions = MenuOption(id=1, title= 'Permissões', url='/permission')
+    mercadologic_group = MenuOption(id=2, title='Grupo Mercadológico', url='/mercadologic_group')
+    products = MenuOption(id=3, title='Produtos', url='/products')
+    products_relations = MenuOption(id=4, title='Vincúlo de Produtos', url='/products_relations')
+    phones = MenuOption(id=5, title='Agenda de Telefones', url='/phones')
+    complementary_tables = MenuOption(id=6, title='Tabelas Complementares', url='/complementary_tables')
+
+
+class MenuPurchases:
+    request_to_supplier = MenuOption(id=0, title='Pedido à Fornecedor', url='/request_to_supplier')
+    replacement_list = MenuOption(id=1, title='Lista de Reposição', url='/replacement_list')
+    request_for_quotation = MenuOption(id=2, title='Pedido para Cotação', url='/request_for_quotation')
+
+
+class MainMenu:
+
+    registration = MenuRegistration
+    purchases = MenuPurchases
+
 
 class BaseConfiguration():
     natureza_juridica = [

@@ -81,6 +81,8 @@ class UsuarioAPI:
                         auth = User.objects.authenticate(request, email=email, password=password)
                         if auth is not None:
                             login(request, user)
+
+                            #print("VEJA AS PERMISSOES: ",user.permissions.can_access_entity())
                             sessao = Session()
                             sessao.user         = user
                             sessao.session_key  = request.session.session_key

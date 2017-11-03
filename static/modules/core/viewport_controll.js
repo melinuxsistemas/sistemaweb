@@ -195,7 +195,6 @@ function start_load_page(){
 }
 
 function terminate_load_page(){
-	alert("terminou a pagina..")
 	SESSION_PARAMTERS['load_page_duration'] = Date.now() - SESSION_PARAMTERS['init_load_page'];
 }
 

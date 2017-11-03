@@ -18,7 +18,7 @@ from django.conf.urls import url, include
 from modules.core import views as view_core
 from modules.user import views as view_usuario
 from modules.entity import views as view_entity
-from modules.permissions import views as view_autonomy
+from modules.user import views as view_autonomy
 
 urlpatterns = [
     url(r'^$', view_core.index),

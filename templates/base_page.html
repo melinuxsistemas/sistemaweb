@@ -51,10 +51,10 @@
     {% endcompress %}
   </head>
 
-  <body class="nav-sm"  style="background-color: #f6f6f6;!important;">
+  <body class="nav-sm"  style="background-color: #2A3F54;!important;"> <!-- #f6f6f6 #334556 #2C4257-->
     <div class="container body">
       <div class="main_container">
-        <div class="col-md-3 left_col">
+        <div class="col-md-3 left_col" >
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;"><!-- background:#172D44; -->
               <a id="menu_toggle_new" style='cursor: pointer;' class="site_title"><i class="fa fa-paw"></i> <span>SistemaWeb</span></a>
@@ -90,117 +90,119 @@
                   </li>
                   -->
 
-                  <li><a><i class="fa fa-pencil-square"></i>Cadastros <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-pencil-square fa-lg"></i>Cadastros <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-											<li><a id="button_submenu_entidade" href="/entity">Entidades <span class="label label-success label_new pull-right">New</span></a></li>
-											<li><a href="/perms">Permissões</a></li>
-                      <li><a href="media_gallery.html">Grupos Mercadológicos</a></li>
-                      <li><a href="typography.html">Produtos</a></li>
-											<li><a href="vinculos.html">Vinculos de Produtos</a></li>
-                      <li><a href="glyphicons.html">Agenda Telefônica</a></li>
-                      <li><a href="widgets.html">Tabelas Auxiliares</a></li>
+                      {% load custom %}
+                      {% option_menu "Entidades" "/entity" True request.user.permissions.can_view_entity %}
+                      {% option_menu "Permissões" "/permissions" True request.user.permissions.can_view_entity %}
+
+                      <li><a href="#">Grupos Mercadológicos</a></li>
+                      <li><a href="#">Produtos</a></li>
+											<li><a href="#">Vinculos de Produtos</a></li>
+                      <li><a href="#">Agenda Telefônica</a></li>
+                      <li><a href="#">Tabelas Auxiliares</a></li>
                     </ul>
                   </li>
 
                   <li><a><i class="fa fa-cart-arrow-down"></i>Compras <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="tables.html">Pedido a Fornecedores</a></li>
-                      <li><a href="tables_dynamic.html">Lista para Reposição</a></li>
-											<li><a href="tables_dynamic1.html">Pedidos para Cotação</a></li>
-											<li><a href="tables_dynamic2.html">Entrada de Mercadoreas</a></li>
-											<li><a href="tables_dynamic3.html">Aquisição de Serviços</a></li>
-											<li><a href="tables_dynamic4.html">Corrigir Entrada</a></li>
-											<li><a href="tables_dynamic5.html">Devolução a Fornecedores</a></li>
-											<li><a href="tables_dynamic6.html">Manifesto e Recusa NF-e</a></li>
-											<li><a href="tables_dynamic7.html">Histórico de Compras</a></li>
+                      <li><a href="#">Pedido a Fornecedores</a></li>
+                      <li><a href="#">Lista para Reposição</a></li>
+											<li><a href="#">Pedidos para Cotação</a></li>
+											<li><a href="#">Entrada de Mercadoreas</a></li>
+											<li><a href="#">Aquisição de Serviços</a></li>
+											<li><a href="#">Corrigir Entrada</a></li>
+											<li><a href="#">Devolução a Fornecedores</a></li>
+											<li><a href="#">Manifesto e Recusa NF-e</a></li>
+											<li><a href="#">Histórico de Compras</a></li>
 
                     </ul>
                   </li>
 
                   <li><a><i class="fa fa-money"></i>Vendas <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="chartjs.html">Manuntenção de Preços</a></li>
-                      <li><a href="chartjs2.html">Terminal Caixa</a></li>
-                      <li><a href="morisjs.html">Venda Balcão</a></li>
-                      <li><a href="echarts.html">Tele-Vendas</a></li>
-                      <li><a href="other_charts.html">Carteira de Pedidos</a></li>
-											<li><a href="echarts.html">Faturamento</a></li>
-											<li><a href="echarts.html">Devolução de Vendas</a></li>
-											<li><a href="echarts.html">Histórico de Vendas</a></li>
+                      <li><a href="#">Manuntenção de Preços</a></li>
+                      <li><a href="#">Terminal Caixa</a></li>
+                      <li><a href="#">Venda Balcão</a></li>
+                      <li><a href="#">Tele-Vendas</a></li>
+                      <li><a href="#">Carteira de Pedidos</a></li>
+											<li><a href="#">Faturamento</a></li>
+											<li><a href="#">Devolução de Vendas</a></li>
+											<li><a href="#">Histórico de Vendas</a></li>
                     </ul>
                   </li>
 
                   <li><a><i class="fa fa-gears"></i>Serviços <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="fixed_sidebar.html">Grupo de Serviços</a></li>
-                      <li><a href="fixed_footer.html">Cadastro de Serviço</a></li>
-											<li><a href="fixed_footer.html">Chamados Técnicos</a></li>
-											<li><a href="fixed_footer.html">Serviço de Manuntenção</a></li>
-											<li><a href="fixed_footer.html">Serviço de Locação</a></li>
-											<li><a href="fixed_footer.html">Serviço de Logística</a></li>
-											<li><a href="fixed_footer.html">Representação Comercial</a></li>
+                      <li><a href="#">Grupo de Serviços</a></li>
+                      <li><a href="#">Cadastro de Serviço</a></li>
+											<li><a href="#">Chamados Técnicos</a></li>
+											<li><a href="#">Serviço de Manuntenção</a></li>
+											<li><a href="#">Serviço de Locação</a></li>
+											<li><a href="#">Serviço de Logística</a></li>
+											<li><a href="#">Representação Comercial</a></li>
                     </ul>
                   </li>
 
                   <li><a><i class="fa fa-briefcase"></i>Finanças <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="e_commerce.html">Programação Financeira</a></li>
-                      <li><a href="projects.html">Lançamentos de Guias</a></li>
-                      <li><a href="project_detail.html">Liberar Comissões</a></li>
-                      <li><a href="contacts.html">Tesouraria</a></li>
-                      <li><a href="profile.html">Vale para Funcionários</a></li
-											<li><a href="contacts.html">Empréstimos e Vales</a></li>
+                      <li><a href="#">Programação Financeira</a></li>
+                      <li><a href="#">Lançamentos de Guias</a></li>
+                      <li><a href="#">Liberar Comissões</a></li>
+                      <li><a href="#">Tesouraria</a></li>
+                      <li><a href="#">Vale para Funcionários</a></li
+											<li><a href="#">Empréstimos e Vales</a></li>
                     </ul>
                   </li>
 
                   <li><a><i class="fa fa-eye"></i>Supervisão <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="page_403.html">Locais Atendidos</a></li>
-                      <li><a href="page_404.html">Segmentos Atendidos</a></li>
-                      <li><a href="page_500.html">Carteiras de Venda</a></li>
-                      <li><a href="plain_page.html">Rota de Entrega</a></li>
-                      <li><a href="/login">Motivos de Devoluções</a></li>
-                      <li><a href="/register">Liberar Comissões</a></li>
-                      <li><a href="pricing_tables.html">Análise de Vendas</a></li>
+                      <li><a href="#">Locais Atendidos</a></li>
+                      <li><a href="#">Segmentos Atendidos</a></li>
+                      <li><a href="#">Carteiras de Venda</a></li>
+                      <li><a href="#">Rota de Entrega</a></li>
+                      <li><a href="#">Motivos de Devoluções</a></li>
+                      <li><a href="#">Liberar Comissões</a></li>
+                      <li><a href="#">Análise de Vendas</a></li>
                     </ul>
                   </li>
 
 									<li><a><i class="fa fa-area-chart"></i>Gerência <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="page_403.html">Empresas do Grupo</a></li>
-                      <li><a href="page_404.html">Funcionários/Usuários</a></li>
-                      <li><a href="page_500.html">Cadastros Gerenciais</a></li>
-                      <li><a href="plain_page.html">Formas de Recebimento</a></li>
-                      <li><a href="/login">Prazo de recebimento</a></li>
-                      <li><a href="/register">Plano de Contas</a></li>
-                      <li><a href="pricing_tables.html">Contratos</a></li>
-											<li><a href="pricing_tables.html">Análise Gerencias</a></li>
-											<li><a href="pricing_tables.html">Histórico de Produtos</a></li>
-											<li><a href="pricing_tables.html">Alterações Manuais</a></li>
+                      <li><a href="#">Empresas do Grupo</a></li>
+                      <li><a href="#">Funcionários/Usuários</a></li>
+                      <li><a href="#">Cadastros Gerenciais</a></li>
+                      <li><a href="#">Formas de Recebimento</a></li>
+                      <li><a href="#">Prazo de recebimento</a></li>
+                      <li><a href="#">Plano de Contas</a></li>
+                      <li><a href="#">Contratos</a></li>
+											<li><a href="#">Análise Gerencias</a></li>
+											<li><a href="#">Histórico de Produtos</a></li>
+											<li><a href="#">Alterações Manuais</a></li>
                     </ul>
                   </li>
 
 									<li><a><i class="fa fa-calculator"></i>Contábil <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="page_403.html">Configurações Fiscais</a></li>
-                      <li><a href="page_404.html">Modelo de Documento</a></li>
-                      <li><a href="page_500.html">Tributação Produtos</a></li>
-                      <li><a href="plain_page.html"> Gerar Arquivos Governo</a></li>
-                      <li><a href="/login">Analise Tributária</a></li>
-                      <li><a href="/register">Planilha Sub. Tributária</a></li>
+                      <li><a href="#">Configurações Fiscais</a></li>
+                      <li><a href="#">Modelo de Documento</a></li>
+                      <li><a href="#">Tributação Produtos</a></li>
+                      <li><a href="#"> Gerar Arquivos Governo</a></li>
+                      <li><a href="#">Analise Tributária</a></li>
+                      <li><a href="#">Planilha Sub. Tributária</a></li>
                     </ul>
                   </li>
 
                   <li><a><i class="fa fa-book"></i>Outros <span class="fa fa-chevron-down"></span> </a>
 										<ul class="nav child_menu">
-											<li><a href="fixed_footer.html">Tranfêrencias</a></li>
-											<li><a href="fixed_footer.html">Ordem de Abastecimento</a></li>
-											<li><a href="fixed_footer.html">Desmembramentos</a></li>
-											<li><a href="fixed_footer.html">Produção</a></li>
-											<li><a href="fixed_footer.html">Digitação de Balanço</a></li>
-											<li><a href="fixed_footer.html">Notas de Simples Remessa</a></li>
-											<li><a href="fixed_footer.html">Emissão de Notas Avulsas</a></li>
-											<li><a href="fixed_footer.html">Controle de Frota</a></li>
+											<li><a href="#">Tranfêrencias</a></li>
+											<li><a href="#">Ordem de Abastecimento</a></li>
+											<li><a href="#">Desmembramentos</a></li>
+											<li><a href="#">Produção</a></li>
+											<li><a href="#">Digitação de Balanço</a></li>
+											<li><a href="#">Notas de Simples Remessa</a></li>
+											<li><a href="#">Emissão de Notas Avulsas</a></li>
+											<li><a href="#">Controle de Frota</a></li>
 										</ul>
 									</li>
                 </ul>
@@ -427,7 +429,7 @@
 
           <div class="clearfix"></div>
 
-          <div class="page_content" style="padding: 0px;padding-top: 0px;margin-top:0px;">
+          <div class="page_content" style="padding: 0px;padding-top: 0px;margin-top:0px;margin-bottom: 120px;">
             <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
               {% block conteudo_principal %}
@@ -439,13 +441,13 @@
         </div>
         <!-- /page content -->
 
-        <!-- footer content
-        <footer style="position: fixed; bottom:0px; width: 100%;">
+        <!-- footer content --
+        <footer style="background: red;position: fixed; bottom:0px; width: 100%;">
           <div class="pull-right">
             Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
           </div>
           <div class="clearfix"></div>
-        </footer> -->
+        </footer>
         <!-- /footer content -->
       </div>
     </div>
