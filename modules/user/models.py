@@ -9,6 +9,7 @@ from modules.core.config import ERRORS_MESSAGES
 from modules.core.utils import generate_activation_code
 from modules.core.validators import check_password_format
 from modules.entity.models import Contact
+from modules.entity.permissions import EntityPermission, ContactPermission
 from modules.user.validators import email_format_validator,email_dangerous_symbols_validator
 
 
@@ -129,7 +130,6 @@ class User(PermissionsMixin, AbstractBaseUser):
         verbose_name = _('Usuário')
         verbose_name_plural = _('Usuários')
 
-
     def user_gains_perms(request, user_id):
         user = get_object_or_404(User, email=user_id)
         # any permission check will cache the current set of permissions
@@ -194,30 +194,43 @@ class Session(models.Model):
 
     is_expired   = models.BooleanField("Sessão Expirada", null=False,blank=False, default=False,error_messages=ERRORS_MESSAGES)
     created_date = models.DateTimeField(auto_now_add=True, null=False)
-    terminate_date = models.DateTimeField(auto_now=True, null=False)
+    last_update  = models.DateTimeField(auto_now=True, null=False)
 
 
-class SessionTask(models.Model):
+class SessionAction(models.Model):
     class Meta:
-        db_table = 'user_session_task'
-        verbose_name = _('Tarefa de Sessão')
-        verbose_name_plural = _('Tarefas de Sessões')
+        db_table = 'user_session_action'
+        verbose_name = _('Atividade de Sessão')
+        verbose_name_plural = _('Atividades de Sessões')
 
     options_types_tasks = (
         (1, "REQUEST PAGE"),
         (2, "REQUEPES SERVICE"),
     )
 
-    task_type    = models.CharField("Tipo da Requisição", max_length=1, null=False, default=2, choices=options_types_tasks, error_messages=ERRORS_MESSAGES)
-    task_path    = models.CharField("Requisição", max_length=200, null=False, error_messages=ERRORS_MESSAGES)
+    request_type    = models.CharField("Tipo da Requisição", max_length=1, null=False, default=2, choices=options_types_tasks, error_messages=ERRORS_MESSAGES)
+    request_path    = models.CharField("Requisição", max_length=200, null=False, error_messages=ERRORS_MESSAGES)
 
     server_process_duration = models.PositiveIntegerField("Tempo de Processamento no Servidor (milisegundos)",null=True, blank=True)
     client_loading_duration = models.PositiveIntegerField("Tempo de Recebimento da Página (milisegundos)",null=True, blank=True)
     client_service_duration = models.PositiveIntegerField("Tempo de Carregamento dos Serviços (milisegundos)",null=True, blank=True)
     client_request_duration = models.PositiveIntegerField("Duração da Requisição (milisegundos)", null=True, blank=True)
 
-    created_date = models.DateTimeField(auto_now_add=True, null=False)
+    action_date = models.DateTimeField(auto_now_add=True, null=False)
 
     #SESSION_PARAMTERS['init_load_page'] = ''
     #SESSION_PARAMTERS['load_page_duration'] = ''
     #SESSION_PARAMTERS['setup_page_duration'] = ''
+
+
+class Permissions(models.Model, EntityPermission, ContactPermission):
+    #user = models.ForeignKey('User')
+    user = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True)
+    registration = models.CharField('Cadastros', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
+    purchases = models.CharField('Compras', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
+    sales = models.CharField('Vendas', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
+    services = models.CharField('Serviços', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
+    finances = models.CharField('Finanças', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
+    management = models.CharField('Gerência', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
+    contabil   =  models.CharField('Contábil', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
+    others = models.CharField('Outros', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)

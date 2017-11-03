@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 
 from modules.core.utils import check_valid_activation_code
-from modules.user.forms import FormRegister, FormLogin, FormChangePassword, FormResetPassword, FormActivationCode, FormConfirmRegister
+from modules.user.forms import FormRegister, FormLogin, FormChangePassword, FormResetPassword, FormActivationCode, FormConfirmRegister, FormAutonomy
 from django.contrib.auth import logout, login
 from django.shortcuts import render, redirect
 from modules.user.models import User
@@ -30,6 +30,12 @@ def profile_page(request):
     form_change_password = FormChangePassword()
     return render(request, "user/profile.html", {'form_change_password':form_change_password})
 
+@login_required()
+def register_autonomy(request):
+    form_autonomy = FormAutonomy()
+    template_url = "perms/perms.html"
+
+    return render(request,template_url,{'form_autonomy':form_autonomy})
 
 def activate_user(request, email, activation_code):
     activation_form = FormActivationCode({'activation_code': activation_code})

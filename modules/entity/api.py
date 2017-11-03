@@ -26,6 +26,7 @@ class ContactController(BaseController):
     def update(self, request):
         return self.update(request, Entity)
 
+
 class EntityController(BaseController):
 
     @method_decorator(login_required)

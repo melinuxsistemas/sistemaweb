@@ -7,6 +7,20 @@ label.disabled{
 	background: #FFF;
 }
 
+li.disabled{
+	background: transparent;
+	pointer: not-allowed !important;
+}
+
+li.disabled a{
+	color: #999 !important;
+}
+
+.disabled:not(.nohover):hover {
+    background: transparent !important;
+
+}
+
 .uppercase {
 	text-transform: uppercase;
 }

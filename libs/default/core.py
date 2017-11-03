@@ -95,11 +95,13 @@ class Response:
 class Operation:
 
     response = Response()
+    request  = None
     server_startup_time_process   = None
     server_terminate_time_process = None
     server_processing_time        = None
 
     def save(self,request, formulary=None):
+        self.request = request
         self.__start_process(request,formulary)
         result, form = self.filter_request(request, formulary)
         object = form.get_object()
@@ -110,10 +112,12 @@ class Operation:
         return self.__response(response_dict)
 
 
-    def object(self):
+    def object(self,request):
+        self.request = request
         pass
 
     def filter(self, request, model, queryset=None, order_by="-id",list_fields=None, limit=None):
+        self.request = request
         result, form = self.filter_request(request)
         if result:
             if queryset is None:
@@ -130,26 +134,29 @@ class Operation:
             raise Http404
 
     def update(self,request, formulary):
+        self.request = request
         print("Atualizar:")
         result, form = self.filter_request(request, formulary)
         object = form.get_object(int(request.POST['id']))
         response_dict = self.execute(object,object.save)
         return HttpResponse(json.dumps(response_dict))
 
-    def delete(self,model,object_id):
+    def delete(self,request,model,object_id):
+        self.request = request
         print("Excluir: ", model, '[', object_id, ']')
         object = model.objects.filter(id=object_id)
         response_dict = self.execute(object, object.delete)
         return HttpResponse(json.dumps(response_dict))
 
-    def disable(self,model,object_id):
+    def disable(self,request,model,object_id):
         print("Desativar: ",model,'[',object_id,']')
         object = model.objects.get(pk=object_id)
         object.is_active = False
         response_dict = self.execute(object, object.save)
         return HttpResponse(json.dumps(response_dict))
     
-    def execute(self,object,action):
+    def execute(self,request, object,action):
+        self.request = request
         response_dict = {}
         try:
             action()

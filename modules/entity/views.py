@@ -1,7 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from modules.entity.forms import EntityIdentificationForm, EntityPhoneForm, EntityEmailForm
-
 """
 @login_required()
 def register_entity(request,entity_type):

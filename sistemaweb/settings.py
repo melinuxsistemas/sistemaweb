@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'django_nose','behave_django',
     'session_security',
     'modules.core', 'modules.user', 'modules.entity',
+
+    'modules.core.templatetags'
 ]
 
 MIDDLEWARE = [

@@ -71,6 +71,10 @@ function email_is_valid(id) {
   }
 }
 
+$(".disabled").on("click", function(event){
+    event.preventDefault();
+    return false;
+});
 
 $('.selectpicker').on('changed.bs.select', function (event ,clickedIndex, newValue, oldValue) {
 	$(this).selectpicker('refresh');
