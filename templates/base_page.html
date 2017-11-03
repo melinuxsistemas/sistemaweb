@@ -94,7 +94,7 @@
                     <ul class="nav child_menu">
                       {% load custom %}
                       {% option_menu "Entidades" "/entity" True request.user.permissions.can_view_entity %}
-                      {% option_menu "Permissões" "/permissions" True request.user.permissions.can_view_entity %}
+
 
                       <li><a href="#">Grupos Mercadológicos</a></li>
                       <li><a href="#">Produtos</a></li>
@@ -170,6 +170,7 @@
 									<li><a><i class="fa fa-area-chart"></i>Gerência <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="#">Empresas do Grupo</a></li>
+                      {% option_menu "Permissões" "/permissions" True request.user.permissions.registration.entities.can_view_entity %}
                       <li><a href="#">Funcionários/Usuários</a></li>
                       <li><a href="#">Cadastros Gerenciais</a></li>
                       <li><a href="#">Formas de Recebimento</a></li>

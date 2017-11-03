@@ -1,26 +1,36 @@
 # Created by .ignore support plugin (hsz.mobi)
+*.pyc
 .idea/
 .sonar/
-/conf/configurations.py
-/data/
+.coverage
+/.coveragerc
+/ report_coverage.xml
+/ report_unit_test.xml
+
+data/
+*.sqlite3
 /static/bower_components
 /static/compress
-*.pyc
-*.sqlite3
-.coverage
+
+/modules/core/migrations/*.py
+/modules/user/migrations/*.py
+/modules/entity/migrations/*.py
+
+/project_properties.py
+test/unit/report/
+
+__pycache__/
+conf/__pycache__/
 modules/__pycache__/
 modules/core/__pycache__/
 modules/core/migrations/__pycache__/
 modules/user/__pycache__/
 modules/user/migrations/__pycache__/
 sistemaweb/__pycache__/
-test/unit/report/
-__pycache__/
-conf/__pycache__/
-modules/user/migrations/0003_auto_20170530_1015.py
-modules/user/migrations/0004_usuario_activation_code.py
 test/__pycache__/
 test/functional/__pycache__/
+
+
 test/functional/core/__pycache__/
 test/functional/selenium_controller/__pycache__/
 test/functional/usuario/__pycache__/
@@ -29,14 +39,4 @@ test/unit/__pycache__/
 test/unit/backend/__pycache__/
 test/unit/backend/core/__pycache__/
 test/unit/backend/user/__pycache__/
-static/bower_components/pnotify/libtests/requirejs/
-geckodriver.log
-modules/user/migrations/0001_initial.py
-report_unit_test.xml
-modules/entity/migrations/
-modules/user/migrations/0002_auto_20170802_1745.py
 
-report_coverage.xml
-templates/entity/components/teste/
-/conf/user/setup.py
-modules/user/migrations/0002_auto_20170929_1645.py

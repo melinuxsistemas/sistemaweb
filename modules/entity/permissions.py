@@ -1,7 +1,5 @@
 from modules.core.config import MainMenu as main_menu, verify_permission
 from django import template
-
-
 register = template.Library()
 
 
