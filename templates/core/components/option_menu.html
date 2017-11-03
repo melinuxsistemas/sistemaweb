@@ -1,0 +1,16 @@
+{% if permission %}
+	<li>
+		<a href="{{ item_url }}">{{ item_name }}
+		{% if new_option %}
+			<span class="label label-success label_new pull-right">New</span>
+		{% endif %}
+		</a>
+	</li>
+{% else %}
+	<li class="disabled"><a>{{ item_name }}
+		{% if new_option %}
+		<span class="label label-success label_new pull-right">New</span>
+		{% endif %}
+		</a>
+	</li>
+{% endif %}
