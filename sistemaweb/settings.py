@@ -46,8 +46,6 @@ INSTALLED_APPS = [
     'session_security',
     'modules.core', 'modules.user', 'modules.entity',
 
-
-
     'modules.core.templatetags'
 ]
 
