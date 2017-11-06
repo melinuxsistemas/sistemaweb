@@ -4,7 +4,7 @@ from modules.core.utils import check_valid_activation_code
 from modules.user.forms import FormRegister, FormLogin, FormChangePassword, FormResetPassword, FormActivationCode, FormConfirmRegister, FormAutonomy
 from django.contrib.auth import logout, login
 from django.shortcuts import render, redirect
-from modules.user.models import User
+from modules.user.models import User, Session
 from modules.user.validators import check_email_format
 
 
@@ -70,6 +70,8 @@ def login_page(request):
 
 
 def logout_page(request):
-    print("VOU ENCERRAR A SESSAO TBM..")
+    user = request.user
+    if not user.close_session(request):
+        print("Erro! Sessão de usuário não foi encerrada corretamente.")
     logout(request)
     return redirect("/login")

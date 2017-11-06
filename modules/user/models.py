@@ -147,6 +147,25 @@ class User(AbstractBaseUser):
     def email_user(self, subject, message, from_email=None):
         send_mail(subject, message, from_email, [self.email])
 
+    def close_session(self,request):
+        user = request.user
+        session_key = request.session.session_key
+        #print("VEJA O USUARIO QUE EU TO QUERENDO ENCERRAR: ", user, session_key)
+        session = Session.objects.filter(session_key=session_key).filter(user=user).filter(is_expired=0)
+        #print("VOU ENCERRAR A ULTIMA SESSAO DESSA CHAVE E USUARIO: ", session)
+        if len(session) == 0:
+            print("Erro! Nenhuma sessão encontrada para esse usuário está aberta.")
+        elif len(session) == 1:
+            print("Encontrei a sessão e ja vou fechar")
+            session = session[0]
+            session.is_expired = True
+            session.save()
+            print("Viu.. salvei o encerramento da sessão")
+            return True
+        else:
+            print("Erro! Nao faz sentido existir duas sessões abertas, com a mesma chave e usuario abertas.")
+
+
 
 class Session(models.Model):
     class Meta:
@@ -172,6 +191,10 @@ class Session(models.Model):
     is_expired   = models.BooleanField("Sessão Expirada", null=False,blank=False, default=False,error_messages=ERRORS_MESSAGES)
     created_date = models.DateTimeField(auto_now_add=True, null=False)
     last_update  = models.DateTimeField(auto_now=True, null=False)
+
+
+
+
 
 
 class SessionAction(models.Model):
