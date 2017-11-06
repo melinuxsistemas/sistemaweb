@@ -94,7 +94,7 @@
                     <ul class="nav child_menu">
                       {% load custom %}
                       {% option_menu "Entidades" "/entity" True request.user.permissions.can_view_entity %}
-
+											{% option_menu "Permissões" "/permissions" True request.user.permissions.can_view_entity %}
 
                       <li><a href="#">Grupos Mercadológicos</a></li>
                       <li><a href="#">Produtos</a></li>

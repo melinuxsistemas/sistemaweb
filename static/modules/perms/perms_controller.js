@@ -9,7 +9,8 @@ application.controller('permission_controller', function($scope) {
 		{label:'Permissões',id:'permissoes'},
 		{label:'Grupos Mercadológicos',id:'grupos_mercadologicos'},
 		{label:'Produtos', id:'produtos'},
-		{label:'Vinculos de Produtos',id:'vinculos_de_produtos'},{label:'Agenda Telefônica',id:'agenda_telefonica'},
+		{label:'Vinculos de Produtos',id:'vinculos_de_produtos'},
+		{label:'Agenda Telefônica',id:'agenda_telefonica'},
 		{label:'Tabelas Auxíliares',id:'tabelas_auxiliares'}
 		];
 
@@ -111,24 +112,43 @@ application.controller('permission_controller', function($scope) {
 
 	$scope.load_all = function () {
 
-		var list_respost = [
-				[1,1,1,1,1,1,1],
-				[2,2,2,2,2,2,2,2,2],
-				[2,2,2,3,3,3,3,3],
-				[0,0,0,0,0,0],
-				[1,1,1,1,1,1,1,1],
-				[0,0,0,0,0,0],
-				[0,1,2,3,3,3,3],
-				[0,0,0,0,1,1,1,1,3],
-				[3,3,3,3,3,0]
-		]
-		//select_rating($scope.list_menu_Cadastros[1], 3)
+			var list_respost = []
 
-		for (var i = 0;i < list_respost.length;i++){
-			for (var j = 0; j <list_respost[i].length;j++){
-				select_rating($scope.lista_all_menus[i][j].id,list_respost[i][j])
-			}
-		}
+			$.ajax({
+				type: 'GET',
+				url: "/api/user/load/permissions/" + 'gianordolilucas@gmail.com' + "/",
+
+				success: function (data) {
+
+					var dict = JSON.parse(data);
+					dict = dict['data-object'];
+
+					alert("Olha o dict "+ dict)
+					alert("Registration"+dict['registration'])
+					/*for (var key in dict) {
+							alert("olha  a key"+key)
+							if (dict.hasOwnProperty(key)) {
+									list_respost.push(dict[key]);
+							}
+					}*/
+
+					alert("OLHA A LISTA:"+(list_respost))
+					for (var i = 0;i < list_respost.length;i++){
+						list_respost[i].replace(';','')
+						alert(list_respost)
+						for (var j = 0; j <list_respost[i].length;j++){
+							select_rating($scope.lista_all_menus[i][j].id,list_respost[i][j])
+						}
+					}
+
+				},
+
+				failure: function (data) {
+					alert("Não foi possivel carregar a lista")
+				}
+			})
+
+
 	}
 });
 

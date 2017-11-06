@@ -2,13 +2,15 @@
 from django.contrib.auth.decorators import login_required
 from django.middleware.csrf import CsrfViewMiddleware
 from django.shortcuts import redirect
+from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect
 
+from libs.default.core import BaseController
 from modules.core.api import AbstractAPI
 from modules.core.utils import response_format_success, response_format_error, generate_activation_code, generate_random_password
 from modules.core.comunications import send_generate_activation_code, resend_generate_activation_code ,send_reset_password
 from modules.user.forms import FormRegister, FormLogin, FormChangePassword, FormResetPassword
-from modules.user.models import User, Session
+from modules.user.models import User, Session, Permissions
 from django.contrib.auth import login
 from django.http import HttpResponse
 import json
@@ -159,4 +161,18 @@ class UsuarioAPI:
         #    #response_dict = response_format_error("Erro! Usuario nao autenticado")
         #    return redirect('/login')
 
+        return HttpResponse(json.dumps(response_dict))
+
+class PermissionAPI(BaseController):
+    def load(request, id):
+        try:
+            print("ENTRANDO TRy")
+            user = User.objects.get(email=id)
+            print("MEI DO TRY")
+            list = Permissions.objects.filter(user=user)
+            print("PENULTIMO TRY")
+            response_dict = response_format_success(list,['id','registration','purchases','sales','sevices','financies','supervision','management','contabil','others'])
+            print("SAINDO TRY")
+        except:
+            response_dict = response_format_error(False)
         return HttpResponse(json.dumps(response_dict))

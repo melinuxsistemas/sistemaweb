@@ -117,67 +117,113 @@ class FormActivationCode(forms.Form):
         )
     )
 
-class FormAutonomy (forms.Form):
-    access_level = (
-        ("0", "Sem Acesso"),
-        ("1", "vizualizar"),
-        ("2", "adicionar"),
-        ("3", "alterar"),
-        # ... Ainda possui mais
-    )
 
-    id_company = forms.CharField(
-        label="Empresa",
-        required=True,
+class FormAutonomy (forms.Form):
+
+    registration = forms.CharField(
+        label="Entidades",
+        required=False,
         widget=forms.TextInput(
             attrs={
-                'id': 'id_company',
+                'id': 'registration',
                 'class': "form-control",
-                'ng-model': 'id_company',
-                'required': True,
+                'ng-model': 'registration',
             }
         )
     )
 
-    id_user = forms.ModelChoiceField(
-        queryset= Entity.objects.filter(entity_type='PF').values('entity_name'),
-        label="Funcionário",
-        empty_label='Selecione um funcionário',
-        required=True,
-        widget=forms.Select(
-            attrs={
-                'id': 'id_user',
-                'class': "form-control",
-                'name':'entity_name',
-                'ng-model': 'id_user',
-                'required': True,
-            }
-        )
-    )
-
-
-    menu_01 = forms.MultipleChoiceField(
-        label="Entidades",
-        choices=access_level,
-        required=False,
-        widget=forms.CheckboxSelectMultiple(
-            attrs={
-                'id': 'Entidades',
-                'class': "form-control",
-                'ng-model': 'Entidades',
-            }
-        )
-    )
-
-    menu_02 = forms.MultipleChoiceField(
+    purchases = forms.CharField(
         label="Menu 02",
-        choices=access_level,
         required=False,
-        widget=forms.CheckboxSelectMultiple(
+        widget=forms.TextInput(
             attrs={
-                'id': 'menu_02',
+                'id': 'purchases',
                 'class': "form-control",
-                'ng-model': 'menu_02'
+                'ng-model': 'purchases'
+            }
+        )
+    )
+
+    sales = forms.CharField(
+        label="Entidades",
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'id': 'sales',
+                'class': "form-control",
+                'ng-model': 'sales',
+            }
+        )
+    )
+
+    services = forms.CharField(
+        label="Entidades",
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'id': 'services',
+                'class': "form-control",
+                'ng-model': 'services',
+            }
+        )
+    )
+
+    finances = forms.CharField(
+        label="Entidades",
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'id': 'finances',
+                'class': "form-control",
+                'ng-model': 'finances',
+            }
+        )
+    )
+
+    supervision = forms.CharField(
+        label="Entidades",
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'id': 'supervision',
+                'class': "form-control",
+                'ng-model': 'supervision',
+            }
+        )
+    )
+
+    management = forms.CharField(
+        label="Entidades",
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'id': 'management',
+                'class': "form-control",
+                'ng-model': 'management',
+            }
+        )
+    )
+
+    contabil = forms.CharField(
+        label="Entidades",
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'id': 'contabil',
+                'class': "form-control",
+                'ng-model': 'contabil',
+            }
+        )
+    )
+
+    others = forms.CharField(
+        label="Entidades",
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'id': 'others',
+                'class': "form-control",
+                'ng-model': 'others',
             }
         )
     )

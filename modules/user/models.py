@@ -226,12 +226,17 @@ class SessionAction(models.Model):
 
 class Permissions(models.Model, MenuPermissions):
     #user = models.ForeignKey('User')
+    id = models.CharField(max_length=15)
     user = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True)
     registration = models.CharField('Cadastros', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
     purchases = models.CharField('Compras', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
     sales = models.CharField('Vendas', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
     services = models.CharField('Serviços', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
     finances = models.CharField('Finanças', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
+    supervision = models.CharField('Supervisão', max_length=255, null=False, unique=False, error_messages=ERRORS_MESSAGES)
     management = models.CharField('Gerência', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
     contabil   =  models.CharField('Contábil', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
     others = models.CharField('Outros', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
+
+    def print_esp (self):
+        return "OLHA O Q EU PEGO do usuario:"+ self.user.email + '\nRegistration' + self.registration
