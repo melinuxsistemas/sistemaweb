@@ -33,3 +33,4 @@ behave-django
 django-session-security
 django-dbbackup
 python-gnupg
+dropbox
