@@ -92,11 +92,19 @@ application.controller('permission_controller', function($scope) {
 		{label:'Planilha Sub. Tributária',id:'planilha_sub_tributaria'}];
 
 	/*Lista com todos Menus*/
-	$scope.lista_all_menus = [
-			$scope.list_menu_Cadastros,$scope.list_menu_Compras,$scope.list_menu_Vendas,
-			$scope.list_menu_Servicos,$scope.list_menu_Outras_operacoes,$scope.list_menu_Financas,
-			$scope.list_menu_Supervisao_vendas,$scope.list_menu_Gerencia,$scope.list_menu_Contabil
-	]
+	$scope.lista_all_menus = {
+		registration : $scope.list_menu_Cadastros ,
+		purchases : $scope.list_menu_Compras,
+		sales : $scope.list_menu_Vendas,
+		services : $scope.list_menu_Servicos,
+		finances : $scope.list_menu_Financas,
+		supervision : $scope.list_menu_Supervisao_vendas,
+		management : $scope.list_menu_Gerencia,
+		contabil : $scope.list_menu_Contabil,
+		others : $scope.list_menu_Outras_operacoes
+	};
+
+
 
 
 
@@ -112,35 +120,21 @@ application.controller('permission_controller', function($scope) {
 
 	$scope.load_all = function () {
 
-			var list_respost = []
-
 			$.ajax({
 				type: 'GET',
 				url: "/api/user/load/permissions/" + 'gianordolilucas@gmail.com' + "/",
 
 				success: function (data) {
-
 					var dict = JSON.parse(data);
-					dict = dict['data-object'];
-
-					alert("Olha o dict "+ dict)
-					alert("Registration"+dict['registration'])
-					/*for (var key in dict) {
-							alert("olha  a key"+key)
-							if (dict.hasOwnProperty(key)) {
-									list_respost.push(dict[key]);
-							}
-					}*/
-
-					alert("OLHA A LISTA:"+(list_respost))
-					for (var i = 0;i < list_respost.length;i++){
-						list_respost[i].replace(';','')
-						alert(list_respost)
-						for (var j = 0; j <list_respost[i].length;j++){
-							select_rating($scope.lista_all_menus[i][j].id,list_respost[i][j])
+					var list_respost = JSON.parse(dict["data-object"]);
+					list_respost =list_respost[0]['fields']
+					for (var i in list_respost){
+						var aux = list_respost[i].split(';')
+						alert(aux)
+						for (var j = 0; j <$scope.lista_all_menus[i].length;j++){
+							select_rating($scope.lista_all_menus[i][j].id,parseInt(aux[j]))
 						}
 					}
-
 				},
 
 				failure: function (data) {

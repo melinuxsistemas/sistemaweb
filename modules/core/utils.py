@@ -31,14 +31,10 @@ def response_format(result,message,object,list_fields):
     response_dict = {}
     response_dict['success'] = result
     response_dict['message'] = message
-    print("Pq o resuklt é:",result)
     if result:
         if list_fields is not None:
-            print("Fico nesse if0")
             response_dict['data-object'] = serializers.serialize('json', [object], fields=tuple(list_fields))
-            print("Fico nesse if1")
         else:
-            print("Fico nesse if2")
             response_dict['data-object'] = serializers.serialize('json', [object] )
             response_dict['data-object'] = response_dict['data-object'][1:-1]
             aux = response_dict['data-object'][response_dict['data-object'].index('"fields":'):].replace('"fields": ',"").replace("}}","}")
@@ -46,9 +42,7 @@ def response_format(result,message,object,list_fields):
             response_dict['data-object'] = response_dict['data-object'].replace('{','{"id":'+str(object.id)+', "selected":"", ')
             #if('created_date' in list_fields):
             #    response_dict['data-object'] = response_dict['data-object'].replace('}',', "created_date":"'+object.created_date.strftime('%d/%m/%Y')+'"}')
-            print("Fico nesse if3")
     else:
-        print("Vou retornar NOne")
         response_dict['data-object'] = None
     return response_dict
 
