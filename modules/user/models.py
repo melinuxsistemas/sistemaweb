@@ -224,9 +224,8 @@ class SessionAction(models.Model):
     #SESSION_PARAMTERS['setup_page_duration'] = ''
 
 
-class Permissions(models.Model, MenuPermissions):
+class Permissions(models.Model):
     #user = models.ForeignKey('User')
-    id = models.CharField(max_length=15)
     user = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True)
     registration = models.CharField('Cadastros', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
     purchases = models.CharField('Compras', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
@@ -238,5 +237,4 @@ class Permissions(models.Model, MenuPermissions):
     contabil   =  models.CharField('Contábil', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
     others = models.CharField('Outros', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
 
-    def print_esp (self):
-        return "OLHA O Q EU PEGO do usuario:"+ self.user.email + '\nRegistration' + self.registration
+    menu_options = MenuPermissions()
