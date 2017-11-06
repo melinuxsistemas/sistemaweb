@@ -1,9 +1,14 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
+from django.utils.decorators import method_decorator
 
+from modules.core.decorators import request_is_valid, required_permission
 from modules.core.models import NaturezaJuridica, EconomicActivity
 from modules.core.working_api import WorkingApi, WorkingManager
 from django.http.response import Http404
+
+from modules.entity.permissions import EntityPermission
+from modules.user.models import User, Permissions
 
 
 @login_required
@@ -15,7 +20,10 @@ def configure_environment(request):
         EconomicActivity().create_initial_database()
     return render(request, "core/configure_enterprise_environment.html")
 
+
 @login_required
+#required_permission(Permissions.registration.entities.can_view_entity)
+#method_decorator(Permissions().menu_options.registration.entities.can_view_entity, name='dispatch')
 def index(request):
     return render(request,"base_page.html")
 

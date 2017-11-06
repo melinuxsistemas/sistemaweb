@@ -1,14 +1,16 @@
-import sys
 from django.core.exceptions import ValidationError
 from modules.core.config import ERRORS_MESSAGES
 from django.http import Http404, HttpResponse
 from django.db import IntegrityError
 from datetime import date, datetime, timedelta
 from django.core import serializers
+
+from modules.core.decorators import request_is_valid
 from sistemaweb import settings
 import datetime
 import json
-
+import sys
+from django.views.decorators.http import condition
 
 def json_serial(obj):
     """JSON serializer for objects not serializable by default json code"""
@@ -16,6 +18,7 @@ def json_serial(obj):
     if isinstance(obj, (datetime, date, timedelta)):
         return obj.isoformat()
     raise TypeError ("Type %s not serializable" % type(obj))
+
 
 
 class Response:
@@ -100,6 +103,7 @@ class Operation:
     server_terminate_time_process = None
     server_processing_time        = None
 
+    @request_is_valid
     def save(self,request, formulary=None):
         self.request = request
         self.__start_process(request,formulary)

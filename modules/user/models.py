@@ -224,7 +224,7 @@ class SessionAction(models.Model):
     #SESSION_PARAMTERS['setup_page_duration'] = ''
 
 
-class Permissions(models.Model, MenuPermissions):
+class Permissions(models.Model):
     #user = models.ForeignKey('User')
     user = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True)
     registration = models.CharField('Cadastros', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
@@ -235,3 +235,5 @@ class Permissions(models.Model, MenuPermissions):
     management = models.CharField('Gerência', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
     contabil   =  models.CharField('Contábil', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
     others = models.CharField('Outros', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
+
+    menu_options = MenuPermissions()
