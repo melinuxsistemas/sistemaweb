@@ -5,7 +5,7 @@ from django.db import IntegrityError
 from datetime import date, datetime, timedelta
 from django.core import serializers
 
-from modules.core.decorators import request_is_valid
+#from modules.core.decorators import request_is_valid
 from sistemaweb import settings
 import datetime
 import json
@@ -103,7 +103,6 @@ class Operation:
     server_terminate_time_process = None
     server_processing_time        = None
 
-    @request_is_valid
     def save(self,request, formulary=None):
         self.request = request
         self.__start_process(request,formulary)
