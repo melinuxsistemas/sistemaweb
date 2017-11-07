@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from modules.user.api import UserController
+from modules.user.api import UserController, PermissionAPI
 
 urlpatterns = [
     url(r'register/save$', UserController().register_user),
@@ -10,4 +10,5 @@ urlpatterns = [
 
     # APIs administrativas
     url(r'register/delete/(?P<email>[^/]+)/', UserController.register_delete),
+    url(r'load/permissions/(?P<id>[^/]+)/', PermissionAPI.load)
 ]

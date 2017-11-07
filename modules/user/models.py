@@ -230,6 +230,7 @@ class Permissions(models.Model, UserPermissions, EntityPermissions, ContactPermi
     sales = models.CharField('Vendas', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
     services = models.CharField('Serviços', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
     finances = models.CharField('Finanças', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
+    supervision = models.CharField('Supervisão', max_length=255, null=False, unique=False, error_messages=ERRORS_MESSAGES)
     management = models.CharField('Gerência', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
     contabil   =  models.CharField('Contábil', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
     others = models.CharField('Outros', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)

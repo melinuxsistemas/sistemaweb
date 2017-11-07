@@ -41,7 +41,6 @@ def profile_page(request):
 def register_autonomy(request):
     form_autonomy = FormAutonomy()
     template_url = "perms/perms.html"
-
     return render(request,template_url,{'form_autonomy':form_autonomy})
 
 

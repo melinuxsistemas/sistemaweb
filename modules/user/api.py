@@ -163,3 +163,28 @@ class UserController(BaseController):
         #    return redirect('/login')
 
         return HttpResponse(json.dumps(response_dict))
+
+class PermissionAPI(BaseController):
+    def load(request, id):
+        try:
+            print("ENTRANDO TRy")
+            user = User.objects.get(email=id)
+            print("MEI DO TRY")
+            permissions = Permissions.objects.get(user=user)
+            response_dict = response_format_success(permissions,[
+                'id','registration','purchases','sales','services',
+                'finances','supervision','management','contabil','others'])
+            '''response_dict = {}
+            response_dict['user'] = user.id
+            response_dict['registration'] = permissions.registration
+            response_dict['purchases'] = permissions.purchases
+            response_dict['sales']=permissions.sales
+            response_dict['services'] = permissions.services
+            response_dict['finances'] = permissions.finances
+            response_dict['supervision'] = permissions.supervision
+            response_dict['management'] = permissions.management
+            response_dict['contabil'] = permissions.contabil
+            response_dict['others'] = permissions.others'''
+        except:
+            response_dict = response_format_error(False)
+        return HttpResponse(json.dumps(response_dict))

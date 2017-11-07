@@ -35,5 +35,4 @@ django-dbbackup
 django-storages
 python-gnupg
 dropbox
-
 urllib3
