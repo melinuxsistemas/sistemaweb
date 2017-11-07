@@ -1,14 +1,17 @@
 from functools import wraps
 
+from django.contrib.auth import login
 from django.core.exceptions import PermissionDenied
 from django.core.exceptions import ValidationError
+
+from libs.default.decorators import request_ajax_required
 from modules.core.config import ERRORS_MESSAGES
 from django.http import Http404, HttpResponse
 from django.db import IntegrityError
 from datetime import date, datetime, timedelta
 from django.core import serializers
 
-from modules.user.models import Session
+from modules.user.models import Session, User
 from sistemaweb import settings
 import datetime
 import json
@@ -105,25 +108,13 @@ class Operation:
     server_terminate_time_process = None
     server_processing_time        = None
 
+    @request_ajax_required
     def login(self, request, formulary):
-
-        result, form = self.filter_request(request, formulary)
-        object = form.get_object()
-        if result:
-            response_dict = self.execute(object, object.save)
-        else:
-            response_dict = self.__get_exceptions(object, form)
-        return self.__response(response_dict)
-
-
-
-
-
         self.request = request
         self.__start_process(request, formulary)
 
-        resultado, form = AbstractAPI.filter_request(request, FormLogin)
-        if resultado:
+        form = formulary(request.POST)
+        if form.is_valid():
             email = request.POST['email'].lower()
             password = request.POST['password']
             user = User.objects.get_user_email(email=email)
@@ -134,21 +125,21 @@ class Operation:
                         if auth is not None:
                             login(request, user)
                             self.__create_session(request, user)
-
-                            response_dict = response_format_success(user, ['email'])
+                            response_dict = self.response.success(user, list_fields=['email']) #response_format_success(user, ['email'])
                         else:
-                            response_dict = response_format_error("Usuário ou senha incorreta.")
+                            response_dict = self.response.error({'email':'Usuário ou senha incorreta.'})
+                            #response_dict = response_format_error("Usuário ou senha incorreta.")
                     else:
-                        response_dict = response_format_error("Usuário não autorizado.")
+                        response_dict = self.response.error({'email':'Usuário não autorizado.'})
                 else:
-                    response_dict = response_format_error("Usuário não confirmado.")
+                    response_dict = self.response.error({'email':'Usuário não confirmado.'})
             else:
-                response_dict = response_format_error("Usuário não existe.")
+                response_dict = self.response.error({'email':'Usuário não existe.'})
         else:
-            response_dict = response_format_error("Formulário com dados inválidos.")
+            response_dict = self.__get_exceptions(None, form)
 
-        print("VEJA O RESPONSE: ", response_dict)
-        return HttpResponse(json.dumps(response_dict))
+        #print("VEJA O RESPONSE: ", response_dict)
+        return self.__response(response_dict)
 
     def save(self,request, formulary=None):
         self.request = request
@@ -218,9 +209,10 @@ class Operation:
         """
         Metodo responsavel por tentar capturar erro no formulario e modelo e retornar tudo junto
         """
+        model_exceptions = {}
         try:
             object.full_clean()
-            model_exceptions = {}
+
         except Exception as exception:
             model_exceptions = exception.message_dict
 
@@ -257,7 +249,7 @@ class Operation:
         self.server_processing_time = self.server_terminate_time_process - self.server_startup_time_process
         print("Processo executado em",self.server_processing_time)#,"ou",self.server_processing_time.total_seconds())
 
-    def __response(self,response_dict):
+    def __response(self, response_dict):
         import sys
 
         self.__terminate_process()

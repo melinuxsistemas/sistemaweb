@@ -18,6 +18,7 @@ function execute_ajax(url,request_method,data_paramters,success_function,fail_fu
     url: url,
     data: data_paramters,
     success: function(data) {
+    	alert("VEJA O QUE VEIO: "+JSON.stringify(data))
     	var response = $.parseJSON(data);
       var message = response['message']
       var result = response['result']
@@ -27,6 +28,7 @@ function execute_ajax(url,request_method,data_paramters,success_function,fail_fu
       if (result == true) {
         //var moment_date = moment(data_object['fields']['joined_date']).format("DD/MM/YYYY - HH:mm:ss")
         if (success_function != null) {
+        	alert("deu certo..")
           success_function(result,message,data_object,status);
         }
       }
@@ -36,7 +38,9 @@ function execute_ajax(url,request_method,data_paramters,success_function,fail_fu
           notify('error',"Falha na operação",message)
         }
         else {
-          fail_function(result,message,data_object,status);
+        	if(fail_function != null){
+        		fail_function(result,message,data_object,status);
+        	}
         }
       }
 

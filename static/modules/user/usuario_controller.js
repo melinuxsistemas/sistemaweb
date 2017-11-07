@@ -78,11 +78,15 @@ application.controller('login_controller', function($scope) {
   	SESSION_PARAMTERS['email'] = $scope.email
   	SESSION_PARAMTERS['password'] = $scope.password
 
-
     var data_paramters = SESSION_PARAMTERS//{email: $scope.email, password: $scope.password}
     success_function = function(){
       window.location = "/";
     }
+
+    function success_function(result,message,data_object,status){
+    	alert("VEJA O QUE VEIO: "+result+" - "+message+" - "+data_object+" - "+status)
+    }
+
     request_api("/api/user/login/autentication",data_paramters,validate_form_login,success_function,null)
   }
 });

@@ -1,20 +1,17 @@
 # -*- encoding: utf-8 -*-
 from django.contrib.auth.decorators import login_required
-from django.middleware.csrf import CsrfViewMiddleware
-from django.shortcuts import redirect
-from django.views.decorators.csrf import csrf_protect
+from libs.default.core import Operation, BaseController
 
 from modules.core.api import AbstractAPI
 from modules.core.utils import response_format_success, response_format_error, generate_activation_code, generate_random_password
 from modules.core.comunications import send_generate_activation_code, resend_generate_activation_code ,send_reset_password
 from modules.user.forms import FormRegister, FormLogin, FormChangePassword, FormResetPassword
-from modules.user.models import User, Session
-from django.contrib.auth import login
+from modules.user.models import User
 from django.http import HttpResponse
 import json
 
 
-class UsuarioAPI:
+class UserController(BaseController):
 
     def register_delete(request, email):
         user = User.objects.get_user_email(email)
@@ -69,7 +66,11 @@ class UsuarioAPI:
             response_dict = response_format_success(usuario, ['account_activated'])
         return HttpResponse(json.dumps(response_dict))
 
-    def login_autentication(request):
+    def login_autentication(self, request):
+        print("VEJA A REQUISICAO: ",request)
+        return self.login(request, FormLogin)
+
+        """
         resultado, form = AbstractAPI.filter_request(request, FormLogin)
         if resultado:
             email = request.POST['email'].lower()
@@ -108,8 +109,10 @@ class UsuarioAPI:
         else:
             response_dict = response_format_error("Formulário com dados inválidos.")
 
-        print("VEJA O RESPONSE: ",response_dict)
-        return HttpResponse(json.dumps(response_dict))
+
+        """
+        #print("VEJA O RESPONSE: ", response_dict)
+        #return HttpResponse(json.dumps(response_dict))
 
     def reset_password(request):
         resultado, form = AbstractAPI.filter_request(request, FormResetPassword)

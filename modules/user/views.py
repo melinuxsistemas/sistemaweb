@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_GET
 
-from libs.default.decorators import request_ajax_required, request_post_required, request_get_required
+from libs.default.decorators import request_get_required
 from modules.core.utils import check_valid_activation_code
 from modules.user.forms import FormRegister, FormLogin, FormChangePassword, FormResetPassword, FormActivationCode, FormConfirmRegister, FormAutonomy
 from django.contrib.auth import logout, login
