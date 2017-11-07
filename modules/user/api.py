@@ -107,6 +107,8 @@ class UsuarioAPI:
                 response_dict = response_format_error("Usuário não existe.")
         else:
             response_dict = response_format_error("Formulário com dados inválidos.")
+
+        print("VEJA O RESPONSE: ",response_dict)
         return HttpResponse(json.dumps(response_dict))
 
     def reset_password(request):

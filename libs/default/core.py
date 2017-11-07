@@ -1,3 +1,6 @@
+from functools import wraps
+
+from django.core.exceptions import PermissionDenied
 from django.core.exceptions import ValidationError
 from modules.core.config import ERRORS_MESSAGES
 from django.http import Http404, HttpResponse
@@ -5,20 +8,18 @@ from django.db import IntegrityError
 from datetime import date, datetime, timedelta
 from django.core import serializers
 
-#from modules.core.decorators import request_is_valid
+from modules.user.models import Session
 from sistemaweb import settings
 import datetime
 import json
 import sys
-from django.views.decorators.http import condition
+
 
 def json_serial(obj):
     """JSON serializer for objects not serializable by default json code"""
-
     if isinstance(obj, (datetime, date, timedelta)):
         return obj.isoformat()
     raise TypeError ("Type %s not serializable" % type(obj))
-
 
 
 class Response:
@@ -95,6 +96,7 @@ class Response:
         return message_dict
 
 
+
 class Operation:
 
     response = Response()
@@ -102,6 +104,51 @@ class Operation:
     server_startup_time_process   = None
     server_terminate_time_process = None
     server_processing_time        = None
+
+    def login(self, request, formulary):
+
+        result, form = self.filter_request(request, formulary)
+        object = form.get_object()
+        if result:
+            response_dict = self.execute(object, object.save)
+        else:
+            response_dict = self.__get_exceptions(object, form)
+        return self.__response(response_dict)
+
+
+
+
+
+        self.request = request
+        self.__start_process(request, formulary)
+
+        resultado, form = AbstractAPI.filter_request(request, FormLogin)
+        if resultado:
+            email = request.POST['email'].lower()
+            password = request.POST['password']
+            user = User.objects.get_user_email(email=email)
+            if user is not None:
+                if user.account_activated:
+                    if user.is_active:
+                        auth = User.objects.authenticate(request, email=email, password=password)
+                        if auth is not None:
+                            login(request, user)
+                            self.__create_session(request, user)
+
+                            response_dict = response_format_success(user, ['email'])
+                        else:
+                            response_dict = response_format_error("Usuário ou senha incorreta.")
+                    else:
+                        response_dict = response_format_error("Usuário não autorizado.")
+                else:
+                    response_dict = response_format_error("Usuário não confirmado.")
+            else:
+                response_dict = response_format_error("Usuário não existe.")
+        else:
+            response_dict = response_format_error("Formulário com dados inválidos.")
+
+        print("VEJA O RESPONSE: ", response_dict)
+        return HttpResponse(json.dumps(response_dict))
 
     def save(self,request, formulary=None):
         self.request = request
@@ -113,7 +160,6 @@ class Operation:
         else:
             response_dict = self.__get_exceptions(object,form)
         return self.__response(response_dict)
-
 
     def object(self,request):
         self.request = request
@@ -144,14 +190,14 @@ class Operation:
         response_dict = self.execute(object,object.save)
         return HttpResponse(json.dumps(response_dict))
 
-    def delete(self,request,model,object_id):
+    def delete(self,request, model,object_id):
         self.request = request
         print("Excluir: ", model, '[', object_id, ']')
         object = model.objects.filter(id=object_id)
         response_dict = self.execute(object, object.delete)
         return HttpResponse(json.dumps(response_dict))
 
-    def disable(self,request,model,object_id):
+    def disable(self,request, model,object_id):
         print("Desativar: ",model,'[',object_id,']')
         object = model.objects.get(pk=object_id)
         object.is_active = False
@@ -168,7 +214,7 @@ class Operation:
             response_dict = self.response.error(e)
         return response_dict
 
-    def __get_exceptions(self,object,form):
+    def __get_exceptions(self, object,form):
         """
         Metodo responsavel por tentar capturar erro no formulario e modelo e retornar tudo junto
         """
@@ -183,6 +229,23 @@ class Operation:
         full_exceptions.update(model_exceptions)
         full_exceptions.update(form_exceptions)
         return self.response.error(full_exceptions)
+
+    def __create_session(self, request, user):
+        sessao = Session()
+        sessao.user = user
+        sessao.session_key = request.session.session_key
+        sessao.internal_ip = request.POST['internal_ipv4']
+        sessao.external_ip = request.POST['external_ip']
+        sessao.country_name = request.POST['country_name']
+        sessao.country_code = request.POST['country_code']
+        sessao.region_code = request.POST['region_code']
+        sessao.region_name = request.POST['region_name']
+        sessao.city = request.POST['city']
+        sessao.zip_code = request.POST['zip_code']
+        sessao.time_zone = request.POST['time_zone']
+        sessao.latitude = request.POST['latitude']
+        sessao.longitude = request.POST['longitude']
+        sessao.save()
 
     def __start_process(self,request,formulary=None):
         self.__request_path = request.path
