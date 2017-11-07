@@ -138,7 +138,7 @@ class Operation:
         else:
             response_dict = self.__get_exceptions(None, form)
 
-        #print("VEJA O RESPONSE: ", response_dict)
+        print("VEJA O RESPONSE: ", response_dict)
         return self.__response(response_dict)
 
     def save(self,request, formulary=None):
