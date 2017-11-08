@@ -9,14 +9,15 @@
 	<tbody>
 		{% verbatim %}
 			<tr class="row_menu" ng-repeat="k in list_menu_Vendas">
-				<td id='test' class="col_menu" style="height: 20px;padding-top:4px;padding-bottom:2px;padding-left: 8px;">
-					<div style="margin: 0px;padding: 0px;vertical-align: bottom;">
-						<a>{{ k.label }}</a>
-						<fieldset id='fieldset_{{ k.id }}'   class="rating pull-right" style="height: 0px;padding: 0px;margin-top: -2px;padding-right: 3px;">
-							<input type="radio" class="rating_item" id="{{ k.id }}_3" name='{{ k.id }}' value="3"	/><label id="rate_label_{{ k.id }}_3" class = "full" 	for="{{ k.id }}_3" title="Excluir"></label>
-							<input type="radio" class="rating_item"	id="{{ k.id }}_2" name='{{ k.id }}' value="2" /><label id="rate_label_{{ k.id }}_2" class = "full" for="{{ k.id }}_2" title="Adicionar"></label>
-							<input type="radio" class="rating_item"	id="{{ k.id }}_1" name='{{ k.id }}' value="1" /><label id="rate_label_{{ k.id }}_1" class = "full" for="{{ k.id }}_1" title="Visualizar"></label>
-							<input type="radio" class="rating_item" id="{{ k.id }}_0" name='{{ k.id }}' value="0" /><label id="rate_label_{{ k.id }}_0" class = "full" for="{{ k.id }}_0" title="Sem Acesso"></label>
+				<td class="col_menu" style="height: 20px;padding-top:4px;padding-bottom:2px;padding-left: 8px;">
+					<div class="row" style="margin: 0px;padding: 0px;vertical-align: bottom;">
+						<a style=" text-overflow: ellipsis">{{ k.label }}</a>
+						<fieldset id='fieldset_{{ k.id }}'  class="col-lg-6 col-xs-8 rating pull-right" style="height: 0px;padding: 0px;margin-top: -2px;padding-right: 3px;">
+							<input type="radio" class="rating_item" id="{{ k.id }}_5" name='{{ k.id }}' value="5" /><label id="rate_label_{{ k.id }}_5" class = "full" ng-click="select_rating('{{ k.id }}',5)" for="{{ k.id }}_5" title="Sem Acesso"></label>
+							<input type="radio" class="rating_item" id="{{ k.id }}_4" name='{{ k.id }}' value="4"	/><label id="rate_label_{{ k.id }}_4" class = "full" ng-click="select_rating('{{ k.id }}',4)" for="{{ k.id }}_4" title="Excluir"></label>
+							<input type="radio" class="rating_item" id="{{ k.id }}_3" name='{{ k.id }}' value="3" /><label id="rate_label_{{ k.id }}_3" class = "full" ng-click="select_rating('{{ k.id }}',3)" for="{{ k.id }}_3" title="Adicionar"></label>
+							<input type="radio" class="rating_item" id="{{ k.id }}_2" name='{{ k.id }}' value="2" /><label id="rate_label_{{ k.id }}_2" class = "full" ng-click="select_rating('{{ k.id }}',2)" for="{{ k.id }}_2" title="Visualizar"></label>
+							<input type="radio" class="rating_item" id="{{ k.id }}_1" name='{{ k.id }}' value="1" /><label id="rate_label_{{ k.id }}_1" class = "full" ng-click="select_rating('{{ k.id }}',1)" for="{{ k.id }}_1" title="Sem Acesso"></label>
 						</fieldset>
 					</div>
 				</td>

@@ -61,3 +61,7 @@
 
 }
 
+.one_selected{
+  background: yellow;
+  color: purple !important;
+}

@@ -118,14 +118,37 @@ function desable_new_label(campo){
 
 
 function select_rating(select_name, value) {
-  //document.querySelector('input[name="ratingtwo"]:checked').value
-  //alert("consigo ver o valor:"+$('#Entidade').val())
-  $("#fieldset_"+select_name+" input[type=radio]").each(function (){
+  /*IF para saber se o 1ª já foi selecionada*/
+	if ($('#rate_label_'+select_name+'_1').hasClass('one_selected') && value == 1) {
+			$("#fieldset_"+select_name+" input[type=radio]").each(function () {
+				$("#rate_label_" + select_name + "_" + this.value).removeClass('one_selected selected_rating').addClass('unselected_rating')
+			});
+	}
+	/*Caso ela nao foi selecionada vai percorrer o for do fieldset e marcar as selecionadas*/
+	else{
+		$("#fieldset_"+select_name+" input[type=radio]").each(function () {
+			if (this.value <= value) {
+				/*IF que marca se a 1ª foi selecionada*/
+				if (this.value == 1 && value==1) {
+					$("#rate_label_" + select_name + "_" + this.value).addClass('selected_rating one_selected')
+				}
+				else{
+					$("#rate_label_" + select_name + "_" + this.value).removeClass('unselected_rating one_selected').addClass('selected_rating')
+				}
+			}
+			else {
+				$("#rate_label_" + select_name + "_" + this.value).removeClass('selected_rating one_selected').addClass('unselected_rating')
+			}
+	})
+	}
+}
 
-    if( this.value <= value){
-      $("#rate_label_"+select_name+"_"+this.value).addClass('selected_rating')
-    }else{
-      $("#rate_label_"+select_name+"_"+this.value).addClass('unselected_rating')
+function get_value(select_name){
+  var value = 0;
+  $("#fieldset_"+select_name+" input[type=radio]").each(function (){
+    if ($("#rate_label_"+select_name+"_"+this.value).hasClass('selected_rating')){
+      value += 1
     }
-  })
+  });
+  return value
 }

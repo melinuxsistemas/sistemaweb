@@ -29,7 +29,7 @@ def response_format_error(message):
 
 def response_format(result,message,object,list_fields):
     response_dict = {}
-    response_dict['success'] = result
+    response_dict['result'] = result
     response_dict['message'] = message
     if result:
         if list_fields is not None:
