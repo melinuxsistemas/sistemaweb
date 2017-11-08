@@ -84,7 +84,6 @@ application.controller('login_controller', function($scope) {
     	//check_response_message_form('#form_login', message);
     	//alert("VEJA O QUE VEIO: "+result+" - "+message+" - "+data_object+" - "+status)
     	//notify_response_message(message)
-    	alert("deu certo")
     	var redirect = "/"
     	return redirect
     }

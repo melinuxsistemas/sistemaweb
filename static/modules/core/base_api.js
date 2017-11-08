@@ -46,6 +46,7 @@ function execute_ajax(url,request_method,data_paramters,success_function,fail_fu
       duration_request = duration_request/1000 // Math.floor(duration_request / (1000*60));
       //alert("VEJA O STATUS: "+JSON.stringify(status))
       //alert("REQUEST DURATION: "+duration_request+" - SERVER PROCESSING DURATION: "+status.server_processing_time_duration)
+      $("#session_action_info").text("REQUEST DURATION: "+duration_request+" - SERVER PROCESSING DURATION: "+status.server_processing_time_duration)
       NProgress.done();
       if (redirect){
       	window.location = redirect;
@@ -58,6 +59,7 @@ function execute_ajax(url,request_method,data_paramters,success_function,fail_fu
       var terminate_request = Date.now();
       var duration_request = terminate_request - start_request
       duration_request = duration_request/1000
+      $("#session_action_info").val("REQUEST DURATION: "+duration_request+" - SERVER PROCESSING DURATION: "+status.server_processing_time_duration)
       //alert("VEJA O STATUS: "+JSON.stringify(status))
       //alert("REQUEST DURATION: "+duration_request+" seconds - SERVER PROCESSING DURATION: "+status.server_processing_time_duration+" seconds")
       //return notify('error','Falha na Operação',"Erro na requisição assincrona ao servidor.")

@@ -195,12 +195,20 @@ function start_load_page(){
 }
 
 function terminate_load_page(){
+
 	SESSION_PARAMTERS['load_page_duration'] = Date.now() - SESSION_PARAMTERS['init_load_page'];
+	document.getElementById('session_action_info').innerHTML = 'Página carregada em '+SESSION_PARAMTERS['load_page_duration']+"ms.";
+	$("#footer_session_action").fadeIn(100);
+	setTimeout(function(){$("#footer_session_action").fadeOut(5000);},5000)
+
 }
 
 function terminate_setup(){
 	SESSION_PARAMTERS['setup_page_duration'] = Date.now() - SESSION_PARAMTERS['init_load_page'];
 	SESSION_PARAMTERS['setup_page_duration'] = SESSION_PARAMTERS['setup_page_duration'] - SESSION_PARAMTERS['load_page_duration']
+	document.getElementById('session_action_info').innerHTML = 'Página carregada em '+SESSION_PARAMTERS['load_page_duration']+'ms e finalizada em '+SESSION_PARAMTERS['setup_page_duration']+"ms.";
+	$("#footer_session_action").fadeIn(100);
+	setTimeout(function(){$("#footer_session_action").fadeOut(5000);},5000)
 }
 
 window.onresize = function(event) {
