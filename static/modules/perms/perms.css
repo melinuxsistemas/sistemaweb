@@ -38,6 +38,7 @@
 .rating > input:checked ~ label:hover ~ label { color: #66d9ff  !important;opacity: 0.6;  }
 
 
+
 .selected_rating{
   color: #0099cc !important;
   opacity: 0.6;
@@ -60,3 +61,7 @@
 
 }
 
+.one_selected{
+  background: yellow;
+  color: purple !important;
+}

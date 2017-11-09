@@ -72,6 +72,7 @@ function check_response_message_form(form_id, response_message){
   $(form_id +" input[type=text]").each(function () {
     var id = $(this).attr("id");
     var erro = response_message[id];
+    //alert("VEJA ONDE MECHER: "+id+" - ERRO: "+erro)
     if (erro){
       set_wrong_field(id, erro);
     }
@@ -80,6 +81,13 @@ function check_response_message_form(form_id, response_message){
     }
   });
 }
+
+function notify_response_message(response_message){
+	for (var key in response_message) {
+    notify('error',"Falha na operação",response_message[key])
+	}
+}
+
 
 function set_wrong_field(id, erro_value){
   $("#field_"+id).addClass('bad')

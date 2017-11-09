@@ -29,20 +29,19 @@ def response_format_error(message):
 
 def response_format(result,message,object,list_fields):
     response_dict = {}
-    response_dict['success'] = result
+    response_dict['result'] = result
     response_dict['message'] = message
     if result:
         if list_fields is not None:
             response_dict['data-object'] = serializers.serialize('json', [object], fields=tuple(list_fields))
         else:
             response_dict['data-object'] = serializers.serialize('json', [object] )
-        response_dict['data-object'] = response_dict['data-object'][1:-1]
-        aux = response_dict['data-object'][response_dict['data-object'].index('"fields":'):].replace('"fields": ',"").replace("}}","}")
-        response_dict['data-object'] = aux
-        response_dict['data-object'] = response_dict['data-object'].replace('{','{"id":'+str(object.id)+', "selected":"", ')
-        #if('created_date' in list_fields):
-        #    response_dict['data-object'] = response_dict['data-object'].replace('}',', "created_date":"'+object.created_date.strftime('%d/%m/%Y')+'"}')
-
+            response_dict['data-object'] = response_dict['data-object'][1:-1]
+            aux = response_dict['data-object'][response_dict['data-object'].index('"fields":'):].replace('"fields": ',"").replace("}}","}")
+            response_dict['data-object'] = aux
+            response_dict['data-object'] = response_dict['data-object'].replace('{','{"id":'+str(object.id)+', "selected":"", ')
+            #if('created_date' in list_fields):
+            #    response_dict['data-object'] = response_dict['data-object'].replace('}',', "created_date":"'+object.created_date.strftime('%d/%m/%Y')+'"}')
     else:
         response_dict['data-object'] = None
     return response_dict

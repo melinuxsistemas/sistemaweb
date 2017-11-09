@@ -9,7 +9,8 @@ application.controller('permission_controller', function($scope) {
 		{label:'Permissões',id:'permissoes'},
 		{label:'Grupos Mercadológicos',id:'grupos_mercadologicos'},
 		{label:'Produtos', id:'produtos'},
-		{label:'Vinculos de Produtos',id:'vinculos_de_produtos'},{label:'Agenda Telefônica',id:'agenda_telefonica'},
+		{label:'Vinculos de Produtos',id:'vinculos_de_produtos'},
+		{label:'Agenda Telefônica',id:'agenda_telefonica'},
 		{label:'Tabelas Auxíliares',id:'tabelas_auxiliares'}
 		];
 
@@ -91,11 +92,19 @@ application.controller('permission_controller', function($scope) {
 		{label:'Planilha Sub. Tributária',id:'planilha_sub_tributaria'}];
 
 	/*Lista com todos Menus*/
-	$scope.lista_all_menus = [
-			$scope.list_menu_Cadastros,$scope.list_menu_Compras,$scope.list_menu_Vendas,
-			$scope.list_menu_Servicos,$scope.list_menu_Outras_operacoes,$scope.list_menu_Financas,
-			$scope.list_menu_Supervisao_vendas,$scope.list_menu_Gerencia,$scope.list_menu_Contabil
-	]
+	$scope.lista_all_menus = {
+		registration : $scope.list_menu_Cadastros ,
+		purchases : $scope.list_menu_Compras,
+		sales : $scope.list_menu_Vendas,
+		services : $scope.list_menu_Servicos,
+		finances : $scope.list_menu_Financas,
+		supervision : $scope.list_menu_Supervisao_vendas,
+		management : $scope.list_menu_Gerencia,
+		contabil : $scope.list_menu_Contabil,
+		others : $scope.list_menu_Outras_operacoes
+	};
+
+
 
 
 
@@ -111,24 +120,69 @@ application.controller('permission_controller', function($scope) {
 
 	$scope.load_all = function () {
 
-		var list_respost = [
-				[1,1,1,1,1,1,1],
-				[2,2,2,2,2,2,2,2,2],
-				[2,2,2,3,3,3,3,3],
-				[0,0,0,0,0,0],
-				[1,1,1,1,1,1,1,1],
-				[0,0,0,0,0,0],
-				[0,1,2,3,3,3,3],
-				[0,0,0,0,1,1,1,1,3],
-				[3,3,3,3,3,0]
-		]
-		//select_rating($scope.list_menu_Cadastros[1], 3)
+			$.ajax({
+				type: 'GET',
+				url: "/api/user/load/permissions/" + 'gianordolilucas@gmail.com' + "/",
 
-		for (var i = 0;i < list_respost.length;i++){
-			for (var j = 0; j <list_respost[i].length;j++){
-				select_rating($scope.lista_all_menus[i][j].id,list_respost[i][j])
+				success: function (data) {
+					var dict = JSON.parse(data);
+					var list_respost = JSON.parse(dict["data-object"]);
+					list_respost =list_respost[0]['fields']
+					$scope.complete_menus(list_respost)
+				},
+
+				failure: function (data) {
+					alert("Não foi possivel carregar a lista")
+				}
+			})
+	}
+
+	$scope.complete_menus = function (list_respost) {
+		for (var i in list_respost){
+			var aux = list_respost[i].split(';')
+			for (var j = 0; j <$scope.lista_all_menus[i].length;j++){
+				select_rating($scope.lista_all_menus[i][j].id,parseInt(aux[j]))
 			}
 		}
+	}
+
+	$scope.save_permission = function () {
+		var menus = {};
+
+		/*Cria dicionario de menus com as strings*/
+		for (var i in $scope.lista_all_menus) {
+			var monta_str = '';
+			for (var k in $scope.lista_all_menus[i]) {
+				monta_str += get_value($scope.lista_all_menus[i][k].id) + ";"
+			}
+			monta_str = monta_str.substr(0, monta_str.length - 1); //remove o ultimo ';'
+			menus[i] = monta_str
+		}
+		var data_paramters = {
+			id_user: 1, //por hora fixo
+			registration : menus.registration,
+			sales : menus.sales,
+			purchases: menus.purchases,
+			services: menus.services,
+			finances: menus.finances,
+			supervision: menus.supervision,
+			management: menus.management,
+			contabil : menus.contabil,
+			others : menus.others
+		};
+
+		success_function = function (data) {
+			alert('resultado :'+data)
+		};
+
+		fail_function = function () {
+			alert("Deu Ruim Na alteração")
+		};
+		validate_function = function () {
+			return true
+		};
+		alert("Tentando ir salvar")
+		request_api("/api/user/save/permissions/", data_paramters,validate_function , success_function, fail_function)
 	}
 });
 

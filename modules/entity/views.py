@@ -1,24 +1,10 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render
 from modules.entity.forms import EntityIdentificationForm, EntityPhoneForm, EntityEmailForm
-"""
-@login_required()
-def register_entity(request,entity_type):
-    form_number = FormPhone()
-    form_email = FormEmail()
-    if entity_type == 'person':
-        form_entity = FormPersonEntity()
-        template_url = "entity/register_person.html"
-    elif entity_type == 'company':
-        form_entity = FormCompanyEntity()
-        template_url = "entity/register_company.html"
-    else:
-        raise Http404
-    return render(request, template_url, {'form_entity':form_entity , 'form_register_number': form_number, 'form_register_email':form_email})
-"""
 
 
 @login_required()
+@user_passes_test(lambda u: u.permissions.can_view_entity(), login_url='/error/access_denied',redirect_field_name=None)
 def entity_page(request):
     form_phone = EntityPhoneForm()
     form_email = EntityEmailForm()

@@ -1,20 +1,17 @@
 # -*- encoding: utf-8 -*-
 from django.contrib.auth.decorators import login_required
-from django.middleware.csrf import CsrfViewMiddleware
-from django.shortcuts import redirect
-from django.views.decorators.csrf import csrf_protect
+from libs.default.core import Operation, BaseController
 
 from modules.core.api import AbstractAPI
 from modules.core.utils import response_format_success, response_format_error, generate_activation_code, generate_random_password
 from modules.core.comunications import send_generate_activation_code, resend_generate_activation_code ,send_reset_password
 from modules.user.forms import FormRegister, FormLogin, FormChangePassword, FormResetPassword
-from modules.user.models import User, Session
-from django.contrib.auth import login
+from modules.user.models import User, Permissions
 from django.http import HttpResponse
 import json
 
 
-class UsuarioAPI:
+class UserController(BaseController):
 
     def register_delete(request, email):
         user = User.objects.get_user_email(email)
@@ -69,7 +66,11 @@ class UsuarioAPI:
             response_dict = response_format_success(usuario, ['account_activated'])
         return HttpResponse(json.dumps(response_dict))
 
-    def login_autentication(request):
+    def login_autentication(self, request):
+        print("VEJA A REQUISICAO: ",request)
+        return self.login(request, FormLogin)
+
+        """
         resultado, form = AbstractAPI.filter_request(request, FormLogin)
         if resultado:
             email = request.POST['email'].lower()
@@ -81,8 +82,6 @@ class UsuarioAPI:
                         auth = User.objects.authenticate(request, email=email, password=password)
                         if auth is not None:
                             login(request, user)
-
-                            #print("VEJA AS PERMISSOES: ",user.permissions.can_access_entity())
                             sessao = Session()
                             sessao.user         = user
                             sessao.session_key  = request.session.session_key
@@ -109,7 +108,11 @@ class UsuarioAPI:
                 response_dict = response_format_error("Usuário não existe.")
         else:
             response_dict = response_format_error("Formulário com dados inválidos.")
-        return HttpResponse(json.dumps(response_dict))
+
+
+        """
+        #print("VEJA O RESPONSE: ", response_dict)
+        #return HttpResponse(json.dumps(response_dict))
 
     def reset_password(request):
         resultado, form = AbstractAPI.filter_request(request, FormResetPassword)
@@ -159,4 +162,50 @@ class UsuarioAPI:
         #    #response_dict = response_format_error("Erro! Usuario nao autenticado")
         #    return redirect('/login')
 
+        return HttpResponse(json.dumps(response_dict))
+
+class PermissionAPI(BaseController):
+    def load(request, id):
+        try:
+            user = User.objects.get(email=id)
+            permissions = Permissions.objects.get(user=user)
+            response_dict = response_format_success(permissions,[
+                'id','registration','purchases','sales','services',
+                'finances','supervision','management','contabil','others'])
+        except:
+            response_dict = response_format_error(False)
+        return HttpResponse(json.dumps(response_dict))
+
+    def save(request):
+        print('entando no save')
+
+        id_user = request.POST['id_user']
+        registration = request.POST['registration']
+        sales = request.POST['sales']
+        purchases = request.POST['purchases']
+        services = request.POST['services']
+        finances = request.POST['finances']
+        supervision = request.POST['supervision']
+        print(supervision)
+        management = request.POST['management']
+        contabil = request.POST['contabil']
+        others = request.POST['others']
+        try:
+            user = User.objects.get(id=id_user)
+            permission = Permissions()
+            permission.user = user
+            permission.registration = registration
+            permission.sales = sales
+            permission.purchases = purchases
+            permission.services = services
+            permission.finances = finances
+            permission.supervision = supervision
+            permission.management = management
+            permission.contabil = contabil
+            permission.others = others
+            permission.save()
+            response_dict = response_format_success(permission,['id','registration','purchases','sales','services','finances','supervision','management','contabil','others'])
+        except:
+            response_dict = response_format_error(False)
+        print('saindo no save, olha o response_dict\n',response_dict)
         return HttpResponse(json.dumps(response_dict))

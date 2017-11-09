@@ -20,6 +20,8 @@ from modules.user import views as view_usuario
 from modules.entity import views as view_entity
 from modules.user import views as view_autonomy
 
+handler403 = 'modules.core.views.access_denied'
+
 urlpatterns = [
     url(r'^$', view_core.index),
     url(r'^admin/', admin.site.urls),
@@ -42,4 +44,7 @@ urlpatterns = [
 
     url(r'^api/working/register', view_core.working),
     url(r'session_security/', include('session_security.urls')),
+
+    url(r'error/access_denied',view_core.access_denied)
+
 ]#+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

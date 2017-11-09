@@ -1,16 +1,13 @@
-from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django.core.mail import send_mail
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager, Permission
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from modules.core.config import ERRORS_MESSAGES
-from modules.core.permissions import MenuPermissions
 from modules.core.utils import generate_activation_code
 from modules.core.validators import check_password_format
-from modules.entity.models import Contact
-from modules.entity.permissions import EntityPermission, ContactPermission
+from modules.entity.permissions import EntityPermissions, ContactPermissions
+from modules.user.permissions import UserPermissions
 from modules.user.validators import email_format_validator,email_dangerous_symbols_validator
 
 
@@ -112,7 +109,7 @@ class UserManager(BaseUserManager):
             return None
 
 
-class User(PermissionsMixin, AbstractBaseUser):
+class User(AbstractBaseUser):
     email             = models.EmailField(_('Email'), max_length=255, unique=True, validators=[email_format_validator, email_dangerous_symbols_validator], error_messages=ERRORS_MESSAGES)
     type_user         = models.CharField("Tipo de Usuário:", max_length=1, null=False, default='F', error_messages=ERRORS_MESSAGES)
     joined_date       = models.DateTimeField(null=True, auto_now_add=True)
@@ -130,27 +127,6 @@ class User(PermissionsMixin, AbstractBaseUser):
         db_table = 'user'
         verbose_name = _('Usuário')
         verbose_name_plural = _('Usuários')
-
-    def user_gains_perms(request, user_id):
-        user = get_object_or_404(User, email=user_id)
-        # any permission check will cache the current set of permissions
-        user.has_perm('myapp.change_blogpost')
-
-        content_type = ContentType.objects.get_for_model(Contact)
-        permission = Permission.objects.get(
-            codename='change_blogpost',
-            content_type=content_type,
-        )
-        user.user_permissions.add(permission)
-        # Checking the cached permission set
-        user.has_perm('myapp.change_blogpost')  # False
-
-        # Request new instance of User
-        # Be aware that user.refresh_from_db() won't clear the cache.
-        user = get_object_or_404(User, pk=user_id)
-
-        # Permission cache is repopulated from the database
-        user.has_perm('myapp.change_blogpost')  # True
 
     def __unicode__(self):
         return self.email
@@ -170,6 +146,25 @@ class User(PermissionsMixin, AbstractBaseUser):
 
     def email_user(self, subject, message, from_email=None):
         send_mail(subject, message, from_email, [self.email])
+
+    def close_session(self,request):
+        user = request.user
+        session_key = request.session.session_key
+        #print("VEJA O USUARIO QUE EU TO QUERENDO ENCERRAR: ", user, session_key)
+        session = Session.objects.filter(session_key=session_key).filter(user=user).filter(is_expired=0)
+        #print("VOU ENCERRAR A ULTIMA SESSAO DESSA CHAVE E USUARIO: ", session)
+        if len(session) == 0:
+            print("Erro! Nenhuma sessão encontrada para esse usuário está aberta.")
+        elif len(session) == 1:
+            print("Encontrei a sessão e ja vou fechar")
+            session = session[0]
+            session.is_expired = True
+            session.save()
+            print("Viu.. salvei o encerramento da sessão")
+            return True
+        else:
+            print("Erro! Nao faz sentido existir duas sessões abertas, com a mesma chave e usuario abertas.")
+
 
 
 class Session(models.Model):
@@ -198,6 +193,10 @@ class Session(models.Model):
     last_update  = models.DateTimeField(auto_now=True, null=False)
 
 
+
+
+
+
 class SessionAction(models.Model):
     class Meta:
         db_table = 'user_session_action'
@@ -224,16 +223,16 @@ class SessionAction(models.Model):
     #SESSION_PARAMTERS['setup_page_duration'] = ''
 
 
-class Permissions(models.Model):
-    #user = models.ForeignKey('User')
+class Permissions(models.Model, UserPermissions, EntityPermissions, ContactPermissions):
     user = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True)
     registration = models.CharField('Cadastros', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
     purchases = models.CharField('Compras', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
     sales = models.CharField('Vendas', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
     services = models.CharField('Serviços', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
     finances = models.CharField('Finanças', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
+    supervision = models.CharField('Supervisão', max_length=255, null=False, unique=False, error_messages=ERRORS_MESSAGES)
     management = models.CharField('Gerência', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
     contabil   =  models.CharField('Contábil', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
     others = models.CharField('Outros', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
 
-    menu_options = MenuPermissions()
+    #menu_options = MenuPermissions()
