@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 from django.contrib.auth.decorators import login_required
-from libs.default.core import Operation, BaseController
+from libs.default.core import BaseController
 
 from modules.core.api import AbstractAPI
 from modules.core.utils import response_format_success, response_format_error, generate_activation_code, generate_random_password
@@ -67,52 +67,7 @@ class UserController(BaseController):
         return HttpResponse(json.dumps(response_dict))
 
     def login_autentication(self, request):
-        print("VEJA A REQUISICAO: ",request)
         return self.login(request, FormLogin)
-
-        """
-        resultado, form = AbstractAPI.filter_request(request, FormLogin)
-        if resultado:
-            email = request.POST['email'].lower()
-            password = request.POST['password']
-            user = User.objects.get_user_email(email=email)
-            if user is not None:
-                if user.account_activated:
-                    if user.is_active:
-                        auth = User.objects.authenticate(request, email=email, password=password)
-                        if auth is not None:
-                            login(request, user)
-                            sessao = Session()
-                            sessao.user         = user
-                            sessao.session_key  = request.session.session_key
-                            sessao.internal_ip  = request.POST['internal_ipv4']
-                            sessao.external_ip  = request.POST['external_ip']
-                            sessao.country_name = request.POST['country_name']
-                            sessao.country_code = request.POST['country_code']
-                            sessao.region_code  = request.POST['region_code']
-                            sessao.region_name  = request.POST['region_name']
-                            sessao.city         = request.POST['city']
-                            sessao.zip_code     = request.POST['zip_code']
-                            sessao.time_zone    = request.POST['time_zone']
-                            sessao.latitude     = request.POST['latitude']
-                            sessao.longitude    = request.POST['longitude']
-                            sessao.save()
-                            response_dict = response_format_success(user, ['email'])
-                        else:
-                            response_dict = response_format_error("Usuário ou senha incorreta.")
-                    else:
-                        response_dict = response_format_error("Usuário não autorizado.")
-                else:
-                    response_dict = response_format_error("Usuário não confirmado.")
-            else:
-                response_dict = response_format_error("Usuário não existe.")
-        else:
-            response_dict = response_format_error("Formulário com dados inválidos.")
-
-
-        """
-        #print("VEJA O RESPONSE: ", response_dict)
-        #return HttpResponse(json.dumps(response_dict))
 
     def reset_password(request):
         resultado, form = AbstractAPI.filter_request(request, FormResetPassword)

@@ -18,7 +18,6 @@ ERRORS_MESSAGES = {
 
 def verify_permission(permission_level, required_level):
     permission_level = int(permission_level)
-    print("SUA PERMISSAO:",permission_level," - NIVEL EXIGIDO: ",required_level)
     if permission_level >= required_level:
         return True
     else:

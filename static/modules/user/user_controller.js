@@ -81,15 +81,14 @@ application.controller('login_controller', function($scope) {
     var data_paramters = SESSION_PARAMTERS//{email: $scope.email, password: $scope.password}
 
     function success_function(result,message,data_object,status){
-    	//check_response_message_form('#form_login', message);
-    	//alert("VEJA O QUE VEIO: "+result+" - "+message+" - "+data_object+" - "+status)
-    	//notify_response_message(message)
+    	//alert("VEJA O QUE VEIO: "+result+" - "+message+" - "+data_object+" - "+status.request_path)
+
     	var redirect = "/"
     	return redirect
     }
 
     fail_function = function (result,message,data_object,status) {
-    	alert("FALHA: "+result+" - "+message+" - "+data_object+" - "+status)
+    	//alert("FALHA: "+result+" - "+message+" - "+data_object+" - "+status)
       notify_response_message(message);
     }
 

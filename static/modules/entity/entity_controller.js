@@ -57,16 +57,15 @@ application.controller('identification_controller', function($scope) {
      return  true;//validate_form_regiter_person(); //validate_date($scope.birth_date_foundation);
     }
 
-    request_api("/api/entity/register/person/save",data_paramters,validade_function,success_function,fail_function)
+    request_api("/api/entity/save",data_paramters,validade_function,success_function,fail_function)
   }
 
   $scope.load_entities = function () {
     $.ajax({
       type: 'GET',
-      url: "/api/entity/list/entities/",
+      url: "/api/entity/filter/",
 
       success: function (data) {
-
         $scope.list_entities = JSON.parse(data);
         $("#loading_tbody").fadeOut();
         $scope.$apply();

@@ -101,13 +101,12 @@ class Response:
         return message_dict
 
 
-class Operation:
-
+class BaseController(Response):
+    request = None
     response = Response()
-    request  = None
-    server_startup_time_process   = None
+    server_startup_time_process = None
     server_terminate_time_process = None
-    server_processing_time        = None
+    server_processing_time = None
 
     @request_ajax_required
     def login(self, request, formulary):
@@ -125,19 +124,18 @@ class Operation:
                             self.__create_session(request, user)
                             response_dict = self.response.success(user, list_fields=['email'])
                         else:
-                            response_dict = self.response.error({'email':'Usuário ou senha incorreta.'})
+                            response_dict = self.response.error({'email': 'Usuário ou senha incorreta.'})
                     else:
-                        response_dict = self.response.error({'email':'Usuário não autorizado.'})
+                        response_dict = self.response.error({'email': 'Usuário não autorizado.'})
                 else:
-                    response_dict = self.response.error({'email':'Usuário não confirmado.'})
+                    response_dict = self.response.error({'email': 'Usuário não confirmado.'})
             else:
-                response_dict = self.response.error({'email':'Usuário não existe.'})
+                response_dict = self.response.error({'email': 'Usuário não existe.'})
         else:
             response_dict = self.get_exceptions(None, form)
 
         return self.__response(response_dict)
 
-    @method_decorator(login_required)
     @request_ajax_required
     @validate_formulary
     def save(self, request, formulary=None):
@@ -147,49 +145,49 @@ class Operation:
             response_dict = self.response.error(self.full_exceptions)
         return self.__response(response_dict)
 
-    def object(self,request):
+    @request_ajax_required
+    def filter(self, request, model, queryset=None, order_by="-id", list_fields=None, limit=None):
+        if queryset is None:
+            model_list = model.objects.all().order_by(order_by)
+        else:
+            model_list = queryset
+
+        if limit is not None:
+            model_list = model_list.limit(limit)
+        response_dict = self.response.datalist(model_list, list_fields)
+        return HttpResponse(json.dumps(response_dict, default=json_serial))
+
+
+    @request_ajax_required
+    def object(self, request):
         self.request = request
         pass
 
-    def filter(self, request, model, queryset=None, order_by="-id",list_fields=None, limit=None):
-        self.request = request
-        result, form = self.filter_request(request)
-        if result:
-            if queryset is None:
-                model_list = model.objects.all().order_by(order_by)
-            else:
-                model_list = queryset
-
-            if limit is not None:
-                model_list = model_list.limit(limit)
-
-            response_dict = self.response.datalist(model_list,list_fields)
-            return HttpResponse(json.dumps(response_dict, default=json_serial))
-        else:
-            raise Http404
-
-    def update(self,request, formulary):
+    @request_ajax_required
+    def update(self, request, formulary):
         self.request = request
         print("Atualizar:")
         result, form = self.filter_request(request, formulary)
         object = form.get_object(int(request.POST['id']))
-        response_dict = self.execute(object,object.save)
+        response_dict = self.execute(object, object.save)
         return HttpResponse(json.dumps(response_dict))
 
-    def delete(self,request, model,object_id):
+    @request_ajax_required
+    def delete(self, request, model, object_id):
         self.request = request
         print("Excluir: ", model, '[', object_id, ']')
         object = model.objects.filter(id=object_id)
         response_dict = self.execute(object, object.delete)
         return HttpResponse(json.dumps(response_dict))
 
-    def disable(self,request, model,object_id):
-        print("Desativar: ",model,'[',object_id,']')
+    @request_ajax_required
+    def disable(self, request, model, object_id):
+        print("Desativar: ", model, '[', object_id, ']')
         object = model.objects.get(pk=object_id)
         object.is_active = False
         response_dict = self.execute(object, object.save)
         return HttpResponse(json.dumps(response_dict))
-    
+
     def execute(self, object, action):
         try:
             action()
@@ -215,7 +213,7 @@ class Operation:
         else:
             form_exceptions = {}
 
-        print("FORM EXCEPTIONS: ",self.form_exceptions)
+        print("FORM EXCEPTIONS: ", self.form_exceptions)
         print("MODEL EXCEPTIONS: ", self.model_exceptions)
 
         self.full_exceptions.update(self.model_exceptions)
@@ -243,12 +241,12 @@ class Operation:
         self.__request_path = request.path
         self.__request_bytes = sys.getsizeof(request.body)
         self.server_startup_time_process = datetime.datetime.now()
-        print("Processo iniciado em ",self.server_startup_time_process)
-    
+        print("Processo iniciado em ", self.server_startup_time_process)
+
     def terminate_process(self):
         self.server_terminate_time_process = datetime.datetime.now()
         self.server_processing_time = self.server_terminate_time_process - self.server_startup_time_process
-        print("Processo executado em",self.server_processing_time)#,"ou",self.server_processing_time.total_seconds())
+        print("Processo executado em", self.server_processing_time)  # ,"ou",self.server_processing_time.total_seconds())
 
     def __response(self, response_dict):
         import sys
@@ -260,13 +258,11 @@ class Operation:
         response_dict['status']['server_processing_time_duration'] = self.server_processing_time.total_seconds()  # datetime.datetime.now()
         response_dict['status']['cliente_processing_time_duration'] = ''
 
-        print("VEJA O RESPONSE NO FINAL: ",response_dict)
+        print("VEJA O RESPONSE NO FINAL: ", response_dict)
         data = json.dumps(response_dict, default=json_serial)
-        data = data.replace('RESPONSE_SIZE',str(sys.getsizeof(data)-16))
+        data = data.replace('RESPONSE_SIZE', str(sys.getsizeof(data) - 16))
         response = HttpResponse(data)  # after generate response noramlization reduce size in 16 bytes
         return response
-
-class BaseController(Operation, Response):
 
     def filter_request(self, request, formulary=None):
         if request.is_ajax() or settings.DEBUG:

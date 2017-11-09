@@ -209,19 +209,18 @@ function terminate_setup(){
 	setTimeout(function(){$("#footer_session_action").fadeOut(5000);},5000)
 }
 
-
-function register_action(start_request,request_path, request_size, server_processing_time_duration, cliente_processing_time_duration){
-	//status': {'request_path': '/api/entity/register/person/save', 'request_size': 649, 'response_size': 'RESPONSE_SIZE', 'server_processing_time_duration': 0.039022, 'cliente_processing_time_duration': ''}}
-
-	//SESSION_PARAMTERS['setup_page_duration'] = Date.now() - SESSION_PARAMTERS['init_load_page'];
-	//SESSION_PARAMTERS['setup_page_duration'] = SESSION_PARAMTERS['setup_page_duration'] - SESSION_PARAMTERS['load_page_duration']
+function register_action(start_request, status_request){
 	var terminate_request = Date.now();
 	var duration_request = terminate_request - start_request
 	duration_request = duration_request/1000
 
-	document.getElementById('session_action_info').innerHTML = 'Processado em '+duration_request+'ms.';
-	$("#footer_session_action").fadeIn(100);
-	setTimeout(function(){$("#footer_session_action").fadeOut(5000);},5000)
+	try{
+		document.getElementById('session_action_info').innerHTML = 'Requisição processado em '+duration_request+'ms.';
+		$("#footer_session_action").fadeIn(100);
+		setTimeout(function(){$("#footer_session_action").fadeOut(5000);},5000)
+	}
+	catch(err) {
+	}
 }
 
 window.onresize = function(event) {

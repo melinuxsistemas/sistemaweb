@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import user_passes_test
 from django.core.exceptions import PermissionDenied, ValidationError
 from sistemaweb import settings
 from functools import wraps
@@ -17,7 +18,6 @@ def validate_formulary(view):
             controller.get_exceptions(controller.object, form)
             #print("FORMULARIO TA VALIDO MAS QUERO VER TBM O MODELO: ", controller.full_exceptions)
         return view(controller, request, formulary, *args, **kwargs)
-
     return _wrapped_view
 
 

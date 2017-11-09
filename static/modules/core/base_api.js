@@ -18,6 +18,7 @@ function execute_ajax(url,request_method,data_paramters,success_function,fail_fu
     url: url,
     data: data_paramters,
     success: function(data) {
+
     	var response = $.parseJSON(data);
       var message = response['message']
       var result = response['result']
@@ -41,7 +42,7 @@ function execute_ajax(url,request_method,data_paramters,success_function,fail_fu
         }
       }
 
-     	register_action(start_request,status.request_path, status.request_size, status.server_processing_time_duration, status.cliente_processing_time_duration)
+     	register_action(start_request, status)
       NProgress.done();
       if (redirect){
       	window.location = redirect;
