@@ -11,7 +11,7 @@
 			<tr class="row_menu" ng-repeat="k in list_menu_Cadastros">
 				<td class="col_menu" style="height: 20px;padding-top:4px;padding-bottom:2px;padding-left: 8px;">
 					<div class="row" style="margin: 0px;padding: 0px;vertical-align: bottom;">
-						<a style=" text-overflow: ellipsis">{{ k.label }}</a>
+							<a style=" text-overflow: ellipsis">{{ k.label }}</a>
 						<fieldset id='fieldset_{{ k.id }}'  class="col-lg-6 col-xs-8 rating pull-right" style="height: 0px;padding: 0px;margin-top: -2px;padding-right: 3px;">
 							<input type="radio" class="rating_item" id="{{ k.id }}_5" name='{{ k.id }}' value="5" /><label id="rate_label_{{ k.id }}_5" class = "full" ng-click="select_rating('{{ k.id }}',5)" for="{{ k.id }}_5" title="Sem Acesso"></label>
 							<input type="radio" class="rating_item" id="{{ k.id }}_4" name='{{ k.id }}' value="4"	/><label id="rate_label_{{ k.id }}_4" class = "full" ng-click="select_rating('{{ k.id }}',4)" for="{{ k.id }}_4" title="Excluir"></label>

@@ -7,6 +7,7 @@ from modules.core.config import ERRORS_MESSAGES
 from modules.core.utils import generate_activation_code
 from modules.core.validators import check_password_format
 from modules.entity.permissions import EntityPermissions, ContactPermissions
+from modules.entity.validators import correct_length, validator_level
 from modules.user.permissions import UserPermissions
 from modules.user.validators import email_format_validator,email_dangerous_symbols_validator
 
@@ -193,10 +194,6 @@ class Session(models.Model):
     last_update  = models.DateTimeField(auto_now=True, null=False)
 
 
-
-
-
-
 class SessionAction(models.Model):
     class Meta:
         db_table = 'user_session_action'
@@ -224,6 +221,9 @@ class SessionAction(models.Model):
 
 
 class Permissions(models.Model, UserPermissions, EntityPermissions, ContactPermissions):
+
+    models_exceptions = []
+
     user = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True)
     registration = models.CharField('Cadastros', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
     purchases = models.CharField('Compras', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
@@ -236,3 +236,72 @@ class Permissions(models.Model, UserPermissions, EntityPermissions, ContactPermi
     others = models.CharField('Outros', max_length=255,null=False, unique=False, error_messages=ERRORS_MESSAGES)
 
     #menu_options = MenuPermissions()
+
+    def save(self, *args, **kwargs):
+        self.model_exceptions = self.check_validators()
+        if self.model_exceptions == []:
+            try:
+                super(Permissions, self).save(*args, **kwargs)
+            except Exception as exception:
+                self.model_exceptions.append(exception)
+                raise exception
+        else:
+            raise self.model_exceptions[0]
+
+    def check_validators(self):
+        self.model_exceptions = []
+        try:
+            correct_length(self.registration,7)
+            validator_level(self.registration)
+        except Exception as e:
+            self.model_exceptions.append(e)
+
+        try:
+            correct_length(self.purchases,9)
+            validator_level(self.purchases)
+        except Exception as e:
+            self.model_exceptions.append(e)
+
+        try:
+            correct_length(self.sales,8)
+            validator_level(self.sales)
+        except Exception as e:
+            self.model_exceptions.append(e)
+
+        try:
+            correct_length(self.services,6)
+            validator_level(self.services)
+        except Exception as e:
+            self.model_exceptions.append(e)
+
+        try:
+            correct_length(self.finances,6)
+            validator_level(self.finances)
+        except Exception as e:
+            self.model_exceptions.append(e)
+
+        try:
+            correct_length(self.supervision,7)
+            validator_level(self.supervision)
+        except Exception as e:
+            self.model_exceptions.append(e)
+
+        try:
+            correct_length(self.management,9)
+            validator_level(self.management)
+        except Exception as e:
+            self.model_exceptions.append(e)
+
+        try:
+            correct_length(self.contabil,6)
+            validator_level(self.contabil)
+        except Exception as e:
+            self.model_exceptions.append(e)
+
+        try:
+            correct_length(self.others,8)
+            validator_level(self.others)
+        except Exception as e:
+            self.model_exceptions.append(e)
+
+        return self.model_exceptions
