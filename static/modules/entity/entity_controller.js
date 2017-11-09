@@ -26,34 +26,22 @@ application.controller('identification_controller', function($scope) {
   $scope.list_entities = []
 
   $scope.save = function () {
-  	alert("TO SALVANDO A IDENTIFICACAO DE UMA ENTIDADE")
-
-  	var fields = {};
+  	var data_paramters = {};
 		$.each($('#form-save-entity').serializeArray(), function(i, field) {
 			//alert("VEJA I: "+i+" - Field: "+field.name+" - Value: "+field.value)
-				fields[field.name] = field.value;
+			data_paramters[field.name] = field.value.toUpperCase();
 		});
-		//$('#form-save-entity').serialize();
-  	//alert("VEJA OS VALORES: "+JSON.stringify(fields))
 
-    $scope.cpf_cnpj = $('#cpf_cnpj').val();
-    $scope.birth_date_foundation = $('#birth_date_foundation').val();
-
-    var data_paramters = {
-      entity_type: 'PF',
-      registration_status: 0,
-      cpf_cnpj: clear_mask_numbers($scope.cpf_cnpj),
-      entity_name: $('#entity_name').val().toUpperCase(),
-      fantasy_name: $('#fantasy_name').val().toUpperCase(),
-      birth_date_foundation: $scope.birth_date_foundation,
-      comments: $scope.comments
-    }
+		data_paramters['cpf_cnpj'] = clear_mask_numbers(data_paramters['cpf_cnpj'])
+		data_paramters['entity_type'] = parseInt(data_paramters['entity_type'])
+		data_paramters['relations_company'] = $("#relations_company").val();
+		data_paramters['company_activities'] = $("#company_activities").val();
+		data_paramters['market_segment'] = $("#market_segment").val();
+		data_paramters['buy_destination'] = $("#buy_destination").val();
 
     success_function = function(result,message,object,status){
-      //window.location = "/"//register/confirm/"+$scope.email;
       if(result == true){
       	check_response_message_form('#form-save-entity', message);
-				//$scope.list_entities.push(object)
 				$scope.list_entities.splice(0, 0, object);
 				$scope.$apply();
 				document.getElementById("form-save-entity").reset();
@@ -68,6 +56,7 @@ application.controller('identification_controller', function($scope) {
     validade_function = function () {
      return  true;//validate_form_regiter_person(); //validate_date($scope.birth_date_foundation);
     }
+
     request_api("/api/entity/register/person/save",data_paramters,validade_function,success_function,fail_function)
   }
 

@@ -31,6 +31,7 @@ class EntityController(BaseController):
 
     @method_decorator(login_required)
     def save_person(self, request):
+        print("VEJA O REQUEST: ", request.POST)
         return self.save(request, EntityIdentificationForm)
 
     @method_decorator(login_required)

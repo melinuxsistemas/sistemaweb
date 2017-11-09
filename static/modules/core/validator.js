@@ -67,6 +67,7 @@ function check_response_message_form(form_id, response_message){
   });
 }
 */
+
 function check_response_message_form(form_id, response_message){
 	//alert("VEJA O RESPONSE: "+JSON.stringify(response_message))
   $(form_id +" input[type=text]").each(function () {

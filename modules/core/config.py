@@ -26,7 +26,7 @@ def verify_permission(permission_level, required_level):
 
 
 class MenuOption:
-
+    id = None
     title = None
     permission_position = None
     url = None

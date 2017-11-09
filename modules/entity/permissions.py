@@ -5,10 +5,12 @@ register = template.Library()
 
 class EntityPermissions:
     def can_view_entity(self):
+        print("EH VIEW QUE EU CHEGUEI")
         return verify_permission(self.registration[main_menu.registration.entities.id], 1)
 
     def can_insert_entity(self):
-        return verify_permission(self.registration[main_menu.registration.entities.id], 4)
+        print("TO VINDO AQUI",verify_permission(self.registration[main_menu.registration.entities.id], 2))
+        return verify_permission(self.registration[main_menu.registration.entities.id], 2)
 
     def can_update_entity(self):
         return verify_permission(self.registration[main_menu.registration.entities.id], 2)
