@@ -79,7 +79,7 @@
   {% compress js %}
   <script src="{% static 'modules/core/viewport_controll.js'%}"></script>
   <script src="{% static 'modules/core/base.js'%}"></script>
-  <script src="{% static 'modules/core/base_api.js'%}"></script>
+  <script src="{% static 'modules/core/base_controller.js'%}"></script>
   <script src="{% static 'custom/js/working.js' %}"></script>
   <script src="{% static 'modules/core/validator.js'%}"></script>
 
@@ -89,6 +89,7 @@
 
   <script>
     //moment.lang(navigator.language)
+    terminate_load_page()
     NProgress.done();
     working();
   </script>

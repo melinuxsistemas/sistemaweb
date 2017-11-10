@@ -15,9 +15,9 @@ class EntityIdentificationForm(forms.Form, BaseForm):
     model = Entity
 
     options_entity_type = (
-        (1, "PESSOA FÍSICA"),
-        (2, "PESSOA JURÍDICA"),
-        (3, "ÓRGÃO PÚBLICO")
+        ('1', "PESSOA FÍSICA"),
+        ('2', "PESSOA JURÍDICA"),
+        ('3', "ÓRGÃO PÚBLICO")
     )
 
     options_status_register = (
@@ -98,6 +98,7 @@ class EntityIdentificationForm(forms.Form, BaseForm):
        )
    )
 
+    """
     registration_status = forms.ChoiceField(choices=options_status_register,required=False,initial=0,
         error_messages=ERRORS_MESSAGES,
         widget= forms.Select(
@@ -107,6 +108,7 @@ class EntityIdentificationForm(forms.Form, BaseForm):
             }
         )
     )
+    """
 
     comments = forms.CharField(
         label="Observações",max_length= 500,required=False,
@@ -197,7 +199,7 @@ class EntityIdentificationForm(forms.Form, BaseForm):
 
     relations_company = forms.MultipleChoiceField(label="Tipo de Relação", choices=options_relation_type, required=False, error_messages=ERRORS_MESSAGES,
         widget=forms.Select(
-            attrs={'id': 'relation_type', 'class': 'selectpicker form-control','title':"", 'name': 'relation_type'}
+            attrs={'id': 'relation_type', 'class': 'selectpicker form-control multiple', 'multiple':'multiple','title':"", 'name': 'relation_type'}
         )
     )
 
@@ -220,11 +222,11 @@ class EntityIdentificationForm(forms.Form, BaseForm):
          )
      )
 
-    company_activities = forms.MultipleChoiceField(label="Tipo de Atividade", choices=options_activity,
+    company_activities = forms.MultipleChoiceField(label="Tipo de Atividade",required=False, choices=options_activity,
         error_messages=ERRORS_MESSAGES, widget=forms.Select(
         attrs={'id': 'company_activities', 'class': 'selectpicker form-control multiple', 'multiple':'multiple', 'title':"", 'ng-model': 'company_activities'}))
 
-    market_segment = forms.ModelMultipleChoiceField(label="Segmento de Mercado",queryset=MarketSegment.objects.all(),
+    market_segment = forms.ModelMultipleChoiceField(label="Segmento de Mercado",required=False,queryset=MarketSegment.objects.all(),
         widget=forms.Select(
         attrs={'id': 'market_segment', 'class': 'selectpicker form-control','data-live-search':"true", 'multiple':"multiple",'title':'',  'ng-model': 'market_segment',
             'list': 'options_segments'}

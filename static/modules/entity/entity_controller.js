@@ -13,7 +13,6 @@ application.controller('identification_controller', function($scope) {
 	$scope.table_maximun_body_height    = SCREEN_PARAMTERS['table_maximun_body_height']
 	//alert("veja o tamanho: "+$scope.table_maximun_body_height)
 
-
 	$scope.sortType           = 'entity_code';    // set the default sort type
 	$scope.sortReverse        = false;            // set the default sort order
 	$scope.search             = '';              // set the default search/filter term
@@ -26,37 +25,25 @@ application.controller('identification_controller', function($scope) {
   $scope.list_entities = []
 
   $scope.save = function () {
-  	alert("TO SALVANDO A IDENTIFICACAO DE UMA ENTIDADE")
-
-  	var fields = {};
+  	var data_paramters = {};
 		$.each($('#form-save-entity').serializeArray(), function(i, field) {
 			//alert("VEJA I: "+i+" - Field: "+field.name+" - Value: "+field.value)
-				fields[field.name] = field.value;
+			data_paramters[field.name] = field.value.toUpperCase();
 		});
-		//$('#form-save-entity').serialize();
-  	//alert("VEJA OS VALORES: "+JSON.stringify(fields))
 
-    $scope.cpf_cnpj = $('#cpf_cnpj').val();
-    $scope.birth_date_foundation = $('#birth_date_foundation').val();
-
-    var data_paramters = {
-      entity_type: 'PF',
-      registration_status: 0,
-      cpf_cnpj: clear_mask_numbers($scope.cpf_cnpj),
-      entity_name: $('#entity_name').val().toUpperCase(),
-      fantasy_name: $('#fantasy_name').val().toUpperCase(),
-      birth_date_foundation: $scope.birth_date_foundation,
-      comments: $scope.comments
-    }
+		data_paramters['cpf_cnpj'] = clear_mask_numbers(data_paramters['cpf_cnpj'])
+		data_paramters['entity_type'] = parseInt(data_paramters['entity_type'])
+		data_paramters['relations_company'] = $("#relations_company").val();
+		data_paramters['company_activities'] = $("#company_activities").val();
+		data_paramters['market_segment'] = $("#market_segment").val();
+		data_paramters['buy_destination'] = $("#buy_destination").val();
 
     success_function = function(result,message,object,status){
-      //window.location = "/"//register/confirm/"+$scope.email;
       if(result == true){
-      	check_response_message_form('#form-save-entity', message);
-				//$scope.list_entities.push(object)
 				$scope.list_entities.splice(0, 0, object);
 				$scope.$apply();
 				document.getElementById("form-save-entity").reset();
+				check_response_message_form('#form-save-entity', message);
 				$("#modal_identification").modal('hide');
       }
 		}
@@ -68,16 +55,16 @@ application.controller('identification_controller', function($scope) {
     validade_function = function () {
      return  true;//validate_form_regiter_person(); //validate_date($scope.birth_date_foundation);
     }
-    request_api("/api/entity/register/person/save",data_paramters,validade_function,success_function,fail_function)
+
+    request_api("/api/entity/save",data_paramters,validade_function,success_function,fail_function)
   }
 
-  $scope.load_entities = function () {
+  $scope.load = function () {
     $.ajax({
       type: 'GET',
-      url: "/api/entity/list/entities/",
+      url: "/api/entity/filter",
 
       success: function (data) {
-
         $scope.list_entities = JSON.parse(data);
         $("#loading_tbody").fadeOut();
         $scope.$apply();
@@ -139,8 +126,6 @@ application.controller('identification_controller', function($scope) {
 		$scope.entity_selected.selected = '';
     $scope.entity_selected = null;
   }
-
-
 
 	$scope.readjust_screen = function (){
 		//alert("ACIONEI O CONTROLE DO ANGULAR PRA VERIFICAR OS PARAMETROS")

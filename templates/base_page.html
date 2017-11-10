@@ -18,6 +18,8 @@
     {% load static %}
     {% load compress %}
     {% compress css %}
+    <!-- jQuery -->
+    <script src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
     <script src="{% static 'modules/core/viewport_controll.js'%}"></script>
     <link rel="shortcut icon" href="{% static 'images/favicon_sistema.png' %}">
 
@@ -37,8 +39,7 @@
     <!-- Angular -->
     <script src="{% static 'bower_components/angular/angular.min.js' %}"></script>
 
-    <!-- jQuery -->
-    <script src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
+
 
     <!-- Custom Theme Style -->
     <link href="{% static 'custom/gentelella/custom.css' %}" rel="stylesheet">
@@ -84,7 +85,6 @@
 
                   <!--<li class="menu-header"><a><i id="button_menu_entidade" class="fa fa-home"></i>Entidades<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-
                       <li><a data-toggle="form" data-target=".bs-example-form-lg">Adicionar Entidade</a></li>
                     </ul>
                   </li>
@@ -94,8 +94,7 @@
                     <ul class="nav child_menu">
                       {% load custom %}
                       {% option_menu "Entidades" "/entity" True request.user.permissions.can_view_entity %}
-											{% option_menu "Permissões" "/permissions" True request.user.permissions.can_view_entity %}
-
+											{% option_menu "Permissões" "/permissions" True request.user.permissions.can_insert_entity %}
                       <li><a href="#">Grupos Mercadológicos</a></li>
                       <li><a href="#">Produtos</a></li>
 											<li><a href="#">Vinculos de Produtos</a></li>
@@ -436,20 +435,24 @@
               {% block conteudo_principal %}
 
               {% endblock %}
+
+
             </div>
           </div>
           </div>
         </div>
         <!-- /page content -->
 
-        <!-- footer content --
-        <footer style="background: red;position: fixed; bottom:0px; width: 100%;">
-          <div class="pull-right">
-            Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+        <!-- footer content -->
+        <footer id="footer_session_action" style="display: hidden;position: fixed;right:0px;margin-right:auto;font-size: 10px;background: #eee;border: 1px solid #ddd;border-top-left-radius: 10px;border-top-right-radius: 0px; bottom:0px; height: 25px;padding: 0px;padding-top: 6px;padding-right: 10px;padding-left:15px;">
+          <div class="pull-right" style="">
+            <p><label id="session_action_info"></label></p>
           </div>
           <div class="clearfix"></div>
         </footer>
         <!-- /footer content -->
+
+
       </div>
     </div>
 
@@ -474,7 +477,7 @@
     <script src="{% static 'bower_components/pnotify/dist/pnotify.js' %}"></script>
     <script src="{% static 'bower_components/validator/validator.js' %}"></script>
     <script src="{% static 'modules/core/validator.js'%}"></script>
-    <script src="{% static 'modules/core/base_api.js'%}"></script>
+    <script src="{% static 'modules/core/base_controller.js'%}"></script>
     <script src="{% static 'modules/core/base.js'%}"></script>
     <!--<script src="% static 'bower/pnotify/pnotify.buttons.js'%}"></script>
     <script src="% static 'bower/pnotify/dist/pnotify.nonblock.js'%}"></script>-->

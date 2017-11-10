@@ -1,17 +1,16 @@
-from functools import wraps
-
-from django.contrib.auth import login
-from django.core.exceptions import PermissionDenied
+from libs.default.decorators import request_ajax_required, validate_formulary
 from django.core.exceptions import ValidationError
 
-from libs.default.decorators import request_ajax_required
+from modules.core.comunications import send_generate_activation_code
 from modules.core.config import ERRORS_MESSAGES
-from django.http import Http404, HttpResponse
-from django.db import IntegrityError
 from datetime import date, datetime, timedelta
-from django.core import serializers
+from django.http import Http404, HttpResponse
 
+from modules.core.utils import generate_activation_code
 from modules.user.models import Session, User
+from django.contrib.auth import login
+from django.db import IntegrityError
+from django.core import serializers
 from sistemaweb import settings
 import datetime
 import json
@@ -99,20 +98,15 @@ class Response:
         return message_dict
 
 
-
-class Operation:
-
+class BaseController(Response):
+    request = None
     response = Response()
-    request  = None
-    server_startup_time_process   = None
+    server_startup_time_process = None
     server_terminate_time_process = None
-    server_processing_time        = None
+    server_processing_time = None
 
     @request_ajax_required
     def login(self, request, formulary):
-        self.request = request
-        self.__start_process(request, formulary)
-
         form = formulary(request.POST)
         if form.is_valid():
             email = request.POST['email'].lower()
@@ -125,79 +119,93 @@ class Operation:
                         if auth is not None:
                             login(request, user)
                             self.__create_session(request, user)
-                            response_dict = self.response.success(user, list_fields=['email']) #response_format_success(user, ['email'])
+                            response_dict = self.response.success(user, list_fields=['email'])
                         else:
-                            response_dict = self.response.error({'email':'Usuário ou senha incorreta.'})
-                            #response_dict = response_format_error("Usuário ou senha incorreta.")
+                            response_dict = self.response.error({'email': 'Usuário ou senha incorreta.'})
                     else:
-                        response_dict = self.response.error({'email':'Usuário não autorizado.'})
+                        response_dict = self.response.error({'email': 'Usuário não autorizado.'})
                 else:
-                    response_dict = self.response.error({'email':'Usuário não confirmado.'})
+                    response_dict = self.response.error({'email': 'Usuário não confirmado.'})
             else:
-                response_dict = self.response.error({'email':'Usuário não existe.'})
+                response_dict = self.response.error({'email': 'Usuário não existe.'})
         else:
-            response_dict = self.__get_exceptions(None, form)
+            response_dict = self.get_exceptions(None, form)
 
-        print("VEJA O RESPONSE: ", response_dict)
         return self.__response(response_dict)
 
-    def save(self,request, formulary=None):
-        self.request = request
-        self.__start_process(request,formulary)
-        result, form = self.filter_request(request, formulary)
-        object = form.get_object()
-        if result:
-            response_dict = self.execute(object,object.save)
+    @request_ajax_required
+    def signup(self, request, formulary):
+        print("VEJA O QUE VEIO NO REQUEST: ",request.POST)
+        form = formulary(request.POST)
+        if form.is_valid():
+            email = request.POST['email'].lower()
+            senha = request.POST['password']
+            if User.objects.check_available_email(email):
+                user = User.objects.create_contracting_user(email, senha)
+                if user is not None:
+                    activation_code = generate_activation_code(email)
+                    send_generate_activation_code(email, activation_code)
+                    response_dict = self.response.success(user, list_fields=['email'])
+                else:
+                    response_dict = self.response.error({'email': 'Nao foi possivel criar objeto.'})
+            else:
+                response_dict = self.response.error({'email': 'Email já cadastrado.'})
         else:
-            response_dict = self.__get_exceptions(object,form)
+            response_dict = self.get_exceptions(None, form) #self.response.error({'email': 'Formulário com dados inválidos.'})
         return self.__response(response_dict)
 
-    def object(self,request):
+    @request_ajax_required
+    @validate_formulary
+    def save(self, request, formulary=None):
+        if self.full_exceptions == {}:
+            response_dict = self.execute(self.object, self.object.save)
+        else:
+            response_dict = self.response.error(self.full_exceptions)
+        return self.__response(response_dict)
+
+    @request_ajax_required
+    def filter(self, request, model, queryset=None, order_by="-id", list_fields=None, limit=None):
+        if queryset is None:
+            model_list = model.objects.all().order_by(order_by)
+        else:
+            model_list = queryset
+
+        if limit is not None:
+            model_list = model_list.limit(limit)
+        response_dict = self.response.datalist(model_list, list_fields)
+        return HttpResponse(json.dumps(response_dict, default=json_serial))
+
+    @request_ajax_required
+    def object(self, request):
         self.request = request
         pass
 
-    def filter(self, request, model, queryset=None, order_by="-id",list_fields=None, limit=None):
-        self.request = request
-        result, form = self.filter_request(request)
-        if result:
-            if queryset is None:
-                model_list = model.objects.all().order_by(order_by)
-            else:
-                model_list = queryset
-
-            if limit is not None:
-                model_list = model_list.limit(limit)
-
-            response_dict = self.response.datalist(model_list,list_fields)
-            return HttpResponse(json.dumps(response_dict, default=json_serial))
-        else:
-            raise Http404
-
-    def update(self,request, formulary):
+    @request_ajax_required
+    def update(self, request, formulary):
         self.request = request
         print("Atualizar:")
         result, form = self.filter_request(request, formulary)
         object = form.get_object(int(request.POST['id']))
-        response_dict = self.execute(object,object.save)
+        response_dict = self.execute(object, object.save)
         return HttpResponse(json.dumps(response_dict))
 
-    def delete(self,request, model,object_id):
+    @request_ajax_required
+    def delete(self, request, model, object_id):
         self.request = request
         print("Excluir: ", model, '[', object_id, ']')
         object = model.objects.filter(id=object_id)
         response_dict = self.execute(object, object.delete)
         return HttpResponse(json.dumps(response_dict))
 
-    def disable(self,request, model,object_id):
-        print("Desativar: ",model,'[',object_id,']')
+    @request_ajax_required
+    def disable(self, request, model, object_id):
+        print("Desativar: ", model, '[', object_id, ']')
         object = model.objects.get(pk=object_id)
         object.is_active = False
         response_dict = self.execute(object, object.save)
         return HttpResponse(json.dumps(response_dict))
-    
-    def execute(self,request, object,action):
-        self.request = request
-        response_dict = {}
+
+    def execute(self, object, action):
         try:
             action()
             response_dict = self.response.success(object)
@@ -205,22 +213,31 @@ class Operation:
             response_dict = self.response.error(e)
         return response_dict
 
-    def __get_exceptions(self, object,form):
+    def get_exceptions(self, object, form):
         """
         Metodo responsavel por tentar capturar erro no formulario e modelo e retornar tudo junto
         """
-        model_exceptions = {}
-        try:
-            object.full_clean()
+        self.model_exceptions = {}
+        if object is not None:
+            try:
+                object.full_clean()
 
-        except Exception as exception:
-            model_exceptions = exception.message_dict
+            except Exception as exception:
+                print("DEU ERRO: ",exception)
+                self.model_exceptions = exception.message_dict
 
-        full_exceptions = {}
-        form_exceptions = form.format_validate_response()
-        full_exceptions.update(model_exceptions)
-        full_exceptions.update(form_exceptions)
-        return self.response.error(full_exceptions)
+        self.full_exceptions = {}
+        if form is not None:
+            self.form_exceptions = form.format_validate_response()
+        else:
+            form_exceptions = {}
+
+        print("FORM EXCEPTIONS: ", self.form_exceptions)
+        print("MODEL EXCEPTIONS: ", self.model_exceptions)
+
+        self.full_exceptions.update(self.model_exceptions)
+        self.full_exceptions.update(self.form_exceptions)
+        return self.response.error(self.full_exceptions)
 
     def __create_session(self, request, user):
         sessao = Session()
@@ -239,20 +256,20 @@ class Operation:
         sessao.longitude = request.POST['longitude']
         sessao.save()
 
-    def __start_process(self,request,formulary=None):
+    def start_process(self, request):
         self.__request_path = request.path
         self.__request_bytes = sys.getsizeof(request.body)
         self.server_startup_time_process = datetime.datetime.now()
-    
-    def __terminate_process(self):
+        print("Processo iniciado em ", self.server_startup_time_process)
+
+    def terminate_process(self):
         self.server_terminate_time_process = datetime.datetime.now()
         self.server_processing_time = self.server_terminate_time_process - self.server_startup_time_process
-        print("Processo executado em",self.server_processing_time)#,"ou",self.server_processing_time.total_seconds())
+        print("Processo executado em", self.server_processing_time)  # ,"ou",self.server_processing_time.total_seconds())
 
     def __response(self, response_dict):
         import sys
-
-        self.__terminate_process()
+        self.terminate_process()
         response_dict['status'] = {}
         response_dict['status']['request_path'] = self.__request_path
         response_dict['status']['request_size'] = self.__request_bytes
@@ -260,29 +277,11 @@ class Operation:
         response_dict['status']['server_processing_time_duration'] = self.server_processing_time.total_seconds()  # datetime.datetime.now()
         response_dict['status']['cliente_processing_time_duration'] = ''
 
+        print("VEJA O RESPONSE NO FINAL: ", response_dict)
         data = json.dumps(response_dict, default=json_serial)
-        #print("OLHA O TAMANHO DO JSON: ",sys.getsizeof(data))
-        data = data.replace('RESPONSE_SIZE',str(sys.getsizeof(data)-16))
+        data = data.replace('RESPONSE_SIZE', str(sys.getsizeof(data) - 16))
         response = HttpResponse(data)  # after generate response noramlization reduce size in 16 bytes
-
-        #print("RESPONSE: ", sys.getsizeof(response.content))
-
-        """
-        
-        ['__bytes__', '__class__', '__contains__', '__delattr__', '__delitem__', '__dict__', '__dir__', '__doc__', '__eq__', 
-        '__format__', '__ge__', '__getattribute__', '__getitem__', '__gt__', '__hash__', '__init__', '__init_subclass__',
-         '__iter__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', 
-         '__setattr__', '__setitem__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', '_charset', '_closable_objects', 
-         '_container', '_content_type_for_repr', '_convert_to_charset', '_handler_class', '_headers', '_reason_phrase',
-          'charset', 'close', 'closed', 'content', 'cookies', 'delete_cookie', 'flush', 'get', 'getvalue', 'has_header', 
-          'items', 'make_bytes', 'readable', 'reason_phrase', 'seekable', 'serialize', 'serialize_headers', 'set_cookie',
-           'set_signed_cookie', 'setdefault', 'status_code', 'streaming', 'tell', 'writable', 'write', 'writelines']
-        
-        """
-        #response.content = response.content.replace('RESPONSE_SIZE',str(sys.getsizeof(response.content)))
         return response
-
-class BaseController(Operation, Response):
 
     def filter_request(self, request, formulary=None):
         if request.is_ajax() or settings.DEBUG:
@@ -320,49 +319,19 @@ class BaseForm:
         else:
             object = self.model()
 
-        print("VEJA O CLEANED DATA: ",self.cleaned_data)
-        print("VEJA O CLEANED ERRORS: ", self.errors)
+        #print("VEJA O DATA: ", self.data)
+        #print("VEJA O CLEANED DATA: ",self.cleaned_data)
+        #print("VEJA O CLEANED ERRORS: ", self.errors)
 
         for attribute in self.data:
             value = self.data[attribute]
             if attribute != 'csrfmiddlewaretoken':
-                field = self.fields[attribute]
-                value = field.to_python(value)
+                field = self.fields[attribute.replace("[]","")]
+                try:
+                    value = field.to_python(value)
+                except:
+                    value = [int(n) for n in value.split(',')]
 
-            print("ATRIBUTO: ", attribute,": ", value)# attribute, " - ", value)
-            setattr(object, attribute, value)
-
-        """
-        [
-        '__class__', '__deepcopy__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', 
-        '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__', 
-        '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__slotnames__', 
-        '__str__', '__subclasshook__', '__weakref__', 'bound_data', 'clean', 'creation_counter', 'default_error_messages', 
-        'default_validators', 'disabled', 'empty_values', 'error_messages', 'get_bound_field', 'has_changed', 'help_text', 
-        'hidden_widget', 'initial', 'input_formats', 'label', 'label_suffix', 'localize', 'prepare_value', 'required', 
-        'run_validators', 'show_hidden_initial', 'strptime', 'to_python', 'validate', 'validators', 'widget', 'widget_attrs'
-        ]
-        
-        
-        ['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', 
-        '__getitem__', '__gt__', '__hash__', '__html__', '__init__', '__init_subclass__', '__iter__', '__le__', '__lt__', 
-        '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__',
-         '__subclasshook__', '__weakref__', '_bound_fields_cache', '_clean_fields', '_clean_form', '_errors', '_html_output',
-          '_post_clean', 'add_error', 'add_initial_prefix', 'add_prefix', 'as_p', 'as_table', 'as_ul', 'auto_id', 'base_fields', 
-          'changed_data', 'clean', 'cleaned_data', 'data', 'declared_fields', 'default_renderer', 'empty_permitted', 
-          'error_class', 'errors', 'field_order', 'fields', 'files', 'format_validate_response', 'full_clean',
-           'get_initial_for_field', 'get_object', 'has_changed', 'has_error', 'hidden_fields', 'initial', 'is_bound', 
-           'is_multipart', 'is_valid', 'label_suffix', 'media', 'model', 'non_field_errors', 'options_entity_type', 
-           'options_status_register', 'order_fields', 'prefix', 'renderer', 'use_required_attribute', 'visible_fields']
-        """
-
-        """    
-        for attribute, value in [(x, getattr(self, x)) for x in self.data if not x.startswith('_')]:
-            print("ATRIBUTO: ",attribute, " - ", value)
-            #try:
-            #    form_value = self.cleaned_data[attribute]
-            #    setattr(object, attribute, form_value)
-            #except:
-            #    pass
-        """
+                #print("FIELD: ",attribute,' - ',value)
+                setattr(object, attribute, value)
         return object
