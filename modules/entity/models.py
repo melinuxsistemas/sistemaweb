@@ -32,11 +32,11 @@ class Entity(models.Model, BaseModel):
         verbose_name_plural = 'Entities'
 
     options_type_entity = (
-        ("PF","Pessoa Física"),
-        ("PJ","Pessoa Jurídica"),
-        ("OP","Órgão Público"),
-        ("PX","Pessoa Estrangeiro"),
-        ("EX","Empresa Estraneira")
+        ('1',"Pessoa Física"),
+        ('2',"Pessoa Jurídica"),
+        ('3',"Órgão Público"),
+        ('4',"Pessoa Estrangeiro"),
+        ('5',"Empresa Estraneira")
     )
     options_registration_status = (
         (0,'Habilitado'),
@@ -65,7 +65,7 @@ class Entity(models.Model, BaseModel):
         (8, "Extrativista"),
     )
 
-    entity_type = models.CharField("Tipo de Entidade:", max_length=2, null=False, default='PF', choices=options_type_entity, error_messages=ERRORS_MESSAGES)
+    entity_type = models.CharField("Tipo de Entidade:", max_length=2, null=False, choices=options_type_entity, error_messages=ERRORS_MESSAGES)
     cpf_cnpj = models.CharField("CPF ou CNPJ", max_length=32, unique=True, null=False, validators=[cpf_cnpj_validator,required_validator], error_messages=ERRORS_MESSAGES)
     entity_name = models.CharField("Nome ou Razão Social", null=False, blank=False, max_length=64,validators=[min_words_name_validator,MinLengthValidator(1)], error_messages=ERRORS_MESSAGES)
     fantasy_name = models.CharField("Nome Fantasia", max_length=32, null=True, blank=True, error_messages=ERRORS_MESSAGES)

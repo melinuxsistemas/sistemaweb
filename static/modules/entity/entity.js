@@ -1,4 +1,5 @@
 function clear_mask_numbers(value){
+	value = value.replace("/","")
   var number = value.split('.').join('');
   number = number.split('-').join('');
   return number;

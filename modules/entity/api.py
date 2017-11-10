@@ -1,16 +1,37 @@
-import time
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.decorators import method_decorator
 from django.core import serializers
-
-from libs.default.core import json_serial, BaseController
+from libs.default.core import BaseController
 from modules.core.api import AbstractAPI
-from modules.core.config import ERRORS_MESSAGES
 from modules.core.utils import response_format_success, response_format_error
 from modules.entity.forms import EntityPhoneForm, EntityEmailForm, EntityIdentificationForm
 from modules.entity.models import Entity, Contact, Email
 from django.http import HttpResponse
 import json
+
+
+class EntityController(BaseController):
+    """
+    Obs: Se o metodo for estatico deve usar o @login_required, se nao usar o @method_decorator(login_required)
+    """
+
+    @login_required
+    @user_passes_test(lambda u: u.permissions.can_view_entity(), login_url='/error/access_denied', redirect_field_name=None)
+    def filter(request):
+        return BaseController().filter(request, Entity)
+
+    @login_required
+    @user_passes_test(lambda u: u.permissions.can_insert_entity(), login_url='/error/access_denied', redirect_field_name=None)
+    def save(request):
+        return BaseController().save(request, EntityIdentificationForm)
+
+    @method_decorator(login_required)
+    def update(self, request):
+        return self.update(request, Entity)
+
+    @method_decorator(login_required)
+    def disable(self, request):
+        return self.disable(request, Entity)
 
 
 class ContactController(BaseController):
@@ -26,28 +47,9 @@ class ContactController(BaseController):
     def update(self, request):
         return self.update(request, Entity)
 
-
-class EntityController(BaseController):
-
-    @method_decorator(login_required)
-    def save_person(self, request):
-        return self.save(request, EntityIdentificationForm)
-
-    @method_decorator(login_required)
-    def load(self, request):
-        return self.filter(request, Entity)
-
-    @method_decorator(login_required)
-    def update(self, request):
-        return self.update(request, Entity)
-
-    @method_decorator(login_required)
-    def disable(self, request):
-        return self.disable(request, Entity)
-
     """
     @login_required
-    def save_person(request):
+    def save(request):
         resultado, form = AbstractAPI.filter_request(request, FormPersonEntity)
         entity = Entity()
         entity.form_to_object(form)
