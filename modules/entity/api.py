@@ -47,10 +47,6 @@ class ContactController(BaseController):
     def update(self, request):
         return self.update(request, Entity)
 
-
-
-
-
     """
     @login_required
     def save(request):

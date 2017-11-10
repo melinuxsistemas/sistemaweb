@@ -105,7 +105,7 @@
 
 	$(document).ready(function(){
 		post_screen_verified();
-		angular.element(document.getElementById('identification_controller')).scope().load_entities();
+		angular.element(document.getElementById('identification_controller')).scope().load();
 
 		$('#birth_date_foundation').mask('99/99/9999');
 		$('#entity_type').selectpicker({selectOnTab:true});

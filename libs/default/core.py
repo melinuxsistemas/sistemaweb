@@ -1,19 +1,16 @@
-from functools import wraps
-
-from django.contrib.auth import login
-from django.contrib.auth.decorators import login_required
-from django.core.exceptions import PermissionDenied
-from django.core.exceptions import ValidationError
-from django.utils.decorators import method_decorator
-
 from libs.default.decorators import request_ajax_required, validate_formulary
-from modules.core.config import ERRORS_MESSAGES
-from django.http import Http404, HttpResponse
-from django.db import IntegrityError
-from datetime import date, datetime, timedelta
-from django.core import serializers
+from django.core.exceptions import ValidationError
 
+from modules.core.comunications import send_generate_activation_code
+from modules.core.config import ERRORS_MESSAGES
+from datetime import date, datetime, timedelta
+from django.http import Http404, HttpResponse
+
+from modules.core.utils import generate_activation_code
 from modules.user.models import Session, User
+from django.contrib.auth import login
+from django.db import IntegrityError
+from django.core import serializers
 from sistemaweb import settings
 import datetime
 import json
@@ -137,6 +134,27 @@ class BaseController(Response):
         return self.__response(response_dict)
 
     @request_ajax_required
+    def signup(self, request, formulary):
+        print("VEJA O QUE VEIO NO REQUEST: ",request.POST)
+        form = formulary(request.POST)
+        if form.is_valid():
+            email = request.POST['email'].lower()
+            senha = request.POST['password']
+            if User.objects.check_available_email(email):
+                user = User.objects.create_contracting_user(email, senha)
+                if user is not None:
+                    activation_code = generate_activation_code(email)
+                    send_generate_activation_code(email, activation_code)
+                    response_dict = self.response.success(user, list_fields=['email'])
+                else:
+                    response_dict = self.response.error({'email': 'Nao foi possivel criar objeto.'})
+            else:
+                response_dict = self.response.error({'email': 'Email já cadastrado.'})
+        else:
+            response_dict = self.get_exceptions(None, form) #self.response.error({'email': 'Formulário com dados inválidos.'})
+        return self.__response(response_dict)
+
+    @request_ajax_required
     @validate_formulary
     def save(self, request, formulary=None):
         if self.full_exceptions == {}:
@@ -156,7 +174,6 @@ class BaseController(Response):
             model_list = model_list.limit(limit)
         response_dict = self.response.datalist(model_list, list_fields)
         return HttpResponse(json.dumps(response_dict, default=json_serial))
-
 
     @request_ajax_required
     def object(self, request):
@@ -201,11 +218,13 @@ class BaseController(Response):
         Metodo responsavel por tentar capturar erro no formulario e modelo e retornar tudo junto
         """
         self.model_exceptions = {}
-        try:
-            object.full_clean()
+        if object is not None:
+            try:
+                object.full_clean()
 
-        except Exception as exception:
-            self.model_exceptions = exception.message_dict
+            except Exception as exception:
+                print("DEU ERRO: ",exception)
+                self.model_exceptions = exception.message_dict
 
         self.full_exceptions = {}
         if form is not None:

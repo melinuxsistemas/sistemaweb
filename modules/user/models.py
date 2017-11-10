@@ -26,7 +26,7 @@ class UserManager(BaseUserManager):
         if check_password_format(password):
             now = timezone.now()
             email = self.normalize_email(email)
-            user = self.model(email=email, account_activated=account_activated, active_user=active,type_user=tipo,is_superuser=super_user, last_update=now, joined_date=now)#, **extra_fields)
+            user = self.model(email=email, account_activated=account_activated, active_user=active,type_user=tipo, last_update=now, joined_date=now)#, **extra_fields)
             user.set_password(password)
             try:
                 user.full_clean()

@@ -1,7 +1,8 @@
 from django import forms
+
+from libs.default.core import BaseForm
 from modules.core.config import ERRORS_MESSAGES
 from modules.core.forms import FormAbstractPassword,FormAbstractConfirmPassword,FormAbstractEmail
-from modules.entity.models import Entity
 from modules.user.validators import password_format_validator
 
 
@@ -14,7 +15,7 @@ class FormLogin(FormAbstractEmail, FormAbstractPassword):
         self.fields['password'].widget.attrs['placeholder'] = 'Senha..'
 
 
-class FormRegister(FormAbstractPassword,FormAbstractConfirmPassword,FormAbstractEmail):
+class FormRegister(FormAbstractPassword,FormAbstractConfirmPassword,FormAbstractEmail,BaseForm):
 
     def __init__(self, *args, **kwargs):
         super(FormAbstractPassword, self).__init__(*args, **kwargs)

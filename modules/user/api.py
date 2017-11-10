@@ -13,6 +13,12 @@ import json
 
 class UserController(BaseController):
 
+    def login_autentication(self, request):
+        return self.login(request, FormLogin)
+
+    def register_user(self, request):
+        return BaseController().signup(request, FormRegister)
+
     def register_delete(request, email):
         user = User.objects.get_user_email(email)
         if user is not None:
@@ -20,25 +26,6 @@ class UserController(BaseController):
             response_dict = response_format_error("Usuario deletado com sucesso.")
         else:
             response_dict = response_format_error("Usuario nao existe.")
-        return HttpResponse(json.dumps(response_dict))
-
-    def register_user(request):
-        resultado, form = AbstractAPI.filter_request(request, FormRegister)
-        if resultado:
-            email = request.POST['email'].lower()
-            senha = request.POST['password']
-            if User.objects.check_available_email(email):
-                usuario = User.objects.create_contracting_user(email, senha)
-                if usuario is not None:
-                    activation_code = generate_activation_code(email)
-                    send_generate_activation_code(email, activation_code)
-                    response_dict = response_format_success(usuario, ['email'])
-                else:
-                    response_dict = response_format_error("Nao foi possivel criar objeto")
-            else:
-                response_dict = response_format_error("Email já cadastrado.")
-        else:
-            response_dict = response_format_error("Formulário com dados inválidos.")
         return HttpResponse(json.dumps(response_dict))
 
     def generate_new_activation_code(request):
@@ -65,9 +52,6 @@ class UserController(BaseController):
             usuario = User.objects.activate_account(True)
             response_dict = response_format_success(usuario, ['account_activated'])
         return HttpResponse(json.dumps(response_dict))
-
-    def login_autentication(self, request):
-        return self.login(request, FormLogin)
 
     def reset_password(request):
         resultado, form = AbstractAPI.filter_request(request, FormResetPassword)

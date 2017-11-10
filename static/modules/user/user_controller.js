@@ -50,15 +50,21 @@ application.controller('register_controller', function($scope) {
   $scope.confirm_password = "";
 
   $scope.save_user = function () {
-    var data_paramters = {
-      email: $scope.email,
-      password: $scope.password,
-      confirm_password: $scope.confirm_password,
+
+		var data_paramters = {};
+  	$.each($('#form_register').serializeArray(), function(i, field) {
+			data_paramters[field.name] = field.value;
+		});
+
+    success_function = function(result,message,data_object,status){
+    	var redirect = "/register/confirm/"+$scope.email;
+    	return redirect
     }
-    success_function = function(){
-      window.location = "/register/confirm/"+$scope.email;
+
+    fail_function = function (result,message,data_object,status) {
+      notify_response_message(message);
     }
-    request_api("/api/user/register/save",data_paramters,validate_form_register,success_function,null)
+    request_api("/api/user/register/save",data_paramters,validate_form_register,success_function,fail_function)
   }
 
   $scope.resend_activation_code = function () {

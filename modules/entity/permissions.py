@@ -10,11 +10,7 @@ class EntityPermissions:
         return verify_permission(self.registration[main_menu.registration.entities.id], 1)
 
     def can_insert_entity(self):
-        print("POSSO INSERIR UMA ENTIDADE: ",verify_permission(self.registration[main_menu.registration.entities.id], 2))
         return verify_permission(self.registration[main_menu.registration.entities.id], 2)
-        #if not verify_permission(self.registration[main_menu.registration.entities.id], 2):
-        #    raise PermissionDenied
-        #return True
 
     def can_update_entity(self):
         return verify_permission(self.registration[main_menu.registration.entities.id], 2)
