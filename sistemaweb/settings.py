@@ -146,7 +146,6 @@ DBBACKUP_STORAGE_OPTIONS = {'location': 'data/backup'}
 #DBBACKUP_STORAGE_OPTIONS = {'oauth2_access_token': '','root_path': '//data/'}
 DBBACKUP_DATE_FORMAT = '%Y%m%d%H%M%S'
 DBBACKUP_FILENAME_TEMPLATE = '{datetime}.{extension}'#backup_filename
-#DBBACKUP_GPG_RECIPIENT = 'CC44105DA04C99710DD882EDEDF9A0B25E670E58'
 DBBACKUP_GPG_RECIPIENT = 'cleiton.leonel@gmail.com'
 DBBACKUP_GPG_ALWAYS_TRUST = 'True'
 #DEFAULT_FILE_STORAGE = 'storages.backends.dropbox.DropBoxStorage'
