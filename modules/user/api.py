@@ -6,7 +6,7 @@ from modules.core.api import AbstractAPI
 from modules.core.utils import response_format_success, response_format_error, generate_activation_code, generate_random_password
 from modules.core.comunications import send_generate_activation_code, resend_generate_activation_code ,send_reset_password
 from modules.user.forms import FormRegister, FormLogin, FormChangePassword, FormResetPassword
-from modules.user.models import User
+from modules.user.models import User, Permissions
 from django.http import HttpResponse
 import json
 
@@ -106,24 +106,45 @@ class UserController(BaseController):
 class PermissionAPI(BaseController):
     def load(request, id):
         try:
-            print("ENTRANDO TRy")
             user = User.objects.get(email=id)
-            print("MEI DO TRY")
             permissions = Permissions.objects.get(user=user)
             response_dict = response_format_success(permissions,[
                 'id','registration','purchases','sales','services',
                 'finances','supervision','management','contabil','others'])
-            '''response_dict = {}
-            response_dict['user'] = user.id
-            response_dict['registration'] = permissions.registration
-            response_dict['purchases'] = permissions.purchases
-            response_dict['sales']=permissions.sales
-            response_dict['services'] = permissions.services
-            response_dict['finances'] = permissions.finances
-            response_dict['supervision'] = permissions.supervision
-            response_dict['management'] = permissions.management
-            response_dict['contabil'] = permissions.contabil
-            response_dict['others'] = permissions.others'''
         except:
             response_dict = response_format_error(False)
+        return HttpResponse(json.dumps(response_dict))
+
+    def save(request):
+        print('entando no save')
+
+        id_user = request.POST['id_user']
+        registration = request.POST['registration']
+        sales = request.POST['sales']
+        purchases = request.POST['purchases']
+        services = request.POST['services']
+        finances = request.POST['finances']
+        supervision = request.POST['supervision']
+        print(supervision)
+        management = request.POST['management']
+        contabil = request.POST['contabil']
+        others = request.POST['others']
+        try:
+            user = User.objects.get(id=id_user)
+            permission = Permissions()
+            permission.user = user
+            permission.registration = registration
+            permission.sales = sales
+            permission.purchases = purchases
+            permission.services = services
+            permission.finances = finances
+            permission.supervision = supervision
+            permission.management = management
+            permission.contabil = contabil
+            permission.others = others
+            permission.save()
+            response_dict = response_format_success(permission,['id','registration','purchases','sales','services','finances','supervision','management','contabil','others'])
+        except:
+            response_dict = response_format_error(False)
+        print('saindo no save, olha o response_dict\n',response_dict)
         return HttpResponse(json.dumps(response_dict))

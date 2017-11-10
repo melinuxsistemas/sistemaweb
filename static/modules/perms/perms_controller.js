@@ -128,21 +128,61 @@ application.controller('permission_controller', function($scope) {
 					var dict = JSON.parse(data);
 					var list_respost = JSON.parse(dict["data-object"]);
 					list_respost =list_respost[0]['fields']
-					for (var i in list_respost){
-						var aux = list_respost[i].split(';')
-						alert(aux)
-						for (var j = 0; j <$scope.lista_all_menus[i].length;j++){
-							select_rating($scope.lista_all_menus[i][j].id,parseInt(aux[j]))
-						}
-					}
+					$scope.complete_menus(list_respost)
 				},
 
 				failure: function (data) {
 					alert("Não foi possivel carregar a lista")
 				}
 			})
+	}
 
+	$scope.complete_menus = function (list_respost) {
+		for (var i in list_respost){
+			var aux = list_respost[i].split(';')
+			for (var j = 0; j <$scope.lista_all_menus[i].length;j++){
+				select_rating($scope.lista_all_menus[i][j].id,parseInt(aux[j]))
+			}
+		}
+	}
 
+	$scope.save_permission = function () {
+		var menus = {};
+
+		/*Cria dicionario de menus com as strings*/
+		for (var i in $scope.lista_all_menus) {
+			var monta_str = '';
+			for (var k in $scope.lista_all_menus[i]) {
+				monta_str += get_value($scope.lista_all_menus[i][k].id) + ";"
+			}
+			monta_str = monta_str.substr(0, monta_str.length - 1); //remove o ultimo ';'
+			menus[i] = monta_str
+		}
+		var data_paramters = {
+			id_user: 1, //por hora fixo
+			registration : menus.registration,
+			sales : menus.sales,
+			purchases: menus.purchases,
+			services: menus.services,
+			finances: menus.finances,
+			supervision: menus.supervision,
+			management: menus.management,
+			contabil : menus.contabil,
+			others : menus.others
+		};
+
+		success_function = function (data) {
+			alert('resultado :'+data)
+		};
+
+		fail_function = function () {
+			alert("Deu Ruim Na alteração")
+		};
+		validate_function = function () {
+			return true
+		};
+		alert("Tentando ir salvar")
+		request_api("/api/user/save/permissions/", data_paramters,validate_function , success_function, fail_function)
 	}
 });
 

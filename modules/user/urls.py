@@ -10,5 +10,6 @@ urlpatterns = [
 
     # APIs administrativas
     url(r'register/delete/(?P<email>[^/]+)/', UserController.register_delete),
-    url(r'load/permissions/(?P<id>[^/]+)/', PermissionAPI.load)
+    url(r'load/permissions/(?P<id>[^/]+)/', PermissionAPI.load),
+    url(r'save/permissions/', PermissionAPI.save)
 ]
