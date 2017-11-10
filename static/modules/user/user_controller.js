@@ -5,18 +5,33 @@ var application = angular.module('modules.usuario', []);
 
 application.controller('reset_password_controller', function($scope) {
 
-  success_function = function(){
-      success_notify("Operação realizada com Sucesso!","Verifique seu email, você receberá um email em instantes.")
-  }
+
 
   $scope.reset_password = function () {
     var data_paramters = {email: $scope.email}
-    request_api("/api/user/reset_password",data_paramters,validate_form_reset_password,success_function,null)
+
+    success_function = function(result,message,data_object,status){
+      success_notify("Operação realizada com Sucesso!","Verifique seu email, você receberá um email em instantes.")
+		}
+
+		fail_function = function (result,message,data_object,status) {
+				notify_response_message(message);
+			}
+
+    request_api("/api/user/reset_password",data_paramters,validate_form_reset_password,success_function,fail_function)
   }
 
   $scope.resend_activation_code = function () {
     var data_paramters = {email: $scope.email}
-    request_api("/api/user/reactivate",data_paramters,validate_form_reset_password,success_function,null)
+
+    success_function = function(result,message,data_object,status){
+    	success_notify("Operação realizada com Sucesso!","Verifique seu email, você receberá um email em instantes.")
+    }
+
+    fail_function = function (result,message,data_object,status) {
+				notify_response_message(message);
+			}
+    request_api("/api/user/reactivate",data_paramters,validate_form_reset_password,success_function,fail_function)
   }
 });
 
