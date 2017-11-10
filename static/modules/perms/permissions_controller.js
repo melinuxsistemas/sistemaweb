@@ -147,6 +147,7 @@ application.controller('permission_controller', function($scope) {
 			monta_str = monta_str.substr(0, monta_str.length - 1); //remove o ultimo ';'
 			menus[i] = monta_str
 		}
+		//menus.registration = 'a;#;3;4;5;0;1'
 
 		if (!(JSON.stringify(menus) === (JSON.stringify($scope.lista_buscada)))) {
 
@@ -171,10 +172,9 @@ application.controller('permission_controller', function($scope) {
 				alert("Deu Ruim Na alteração")
 			};
 			validate_function = function () {
-				alert('vindo ate aqui')
 				return validate_permission(menus)
-			}
-			alert("INDO TENTAR")
+			};
+			alert("INDO TENTAR");
 			request_api("/api/user/save/permissions/", data_paramters, validate_function, success_function, fail_function)
 		}
 		else{
@@ -185,7 +185,7 @@ application.controller('permission_controller', function($scope) {
 
 	$scope.test_perm = function () {
 		return ($scope.has_change)
-	}
+	};
 
 	$scope.has_change = function () {
 		return true
