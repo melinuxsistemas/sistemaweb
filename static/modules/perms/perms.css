@@ -30,7 +30,7 @@
 
 .rating > input:checked ~ label, /* show gold star when clicked */
 .rating:not(:checked) > label:hover, /* hover current star */
-.rating:not(:checked) > label:hover ~ label { color: #0099cc  !important; opacity: 0.6; } /* hover previous stars in list */
+.rating:not(:checked) >  { color: #0099cc  !important; opacity: 0.6; } /* hover previous stars in list */
 
 .rating > input:checked + label:hover, /* hover current star when changing rating */
 .rating > input:checked ~ label:hover,
@@ -62,6 +62,5 @@
 }
 
 .one_selected{
-  background: yellow;
-  color: purple !important;
+  color: #0099cc !important;
 }

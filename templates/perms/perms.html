@@ -12,17 +12,21 @@
 		<div class="x_panel">
 			<div class="x_title">
 				<h2>Definições de Autonomias</h2>
+				<ul class="nav navbar-right panel_toolbox">
+					<a id='bt_add_contacts'role="button" ng-click="save_permission()"  class="btn btn-sm btn-success pull-left"  style='margin-left: 5px; width: 100px' title="Adicionar Telefone" ><i class="fa fa-plus" aria-hidden="true"></i>   SALVAR</a>
+				</ul>
 				<div class="clearfix"></div>
 			</div>
 			<div class="x_content" style="padding-right: 10px;padding-left: 10px;">
 				<a >
 					{% csrf_token %}
-					<div class="row">
+					<!--<div class="row">
 						<button ng-click="save_permission()"  class="form-control">Salvar</button>
 					</div>
-					<div class="row">
+
+					<div class="row">-->
 						<!-- Menu Cadastros-->
-						<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 aimds">
+						<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
 							<fieldset>
 								<a href="#" id="legend_cadastro" data-toggle="collapse" data-target="#permissions_cadastro">
 									<legend>Cadastros</legend>
@@ -64,7 +68,7 @@
 
 					<div class="row">
 						<!-- Menu Servicos-->
-						<div class="col-lg-4 col-md-4">
+						<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
 							<fieldset>
 								<a href="#" id="legend_servicos" data-toggle="collapse" data-target="#permissions_servicos">
 									<legend>Serviços</legend>
@@ -77,7 +81,7 @@
 						</div>
 
 						<!-- Menu Outras operacoes-->
-						<div class="col-lg-4">
+						<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
 							<fieldset>
 								<a href="#" id="legend_outras_operacoes" data-toggle="collapse" data-target="#permissions_outras_operacoes">
 									<legend>Outros</legend>
@@ -90,7 +94,7 @@
 						</div>
 
 						<!-- Menu Finanças-->
-						<div class="col-lg-4">
+						<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
 							<fieldset>
 								<a href="#" id="legend_financas" data-toggle="collapse" data-target="#permissions_financas">
 									<legend>Finanças</legend>
@@ -105,7 +109,7 @@
 
 					<div class="row">
 						<!-- Menu Supervisao Vendas-->
-						<div class="col-lg-4">
+						<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
 							<fieldset>
 								<a href="#" id="legend_supervisao_vendas" data-toggle="collapse" data-target="#permissions_supervisao_vendas">
 									<legend>Supervião de Vendas</legend>
@@ -118,7 +122,7 @@
 						</div>
 
 						<!-- Menu Gerencia-->
-						<div class="col-lg-4">
+						<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
 							<fieldset>
 								<a href="#" id="legend_gerencia" data-toggle="collapse" data-target="#permissions_gerencia">
 									<legend>Gerência</legend>
@@ -131,7 +135,7 @@
 						</div>
 
 						<!-- Menu Contabil-->
-						<div class="col-lg-4">
+						<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
 							<fieldset>
 								<a href="#" id="legend_contabil" data-toggle="collapse" data-target="#permissions_contabil">
 									<legend>Contábil</legend>
@@ -154,20 +158,15 @@
 {% block recursos_complementares %}
 	{% load static %}
 	<link href="{% static 'modules/perms/perms.css' %}" rel="stylesheet">
-	<script src="{% static 'modules/perms/perms_controller.js' %}"></script>
-
+	<script src="{% static 'modules/perms/permissions_controller.js' %}"></script>
+	<script src="{% static 'modules/perms/permissions.js' %}"></script>
 	<script>
 		$(document).ready(function() {
 				angular.element(document.getElementById('div_permission_controller')).scope().load_all();
 				$("input").click(function(){
-
   				select_rating(this.name, this.value)
-				})
+				});
 		});
 	</script>
-
-
-
-
 {% endblock %}
 

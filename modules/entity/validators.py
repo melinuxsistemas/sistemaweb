@@ -196,6 +196,28 @@ def cnpj_validator(value):
     raise ValidationError(_("cpf_cnpj: Cpf number is not valid."), code='document_invalid')
     return False
 
+def correct_length (value,size_menu):
+    value = permission_to_list(value)
+    if (len(value) == size_menu):
+        return True
+    raise ValidationError(_("Field size error: Please enter value with equal length."),code='length_wrong')
+
+def validator_level (value):
+    list = permission_to_list(value)
+    for i in list:
+        if ((i > 5) or (i < 0)):
+            raise ValidationError(_("Field error: Please enter with correct value"), code='level_wrong')
+    return True
+
+def permission_to_list (string):
+    string = string.split(';')
+    list = []
+    for i in string:
+        try:
+            list.append(int(i))
+        except:
+            raise ValidationError(_("Field error: Plese enter onlu number"),code='not_all_numeric')
+    return list
 
 def only_numeric(value):
 
