@@ -49,8 +49,8 @@ application.controller('change_password_controller', function($scope) {
       confirm_password:  $scope.confirm_password
     }
 
-    success_function = function(){
-      success_notify("Operação realizada com Sucesso!","Senha de acesso redefinida.")
+    success_function = function(result,message,data_object,status){
+    	success_notify("Operação realizada com Sucesso!","Senha de acesso redefinida.")
       $("#old_password").val("")
       $("#password").val("")
       $("#confirm_password").val("")
@@ -59,7 +59,11 @@ application.controller('change_password_controller', function($scope) {
       $scope.confirm_password = "";
     }
 
-    request_api("/api/user/change_password",data_paramters,validate_form_change_password,success_function,null)
+    fail_function = function (result,message,data_object,status) {
+      notify_response_message(message);
+    }
+
+    request_api("/api/user/change_password",data_paramters,validate_form_change_password,success_function,fail_function)
   }
 });
 

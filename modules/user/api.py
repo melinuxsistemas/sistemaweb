@@ -73,40 +73,19 @@ class UserController(BaseController):
     @request_ajax_required
     @method_decorator(login_required)
     def change_password(self, request):
-        print("VIM AQUI VER O CHANGE PASS")
         form = FormChangePassword(request.POST)
         if form.is_valid():
             user = request.user
             if user.check_password(form.cleaned_data['old_password']):
                 user.change_password(form.cleaned_data['password'])
                 auth = User.objects.authenticate(request, email=user.email, password=user.password)
-                auth_user = User.objects.get_user_email(user.email)
-                if auth is not None and user.is_active:
-                    pass
-                else:
-                    response_dict = response_format_error("Não foi possivel autenticar seu usuário<br>com a senha redefinida.")
-
-                response_dict = response_format_success(request.user, "Usuário alterado com sucesso.")
+                response_dict = self.notify.success(user, message='Usuário alterado com sucesso.', list_fields=['email'])
             else:
-                response_dict = response_format_error("Erro! Senha antiga está incorreta.")
-
+                response_dict = self.notify.error({'email': 'Senha antiga está incorreta.'})
         else:
             response_dict = response_format_error(form.format_validate_response())
-            # print("VEJA OS ERROS: ",response_dict)
-        # else:
-        #    #response_dict = response_format_error("Erro! Usuario nao autenticado")
-        #    return redirect('/login')
-
-        return HttpResponse(json.dumps(response_dict))
-
-    """
-    @request_ajax_required
-    def activate_account(self, request):
-        print("CHEGOU AQUI?", request)
-        usuario = User.objects.activate_account(True)
-        response_dict = response_format_success(usuario, ['email','account_activated'])
+            print("VEJA OS ERROS: ",response_dict)
         return self.response(response_dict)
-    """
 
     def register_delete(request, email):
         user = User.objects.get_user_email(email)

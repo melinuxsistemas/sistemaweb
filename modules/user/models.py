@@ -80,8 +80,6 @@ class UserManager(BaseUserManager):
         result = User.objects.filter(activation_code=activation_code)
         if len(result) == 1:
             return True
-            #elif len(result) == 1 and result[0].type_user == 'T':
-            #    return True
         else:
             return False
 
@@ -146,8 +144,6 @@ class User(AbstractBaseUser):
         else:
             return False
 
-
-
     def email_user(self, subject, message, from_email=None):
         send_mail(subject, message, from_email, [self.email])
 
@@ -168,7 +164,6 @@ class User(AbstractBaseUser):
             return True
         else:
             print("Erro! Nao faz sentido existir duas sessões abertas, com a mesma chave e usuario abertas.")
-
 
 
 class Session(models.Model):

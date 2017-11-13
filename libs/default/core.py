@@ -33,8 +33,8 @@ class Notify:
             response_dict.append(response_data)
         return response_dict
 
-    def success(self, object, list_fields=None):
-        return self.__response_format(True, '', object, list_fields)
+    def success(self, object, message='', list_fields=None):
+        return self.__response_format(True, message, object, list_fields)
 
     def error(self, exceptions):
         return self.__response_format(False,self.__format_exceptions(exceptions),None, None)

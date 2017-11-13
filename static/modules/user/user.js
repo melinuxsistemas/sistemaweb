@@ -8,32 +8,30 @@ function validate_form_reset_password(){
 
 function validate_form_change_password(){
   var messages = {
-        invalid         : 'Informe numeros e letras!',
-        short           : 'Informe pelo menos 8 caracteres!',
-        long            : 'Informe no máximo x caracteres!',
-        checked         : 'must be checked',
-        empty           : 'Campo obrigatório!',
-        select          : 'Please select an option',
-        number_min      : 'too low',
-        number_max      : 'too high',
-        url             : 'invalid URL',
-        number          : 'not a number',
-        email           : 'email address is invalid',
-        email_repeat    : 'emails do not match',
-        date            : 'invalid date',
-        time            : 'invalid time',
-        password_repeat : 'Senhas não conferem!',
-        no_match        : 'no match',
-        complete        : 'input is not complete'
-      }
+		invalid         : 'Informe numeros e letras!',
+		short           : 'Informe pelo menos 8 caracteres!',
+		long            : 'Informe no máximo x caracteres!',
+		checked         : 'must be checked',
+		empty           : 'Campo obrigatório!',
+		select          : 'Please select an option',
+		number_min      : 'too low',
+		number_max      : 'too high',
+		url             : 'invalid URL',
+		number          : 'not a number',
+		email           : 'email address is invalid',
+		email_repeat    : 'emails do not match',
+		date            : 'invalid date',
+		time            : 'invalid time',
+		password_repeat : 'Senhas não conferem!',
+		no_match        : 'no match',
+		complete        : 'input is not complete'
+	}
 
-      var validator = new FormValidator();
-      validator.texts = messages;
-      validator.settings.alerts = true;
-      //alert("OLHA O ALL FORM"+JSON.stringify($('#form_change_password')))
-      result = validator.checkAll($('#form_change_password'));
-      return result.valid
-  //return true;//(email_is_valid("email") && validate_password("senha"));
+	var validator = new FormValidator();
+	validator.texts = messages;
+	validator.settings.alerts = true;
+	result = validator.checkAll($('#form_change_password'));
+	return true;//result.valid
 }
 
 function validate_form_login(){
