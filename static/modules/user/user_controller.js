@@ -25,14 +25,20 @@ application.controller('reset_password_controller', function($scope) {
   $scope.resend_activation_code = function () {
     var data_paramters = {email: $scope.email}
 
-    success_function = function(result,message,data_object,status){
-    	success_notify("Operação realizada com Sucesso!","Verifique seu email, você receberá um email em instantes.")
+    var success_function = function success_function(result,message,data_object,status){
+    	alert('deu certo')
+			success_notify("Operação realizada com Sucesso!","Verifique seu email, você receberá um email em instantes.")
     }
 
-    fail_function = function (result,message,data_object,status) {
-				notify_response_message(message);
-			}
-    request_api("/api/user/reactivate",data_paramters,validate_form_reset_password,success_function,fail_function)
+    var fail_function = function (result,message,data_object,status) {
+    	alert("deu erro..")
+      notify_response_message(message);
+    }
+
+    validate_function = function(){
+			return email_is_valid("email")
+		}
+    request_api("/api/user/reactivate",data_paramters,validate_function,success_function,fail_function)
   }
 });
 

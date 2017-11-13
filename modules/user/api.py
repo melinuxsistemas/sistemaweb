@@ -20,42 +20,8 @@ class UserController(BaseController):
     def register_user(self, request):
         return BaseController().signup(request, FormRegister)
 
-    def register_delete(request, email):
-        user = User.objects.get_user_email(email)
-        if user is not None:
-            user.delete()
-            response_dict = response_format_error("Usuario deletado com sucesso.")
-        else:
-            response_dict = response_format_error("Usuario nao existe.")
-        return HttpResponse(json.dumps(response_dict))
-
-    def generate_new_activation_code(request):
-        resultado, form = AbstractAPI.filter_request(request, FormResetPassword)
-        if resultado:
-            email = request.POST['email'].lower()
-            usuario = User.objects.get_user_email(email)
-            if usuario is not None:
-                if not usuario.account_activated:
-                    activation_code = generate_activation_code(email)
-                    resend_generate_activation_code(email, activation_code)
-                    response_dict = response_format_success(usuario, ['email'])
-                else:
-                    response_dict = response_format_error("Essa conta já foi ativada.")
-            else:
-                response_dict = response_format_error("Email não cadastrado.")
-        else:
-            response_dict = response_format_error("Email com formato inválido.")
-        return HttpResponse(json.dumps(response_dict))
-
-    def activate_account(request):
-        result, form = AbstractAPI.filter_request(request)
-        if result:
-            usuario = User.objects.activate_account(True)
-            response_dict = response_format_success(usuario, ['account_activated'])
-        return HttpResponse(json.dumps(response_dict))
-
     @request_ajax_required
-    def reset_password(self,request):
+    def reset_password(self, request):
         form = FormResetPassword(request.POST)
         if form.is_valid():
             email = form.cleaned_data['email'].lower()
@@ -73,17 +39,37 @@ class UserController(BaseController):
                         print("Erro! Verifique a excecao: ", erro)
                         response_dict = BaseController.notify.error({'email': 'Falha ao gerar nova senha.'})
                 else:
-                    response_dict = BaseController.notify.error({'email': 'Usuário não confirmado! Verifique a confirmação no email <br>informado ou clique em reenviar confirmação.'})
+                    response_dict = BaseController.notify.error(
+                        {'email': 'Usuário não confirmado! Verifique a confirmação no email <br>informado ou clique em reenviar confirmação.'})
             else:
                 response_dict = BaseController.notify.error({'email': 'Usuário não cadastrado.'})
         else:
             response_dict = BaseController.get_exceptions(None, form)
         return self.response(response_dict)
 
+    @request_ajax_required
+    def generate_new_activation_code(self, request):
+        form = FormResetPassword(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email'].lower()
+            user = User.objects.get_user_email(email)
+            if user is not None:
+                if not user.account_activated:
+                    activation_code = generate_activation_code(email)
+                    resend_generate_activation_code(email, activation_code)
+                    response_dict = response_format_success(user, ['email'])
+                else:
+                    response_dict = BaseController.notify.error({'email': 'Conta já atividade.'})
+            else:
+                response_dict = BaseController.notify.error({'email': 'Email não cadastrado.'})
+        else:
+            response_dict = BaseController.notify.error({'email': 'Email inválido.'})
+        return self.response(response_dict)
+
     @login_required
     def change_password(request):
-        #if request.user.is_authenticated():
-        #print("OK, O CARA TA AUTENTICADO")
+        # if request.user.is_authenticated():
+        # print("OK, O CARA TA AUTENTICADO")
         result, form = AbstractAPI.filter_request(request, FormChangePassword)
         if result:
             usuario = request.user
@@ -92,23 +78,41 @@ class UserController(BaseController):
                 auth = User.objects.authenticate(request, email=usuario.email, password=usuario.password)
                 auth_user = User.objects.get_user_email(usuario.email)
                 if auth is not None and usuario.is_active:
-                    #login(request, auth_user)
+                    # login(request, auth_user)
                     pass
                 else:
                     response_dict = response_format_error("Não foi possivel autenticar seu usuário<br>com a senha redefinida.")
 
-                response_dict = response_format_success(request.user,"Usuário alterado com sucesso.")
+                response_dict = response_format_success(request.user, "Usuário alterado com sucesso.")
             else:
                 response_dict = response_format_error("Erro! Senha antiga está incorreta.")
 
         else:
             response_dict = response_format_error(form.format_validate_response())
-            #print("VEJA OS ERROS: ",response_dict)
-        #else:
+            # print("VEJA OS ERROS: ",response_dict)
+        # else:
         #    #response_dict = response_format_error("Erro! Usuario nao autenticado")
         #    return redirect('/login')
 
         return HttpResponse(json.dumps(response_dict))
+
+    def activate_account(request):
+        result, form = AbstractAPI.filter_request(request)
+        if result:
+            usuario = User.objects.activate_account(True)
+            response_dict = response_format_success(usuario, ['account_activated'])
+        return HttpResponse(json.dumps(response_dict))
+
+    def register_delete(request, email):
+        user = User.objects.get_user_email(email)
+        if user is not None:
+            user.delete()
+            response_dict = response_format_error("Usuario deletado com sucesso.")
+        else:
+            response_dict = response_format_error("Usuario nao existe.")
+        return HttpResponse(json.dumps(response_dict))
+
+
 
 class PermissionAPI(BaseController):
     def load(request, id):
