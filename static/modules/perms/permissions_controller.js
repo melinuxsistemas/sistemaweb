@@ -115,8 +115,8 @@ application.controller('permission_controller', function($scope) {
 				success: function (data) {
 					var dict = JSON.parse(data);
 					var list_respost = JSON.parse(dict["data-object"]);
-					list_respost =list_respost[0]['fields']
-					$scope.lista_buscada = list_respost
+					list_respost =list_respost[0]['fields'];
+					$scope.lista_buscada = list_respost;
 					$scope.complete_menus(list_respost)
 				},
 
@@ -128,7 +128,7 @@ application.controller('permission_controller', function($scope) {
 
 	$scope.complete_menus = function (list_respost) {
 		for (var i in list_respost){
-			var aux = list_respost[i].split(';')
+			var aux = list_respost[i].split(';');
 			for (var j = 0; j <$scope.lista_all_menus[i].length;j++){
 				select_rating($scope.lista_all_menus[i][j].id,parseInt(aux[j]))
 			}
@@ -147,7 +147,7 @@ application.controller('permission_controller', function($scope) {
 			monta_str = monta_str.substr(0, monta_str.length - 1); //remove o ultimo ';'
 			menus[i] = monta_str
 		}
-		//menus.registration = 'a;#;3;4;5;0;1'
+		//menus.registration = '4;5;5;3;4;5;0;1'
 
 		if (!(JSON.stringify(menus) === (JSON.stringify($scope.lista_buscada)))) {
 
@@ -169,7 +169,7 @@ application.controller('permission_controller', function($scope) {
 				$scope.lista_buscada = menus
 			};
 			fail_function = function () {
-				alert("Deu Ruim Na alteração")
+				notify("error","Erro ao tentar forçar entradas","Favor preencher o formulario com selecionando as estrelas")
 			};
 			validate_function = function () {
 				return validate_permission(menus)
@@ -178,7 +178,7 @@ application.controller('permission_controller', function($scope) {
 			request_api("/api/user/save/permissions/", data_paramters, validate_function, success_function, fail_function)
 		}
 		else{
-			alert("Sem alterações. Ação não concluida")
+			notify("error","Sem alterações","No momento a ação não pode ser concluida.\nFavor tentar mais tarde ")
 		}
 
 	};
