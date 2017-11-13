@@ -1,9 +1,8 @@
 function request_api(url,data_paramters,validator_functions,success_function,fail_function){
-
   var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
-
   data_paramters['csrfmiddlewaretoken'] = csrftoken;
   NProgress.start();
+
   if (validator_functions()){
     execute_ajax(url,'post',data_paramters,success_function,fail_function);
   }
@@ -52,7 +51,7 @@ function execute_ajax(url,request_method,data_paramters,success_function,fail_fu
       return true;
     },
     failure: function(data){
-    	alert('deu errado')
+    	alert('Erro: '+JSON.stringify(data))
     	NProgress.done();
       register_action(start_request,status.request_path, status.request_size, status.server_processing_time_duration, status.cliente_processing_time_duration)
     }

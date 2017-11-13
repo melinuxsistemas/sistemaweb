@@ -1,5 +1,7 @@
 # -*- encoding: utf-8 -*-
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+
 from libs.default.core import BaseController
 from libs.default.decorators import request_ajax_required
 
@@ -48,7 +50,7 @@ class UserController(BaseController):
         return self.response(response_dict)
 
     @request_ajax_required
-    def generate_new_activation_code(self, request):
+    def resend_activation_code(self, request):
         form = FormResetPassword(request.POST)
         if form.is_valid():
             email = form.cleaned_data['email'].lower()
@@ -56,8 +58,10 @@ class UserController(BaseController):
             if user is not None:
                 if not user.account_activated:
                     activation_code = generate_activation_code(email)
+                    user.activation_code = activation_code
+                    user.save()
                     resend_generate_activation_code(email, activation_code)
-                    response_dict = response_format_success(user, ['email'])
+                    response_dict = BaseController.notify.success(user,['email'])
                 else:
                     response_dict = BaseController.notify.error({'email': 'Conta já atividade.'})
             else:
@@ -66,19 +70,18 @@ class UserController(BaseController):
             response_dict = BaseController.notify.error({'email': 'Email inválido.'})
         return self.response(response_dict)
 
-    @login_required
-    def change_password(request):
-        # if request.user.is_authenticated():
-        # print("OK, O CARA TA AUTENTICADO")
-        result, form = AbstractAPI.filter_request(request, FormChangePassword)
-        if result:
-            usuario = request.user
-            if usuario.check_password(form.cleaned_data['old_password']):
-                usuario.change_password(form.cleaned_data['password'])
-                auth = User.objects.authenticate(request, email=usuario.email, password=usuario.password)
-                auth_user = User.objects.get_user_email(usuario.email)
-                if auth is not None and usuario.is_active:
-                    # login(request, auth_user)
+    @request_ajax_required
+    @method_decorator(login_required)
+    def change_password(self, request):
+        print("VIM AQUI VER O CHANGE PASS")
+        form = FormChangePassword(request.POST)
+        if form.is_valid():
+            user = request.user
+            if user.check_password(form.cleaned_data['old_password']):
+                user.change_password(form.cleaned_data['password'])
+                auth = User.objects.authenticate(request, email=user.email, password=user.password)
+                auth_user = User.objects.get_user_email(user.email)
+                if auth is not None and user.is_active:
                     pass
                 else:
                     response_dict = response_format_error("Não foi possivel autenticar seu usuário<br>com a senha redefinida.")
@@ -96,12 +99,14 @@ class UserController(BaseController):
 
         return HttpResponse(json.dumps(response_dict))
 
-    def activate_account(request):
-        result, form = AbstractAPI.filter_request(request)
-        if result:
-            usuario = User.objects.activate_account(True)
-            response_dict = response_format_success(usuario, ['account_activated'])
-        return HttpResponse(json.dumps(response_dict))
+    """
+    @request_ajax_required
+    def activate_account(self, request):
+        print("CHEGOU AQUI?", request)
+        usuario = User.objects.activate_account(True)
+        response_dict = response_format_success(usuario, ['email','account_activated'])
+        return self.response(response_dict)
+    """
 
     def register_delete(request, email):
         user = User.objects.get_user_email(email)

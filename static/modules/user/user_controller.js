@@ -26,13 +26,11 @@ application.controller('reset_password_controller', function($scope) {
     var data_paramters = {email: $scope.email}
 
     var success_function = function success_function(result,message,data_object,status){
-    	alert('deu certo')
 			success_notify("Operação realizada com Sucesso!","Verifique seu email, você receberá um email em instantes.")
     }
 
     var fail_function = function (result,message,data_object,status) {
-    	alert("deu erro..")
-      notify_response_message(message);
+    	notify_response_message(message);
     }
 
     validate_function = function(){
@@ -90,12 +88,22 @@ application.controller('register_controller', function($scope) {
   }
 
   $scope.resend_activation_code = function () {
-    var data_paramters = {email: $scope.email}
-    $("#email").val($scope.email)
-    success_function = function(){
-      confirm_notify("Operação realizada com Sucesso!","Verifique seu email, você receberá um email em instantes.<br><a href='/login'>Clique aqui para acessar sistema.</a>")
+  	var data_paramters = {email: $scope.email}
+
+    var success_function = function success_function(result,message,data_object,status){
+			success_notify("Operação realizada com Sucesso!","Verifique seu email, você receberá um email em instantes. <br><a href='/login'>Clique aqui para acessar sistema.</a>")
     }
-    request_api("/api/user/reactivate",data_paramters,validate_form_confirm_register,success_function,null)
+
+    var fail_function = function (result,message,data_object,status) {
+    	notify_response_message(message);
+    }
+
+    validate_function = function(){
+    	return true;
+		}
+
+		alert("veja eh isso")
+    request_api("/api/user/reactivate",data_paramters,validate_function,success_function,fail_function)
   }
 });
 

@@ -78,10 +78,10 @@ class UserManager(BaseUserManager):
 
     def activation_code_is_unique(self, activation_code):
         result = User.objects.filter(activation_code=activation_code)
-        if len(result) == 0:
+        if len(result) == 1:
             return True
-        elif len(result) == 1 and result[0].type_user == 'T':
-            return True
+            #elif len(result) == 1 and result[0].type_user == 'T':
+            #    return True
         else:
             return False
 
@@ -139,10 +139,14 @@ class User(AbstractBaseUser):
         else:
             return False
 
-    def activate_account(self):
-        self.account_activated(True)
-        self.save()
-        return True
+    def activate_account(self, code):
+        if self.activation_code == code:
+            self.account_activated(True)
+            return True
+        else:
+            return False
+
+
 
     def email_user(self, subject, message, from_email=None):
         send_mail(subject, message, from_email, [self.email])
