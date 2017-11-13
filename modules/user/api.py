@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 from django.contrib.auth.decorators import login_required
 from libs.default.core import BaseController
+from libs.default.decorators import request_ajax_required
 
 from modules.core.api import AbstractAPI
 from modules.core.utils import response_format_success, response_format_error, generate_activation_code, generate_random_password
@@ -53,25 +54,28 @@ class UserController(BaseController):
             response_dict = response_format_success(usuario, ['account_activated'])
         return HttpResponse(json.dumps(response_dict))
 
-    def reset_password(request):
-        resultado, form = AbstractAPI.filter_request(request, FormResetPassword)
-        if resultado:
-            email = request.POST['email'].lower()
-            usuario = User.objects.get_user_email(email)
-            if usuario is not None:
+    @request_ajax_required
+    def reset_password(self,request):
+        form = FormResetPassword(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email'].lower()
+            user = User.objects.get_user_email(email)
+            if user is not None:
                 try:
-                    nova_senha = generate_random_password(email)
-                    usuario.set_password(nova_senha)
-                    usuario.save()
-                    send_reset_password(nova_senha, email)
-                    response_dict = response_format_success(usuario, ['email'])
-                except:
-                    response_dict = response_format_success(usuario, ['email'])
+                    new_password = generate_random_password(email)
+                    user.set_password(new_password)
+                    user.save()
+                    send_reset_password(new_password, email)
+                    response_dict = BaseController.notify.success(user, list_fields=['email'])
+
+                except Exception as erro:
+                    print("Erro! Verifique a excecao: ", erro)
+                    response_dict = BaseController.notify.error({'email': 'Falha ao gerar nova senha.'})
             else:
-                response_dict = response_format_error("Email não cadastrado.")
+                response_dict = BaseController.notify.error({'email': 'Usuário não cadastrado.'})
         else:
-            response_dict = response_format_error("Formulário com dados inválidos.")
-        return HttpResponse(json.dumps(response_dict))
+            response_dict = BaseController.get_exceptions(None, form)
+        return self.response(response_dict)
 
     @login_required
     def change_password(request):

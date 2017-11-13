@@ -2,10 +2,21 @@
  * Created by diego on 03/05/2017.
  */
 function notify(type,title,description){
+	var width = ""
+	if(type == "success"){
+		width = '400px'
+	}
+	else if(type == "confirm"){
+		width = '400px'
+	}
+	else{
+		width = '300px'
+	}
+
   new PNotify({
     title: title,
     text: description,
-    width: type=='confirm' ? '400px' : "300px",
+    width: width,
     hide: type=='confirm' ? false : true,
     delay: type=='error' ? 5000 : 4000,
     mouse_reset: false,

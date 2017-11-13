@@ -24,7 +24,7 @@ def json_serial(obj):
     raise TypeError ("Type %s not serializable" % type(obj))
 
 
-class Response:
+class Notify:
 
     def datalist(self, datalist, list_fields=None):
         response_dict = []
@@ -98,9 +98,9 @@ class Response:
         return message_dict
 
 
-class BaseController(Response):
+class BaseController(Notify):
     request = None
-    response = Response()
+    notify = Notify()
     server_startup_time_process = None
     server_terminate_time_process = None
     server_processing_time = None
@@ -119,23 +119,22 @@ class BaseController(Response):
                         if auth is not None:
                             login(request, user)
                             self.__create_session(request, user)
-                            response_dict = self.response.success(user, list_fields=['email'])
+                            response_dict = self.notify.success(user, list_fields=['email'])
                         else:
-                            response_dict = self.response.error({'email': 'Usuário ou senha incorreta.'})
+                            response_dict = self.notify.error({'email': 'Usuário ou senha incorreta.'})
                     else:
-                        response_dict = self.response.error({'email': 'Usuário não autorizado.'})
+                        response_dict = self.notify.error({'email': 'Usuário não autorizado.'})
                 else:
-                    response_dict = self.response.error({'email': 'Usuário não confirmado.'})
+                    response_dict = self.notify.error({'email': 'Usuário não confirmado.'})
             else:
-                response_dict = self.response.error({'email': 'Usuário não existe.'})
+                response_dict = self.notify.error({'email': 'Usuário não existe.'})
         else:
             response_dict = self.get_exceptions(None, form)
 
-        return self.__response(response_dict)
+        return self.response(response_dict)
 
     @request_ajax_required
     def signup(self, request, formulary):
-        print("VEJA O QUE VEIO NO REQUEST: ",request.POST)
         form = formulary(request.POST)
         if form.is_valid():
             email = request.POST['email'].lower()
@@ -145,14 +144,14 @@ class BaseController(Response):
                 if user is not None:
                     activation_code = generate_activation_code(email)
                     send_generate_activation_code(email, activation_code)
-                    response_dict = self.response.success(user, list_fields=['email'])
+                    response_dict = self.notify.success(user, list_fields=['email'])
                 else:
-                    response_dict = self.response.error({'email': 'Nao foi possivel criar objeto.'})
+                    response_dict = self.notify.error({'email': 'Nao foi possivel criar objeto.'})
             else:
-                response_dict = self.response.error({'email': 'Email já cadastrado.'})
+                response_dict = self.notify.error({'email': 'Email já cadastrado.'})
         else:
-            response_dict = self.get_exceptions(None, form) #self.response.error({'email': 'Formulário com dados inválidos.'})
-        return self.__response(response_dict)
+            response_dict = self.get_exceptions(None, form) #self.notify.error({'email': 'Formulário com dados inválidos.'})
+        return self.response(response_dict)
 
     @request_ajax_required
     @validate_formulary
@@ -160,8 +159,8 @@ class BaseController(Response):
         if self.full_exceptions == {}:
             response_dict = self.execute(self.object, self.object.save)
         else:
-            response_dict = self.response.error(self.full_exceptions)
-        return self.__response(response_dict)
+            response_dict = self.notify.error(self.full_exceptions)
+        return self.response(response_dict)
 
     @request_ajax_required
     def filter(self, request, model, queryset=None, order_by="-id", list_fields=None, limit=None):
@@ -172,7 +171,7 @@ class BaseController(Response):
 
         if limit is not None:
             model_list = model_list.limit(limit)
-        response_dict = self.response.datalist(model_list, list_fields)
+        response_dict = self.notify.datalist(model_list, list_fields)
         return HttpResponse(json.dumps(response_dict, default=json_serial))
 
     @request_ajax_required
@@ -208,9 +207,9 @@ class BaseController(Response):
     def execute(self, object, action):
         try:
             action()
-            response_dict = self.response.success(object)
+            response_dict = self.notify.success(object)
         except Exception as e:
-            response_dict = self.response.error(e)
+            response_dict = self.notify.error(e)
         return response_dict
 
     def get_exceptions(self, object, form):
@@ -237,7 +236,7 @@ class BaseController(Response):
 
         self.full_exceptions.update(self.model_exceptions)
         self.full_exceptions.update(self.form_exceptions)
-        return self.response.error(self.full_exceptions)
+        return self.notify.error(self.full_exceptions)
 
     def __create_session(self, request, user):
         sessao = Session()
@@ -267,7 +266,7 @@ class BaseController(Response):
         self.server_processing_time = self.server_terminate_time_process - self.server_startup_time_process
         print("Processo executado em", self.server_processing_time)  # ,"ou",self.server_processing_time.total_seconds())
 
-    def __response(self, response_dict):
+    def response(self, response_dict):
         import sys
         self.terminate_process()
         response_dict['status'] = {}
@@ -310,7 +309,6 @@ class BaseForm:
                     erro_format = erro_format.replace("['", "")
                     erro_format = erro_format.replace("']", "")
                     response_errors[campo].append(erro_format)
-        #print("AGORA VEJA COMO FICOU OS ERROS DE FORMULARIO FORMATADOS: ",response_errors)
         return response_errors
 
     def get_object(self, object_id=None):
@@ -318,10 +316,6 @@ class BaseForm:
             object = self.model.objects.get(pk=int(object_id))
         else:
             object = self.model()
-
-        #print("VEJA O DATA: ", self.data)
-        #print("VEJA O CLEANED DATA: ",self.cleaned_data)
-        #print("VEJA O CLEANED ERRORS: ", self.errors)
 
         for attribute in self.data:
             value = self.data[attribute]
@@ -332,6 +326,5 @@ class BaseForm:
                 except:
                     value = [int(n) for n in value.split(',')]
 
-                #print("FIELD: ",attribute,' - ',value)
                 setattr(object, attribute, value)
         return object

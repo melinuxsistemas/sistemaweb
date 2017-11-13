@@ -41,7 +41,9 @@ class FormConfirmRegister(FormAbstractEmail):
         self.fields['email'].widget.input_type = 'hidden'
 
 
-class FormResetPassword(FormAbstractEmail):
+class FormResetPassword(FormAbstractEmail, BaseForm):
+
+    model = None
 
     def __init__(self, *args, **kwargs):
         super(FormAbstractEmail, self).__init__(*args,**kwargs)

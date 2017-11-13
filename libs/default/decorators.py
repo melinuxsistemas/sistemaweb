@@ -23,12 +23,15 @@ def validate_formulary(view):
 
 def request_ajax_required(view):
     @wraps(view)
-    def _wrapped_view(controller, request, formulary, *args, **kwargs):
+    def _wrapped_view(controller, request, formulary=None, *args, **kwargs):
         """ request via ajax verifiy need settings.DEBUG=True for running view tests."""
         if request.is_ajax() or settings.DEBUG:
             controller.start_process(request)
             controller.request = request
-            return view(controller, request, formulary, *args, **kwargs)
+            if formulary is None:
+                return view(controller, request, *args, **kwargs)
+            else:
+                return view(controller, request, formulary, *args, **kwargs)
         else:
             raise PermissionDenied()
     return _wrapped_view
