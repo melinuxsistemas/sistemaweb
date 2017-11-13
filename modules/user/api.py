@@ -61,16 +61,19 @@ class UserController(BaseController):
             email = form.cleaned_data['email'].lower()
             user = User.objects.get_user_email(email)
             if user is not None:
-                try:
+                if user.account_activated:
                     new_password = generate_random_password(email)
                     user.set_password(new_password)
-                    user.save()
-                    send_reset_password(new_password, email)
-                    response_dict = BaseController.notify.success(user, list_fields=['email'])
+                    try:
+                        user.save()
+                        send_reset_password(new_password, email)
+                        response_dict = BaseController.notify.success(user, list_fields=['email'])
 
-                except Exception as erro:
-                    print("Erro! Verifique a excecao: ", erro)
-                    response_dict = BaseController.notify.error({'email': 'Falha ao gerar nova senha.'})
+                    except Exception as erro:
+                        print("Erro! Verifique a excecao: ", erro)
+                        response_dict = BaseController.notify.error({'email': 'Falha ao gerar nova senha.'})
+                else:
+                    response_dict = BaseController.notify.error({'email': 'Usuário não confirmado! Verifique a confirmação no email <br>informado ou clique em reenviar confirmação.'})
             else:
                 response_dict = BaseController.notify.error({'email': 'Usuário não cadastrado.'})
         else:

@@ -10,7 +10,7 @@ function notify(type,title,description){
 		width = '400px'
 	}
 	else{
-		width = '300px'
+		width = '400px'
 	}
 
   new PNotify({
