@@ -5,7 +5,7 @@ packaging==16.8
 pyparsing==2.2.0
 pytz==2017.2
 six==1.10.0
-requests==2.13.0
+requests
 
 # Se der erro no django-lint comentar ele
 #django-lint==2.0.4

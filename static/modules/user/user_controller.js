@@ -1,37 +1,42 @@
 /**
  * Created by diego on 05/05/2017.
  */
-var application = angular.module('modules.usuario', []);
+var application = angular.module('modules.user', []);
 
 application.controller('reset_password_controller', function($scope) {
 
-
-
   $scope.reset_password = function () {
-    var data_paramters = {email: $scope.email}
+  	var data_paramters = {email: $scope.email}
 
-    success_function = function(result,message,data_object,status){
-      success_notify("Operação realizada com Sucesso!","Verifique seu email, você receberá um email em instantes.")
+  	var success_function = function success_function(result,message,data_object,status){
+			success_notify("Operação realizada com Sucesso!","Verifique seu email, você receberá um email em instantes.")
+    }
+
+    var fail_function = function (result,message,data_object,status) {
+      notify_response_message(message);
+    }
+
+    validate_function = function(){
+			return email_is_valid("email")
 		}
-
-		fail_function = function (result,message,data_object,status) {
-				notify_response_message(message);
-			}
-
-    request_api("/api/user/reset_password",data_paramters,validate_form_reset_password,success_function,fail_function)
+    request_api("/api/user/reset_password",data_paramters,validate_function,success_function,fail_function)
   }
 
   $scope.resend_activation_code = function () {
     var data_paramters = {email: $scope.email}
 
-    success_function = function(result,message,data_object,status){
-    	success_notify("Operação realizada com Sucesso!","Verifique seu email, você receberá um email em instantes.")
+    var success_function = function success_function(result,message,data_object,status){
+			success_notify("Operação realizada com Sucesso!","Verifique seu email, você receberá um email em instantes.")
     }
 
-    fail_function = function (result,message,data_object,status) {
-				notify_response_message(message);
-			}
-    request_api("/api/user/reactivate",data_paramters,validate_form_reset_password,success_function,fail_function)
+    var fail_function = function (result,message,data_object,status) {
+    	notify_response_message(message);
+    }
+
+    validate_function = function(){
+			return email_is_valid("email")
+		}
+    request_api("/api/user/reactivate",data_paramters,validate_function,success_function,fail_function)
   }
 });
 
@@ -44,8 +49,8 @@ application.controller('change_password_controller', function($scope) {
       confirm_password:  $scope.confirm_password
     }
 
-    success_function = function(){
-      success_notify("Operação realizada com Sucesso!","Senha de acesso redefinida.")
+    success_function = function(result,message,data_object,status){
+    	success_notify("Operação realizada com Sucesso!","Senha de acesso redefinida.")
       $("#old_password").val("")
       $("#password").val("")
       $("#confirm_password").val("")
@@ -54,7 +59,11 @@ application.controller('change_password_controller', function($scope) {
       $scope.confirm_password = "";
     }
 
-    request_api("/api/user/change_password",data_paramters,validate_form_change_password,success_function,null)
+    fail_function = function (result,message,data_object,status) {
+      notify_response_message(message);
+    }
+
+    request_api("/api/user/change_password",data_paramters,validate_form_change_password,success_function,fail_function)
   }
 });
 
@@ -83,12 +92,22 @@ application.controller('register_controller', function($scope) {
   }
 
   $scope.resend_activation_code = function () {
-    var data_paramters = {email: $scope.email}
-    $("#email").val($scope.email)
-    success_function = function(){
-      confirm_notify("Operação realizada com Sucesso!","Verifique seu email, você receberá um email em instantes.<br><a href='/login'>Clique aqui para acessar sistema.</a>")
+  	var data_paramters = {email: $scope.email}
+
+    var success_function = function success_function(result,message,data_object,status){
+			success_notify("Operação realizada com Sucesso!","Verifique seu email, você receberá um email em instantes. <br><a href='/login'>Clique aqui para acessar sistema.</a>")
     }
-    request_api("/api/user/reactivate",data_paramters,validate_form_confirm_register,success_function,null)
+
+    var fail_function = function (result,message,data_object,status) {
+    	notify_response_message(message);
+    }
+
+    validate_function = function(){
+    	return true;
+		}
+
+		alert("veja eh isso")
+    request_api("/api/user/reactivate",data_paramters,validate_function,success_function,fail_function)
   }
 });
 

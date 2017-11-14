@@ -9,6 +9,11 @@ from modules.user.models import User, Permissions
 
 
 @login_required
+def index(request):
+    return render(request,"base_page.html")
+
+
+@login_required
 def configure_environment(request):
     if len(NaturezaJuridica.objects.all()) == 0:
         NaturezaJuridica().create_initial_database()
@@ -19,8 +24,8 @@ def configure_environment(request):
 
 
 @login_required
-def index(request):
-    return render(request,"base_page.html")
+def system_configurations(request):
+    return render(request, "core/configurations/backup/configurations.html")
 
 
 def access_denied(request):

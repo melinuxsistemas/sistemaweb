@@ -41,7 +41,9 @@ class FormConfirmRegister(FormAbstractEmail):
         self.fields['email'].widget.input_type = 'hidden'
 
 
-class FormResetPassword(FormAbstractEmail):
+class FormResetPassword(FormAbstractEmail, BaseForm):
+
+    model = None
 
     def __init__(self, *args, **kwargs):
         super(FormAbstractEmail, self).__init__(*args,**kwargs)
@@ -73,11 +75,11 @@ class FormChangePassword(FormAbstractPassword, FormAbstractConfirmPassword):
         form_data = self.cleaned_data
         if len(self.cleaned_data) == len(self.fields):
             if form_data['password'] != form_data['confirm_password']:
-                self._errors["password"] = ["Confirme a Senha: Precisa ser igual ao campo Senha"]  # Will raise a error message
-                del form_data['password']
+                self._errors["confirm_password"] = ["Senhas não conferem"]  # Will raise a error message
+                del form_data['confirm_password']
 
             elif form_data['old_password'] == form_data['password']:
-                self._errors["password"] = ["Nova Senha: Precisa ser diferente da senha antiga."]  # Will raise a error message
+                self._errors["password"] = ["Nova senha precisa ser diferente da antiga."]  # Will raise a error message
                 del form_data['password']
         return form_data
 

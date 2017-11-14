@@ -37,14 +37,15 @@ urlpatterns = [
     url(r'^permissions/$', view_autonomy.register_autonomy),
     url(r'^users/$', view_usuario.user_administration),
 
-    url(r'^system/environment', view_core.configure_environment),
-
+    url(r'^api/core/', include('modules.core.urls')),
     url(r'^api/user/', include('modules.user.urls')),
     url(r'^api/entity/', include('modules.entity.urls')),
 
-    url(r'^api/working/register', view_core.working),
-    url(r'session_security/', include('session_security.urls')),
 
+    url(r'^api/working/register', view_core.working),
+    url(r'^system/environment', view_core.configure_environment),
+    url(r'^system/configurations', view_core.system_configurations),
+    url(r'session_security/', include('session_security.urls')),
     url(r'error/access_denied',view_core.access_denied)
 
 ]#+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

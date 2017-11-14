@@ -374,7 +374,7 @@ class ContactController(BaseController):
             response_dict = response_format_error("Usuario nao existe.")
         return HttpResponse(json.dumps(response_dict))
 
-    def generate_new_activation_code(request):
+    def resend_activation_code(request):
         resultado, form = AbstractAPI.filter_request(request, FormResetPassword)
         if resultado:
             email = request.POST['email'].lower()
