@@ -111,8 +111,6 @@ class PermissionAPI(BaseController):
         return HttpResponse(json.dumps(response_dict))
 
     def save(request):
-        print('entando no save')
-
         id_user = request.POST['id_user']
         registration = request.POST['registration']
         sales = request.POST['sales']
@@ -120,7 +118,6 @@ class PermissionAPI(BaseController):
         services = request.POST['services']
         finances = request.POST['finances']
         supervision = request.POST['supervision']
-        print(supervision)
         management = request.POST['management']
         contabil = request.POST['contabil']
         others = request.POST['others']

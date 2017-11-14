@@ -133,6 +133,7 @@ function select_rating(select_name, value) {
 	if ($('#rate_label_'+select_name+'_1').hasClass('one_selected') && value == 1) {
 			$("#fieldset_"+select_name+" input[type=radio]").each(function () {
 				$("#rate_label_" + select_name + "_" + this.value).removeClass('one_selected selected_rating').addClass('unselected_rating')
+
 			});
 	}
 	/*Caso ela nao foi selecionada vai percorrer o for do fieldset e marcar as selecionadas*/

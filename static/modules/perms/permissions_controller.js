@@ -104,19 +104,7 @@ application.controller('permission_controller', function($scope) {
 		others : $scope.list_menu_Outras_operacoes
 	};
 
-
-
-
-
-	$scope.select_perm = function (id) {
-		alert("Vindo;"+id)
-		var selected = 1;
-		//select_rating('rating_permission', selected)
-		//var teste = document.querySelector('input[name="ratingtwo"]:checked').value
-		//alert(tesste);
-		//document.querySelector('input[name="ratingtwo"]:checked').value=3
-		$scope.$apply();
-	}
+	$scope.lista_buscada = null;
 
 	$scope.load_all = function () {
 
@@ -127,7 +115,8 @@ application.controller('permission_controller', function($scope) {
 				success: function (data) {
 					var dict = JSON.parse(data);
 					var list_respost = JSON.parse(dict["data-object"]);
-					list_respost =list_respost[0]['fields']
+					list_respost =list_respost[0]['fields'];
+					$scope.lista_buscada = list_respost;
 					$scope.complete_menus(list_respost)
 				},
 
@@ -139,7 +128,7 @@ application.controller('permission_controller', function($scope) {
 
 	$scope.complete_menus = function (list_respost) {
 		for (var i in list_respost){
-			var aux = list_respost[i].split(';')
+			var aux = list_respost[i].split(';');
 			for (var j = 0; j <$scope.lista_all_menus[i].length;j++){
 				select_rating($scope.lista_all_menus[i][j].id,parseInt(aux[j]))
 			}
@@ -158,31 +147,48 @@ application.controller('permission_controller', function($scope) {
 			monta_str = monta_str.substr(0, monta_str.length - 1); //remove o ultimo ';'
 			menus[i] = monta_str
 		}
-		var data_paramters = {
-			id_user: 1, //por hora fixo
-			registration : menus.registration,
-			sales : menus.sales,
-			purchases: menus.purchases,
-			services: menus.services,
-			finances: menus.finances,
-			supervision: menus.supervision,
-			management: menus.management,
-			contabil : menus.contabil,
-			others : menus.others
-		};
+		//menus.registration = '4;5;5;3;4;5;0;1'
 
-		success_function = function (data) {
-			alert('resultado :'+data)
-		};
+		if (!(JSON.stringify(menus) === (JSON.stringify($scope.lista_buscada)))) {
 
-		fail_function = function () {
-			alert("Deu Ruim Na alteração")
-		};
-		validate_function = function () {
-			return true
-		};
-		alert("Tentando ir salvar")
-		request_api("/api/user/save/permissions/", data_paramters,validate_function , success_function, fail_function)
+			var data_paramters = {
+				id_user: 1, //por hora fixo
+				registration: menus.registration,
+				sales: menus.sales,
+				purchases: menus.purchases,
+				services: menus.services,
+				finances: menus.finances,
+				supervision: menus.supervision,
+				management: menus.management,
+				contabil: menus.contabil,
+				others: menus.others
+			};
+
+			success_function = function (data) {
+				alert('resultado :' + data)
+				$scope.lista_buscada = menus
+			};
+			fail_function = function () {
+				notify("error","Erro ao tentar forçar entradas","Favor preencher o formulario com selecionando as estrelas")
+			};
+			validate_function = function () {
+				return validate_permission(menus)
+			};
+			alert("INDO TENTAR");
+			request_api("/api/user/save/permissions/", data_paramters, validate_function, success_function, fail_function)
+		}
+		else{
+			notify("error","Sem alterações","No momento a ação não pode ser concluida.\nFavor tentar mais tarde ")
+		}
+
+	};
+
+	$scope.test_perm = function () {
+		return ($scope.has_change)
+	};
+
+	$scope.has_change = function () {
+		return true
 	}
 });
 
