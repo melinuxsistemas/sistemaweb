@@ -8,6 +8,8 @@ urlpatterns = [
     url(r'reset_password$', UserController.reset_password),
     url(r'^reactivate$', UserController.generate_new_activation_code),
 
+    # User Administration
+    url(r'filter/', UserController.filter_users),
     # APIs administrativas
     url(r'register/delete/(?P<email>[^/]+)/', UserController.register_delete),
     url(r'load/permissions/(?P<id>[^/]+)/', PermissionAPI.load),

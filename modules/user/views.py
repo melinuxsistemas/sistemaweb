@@ -86,3 +86,8 @@ def logout_page(request):
         print("Erro! Sessão de usuário não foi encerrada corretamente.")
     logout(request)
     return redirect("/login")
+
+@request_get_required
+@login_required
+def user_administration (request):
+    return render(request, "user/administration/user_administration.html")
