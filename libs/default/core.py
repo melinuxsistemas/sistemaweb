@@ -171,8 +171,11 @@ class BaseController(Notify):
 
         if limit is not None:
             model_list = model_list.limit(limit)
-        response_dict = self.notify.datalist(model_list, list_fields)
-        return HttpResponse(json.dumps(response_dict, default=json_serial))
+        response_dict = {}
+        response_dict['result'] = True
+        response_dict['object'] = self.notify.datalist(model_list, list_fields)
+        response_dict['message'] = str(len(self.notify.datalist(model_list, list_fields)))+" Registros carregados com sucesso!"
+        return self.response(response_dict)
 
     @request_ajax_required
     def object(self, request):

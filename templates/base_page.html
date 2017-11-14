@@ -261,6 +261,7 @@
                     -->
                      {% if user.is_authenticated %}
                        <li><a id='profile' href="/profile">Perfil</a></li>
+                       <li><a id='configurations' href="system/configurations">Configurações</a></li>
                        <li><a id="logout" href="/logout">Logout</a></li>
                      {% else %}
                        <li><a href="/login">Login</a></li>
@@ -435,8 +436,6 @@
               {% block conteudo_principal %}
 
               {% endblock %}
-
-
             </div>
           </div>
           </div>
