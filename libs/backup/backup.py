@@ -23,14 +23,20 @@ class BackupManager:
         backup_path = self.upload()
         self.clear_temp_file()
         backup_duration = datetime.datetime.now() - start_timing_backup
-        print("Processado em ",backup_duration.total_seconds()+" segundos. Arquivo disponivel em "+backup_path)
+        print("Backup gerado em",backup_duration.total_seconds(),"segundos")
+        print("Arquivo disponivel em "+backup_path)
+        return backup_path
 
     def restore_backup(self):
+        start_timing_backup = datetime.datetime.now()
         list_files = self.dropbox.files_list_folder(DROPBOX_ROOT_PATH)
         most_recent_backup = self.download(list_files.entries[-1].path_display)  # self.list_files_root_path(self.dt)
         django.setup()
         call_command('dbrestore', '-v','0', '-i', 'temp.dump.gz', '-z', '-q','--noinput')
         self.clear_temp_file()
+        backup_duration = datetime.datetime.now() - start_timing_backup
+        print("Backup Restaurado em", backup_duration.total_seconds(), "segundos")
+        return True
 
     def list_backup(self):
         return DropBoxStorage().list_files_all()
@@ -47,11 +53,6 @@ class BackupManager:
         f = open(final_path, "wb")
         f.write(res.content)
         f.close()
-        #if '.zip' in final_path or '.gz' in final_path:
-        #    print('Arquivo compactado...efetuando descompressão de dados.')
-        #    self.uncompress_file(final_path)
-        #    new_basename = os.path.basename(final_path).replace('.gz', '')
-        #    return new_basename
         return final_path
 
     def upload(self):
