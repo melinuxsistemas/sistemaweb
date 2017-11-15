@@ -135,3 +135,31 @@ application.controller('login_controller', function($scope) {
     request_api("/api/user/login/autentication",data_paramters,validate_form_login,success_function,fail_function)
   }
 });
+
+application.controller('users_controller', function($scope) {
+	$scope.list_users = [];
+	$scope.table_minimun_items = [1,1,1,1,1,1,1];
+	$scope.loaded_entities == false;
+  $scope.filter_users = function(){
+  	$.ajax({
+      type: 'GET',
+      url: "/api/user/users/filter",
+
+      success: function (data) {
+				alert("Olha o q eu to pegando:\n"+JSON.stringify(data))
+        data = JSON.parse(data)
+				$scope.list_users = data;
+        $("#loading_tbody").fadeOut();
+        alert("Olha o q eu to pegando:\n"+JSON.stringify($scope.list_users ))
+        $scope.loaded_entities = true;
+        $scope.$apply();
+      },
+
+      failure: function (data) {
+        $scope.loaded_entities = true;
+        alert("Não foi possivel carregar a lista")
+      }
+    })
+	}
+});
+

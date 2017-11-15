@@ -34,7 +34,8 @@ urlpatterns = [
     url(r'^profile/$', view_usuario.profile_page),
 
     url(r'^entity/$', view_entity.entity_page),
-    url(r'^permissions/', view_autonomy.register_autonomy),
+    url(r'^permissions/$', view_autonomy.register_autonomy),
+    url(r'^users/$', view_usuario.user_administration),
 
     url(r'^api/core/', include('modules.core.urls')),
     url(r'^api/user/', include('modules.user.urls')),

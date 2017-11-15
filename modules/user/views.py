@@ -95,3 +95,7 @@ def register_autonomy(request):
     return render(request,template_url,{'form_autonomy':form_autonomy})
 
 
+@request_get_required
+@login_required
+def user_administration (request):
+    return render(request, "user/administration/user_administration.html")

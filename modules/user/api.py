@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.decorators import method_decorator
 
 from libs.default.core import BaseController
@@ -95,6 +95,12 @@ class UserController(BaseController):
         else:
             response_dict = response_format_error("Usuario nao existe.")
         return HttpResponse(json.dumps(response_dict))
+
+    @login_required
+    @user_passes_test(lambda u: u.permissions.can_view_entity(), login_url='/error/access_denied',
+                      redirect_field_name=None)
+    def filter_users(request):
+        return BaseController().filter(request, User)
 
 
 
