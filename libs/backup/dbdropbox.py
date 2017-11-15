@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
+from django.conf import settings
 
 __version__ = "0.1"
 
@@ -23,7 +24,7 @@ from dbbackup.management.commands import dbbackup
 DROPBOX_OAUTH2_TOKEN = 'r2VjuxIaDQAAAAAAAAAAD7YKqJlAJSdXsRz3IWYGHs2Q_BEnim1nOc3-LA1PspKi'
 DROPBOX_ROOT_PATH = '/sistemaweb/backup'
 DROPBOX_ROOT_PATH_NEW = '/sistemaweb/backup'
-ROOT_DIR = os.getcwd()
+ROOT_DIR = settings.BASE_DIR
 FILEPATH = dbbackup.get_connector().settings['NAME']
 
 
@@ -68,14 +69,16 @@ class DropBoxStorage(Storage):
         return file
 
     def upload_file(self):
-        print('Uploading para pasta ', DROPBOX_ROOT_PATH_NEW)
+        #print('Uploading para pasta ', DROPBOX_ROOT_PATH_NEW)
         time = datetime.datetime.now()
         time = time.strftime("%Y%m%d%H%M%S")
         FILEPATH = self.simple_backup()
+
+
+
         with open(FILEPATH, 'rb') as f:
             self.dbx.files_upload(f.read(), DROPBOX_ROOT_PATH_NEW + '/' + time + '.dump')
-        link = self.dbx.sharing_create_shared_link_with_settings(
-            DROPBOX_ROOT_PATH_NEW + '/' + time + '.dump')
+        link = self.dbx.sharing_create_shared_link_with_settings(DROPBOX_ROOT_PATH_NEW + '/' + time + '.dump')
         url = link.url
         dl_url = re.sub(r"\?dl\=0", "?dl=1", url)
         return dl_url
@@ -96,13 +99,13 @@ class DropBoxStorage(Storage):
     def download_file(self, file=''):
         self.file = (DROPBOX_ROOT_PATH + '/' + file)
         file_name = self.file.replace('/sistemaweb/backup/', '')
-        print('\nDownloading... /data/remote/' + file_name)
+        print('\nDownloading... /data/backup/' + file_name)
         try:
             metadata, res = self.dbx.files_download(self.file)
         except:
             pass
             metadata, res = self.dbx.files_download(file)
-        final_path = ROOT_DIR + '/data/remote/' + file_name
+        final_path = ROOT_DIR + '/data/backup/' + file_name
         f = open(final_path, "wb")
         f.write(res.content)
         f.close()
@@ -115,21 +118,19 @@ class DropBoxStorage(Storage):
 
     def list_dirs_root_path(self):
         self.dt = self.dbx.files_list_folder(self.root_path)
-        print('ARQUIVOS ENCONTRADOS SERÃO LISTADOS ABAIXO:\n')
-        dir = self.list_files_root_path(self.dt)
+        #print('ARQUIVOS ENCONTRADOS SERÃO LISTADOS ABAIXO:\n')
+        dir = self.download_file(self.dt.entries[-1].path_display) #self.list_files_root_path(self.dt)
         return dir
-
-    def list_files_root_path(self, dt):
-        for entry in self.dt.entries:
-            self.i = entry.path_display
-            print(self.i)
-        download = self.download_file(self.i)
-        return download
 
     def list_files_all(self):
         self.dt = self.dbx.files_list_folder(self.root_path)
-        print('ARQUIVOS ENCONTRADOS SERÃO LISTADOS ABAIXO:\n')
+        #print('ARQUIVOS ENCONTRADOS SERÃO LISTADOS ABAIXO:\n')
+        self.data = []
         for entry in self.dt.entries:
+            data = {}
+            data['backup_link']
+            data['client_modified'] = entry.client_modified
+            data['size'] = str(entry.size)+" bytes"
             t = entry.client_modified
             time = datetime.timedelta(hours=2)
             hora = datetime.datetime.strptime(str(t), '%Y-%m-%d %H:%M:%S')
@@ -138,12 +139,14 @@ class DropBoxStorage(Storage):
             size = str(size)+' bytes'
             display = entry.path_display
             print(display, now , size)
+            self.data.append(data)
+        return self.data
 
     def simple_backup(self):
         g = dbbackup.get_connector()
         execute_from_command_line(["manage.py", "dbbackup", "-v", "1"])
         filename = (ROOT_DIR + '/data/backup/' + g.generate_filename())
-        print(filename)
+        #print(filename)
         return filename
 
     def compress_file(self, filename='', n=''):
@@ -163,7 +166,7 @@ class DropBoxStorage(Storage):
             f = gzip.open(file, 'wb')
             f.write(data)
             f.close()
-            print('Arquivo compactado com sucesso!!!')
+            #print('Arquivo compactado com sucesso!!!')
             return file
         else:
             filepath = (ROOT_DIR + '/data/backup/' + filename)
@@ -173,7 +176,7 @@ class DropBoxStorage(Storage):
             f = gzip.open(file, 'wb')
             f.write(data)
             f.close()
-            print('Arquivo compactado com sucesso!!!')
+            #print('Arquivo compactado com sucesso!!!')
             return file
 
     def uncompress_file(self, filename):
@@ -200,7 +203,40 @@ class DropBoxStorage(Storage):
             print('Arquivo descomprimido com sucesso!!!')
 
     def restore_db(self, filepath=''):
+        print("VEJA O FILEPATH: ",filepath)
         execute_from_command_line(["manage.py", "dbrestore", "-v", "1", "--noinput", "-i", filepath])
+
+    def restore(self):  # faz a restauração do banco de dados a partir de um backup salvo na dropbox.
+        file_name = DropBoxStorage().list_dirs_root_path()
+        new_basename = file_name
+        if '/' in file_name:
+            basename = shutil.copy(file_name, ROOT_DIR + '/data/backup/')
+            new_basename = os.path.basename(basename)
+        DropBoxStorage().restore_db(new_basename)
+
+        from django.core.management import call_command
+        import django
+        django.setup()
+
+        call_command('dbrestore', '-v', '1',  "--noinput", "-i", new_basename)
+
+        #execute_from_command_line(["manage.py", "dbrestore", "-v", "1", "--noinput", "-i", new_basename])
+
+        """
+        print("VEJA O ARG: ",arg)
+        if '/' in new_basename:
+            basename = shutil.copy(new_basename, ROOT_DIR + '/data/backup/')
+            new_basename = os.path.basename(basename)
+            self.restore_db(new_basename)
+        else:
+            print("VEJA O CAMINHO PRA COPIAR O ARQuivO:",ROOT_DIR + '/data/backup/')
+            basename = shutil.copy(new_basename, ROOT_DIR + '/data/backup/')
+            print("CONSEGUI O BASENAME: ",basename)
+            new_basename = os.path.basename(basename)
+            self.restore_db(new_basename)
+        """
+
+
 
 
 if __name__ == '__main__':
