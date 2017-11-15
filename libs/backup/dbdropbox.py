@@ -90,8 +90,7 @@ class DropBoxStorage(Storage):
         new_basename = os.path.basename(filename)
         with open(filename, 'rb') as f:
             self.dbx.files_upload(f.read(), DROPBOX_ROOT_PATH_NEW + '/' + new_basename)
-        link = self.dbx.sharing_create_shared_link_with_settings(
-            DROPBOX_ROOT_PATH_NEW + '/' + new_basename)
+        link = self.dbx.sharing_create_shared_link_with_settings(DROPBOX_ROOT_PATH_NEW + '/' + new_basename)
         url = link.url
         dl_url = re.sub(r"\?dl\=0", "?dl=1", url)
         return dl_url
@@ -128,7 +127,11 @@ class DropBoxStorage(Storage):
         self.data = []
         for entry in self.dt.entries:
             data = {}
-            data['backup_link']
+            path_name = entry.path_lower
+            link = self.dbx.sharing_create_shared_link(path_name)
+            url = link.url
+            dl_url = re.sub(r"\?dl\=0", "?dl=1", url)
+            data['backup_link'] = dl_url
             data['client_modified'] = entry.client_modified
             data['size'] = str(entry.size)+" bytes"
             t = entry.client_modified
@@ -137,8 +140,8 @@ class DropBoxStorage(Storage):
             now = hora - time
             size = entry.size
             size = str(size)+' bytes'
-            display = entry.path_display
-            print(display, now , size)
+            display = entry.name
+            print(display, now , size, '\n'+dl_url)
             self.data.append(data)
         return self.data
 

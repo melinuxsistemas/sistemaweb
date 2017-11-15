@@ -24,15 +24,20 @@ class BackupManager:
         backup_path = self.upload()
         self.clear_temp_file()
         backup_duration = datetime.datetime.now() - start_timing_backup
-        print("Processado em ",str(backup_duration.total_seconds())+" segundos. Arquivo disponivel em "+backup_path)
+        print("Backup gerado em", backup_duration.total_seconds(), "segundos")
+        print("Arquivo disponivel em", backup_path)
+        return backup_path
 
     def restore_backup(self):
+        start_timing_backup = datetime.datetime.now()
         list_files = self.dropbox.files_list_folder(DROPBOX_ROOT_PATH)
-        print(list_files)
-        self.download(list_files.entries[-1].path_display)
+        most_recent_backup = self.download(list_files.entries[-1].path_display)
         django.setup()
         call_command('dbrestore', '-v','0', '-i', 'temp.dump.gz', '-z', '-q','--noinput')
         self.clear_temp_file()
+        backup_duration = datetime.datetime.now() - start_timing_backup
+        print("Backup Restaurado em", backup_duration.total_seconds(), "segundos")
+        return True
 
     def list_backup(self):
         print('\n')
@@ -52,7 +57,7 @@ class BackupManager:
             hora = datetime.datetime.strptime(str(modified), '%Y-%m-%d %H:%M:%S')
             now = hora - time
             size = entry.size
-            size = str(size)+' bytes'
+            size = str(size) + " bytes"
             display = entry.name
             print(display, now , size, '\n'+dl_url)
             self.data.append(data)
@@ -60,7 +65,6 @@ class BackupManager:
 
     def download(self,file):
         self.file = (file)
-        print(self.file)
         self.file.replace('/backup/', '')
         try:
             metadata, res = self.dropbox.files_download(self.file)
