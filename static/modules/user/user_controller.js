@@ -138,19 +138,20 @@ application.controller('login_controller', function($scope) {
 
 application.controller('users_controller', function($scope) {
 	$scope.list_users = [];
-	$scope.table_minimun_items = [1,1,1,1,1,1,1];
-	$scope.loaded_entities == false;
+	$scope.table_minimun_items_u = [1,1,1,1,1,1,1];
+	$scope.loaded_entities = false;
+	$scope.user_selected = null;
+
+
   $scope.filter_users = function(){
   	$.ajax({
       type: 'GET',
       url: "/api/user/users/filter",
 
       success: function (data) {
-				alert("Olha o q eu to pegando:\n"+JSON.stringify(data))
-        data = JSON.parse(data)
-				$scope.list_users = data;
+				data = JSON.parse(data);
+				$scope.list_users = data['object'];
         $("#loading_tbody").fadeOut();
-        alert("Olha o q eu to pegando:\n"+JSON.stringify($scope.list_users ))
         $scope.loaded_entities = true;
         $scope.$apply();
       },
@@ -161,5 +162,32 @@ application.controller('users_controller', function($scope) {
       }
     })
 	}
+
+	$scope.select_user = function(user){
+    if ($scope.user_selected !==  null){
+      if($scope.user_selected == user){
+        $scope.unselect_row();
+      }
+      else{
+        $scope.unselect_row();
+        $scope.select_row(user);
+      }
+    }
+    else{
+      $scope.select_row(user);
+    }
+    $scope.$apply();
+  }
+
+  $scope.select_row = function (user) {
+  	$scope.user_selected = user;
+		$scope.user_selected.selected = 'selected';
+  }
+
+  $scope.unselect_row = function () {
+		$scope.user_selected.selected = '';
+    $scope.user_selected = null;
+  }
 });
+
 

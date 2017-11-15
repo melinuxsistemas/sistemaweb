@@ -115,7 +115,7 @@ class User(AbstractBaseUser):
     last_update       = models.DateTimeField(null=True, auto_now=True)
     account_activated = models.BooleanField(default=False)
     activation_code   = models.CharField(max_length=46, null=True, blank=True, error_messages=ERRORS_MESSAGES)
-    active_user       = models.BooleanField(default=False)
+    active_user       = models.BooleanField(default=True)
 
     USERNAME_FIELD    = 'email'
     REQUIRED_FIELDS   = []
