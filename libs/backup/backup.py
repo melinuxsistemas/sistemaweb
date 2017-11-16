@@ -27,11 +27,11 @@ class BackupManager:
         size = backup['size']
         self.clear_temp_file()
         backup_duration = datetime.datetime.now() - start_timing_backup
-        print("Backup gerado em",backup_duration.total_seconds(),"segundos")
+        #print("Backup gerado em",backup_duration.total_seconds(),"segundos")
         #print("Arquivo disponivel em "+link)
-        print("Nome: "+name)
-        print("Disponivel em: "+link)
-        print("Tamanho em bytes: "+size)
+        #print("Nome: "+name)
+        #print("Disponivel em: "+link)
+        #print("Tamanho em bytes: "+size)
         return backup
 
     def restore_backup(self):

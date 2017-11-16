@@ -10,10 +10,11 @@ application.controller('configurations_controller', function ($scope) {
 	$scope.load = function () {
     $.ajax({
       type: 'GET',
-      url: "/api/core/configurations/backups",
+      url: "/api/core/configurations/backup",
 
       success: function (data) {
         $scope.backups = JSON.parse(data).object;
+        alert("VEJA O QUE VEIO: "+$scope.backups)
         $("#loading_tbody").fadeOut();
         $scope.$apply();
         $scope.loaded_backups = true;
@@ -23,6 +24,31 @@ application.controller('configurations_controller', function ($scope) {
       failure: function (data) {
         $scope.loaded_backups = true;
         alert("Não foi possivel carregar a lista")
+      },
+    })
+	}
+
+	$scope.create_backup = function () {
+		NProgress.start();
+		var start_request = Date.now();
+		$.ajax({
+      type: 'GET',
+      url: "/api/core/configurations/backup/create",
+
+      success: function (data) {
+      	var object = JSON.parse(data).object;
+      	$scope.backups.splice(0, 0, object);
+				$scope.$apply();
+				$scope.$apply();
+        register_action(start_request, status)
+      	NProgress.done();
+      },
+
+      failure: function (data) {
+        $scope.loaded_backups = true;
+        alert("Não foi possivel carregar a lista")
+        register_action(start_request, status)
+      	NProgress.done();
       },
     })
 	}

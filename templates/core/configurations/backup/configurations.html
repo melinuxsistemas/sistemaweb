@@ -60,16 +60,16 @@
                 <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 pull-left">
                   <div class="x_panel">
                 <div class="x_title">
-                  <h2>Backups</h2>
+                  <h2>Backups {% verbatim %} {{ backups }} {% endverbatim %}</h2>
                   <ul class="nav navbar-right panel_toolbox">
                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                     </li>
                     <li class="dropdown">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
                       <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Settings 1</a>
+                        <li><a ng-click="create_backup()">Criar Backup</a>
                         </li>
-                        <li><a href="#">Settings 2</a>
+                        <li><a href="#">Restaurar Backup</a>
                         </li>
                       </ul>
                     </li>
@@ -80,7 +80,23 @@
                 </div>
                 <div class="x_content">
 									{% verbatim %}
+									<ul>
+										<li ng-if="(backups|filter:filterIds()).length == 0">
+											<td colspan="8" class="center">Nenhum backup salvo</td>
+										</li>
+									</ul>
 									<ul class="list-unstyled " ng-repeat="k in backups">
+										<li>
+											<div class="block" style=" border-bottom: 1px solid #DDDDDD">
+												<div class="block_content">
+												<span class="title">
+														<a style="color:#999"><b>20171114182235.dump.gz</b></a>
+                            <span class="pull-right" style="color:#d2d3d9;font-size: 11px;padding-bottom:0px;margin-top: 3px" >14/11/2017, 18:08 - 17MB</span>
+												</span>
+                        </div>
+											</div>
+                    </li>
+
                     <li>
 											<div class="block" style=" border-bottom: 1px solid #DDDDDD">
 												<div class="block_content">
