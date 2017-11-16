@@ -65,9 +65,9 @@ class BackupManager:
             data['link'] = dl_url
             data['client_modified'] = entry.client_modified
             data['size'] = str(entry.size)+" bytes"
-            size = str(entry.size)+" bytes"
+            size = str(entry.size)
             display = entry.name
-            print(display, now , size, '\n'+dl_url)
+            #print(display, now , size, '\n'+dl_url)
             self.data.append(data)
         #print(self.data)
         return self.data
