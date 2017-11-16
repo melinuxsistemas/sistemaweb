@@ -18,7 +18,6 @@ class BackupManager:
         self.dropbox = dropbox.Dropbox(DROPBOX_OAUTH2_TOKEN)
 
     def create_backup(self):
-        print("TENHO QUE VIR AQUI")
         start_timing_backup = datetime.datetime.now()
         django.setup()
         call_command('dbbackup', '-v', '1', '-z')
@@ -26,7 +25,7 @@ class BackupManager:
         link = backup['link']
         name = backup['file_name']
         size = backup['size']
-        self.clear_temp_file()
+        #self.clear_temp_file()
         backup_duration = datetime.datetime.now() - start_timing_backup
         print("Backup gerado em",backup_duration.total_seconds(),"segundos")
         print("Arquivo disponivel em "+link)
@@ -101,7 +100,8 @@ class BackupManager:
         data['file_name'] = link.name
         data['link'] = dl_url
         data['client_modified'] = link.client_modified
-        data['size'] = str(link.size) + " bytes"
+        data['size'] = int(link.size)
+
         return data
         #return dl_url
 
