@@ -14,7 +14,6 @@ application.controller('configurations_controller', function ($scope) {
 
       success: function (data) {
         $scope.backups = JSON.parse(data).object;
-        alert("VEJA O QUE VEIO: "+$scope.backups)
         $("#loading_tbody").fadeOut();
         $scope.$apply();
         $scope.loaded_backups = true;
