@@ -234,8 +234,8 @@ class BaseController(Notify):
         else:
             self.form_exceptions = {}
 
-        print("FORM EXCEPTIONS: ", self.form_exceptions)
-        print("MODEL EXCEPTIONS: ", self.model_exceptions)
+        #print("FORM EXCEPTIONS: ", self.form_exceptions)
+        #print("MODEL EXCEPTIONS: ", self.model_exceptions)
 
         self.full_exceptions.update(self.model_exceptions)
         self.full_exceptions.update(self.form_exceptions)

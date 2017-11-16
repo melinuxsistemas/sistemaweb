@@ -24,7 +24,6 @@ class ConfigurationsController(BaseController):
         backup.backup_file_name = backup_paramters['file_name']
         backup.backup_link = backup_paramters['link']
         backup.backup_size = backup_paramters['size']
-
         self.get_exceptions(backup, None)
         if self.full_exceptions == {}:
             response_dict = self.execute(backup, backup.save)

@@ -35,17 +35,21 @@ application.controller('configurations_controller', function ($scope) {
       url: "/api/core/configurations/backup/create",
 
       success: function (data) {
-      	var object = JSON.parse(data).object;
-      	$scope.backups.splice(0, 0, object);
-				$scope.$apply();
-				$scope.$apply();
-        register_action(start_request, status)
+      	var response = JSON.parse(data);
+      	var item = response.object;
+      	alert(JSON.stringify(item));
+      	var result = response.result
+      	if(result=true){
+      		$scope.backups.splice(0, 0, item);
+					$scope.$apply();
+      	}
+      	register_action(start_request, status)
       	NProgress.done();
       },
 
       failure: function (data) {
+      	alert("Não foi possivel carregar a lista")
         $scope.loaded_backups = true;
-        alert("Não foi possivel carregar a lista")
         register_action(start_request, status)
       	NProgress.done();
       },
