@@ -21,10 +21,10 @@ class BackupManager:
         start_timing_backup = datetime.datetime.now()
         django.setup()
         call_command('dbbackup', '-v', '1', '-z')
-        backup_path = self.upload()
-        link = backup_path['backup_link']
-        name = backup_path['backup_file_name']
-        size = backup_path['backup_size']
+        backup = self.upload()
+        link = backup['link']
+        name = backup['file_name']
+        size = backup['size']
         self.clear_temp_file()
         backup_duration = datetime.datetime.now() - start_timing_backup
         print("Backup gerado em",backup_duration.total_seconds(),"segundos")
@@ -32,7 +32,7 @@ class BackupManager:
         print("Nome: "+name)
         print("Disponivel em: "+link)
         print("Tamanho em bytes: "+size)
-        return backup_path
+        return backup
 
     def restore_backup(self):
         start_timing_backup = datetime.datetime.now()
@@ -60,10 +60,10 @@ class BackupManager:
             time = datetime.timedelta(hours=2)
             hora = datetime.datetime.strptime(str(modified), '%Y-%m-%d %H:%M:%S')
             now = hora - time
-            data['backup_file_name'] = filename
-            data['backup_link'] = dl_url
+            data['file_name'] = filename
+            data['link'] = dl_url
             data['client_modified'] = entry.client_modified
-            data['backup_size'] = str(entry.size)+" bytes"
+            data['size'] = str(entry.size)+" bytes"
             size = str(entry.size)+" bytes"
             display = entry.name
             print(display, now , size, '\n'+dl_url)
@@ -97,10 +97,10 @@ class BackupManager:
         link = self.dropbox.sharing_create_shared_link_with_settings(export_name)
         url = link.url
         dl_url = re.sub(r"\?dl\=0", "?dl=1", url)
-        data['backup_file_name'] = link.name
-        data['backup_link'] = dl_url
+        data['file_name'] = link.name
+        data['link'] = dl_url
         data['client_modified'] = link.client_modified
-        data['backup_size'] = str(link.size) + " bytes"
+        data['size'] = str(link.size) + " bytes"
         return data
         #return dl_url
 
