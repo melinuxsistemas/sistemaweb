@@ -79,17 +79,19 @@
                   <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-									<ul class="list-unstyled ">
+									{% verbatim %}
+									<ul class="list-unstyled " ng-repeat="k in backups">
                     <li>
-											<div class="block" style="border-bottom: 1px solid #DDDDDD">
+											<div class="block" style=" border-bottom: 1px solid #DDDDDD">
 												<div class="block_content">
 												<span class="title">
 														<a style="color:#999"><b>20171114182235.dump.gz</b></a>
-                            <span class="pull-right" style="background:red;font-size: 11px;padding-bottom:0px;margin-bottom: 0px" >14/11/2017, 18:08 - 17MB</span>
+                            <span class="pull-right" style="color:#d2d3d9;font-size: 11px;padding-bottom:0px;margin-top: 3px" >14/11/2017, 18:08 - 17MB</span>
 												</span>
                         </div>
 											</div>
                     </li>
+                    {% endverbatim %}
                   </ul>
                 </div>
               </div>
