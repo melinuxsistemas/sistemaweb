@@ -17,7 +17,7 @@
 			<div id="entity_identification" class="tab-pane fade in active">
         <div class="x_panel">
           <div class="x_title">
-            <h2 style="width: 100px;">Configurações</h2>
+            <h2 >Configurações</h2>
             <ul class="nav navbar-right panel_toolbox">
               <div class="btn-group" role="group" aria-label="...">
                 <style>
@@ -90,14 +90,13 @@
 									<ul class="list-unstyled " ng-repeat="item in backups">
 										<li>
 											<div class="block" style=" border-bottom: 1px solid #DDDDDD">
-												<div class="block_content">
+												<div class="block_content" style="overflow: hidden;text-overflow: ellipsis;">
 												<span class="title">
-													<a style="color:#999"><b>{{ item.backup_file_name }}</b></a><span class="" style="color:#d2d3d9;font-size: 11px;padding-left: 8px;padding-bottom:0px;margin-top: 3px">{{ item.backup_size }}</span>
-                            <span class="pull-right" style="color:#d2d3d9;font-size: 11px;padding-bottom:0px;margin-top: 3px" >{{ item.created_date|date:"dd/MM/yyyy"}} às {{ item.created_date|date:"HH:mm" }}</span>
+													<a style="color:#999;"><b>{{ item.backup_file_name }}</b><span style="color: #B3C1C3; font-size: 11px; alignment:center "> {{ item.backup_size | Filesize }}</span></a>
+                            <span class="pull-right" style="color:#B3C1C3;font-size: 11px;padding-bottom:0px;margin-top: 3px" >{{ item.created_date| date:'dd/MM/yyyy' }} ás {{ item.created_date| date:'HH:mm' }}</span>
 												</span>
                         </div>
 											</div>
-                    </li>
                     {% endverbatim %}
                   </ul>
                 </div>
