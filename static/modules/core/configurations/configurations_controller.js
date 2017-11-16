@@ -37,7 +37,6 @@ application.controller('configurations_controller', function ($scope) {
       success: function (data) {
       	var response = JSON.parse(data);
       	var item = response.object;
-      	alert(JSON.stringify(item));
       	var result = response.result
       	if(result=true){
       		$scope.backups.splice(0, 0, item);

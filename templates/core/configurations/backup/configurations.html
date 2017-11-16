@@ -80,7 +80,12 @@
                 </div>
                 <div class="x_content">
 									{% verbatim %}
-									<p ng-if="(backups|filter:filterIds()).length == 0">Nenhum backup salvo</p>
+									<div ng-if="(backups|filter:filterIds()).length == 0" style="text-align: center;">
+										<p style='background: blue;'>
+											<div style=""><i class="fa fa-exclamation-triangle fa-2x" aria-hidden="true"></i></div>
+										<div style="margin-left: 0px;">Atenção! Nenhum backup encontrado.<br><a style="cursor: pointer;font-weight: bold;" ng-click="create_backup()">Clique aqui para gerar um backup imediatamente.</a></div>
+											</p>
+									</div>
 
 									<ul class="list-unstyled " ng-repeat="item in backups">
 										<li>
