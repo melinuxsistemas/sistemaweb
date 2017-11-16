@@ -2,7 +2,9 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import Http404
 from django.utils.decorators import method_decorator
 
+from libs.backup.backup import BackupManager
 from libs.default.core import BaseController
+from modules.core.models import Backup
 from modules.user.models import User
 from sistemaweb import settings
 
@@ -15,6 +17,22 @@ class ConfigurationsController(BaseController):
     def load_backups(self, request):
         resposta = BaseController().filter(request, model=User)
         return resposta #BaseController().filter(request, model=User)
+
+    def create_backup(self):
+        backup_paramters = BackupManager.create_backup()
+        backup = Backup()
+        backup.backup_file_name = backup_paramters['file_name']
+        backup.backup_link = backup_paramters['link']
+        backup.backup_size = backup_paramters['size']
+
+        self.get_exceptions(self, backup, None)
+        if self.full_exceptions == {}:
+            response_dict = self.execute(backup, backup.save)
+        else:
+            response_dict = self.notify.error(self.full_exceptions)
+        print("SALVEI O BACKUP: ",response_dict)
+        return self.response(response_dict)
+
 
 
 class AbstractAPI:
