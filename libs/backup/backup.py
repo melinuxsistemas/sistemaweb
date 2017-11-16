@@ -22,10 +22,16 @@ class BackupManager:
         django.setup()
         call_command('dbbackup', '-v', '1', '-z')
         backup_path = self.upload()
+        link = backup_path['backup_link']
+        name = backup_path['backup_file_name']
+        size = backup_path['backup_size']
         self.clear_temp_file()
         backup_duration = datetime.datetime.now() - start_timing_backup
         print("Backup gerado em",backup_duration.total_seconds(),"segundos")
-        print("Arquivo disponivel em "+backup_path)
+        #print("Arquivo disponivel em "+link)
+        print("Nome: "+name)
+        print("Disponivel em: "+link)
+        print("Tamanho em bytes: "+size)
         return backup_path
 
     def restore_backup(self):
@@ -45,22 +51,24 @@ class BackupManager:
         self.data = []
         for entry in self.dt.entries:
             data = {}
+            filename = entry.name
             path_name = entry.path_lower
             link = self.dropbox.sharing_create_shared_link(path_name)  # Mesmo estando obsoleto,esse é o único modo de retornar o link de arquivos já compartilhados...
             url = link.url
             dl_url = re.sub(r"\?dl\=0", "?dl=1", url)
-            data['backup_link'] = dl_url
-            data['client_modified'] = entry.client_modified
-            data['size'] = str(entry.size)+" bytes"
             modified = entry.client_modified
             time = datetime.timedelta(hours=2)
             hora = datetime.datetime.strptime(str(modified), '%Y-%m-%d %H:%M:%S')
             now = hora - time
-            size = entry.size
-            size = str(size) + " bytes"
+            data['backup_file_name'] = filename
+            data['backup_link'] = dl_url
+            data['client_modified'] = entry.client_modified
+            data['backup_size'] = str(entry.size)+" bytes"
+            size = str(entry.size)+" bytes"
             display = entry.name
             print(display, now , size, '\n'+dl_url)
             self.data.append(data)
+        #print(self.data)
         return self.data
 
     def download(self,file):
@@ -78,6 +86,8 @@ class BackupManager:
         return final_path
 
     def upload(self):
+        self.data = []
+        data = {}
         temp_file = DBBACKUP_STORAGE_OPTIONS['location']+'/temp.dump.gz'
         time = datetime.datetime.now()
         export_name = DROPBOX_ROOT_PATH+'/'+time.strftime("%Y%m%d%H%M%S")+'.dump.gz'
@@ -87,7 +97,12 @@ class BackupManager:
         link = self.dropbox.sharing_create_shared_link_with_settings(export_name)
         url = link.url
         dl_url = re.sub(r"\?dl\=0", "?dl=1", url)
-        return dl_url
+        data['backup_file_name'] = link.name
+        data['backup_link'] = dl_url
+        data['client_modified'] = link.client_modified
+        data['backup_size'] = str(link.size) + " bytes"
+        return data
+        #return dl_url
 
     def clear_temp_file(self):
         backup_file = DBBACKUP_STORAGE_OPTIONS['location'] + '/temp.dump.gz'
