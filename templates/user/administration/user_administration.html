@@ -12,6 +12,7 @@
 	<link href="{% static 'modules/user/user.css' %}" rel="stylesheet">
 	<script src="{% static 'modules/user/user_controller.js' %}"></script>
 	<script src="{% static 'modules/user/user.js' %}"></script>
+	<script src="{% static 'modules/user/permission.js' %}"></script>
 
 
   <style>
@@ -52,6 +53,10 @@
 		<div class="tab-content">
 			<div id="users_identification" class="tab-pane fade in active">
 				{% include "user/administration/components/content/indentification.html" %}
+			</div>
+
+			<div id="users_permissions" class="tab-pane fade ">
+				{% include "perms/perms.html" %}
 			</div>
 		</div>
 	</div>

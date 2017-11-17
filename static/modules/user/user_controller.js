@@ -143,6 +143,110 @@ application.controller('users_controller', function($scope) {
 	$scope.user_selected = null;
 
 
+	$scope.lista_buscada = null;
+
+	/*Menus do Sistema com Label e ID*/
+	$scope.list_menu_Cadastros = [
+		{label: 'Entidades',id:'entidade'},
+		{label:'Permissões',id:'permissoes'},
+		{label:'Grupos Mercadológicos',id:'grupos_mercadologicos'},
+		{label:'Produtos', id:'produtos'},
+		{label:'Vinculos de Produtos',id:'vinculos_de_produtos'},
+		{label:'Agenda Telefônica',id:'agenda_telefonica'},
+		{label:'Tabelas Auxíliares',id:'tabelas_auxiliares'}
+		];
+
+	$scope.list_menu_Compras = [
+		{label:'Pedido e Fornecedoras', id:'pedido_e_fornecedores'},
+		{label:'Lista para Reposição',id:'lista_reposicao'},
+		{label: 'Pedidos para Cotação', id:'pedidos_cotacao'},
+		{label: 'Entrada de Mercadorias', id:'entrada_mercadorias'},
+		{label: 'Aquisição de Serviços', id:'aquisicao_servicos'},
+		{label: 'Corrigir Entrada', id:'corrigir_entrada'},
+		{label: 'Devolução e Fornecedores', id:'devolucao_fornecedores'},
+		{label: 'Manifesto e Recusa NF-e', id:'manifesto_recusa'},
+		{label: 'Histórico de Compras', id:'historico_compras'}];
+
+	$scope.list_menu_Vendas = [
+		{label:'Manuntenção de Preços',id:'manuntencao_precos'},
+		{label:'Terminal Caixa',id:'terminal_caixa'},
+		{label:'Venda Balcão',id:'venda_balcao'},
+		{label:'Tele-Vendas',id:'tele_vendas'},
+		{label:'Carteira de Pedidos',id:'carteira_pedidos'},
+		{label:'Faturamento',id:'faturamento'},
+		{label:'Devolução de Vendas',id:'devolucao_vendas'},
+		{label:'Histórioco de Vendas',id:'historico_vendas'}
+		];
+
+	$scope.list_menu_Servicos = [
+		{label:'Grupo de Serviços',id:'grupo_servicos'},
+		{label:'Cadastro de Serviço',id:'cadastro_servico'},
+		{label:'Chamados Técnicos',id:'chamados_tecnicos'},
+		{label:'Serviços de Locação',id:'servicos_locacao'},
+		{label:'Serviços de Logística',id:'servicos_logistica'},
+		{label:'Representação Comercial',id:'representacao_comercial'}
+		];
+
+	$scope.list_menu_Outras_operacoes = [
+			{label:'Tranferências',id:'transferencias'},
+	{label:'Ordem de Abastecimento',id:'ordem_abastecimento'},
+	{label:'Desmembrametos',id:'desmembramentos'},
+	{label:'Produção',id:'producao'},
+	{label:'Digitação de Balanço',id:'digitacao_balanco'},
+	{label:'Notas de Simples Remessa',id:'notas_simples_remessa'},
+	{label:'Emissão de Notas Avulsas',id:'emissao_notas_avulsas'},
+	{label:'Controle de Frota',id:'controle_frota'}];
+
+	$scope.list_menu_Financas = [{label:'Programação Financeira',id:'programacao_financeira'},
+		{label:'Lançamento de Guias',id:'lancamentos_guias'},
+		{label:'Liberar Comissões',id:'liberar_comissoes'},
+		{label:'Tesouraria',id:'tesouraria'},
+		{label:'Vale para Funcionários',id:'vale_funcionarios'},
+		{label:'Empréstimos e Vales',id:'emprestimo_vales'}
+		];
+
+	$scope.list_menu_Supervisao_vendas = [{label:'Locais Atendidos',id:'locais_atentidos'},
+		{label:'Segmentos Atendidos',id:'segmentos_atendidos'},
+		{label:'Carteiras de Venda',id:'carteiras_vendas'},
+		{label:'Rota de Entrega',id:'rota_entrega'},
+		{label:'Motivos de Devolução',id:'motivos_devolucao'},
+		/*Duplicidade de Menu*/
+		{label:'Liberar Comissões',id:'liberar_comissoes_2'},
+		{label:'Análise de Vendas',id:'analise_vendas'}
+		];
+
+	$scope.list_menu_Gerencia = [
+		{label:'Empresas do Grupo',id:'empresas_grupo'},
+		{label:'Funcionários/Usuários',id:'funcinarios_usuarios'},
+		{label:'Cadastros Gerências',id:'cadastro_gerencias'},
+		{label:'Formas de Recebimento',id:'formas_recebimento'},
+		{label:'Plano de Contas',id:'plano_contas'},
+		{label:'Contratos',id:'contratos'},
+		{label:'Análises Gerenciais',id:'analise_gerencial'},
+		{label:'Histórico de Produtos',id:'hitorico_produtos'},
+		{label:'Altrações Manuais',id:'alteracoes_manuais'}];
+
+	$scope.list_menu_Contabil = [{label:'Configurações Fiscais',id:'configuracoes_fiscais'},
+		{label:'Modelo de Documento',id:'modelo_documento'},
+		{label:'Tributação Produtos',id:'tributacao_produtos'},
+		{label:'Gerar Arquivos Governo',id:'gerar_arq_governo'},
+		{label:'Ánalise Tributária',id:'analise_tributaria'},
+		{label:'Planilha Sub. Tributária',id:'planilha_sub_tributaria'}];
+
+	/*Lista com todos Menus*/
+	$scope.lista_all_menus = {
+		registration : $scope.list_menu_Cadastros ,
+		purchases : $scope.list_menu_Compras,
+		sales : $scope.list_menu_Vendas,
+		services : $scope.list_menu_Servicos,
+		finances : $scope.list_menu_Financas,
+		supervision : $scope.list_menu_Supervisao_vendas,
+		management : $scope.list_menu_Gerencia,
+		contabil : $scope.list_menu_Contabil,
+		others : $scope.list_menu_Outras_operacoes
+	};
+
+
   $scope.filter_users = function(){
   	$.ajax({
       type: 'GET',
@@ -161,8 +265,7 @@ application.controller('users_controller', function($scope) {
         alert("Não foi possivel carregar a lista")
       }
     })
-	}
-
+	};
 	$scope.select_user = function(user){
     if ($scope.user_selected !==  null){
       if($scope.user_selected == user){
@@ -177,17 +280,106 @@ application.controller('users_controller', function($scope) {
       $scope.select_row(user);
     }
     $scope.$apply();
-  }
+  };
 
   $scope.select_row = function (user) {
   	$scope.user_selected = user;
 		$scope.user_selected.selected = 'selected';
-  }
+		$scope.user_selected.permissions = $scope.load_permissions();
+		alert(JSON.stringify($scope.user_selected))
+  };
 
   $scope.unselect_row = function () {
 		$scope.user_selected.selected = '';
     $scope.user_selected = null;
-  }
+  };
+
+  $scope.load_permissions = function () {
+  	$.ajax({
+				type: 'GET',
+				url: "/api/user/load/permissions/" + $scope.user_selected.id + "/",
+
+				success: function (data) {
+					var dict = JSON.parse(data);
+					var list_respost = JSON.parse(dict["data-object"]);
+					list_respost =list_respost[0]['fields'];
+					$scope.complete_menus(list_respost);
+					$scope.lista_buscada = list_respost
+				},
+
+				failure: function () {
+					alert("Não foi possivel carregar a lista")
+				}
+			})
+
+	};
+
+  $scope.complete_menus = function (list_respost) {
+		for (var i in list_respost){
+			var aux = list_respost[i].split(';');
+			for (var j = 0; j <$scope.lista_all_menus[i].length;j++){
+				select_rating($scope.lista_all_menus[i][j].id,parseInt(aux[j]))
+			}
+		}
+	};
+
+
+
+	$scope.save_permission = function () {
+		alert("vindo1")
+		var menus = {};
+
+		/*Cria dicionario de menus com as strings*/
+		for (var i in $scope.lista_all_menus) {
+			var monta_str = '';
+			for (var k in $scope.lista_all_menus[i]) {
+				monta_str += get_value($scope.lista_all_menus[i][k].id) + ";"
+			}
+			monta_str = monta_str.substr(0, monta_str.length - 1); //remove o ultimo ';'
+			menus[i] = monta_str
+		}
+		//menus.registration = '4;5;5;3;4;5;0;1'
+		alert("vindo1" + JSON.stringify(menus))
+		alert("olha a lista"+$scope.lista_buscada)
+		if (!(JSON.stringify(menus) === (JSON.stringify($scope.lista_buscada)))) {
+			alert("OLHA+"+$scope.user_selected.id)
+			var data_paramters = {
+				id_user: $scope.user_selected.id,
+				registration: menus.registration,
+				sales: menus.sales,
+				purchases: menus.purchases,
+				services: menus.services,
+				finances: menus.finances,
+				supervision: menus.supervision,
+				management: menus.management,
+				contabil: menus.contabil,
+				others: menus.others
+			};
+			alert("vindo1")
+			success_function = function () {
+				notify('success','Operação concluida','Autonomias salvas com sucesso')
+				$scope.lista_buscada = menus
+			};
+			fail_function = function () {
+				notify("error","Erro ao tentar forçar entradas","Favor preencher o formulario com selecionando as estrelas")
+			};
+			validate_function = function () {
+				return validate_permission(menus)
+			};
+			alert("INDO TENTAR:"+JSON.stringify(data_paramters));
+			request_api("/api/user/save/permissions/", data_paramters, validate_function, success_function, fail_function)
+		}
+		else{
+			notify("error","Sem alterações","No momento a ação não pode ser concluida.\nFavor tentar mais tarde ")
+		}
+
+	};
+
+	$scope.test_perm = function () {
+		return ($scope.has_change)
+	};
+
+	$scope.has_change = function () {
+		return true
+	}
 });
-
-

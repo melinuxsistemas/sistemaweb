@@ -99,14 +99,14 @@ class UserController(BaseController):
     @login_required
     @user_passes_test(lambda u: u.permissions.can_view_entity(), login_url='/error/access_denied',redirect_field_name=None)
     def filter_users(request):
-        return BaseController().filter(request, User, extra_fields=['permissions'])
+        return BaseController().filter(request, User,list_fields=['last_login','email','type_user','joined_date','last_update','active_user','id'],extra_fields=['permissions'])
 
 
 
 class PermissionAPI(BaseController):
     def load(request, id):
         try:
-            user = User.objects.get(email=id)
+            user = User.objects.get(id=id)
             permissions = Permissions.objects.get(user=user)
             response_dict = response_format_success(permissions,[
                 'id','registration','purchases','sales','services',

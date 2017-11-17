@@ -1,154 +1,153 @@
-<div id="angular_content_perms" ng-cloak ng-app="modules.perms">
-  <div id="div_permission_controller" ng-controller="permission_controller">
-		<div class="x_panel">
-			<div class="x_title">
-				<h2>Definições de Autonomias</h2>
-				<ul class="nav navbar-right panel_toolbox">
-					<a id='bt_add_contacts'role="button" ng-click="save_permission()"  class="btn btn-sm btn-success pull-left"  style='margin-left: 5px; width: 100px' title="Adicionar Telefone" ><i class="fa fa-plus" aria-hidden="true"></i>   SALVAR</a>
-				</ul>
-				<div class="clearfix"></div>
-			</div>
-			<div class="x_content" style="padding-right: 10px;padding-left: 10px;">
-				<a >
-					{% csrf_token %}
-					<!--<div class="row">
-						<button ng-click="save_permission()"  class="form-control">Salvar</button>
+<div id="div_permission_controller" ng-controller="users_controller">
+	<div class="x_panel">
+		<div class="x_title">
+			<h2>Definições de Autonomias</h2>
+			<ul class="nav navbar-right panel_toolbox">
+				<a id='bt_save_permissions'role="button" ng-click="save_permission()"  class="btn btn-sm btn-success pull-left"  style='margin-left: 5px; width: 100px' title="Salver Permissões" ><i class="fa fa-plus" aria-hidden="true"></i>   SALVAR</a>
+				<a id='bt_back_users' href="#users_identification" data-toggle="tab" role="button" class="btn btn-sm btn-default " style='width: 100px; font-family: Arial;' title="Voltar para Entidades"><i class="fa fa-arrow-left" aria-hidden="true" style="margin-left: -6px"> Voltar</i></a>
+
+			</ul>
+			<div class="clearfix"></div>
+		</div>
+		<div class="x_content" style="padding-right: 10px;padding-left: 10px;">
+			<a >
+				{% csrf_token %}
+				<!--<div class="row">
+					<button ng-click="save_permission()"  class="form-control">Salvar</button>
+				</div>-->
+
+				<div class="row">
+					<!-- Menu Cadastros-->
+					<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
+						<fieldset>
+							<a id="legend_cadastro" data-target="#permissions_cadastro">
+								<legend>Cadastros</legend>
+							</a>
+						</fieldset>
+						<div hidden> {{ form_autonomy.registration }}</div>
+						<div  id="permissions_cadastro" style="padding: 0px;margin-top: -15px;padding-bottom: 0px">
+							{% include "perms/tables/menu_0.html" %}
+						</div>
 					</div>
 
-					<div class="row">-->
-						<!-- Menu Cadastros-->
-						<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
-							<fieldset>
-								<a href="#" id="legend_cadastro" data-toggle="collapse" data-target="#permissions_cadastro">
-									<legend>Cadastros</legend>
-								</a>
-							</fieldset>
-							<div hidden> {{ form_autonomy.registration }}</div>
-							<div  id="permissions_cadastro" style="padding: 0px;margin-top: -15px;padding-bottom: 0px">
-								{% include "perms/tables/menu_0.html" %}
+					<!-- Menu Compras-->
+					<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+						<fieldset>
+							<a id="legend_compras" data-target="#permissions_compras">
+								<legend>Compras</legend>
+							</a>
+							<div hidden> {{ form_autonomy.purchases }}</div>
+							<div id="permissions_compras" style="padding: 0px;margin-top: -15px;padding-bottom: 0px">
+								{% include "perms/tables/menu_1.html" %}
 							</div>
-						</div>
+						</fieldset>
+					</div>
 
-						<!-- Menu Compras-->
-						<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-							<fieldset>
-								<a href="#" id="legend_compras" data-toggle="collapse" data-target="#permissions_compras">
-									<legend>Compras</legend>
-								</a>
-								<div hidden> {{ form_autonomy.purchases }}</div>
-								<div id="permissions_compras" style="padding: 0px;margin-top: -15px;padding-bottom: 0px">
-									{% include "perms/tables/menu_1.html" %}
-								</div>
-							</fieldset>
-						</div>
-
-						<!-- Menu Vendas-->
-						<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-							<fieldset>
-								<a href="#" id="legend_vendas" data-toggle="collapse" data-target="#permissions_vendas">
-									<legend>Vendas</legend>
-								</a>
-								<div hidden> {{ form_autonomy.sales }}</div>
-								<div id="permissions_vendas" style="padding: 0px;margin-top: -15px;padding-bottom: 0px">
-									{% include "perms/tables/menu_2.html" %}
-								</div>
-							</fieldset>
-						</div>
-					<div class="row">
-						<!-- Menu Servicos-->
-						<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
-							<fieldset>
-								<a href="#" id="legend_servicos" data-toggle="collapse" data-target="#permissions_servicos">
-									<legend>Serviços</legend>
-								</a>
-								<div hidden> {{ form_autonomy.services }}</div>
-								<div id="permissions_servicos" style="padding: 0px;margin-top: -15px;padding-bottom: 0px">
-									{% include "perms/tables/menu_3.html" %}
-								</div>
-							</fieldset>
-						</div>
-
-						<!-- Menu Outras operacoes-->
-						<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
-							<fieldset>
-								<a href="#" id="legend_outras_operacoes" data-toggle="collapse" data-target="#permissions_outras_operacoes">
-									<legend>Outros</legend>
-								</a>
-								<div hidden> {{ form_autonomy.others }}</div>
-								<div id="permissions_outras_operacoes" style="padding: 0px;margin-top: -15px;padding-bottom: 0px">
-									{% include "perms/tables/menu_4.html" %}
-								</div>
-							</fieldset>
-						</div>
-
-						<!-- Menu Finanças-->
-						<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
-							<fieldset>
-								<a href="#" id="legend_financas" data-toggle="collapse" data-target="#permissions_financas">
-									<legend>Finanças</legend>
-								</a>
-								<div hidden> {{ form_autonomy.finances }}</div>
-								<div id="permissions_financas" style="padding: 0px;margin-top: -15px;padding-bottom: 0px">
-									{% include "perms/tables/menu_5.html" %}
-								</div>
-							</fieldset>
+					<!-- Menu Vendas-->
+					<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+						<fieldset>
+							<a id="legend_vendas" data-target="#permissions_vendas">
+								<legend>Vendas</legend>
+							</a>
+							<div hidden> {{ form_autonomy.sales }}</div>
+							<div id="permissions_vendas" style="padding: 0px;margin-top: -15px;padding-bottom: 0px">
+								{% include "perms/tables/menu_2.html" %}
 							</div>
+						</fieldset>
+					</div>
+				</div>
+
+				<div class="row">
+					<!-- Menu Servicos-->
+					<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
+						<fieldset>
+							<a id="legend_servicos"data-target="#permissions_servicos">
+								<legend>Serviços</legend>
+							</a>
+							<div hidden> {{ form_autonomy.services }}</div>
+							<div id="permissions_servicos" style="padding: 0px;margin-top: -15px;padding-bottom: 0px">
+								{% include "perms/tables/menu_3.html" %}
+							</div>
+						</fieldset>
 					</div>
 
-					<div class="row">
-						<!-- Menu Supervisao Vendas-->
-						<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
-							<fieldset>
-								<a href="#" id="legend_supervisao_vendas" data-toggle="collapse" data-target="#permissions_supervisao_vendas">
-									<legend>Supervião de Vendas</legend>
-								</a>
-								<div hidden> {{ form_autonomy.supervision }}</div>
-								<div id="permissions_supervisao_vendas" style="padding: 0px;margin-top: -15px;padding-bottom: 0px">
-									{% include "perms/tables/menu_6.html" %}
-								</div>
-							</fieldset>
-						</div>
-
-						<!-- Menu Gerencia-->
-						<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
-							<fieldset>
-								<a href="#" id="legend_gerencia" data-toggle="collapse" data-target="#permissions_gerencia">
-									<legend>Gerência</legend>
-								</a>
-								<div hidden> {{ form_autonomy.management }}</div>
-								<div id="permissions_gerencia" style="padding: 0px;margin-top: -15px;padding-bottom: 0px">
-									{% include "perms/tables/menu_7.html" %}
-								</div>
-							</fieldset>
-						</div>
-
-						<!-- Menu Contabil-->
-						<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
-							<fieldset>
-								<a href="#" id="legend_contabil" data-toggle="collapse" data-target="#permissions_contabil">
-									<legend>Contábil</legend>
-								</a>
-								<div hidden> {{ form_autonomy.contabil }}</div>
-								<div id="permissions_contabil" style="padding: 0px;margin-top: -15px;padding-bottom: 0px">
-									{% include "perms/tables/menu_8.html" %}
-								</div>
-							</fieldset>
-						</div>
+					<!-- Menu Outras operacoes-->
+					<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
+						<fieldset>
+							<a id="legend_outras_operacoes"data-target="#permissions_outras_operacoes">
+								<legend>Outros</legend>
+							</a>
+							<div hidden> {{ form_autonomy.others }}</div>
+							<div id="permissions_outras_operacoes" style="padding: 0px;margin-top: -15px;padding-bottom: 0px">
+								{% include "perms/tables/menu_4.html" %}
+							</div>
+						</fieldset>
 					</div>
-				</a>
-			</div>
+
+					<!-- Menu Finanças-->
+					<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
+						<fieldset>
+							<a  id="legend_financas" data-target="#permissions_financas">
+								<legend>Finanças</legend>
+							</a>
+							<div hidden> {{ form_autonomy.finances }}</div>
+							<div id="permissions_financas" style="padding: 0px;margin-top: -15px;padding-bottom: 0px">
+								{% include "perms/tables/menu_5.html" %}
+							</div>
+						</fieldset>
+						</div>
+				</div>
+
+				<div class="row">
+					<!-- Menu Supervisao Vendas-->
+					<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
+						<fieldset>
+							<a id="legend_supervisao_vendas" data-target="#permissions_supervisao_vendas">
+								<legend>Supervião de Vendas</legend>
+							</a>
+							<div hidden> {{ form_autonomy.supervision }}</div>
+							<div id="permissions_supervisao_vendas" style="padding: 0px;margin-top: -15px;padding-bottom: 0px">
+								{% include "perms/tables/menu_6.html" %}
+							</div>
+						</fieldset>
+					</div>
+
+					<!-- Menu Gerencia-->
+					<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
+						<fieldset>
+							<a id="legend_gerencia" data-target="#permissions_gerencia">
+								<legend>Gerência</legend>
+							</a>
+							<div hidden> {{ form_autonomy.management }}</div>
+							<div id="permissions_gerencia" style="padding: 0px;margin-top: -15px;padding-bottom: 0px">
+								{% include "perms/tables/menu_7.html" %}
+							</div>
+						</fieldset>
+					</div>
+
+					<!-- Menu Contabil-->
+					<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
+						<fieldset>
+							<a id="legend_contabil" data-target="#permissions_contabil">
+								<legend>Contábil</legend>
+							</a>
+							<div hidden> {{ form_autonomy.contabil }}</div>
+							<div id="permissions_contabil" style="padding: 0px;margin-top: -15px;padding-bottom: 0px">
+								{% include "perms/tables/menu_8.html" %}
+							</div>
+						</fieldset>
+					</div>
+				</div>
+			</a>
 		</div>
 	</div>
 </div>
 
 {% block recursos_complementares %}
 	{% load static %}
-	<link href="{% static 'modules/perms/perms.css' %}" rel="stylesheet">
-	<script src="{% static 'modules/perms/permissions_controller.js' %}"></script>
-	<script src="{% static 'modules/perms/permissions.js' %}"></script>
+	<link href="{% static 'modules/user/perms.css' %}" rel="stylesheet">
 	<script>
 		$(document).ready(function() {
-				angular.element(document.getElementById('div_permission_controller')).scope().load_all();
 				$("input").click(function(){
   				select_rating(this.name, this.value)
 				});
