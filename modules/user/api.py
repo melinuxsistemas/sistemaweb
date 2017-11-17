@@ -97,10 +97,9 @@ class UserController(BaseController):
         return HttpResponse(json.dumps(response_dict))
 
     @login_required
-    @user_passes_test(lambda u: u.permissions.can_view_entity(), login_url='/error/access_denied',
-                      redirect_field_name=None)
+    @user_passes_test(lambda u: u.permissions.can_view_entity(), login_url='/error/access_denied',redirect_field_name=None)
     def filter_users(request):
-        return BaseController().filter(request, User)
+        return BaseController().filter(request, User, extra_fields=['permissions'])
 
 
 

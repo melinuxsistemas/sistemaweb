@@ -25,7 +25,7 @@ class BackupManager:
         link = backup['link']
         name = backup['file_name']
         size = backup['size']
-        #self.clear_temp_file()
+        self.clear_temp_file()
         backup_duration = datetime.datetime.now() - start_timing_backup
         print("Backup gerado em",backup_duration.total_seconds(),"segundos")
         print("Arquivo disponivel em "+link)

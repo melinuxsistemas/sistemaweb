@@ -26,10 +26,13 @@ def json_serial(obj):
 
 class Notify:
 
-    def datalist(self, datalist, list_fields=None):
+    def datalist(self, datalist, list_fields=None, extra_fields=None):
         response_dict = []
         for item in datalist:
             response_data = self.__format_serialized_model(item, list_fields)
+            if extra_fields is not None:
+                for item in extra_fields:
+                    response_data[item] = None
             response_dict.append(response_data)
         return response_dict
 
@@ -163,7 +166,7 @@ class BaseController(Notify):
         return self.response(response_dict)
 
     @request_ajax_required
-    def filter(self, request, model, queryset=None, order_by="-id", list_fields=None, limit=None):
+    def filter(self, request, model, queryset=None, order_by="-id", list_fields=None, limit=None, extra_fields=None):
         if queryset is None:
             model_list = model.objects.all().order_by(order_by)
         else:
@@ -173,7 +176,7 @@ class BaseController(Notify):
             model_list = model_list.limit(limit)
         response_dict = {}
         response_dict['result'] = True
-        response_dict['object'] = self.notify.datalist(model_list, list_fields)
+        response_dict['object'] = self.notify.datalist(model_list, list_fields,extra_fields)
         response_dict['message'] = str(len(self.notify.datalist(model_list, list_fields)))+" Registros carregados com sucesso!"
         return self.response(response_dict)
 
