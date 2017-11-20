@@ -65,7 +65,7 @@ application.controller('identification_controller', function($scope) {
       url: "/api/entity/filter",
 
       success: function (data) {
-        $scope.list_entities = JSON.parse(data);
+        $scope.list_entities = JSON.parse(data).object;
         $("#loading_tbody").fadeOut();
         $scope.$apply();
         $scope.loaded_entities = true;
