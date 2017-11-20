@@ -15,9 +15,10 @@ class BackupManager:
     dropbox = None
 
     def __init__(self):
-        self.dropbox = dropbox.Dropbox(DROPBOX_OAUTH2_TOKEN)
+        pass
 
     def create_backup(self):
+        self.dropbox = dropbox.Dropbox(DROPBOX_OAUTH2_TOKEN)
         start_timing_backup = datetime.datetime.now()
         django.setup()
         call_command('dbbackup', '-v', '1', '-z')
@@ -35,6 +36,7 @@ class BackupManager:
         return backup
 
     def restore_backup(self):
+        self.dropbox = dropbox.Dropbox(DROPBOX_OAUTH2_TOKEN)
         start_timing_backup = datetime.datetime.now()
         list_files = self.dropbox.files_list_folder(DROPBOX_ROOT_PATH)
         most_recent_backup = self.download(list_files.entries[-1].path_display)
@@ -111,6 +113,7 @@ class BackupManager:
             os.remove(backup_file)
 
 if __name__=='__main__':
+    """
     import sys
     arguments = sys.argv
     backup_manage = BackupManager()
@@ -122,4 +125,6 @@ if __name__=='__main__':
         backup_manage.list_backup()
     else:
         pass
+    """
+    pass
 

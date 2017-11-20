@@ -42,6 +42,8 @@ application.controller('configurations_controller', function ($scope) {
 					$scope.$apply();
       	}
       	register_action(start_request, status);
+      	$scope.load_backups_informations()
+
       	NProgress.done();
       },
 
@@ -50,6 +52,23 @@ application.controller('configurations_controller', function ($scope) {
         $scope.loaded_backups = true;
         register_action(start_request, status);
       	NProgress.done();
+      }
+    })
+	}
+
+	$scope.load_backups_informations = function(){
+		$.ajax({
+      type: 'GET',
+      url: "/api/core/configurations/backup/info",
+
+      success: function (data) {
+      	$scope.backups_informations = JSON.parse(data).object;
+        $("#loading_tbody").fadeOut();
+        $scope.$apply();
+      },
+
+      failure: function () {
+        alert("Não foi possivel carregar a lista")
       }
     })
 	}

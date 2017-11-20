@@ -26,6 +26,8 @@ def json_serial(obj):
 
 class Notify:
 
+
+
     def datalist(self, datalist, list_fields=None, extra_fields=None):
         response_dict = []
         for item in datalist:

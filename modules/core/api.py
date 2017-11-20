@@ -14,7 +14,6 @@ class ConfigurationsController(BaseController):
     @method_decorator(login_required)
     #user_passes_test(lambda u: u.permissions.can_view_entity(), login_url='/error/access_denied', redirect_field_name=None)
     def load_backups(self, request):
-        self.check_available_space(request)
         return BaseController().filter(request, model=Backup)
 
     def create_backup(self,request):
@@ -49,27 +48,24 @@ class ConfigurationsController(BaseController):
     def check_available_space(self,request):
         self.start_process(request)
         backup_list = Backup.objects.all()
-        total_space = 2000000000 # Bytes
-        used_space  = 0
+        response_dict = {}
+        response_dict['result'] = True
+        response_dict['message'] = ""
+        response_dict['object'] = {}
+        response_dict['object']['total_files'] = len(backup_list)
+        response_dict['object']['total_space'] = 2000000000
+        response_dict['object']['used_space'] = 0
+
         for item in backup_list:
-            used_space = used_space + item.backup_size
+            response_dict['object']['used_space'] = response_dict['object']['used_space'] + item.backup_size
+        response_dict['object']['used_percent_space'] = round((response_dict['object']['used_space'] / response_dict['object']['total_space']) * 100, 2)
 
-        print("ESPACO DE ARMAZENAMENTO: ",used_space,"/",total_space,"(",(used_space/total_space)*100,")")
-
-
-
-
-        backup_paramters = BackupManager().create_backup()
-        backup = Backup()
-        backup.backup_file_name = backup_paramters['file_name']
-        backup.backup_link = backup_paramters['link']
-        backup.backup_size = backup_paramters['size']
-        self.get_exceptions(backup, None)
-        if self.full_exceptions == {}:
-            response_dict = self.execute(backup, backup.save)
-        else:
-            response_dict = self.notify.error(self.full_exceptions)
+        print("ESPACO DE ARMAZENAMENTO: ",response_dict)
         return self.response(response_dict)
+
+
+
+
 
 
 
