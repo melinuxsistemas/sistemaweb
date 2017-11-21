@@ -142,9 +142,6 @@ application.controller('users_controller', function($scope) {
 	$scope.loaded_entities = false;
 	$scope.user_selected = null;
 
-
-	$scope.lista_buscada = null;
-
 	/*Menus do Sistema com Label e ID*/
 	$scope.list_menu_Cadastros = [
 		{label: 'Entidades',id:'entidade'},
@@ -266,6 +263,7 @@ application.controller('users_controller', function($scope) {
       }
     })
 	};
+
 	$scope.select_user = function(user){
     if ($scope.user_selected !==  null){
       if($scope.user_selected == user){
@@ -285,12 +283,12 @@ application.controller('users_controller', function($scope) {
   $scope.select_row = function (user) {
   	$scope.user_selected = user;
 		$scope.user_selected.selected = 'selected';
-		$scope.user_selected.permissions = $scope.load_permissions();
-		alert(JSON.stringify($scope.user_selected))
+		$scope.load_permissions();
   };
 
   $scope.unselect_row = function () {
 		$scope.user_selected.selected = '';
+		$scope.user_selected.permissions = null;
     $scope.user_selected = null;
   };
 
@@ -298,13 +296,13 @@ application.controller('users_controller', function($scope) {
   	$.ajax({
 				type: 'GET',
 				url: "/api/user/load/permissions/" + $scope.user_selected.id + "/",
-
-				success: function (data) {
+			success: function (data) {
 					var dict = JSON.parse(data);
 					var list_respost = JSON.parse(dict["data-object"]);
 					list_respost =list_respost[0]['fields'];
+					$scope.user_selected.permissions = list_respost;
 					$scope.complete_menus(list_respost);
-					$scope.lista_buscada = list_respost
+					$scope.$apply()
 				},
 
 				failure: function () {
@@ -326,7 +324,7 @@ application.controller('users_controller', function($scope) {
 
 
 	$scope.save_permission = function () {
-		alert("vindo1")
+		$scope.user_selected = angular.element(document.getElementById('administration_users_controller')).scope().user_selected;
 		var menus = {};
 
 		/*Cria dicionario de menus com as strings*/
@@ -338,11 +336,10 @@ application.controller('users_controller', function($scope) {
 			monta_str = monta_str.substr(0, monta_str.length - 1); //remove o ultimo ';'
 			menus[i] = monta_str
 		}
+
 		//menus.registration = '4;5;5;3;4;5;0;1'
-		alert("vindo1" + JSON.stringify(menus))
-		alert("olha a lista"+$scope.lista_buscada)
-		if (!(JSON.stringify(menus) === (JSON.stringify($scope.lista_buscada)))) {
-			alert("OLHA+"+$scope.user_selected.id)
+		if (!(JSON.stringify(menus) === (JSON.stringify($scope.user_selected.permissions)))) {
+			alert("OLHA+"+$scope.user_selected.id);
 			var data_paramters = {
 				id_user: $scope.user_selected.id,
 				registration: menus.registration,
@@ -355,7 +352,6 @@ application.controller('users_controller', function($scope) {
 				contabil: menus.contabil,
 				others: menus.others
 			};
-			alert("vindo1")
 			success_function = function () {
 				notify('success','Operação concluida','Autonomias salvas com sucesso')
 				$scope.lista_buscada = menus
@@ -372,14 +368,6 @@ application.controller('users_controller', function($scope) {
 		else{
 			notify("error","Sem alterações","No momento a ação não pode ser concluida.\nFavor tentar mais tarde ")
 		}
-
+		$scope.user_selected.permissions = menus;
 	};
-
-	$scope.test_perm = function () {
-		return ($scope.has_change)
-	};
-
-	$scope.has_change = function () {
-		return true
-	}
 });
