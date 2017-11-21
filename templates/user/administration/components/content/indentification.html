@@ -5,7 +5,7 @@
 			<ul class="nav navbar-right panel_toolbox">
 				<div class="btn-group" role="group" aria-label="...">
 					<style>
-						a.btn {
+						a.btn:not:first-child {
 							color: #999;
 							width: 35px;
 						}
@@ -47,11 +47,15 @@
 
 									<th class="col_user_email text-center" ng-hide='screen_model <= 2' ng-click="sortType = 'email'; sortReverse = !sortReverse">Email</th>
 
-									<th class="col_user_last_update text-center" ng-hide='screen_model <= 2' ng-click="sortType = 'last_update'; sortReverse = !sortReverse">Ultima atualização</th>
+									<th class='col_user_last_login text-center' ng-click="sortType = 'last_login'; sortReverse = !sortReverse">Grupo Permissão</th>
+
+									<th class='col_user_last_login text-center' ng-click="sortType = 'last_login'; sortReverse = !sortReverse">Ultimo acesso</th>
+
+									<th class='col_user_last_login text-center' ng-click="sortType = 'last_login'; sortReverse = !sortReverse">IP</th>
 
 									<th class='col_user_date_create text-center' ng-click="sortType = 'joined_date'; sortReverse = !sortReverse">Data de criação</th>
 
-									<th class='col_user_last_login text-center' ng-click="sortType = 'last_login'; sortReverse = !sortReverse">Ultimo acesso</th>
+									<th class="col_user_last_update text-center" ng-hide='screen_model <= 2' ng-click="sortType = 'last_update'; sortReverse = !sortReverse">Ultima alteração</th>
 
 									<th class='col_user_activated text-center' ng-click="sortType = 'active_user'; sortReverse = !sortReverse">Usuario ativado</th>
 								</tr>
@@ -80,16 +84,26 @@
 										{{ user.email }}
 									</td>
 
-									<td class="col_user_last_update">
-										{{ user.last_update| date:'dd/MM/yyyy' }} ás {{ user.last_update| date:'HH:mm' }}
+									<td class="col_user_last_login">
+										{{ user.group}}
 									</td>
+
+									<td class="col_user_last_login">
+										{{ user.last_login| date:'dd/MM/yyyy' }} ás {{ user.last_login| date:'HH:mm' }}
+									</td>
+
+									<td class="col_user_last_login">
+										192.168.1.114
+									</td>
+
 
 									<td class="col_user_date_create" ng-hide='screen_model <= 2'>
 										{{ user.joined_date| date:"dd/MM/yyyy" }} ás {{ user.joined_date| date:'HH:mm' }}
 									</td>
 
-									<td class="col_user_last_login">
-										{{ user.last_login| date:'dd/MM/yyyy' }} ás {{ user.last_login| date:'HH:mm' }}
+
+									<td class="col_user_last_update">
+										{{ user.last_update| date:'dd/MM/yyyy' }} ás {{ user.last_update| date:'HH:mm' }}
 									</td>
 
 									<td class="col_user_activated">

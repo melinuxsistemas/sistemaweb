@@ -116,6 +116,7 @@ class User(AbstractBaseUser):
     account_activated = models.BooleanField(default=False)
     activation_code   = models.CharField(max_length=46, null=True, blank=True, error_messages=ERRORS_MESSAGES)
     active_user       = models.BooleanField(default=True)
+    group             = models.ForeignKey('GroupPermissions')
 
     USERNAME_FIELD    = 'email'
     REQUIRED_FIELDS   = []
@@ -217,6 +218,18 @@ class SessionAction(models.Model):
     #SESSION_PARAMTERS['init_load_page'] = ''
     #SESSION_PARAMTERS['load_page_duration'] = ''
     #SESSION_PARAMTERS['setup_page_duration'] = ''
+
+class GroupPermissions (models.Model):
+    name = models.CharField('Grupo',max_length=100,null=False, unique=True, error_messages=ERRORS_MESSAGES)
+    registration = models.CharField('Cadastros', max_length=255, null=False, unique=False,error_messages=ERRORS_MESSAGES)
+    purchases = models.CharField('Compras', max_length=255, null=False, unique=False, error_messages=ERRORS_MESSAGES)
+    sales = models.CharField('Vendas', max_length=255, null=False, unique=False, error_messages=ERRORS_MESSAGES)
+    services = models.CharField('Serviços', max_length=255, null=False, unique=False, error_messages=ERRORS_MESSAGES)
+    finances = models.CharField('Finanças', max_length=255, null=False, unique=False, error_messages=ERRORS_MESSAGES)
+    supervision = models.CharField('Supervisão', max_length=255, null=False, unique=False,error_messages=ERRORS_MESSAGES)
+    management = models.CharField('Gerência', max_length=255, null=False, unique=False, error_messages=ERRORS_MESSAGES)
+    contabil = models.CharField('Contábil', max_length=255, null=False, unique=False, error_messages=ERRORS_MESSAGES)
+    others = models.CharField('Outros', max_length=255, null=False, unique=False, error_messages=ERRORS_MESSAGES)
 
 
 class Permissions(models.Model, UserPermissions, EntityPermissions, ContactPermissions):
