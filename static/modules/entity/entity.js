@@ -260,7 +260,6 @@ function select_entity_type(){
 		//$('#tributary_regime').selectpicker('val', 0);
 	}
 
-
 	else if(entity_type == 2){
 		//alert("TROCAR PRA PESSOA JURIDICA")
 

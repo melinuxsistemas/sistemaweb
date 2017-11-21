@@ -84,20 +84,7 @@
 		angular.element(document.getElementById('identification_controller')).scope().readjust_screen()
 	}
 
-	$(document).ready(function(){
-		post_screen_verified();
-		angular.element(document.getElementById('identification_controller')).scope().load();
-
-		$('#birth_date_foundation').mask('99/99/9999');
-		$('#entity_type').selectpicker({selectOnTab:true});
-		$('#natureza_juridica').selectpicker({selectOnTab:true});
-		$('#main_activity').selectpicker({selectOnTab:true});
-		$('#relation_type').selectpicker({selectOnTab:true});
-
-		$('#market_segment').selectpicker({liveSearch: true});
-		$('#buy_destination').selectpicker({selectOnTab:true});
-		$('#tributary_regime').selectpicker({selectOnTab:true});
-		$('#company_activities').selectpicker({selectOnTab:true});
+	function test_form(){
 
 
 		select_selectpicer('entity_type',2)
@@ -107,7 +94,7 @@
 		$("#fantasy_name").val('TESTES')
 		$("#birth_date_foundation").val('15/01/1988')
 		$("#cpf_cnpj").val('20.730.099/0001-94')
-		select_selectpicer('relation_type',1)
+		select_selectpicer('relations_company',[1,2,3,4])
 		select_selectpicer('natureza_juridica',1)
 		select_selectpicer('main_activity',1)
 		$("#comments").val('CLIENTE ESPECIAL')
@@ -117,6 +104,23 @@
 		select_selectpicer('buy_destination',1)
 		select_selectpicer('market_segment',[1,2])
 		$("#comments_fiscal_note").val('ENTREGAR PREFERENCIALMENTE DE SEGUNDA A SEXTA DAS 09H AS 16H.')
+
+	}
+
+	$(document).ready(function(){
+		post_screen_verified();
+		angular.element(document.getElementById('identification_controller')).scope().load();
+		$('#birth_date_foundation').mask('99/99/9999');
+		$('#entity_type').selectpicker({selectOnTab:true});
+		$('#natureza_juridica').selectpicker({selectOnTab:true});
+		$('#main_activity').selectpicker({selectOnTab:true});
+		$('#relations_company').selectpicker({selectOnTab:true});
+
+		$('#market_segment').selectpicker({liveSearch: true});
+		$('#buy_destination').selectpicker({selectOnTab:true});
+		$('#tributary_regime').selectpicker({selectOnTab:true});
+		$('#company_activities').selectpicker({selectOnTab:true});
+		test_form();
 
 		terminate_setup()
 		//alert("PAGINA PRONTA EM "+SESSION_PARAMTERS['load_page_duration']+"ms E DADOS E CONFIGURACOES PRONTAS EM "+SESSION_PARAMTERS['setup_page_duration']+"ms")

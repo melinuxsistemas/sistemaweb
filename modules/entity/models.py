@@ -1,12 +1,8 @@
 from django.db import models
 from modules.core.config import ERRORS_MESSAGES
-from modules.entity.validators import cpf_cnpj_validator, min_words_name_validator, future_birthdate_validator, \
-    maximum_age_person_validator, minimum_age_person_validator, \
-    required_validator, cpf_validator, cnpj_validator, only_numeric, validate_ddd
+from modules.entity.validators import cpf_cnpj_validator, min_words_name_validator, future_birthdate_validator, maximum_age_person_validator, minimum_age_person_validator, required_validator, only_numeric, validate_ddd
 from django.core.validators import MinLengthValidator
-
 from modules.user.validators import email_format_validator, email_dangerous_symbols_validator
-from sistemaweb import settings
 
 
 class BaseModel:
@@ -45,12 +41,12 @@ class Entity(models.Model, BaseModel):
         (9,'Falecido / Encerrou Atividade')
     )
     options_relation_company = (
-        (0, "Cliente"),
-        (1, "Fornecedor"),
-        (2, "Funcionário"),
-        (3, "Transportador"),
-        (4, "Representante"),
-        (5, "Banco")
+        ('0', "Cliente"),
+        ('1', "Fornecedor"),
+        ('2', "Funcionário"),
+        ('3', "Transportador"),
+        ('4', "Representante"),
+        ('5', "Banco")
 
     )
     options_activities = (
@@ -71,8 +67,8 @@ class Entity(models.Model, BaseModel):
     fantasy_name = models.CharField("Nome Fantasia", max_length=32, null=True, blank=True, error_messages=ERRORS_MESSAGES)
     birth_date_foundation = models.DateField("Data de Nascimento ou Fundação", null=True, blank=True, validators=[future_birthdate_validator, minimum_age_person_validator, maximum_age_person_validator], error_messages=ERRORS_MESSAGES)
     natureza_juridica = models.CharField("Tipo de Relação", null=True, blank=True, max_length=64, error_messages=ERRORS_MESSAGES)
-    main_activity = models.ForeignKey('core.EconomicActivity')
-    relations_company = models.CharField("Tipo de Relação",choices=options_relation_company, null=True, blank=True, max_length=2, error_messages=ERRORS_MESSAGES)
+    main_activity = models.ForeignKey('core.EconomicActivity',null=True, blank=True)
+    relations_company = models.CharField("Tipo de Relação", max_length=50, null=True, blank=True, error_messages=ERRORS_MESSAGES)
     registration_status = models.IntegerField(choices=options_registration_status, default=0, error_messages=ERRORS_MESSAGES)
     comments = models.TextField("Observações",max_length=500,null=True, blank=True)
     comments_fiscal_note = models.TextField("Observações para Nota Fiscal",max_length=512,null=True, blank=True)

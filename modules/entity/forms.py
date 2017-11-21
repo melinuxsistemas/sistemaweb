@@ -175,9 +175,9 @@ class EntityIdentificationForm(forms.Form, BaseForm):
     )
 
     options_relation_type = (
-        (0, ""),(1, "CLIENTE"), (2, "FORNECEDOR"),
-        (3, "FUNCIONÁRIO"), (4, "TRANSPORTADOR"),
-        (5, "REPRESENTANTE"),(6, "BANCO")
+        ('0', ""),('1', "CLIENTE"), ('2', "FORNECEDOR"),
+        ('3', "FUNCIONÁRIO"), ('4', "TRANSPORTADOR"),
+        ('5', "REPRESENTANTE"),('6', "BANCO")
     )
 
     options_activity = (
@@ -197,9 +197,9 @@ class EntityIdentificationForm(forms.Form, BaseForm):
         )
     )
 
-    relations_company = forms.MultipleChoiceField(label="Tipo de Relação", choices=options_relation_type, required=False, error_messages=ERRORS_MESSAGES,
+    relations_company = forms.ChoiceField(label="Tipo de Relação", choices=options_relation_type, required=False, error_messages=ERRORS_MESSAGES,
         widget=forms.Select(
-            attrs={'id': 'relation_type', 'class': 'selectpicker form-control multiple', 'multiple':'multiple','title':"", 'name': 'relation_type'}
+            attrs={'id': 'relations_company', 'class': 'selectpicker form-control multiple', 'multiple':'multiple','title':"", 'name': 'relations_company'}
         )
     )
 
@@ -226,9 +226,9 @@ class EntityIdentificationForm(forms.Form, BaseForm):
         error_messages=ERRORS_MESSAGES, widget=forms.Select(
         attrs={'id': 'company_activities', 'class': 'selectpicker form-control multiple', 'multiple':'multiple', 'title':"", 'ng-model': 'company_activities'}))
 
-    market_segment = forms.ModelMultipleChoiceField(label="Segmento de Mercado",required=False,queryset=MarketSegment.objects.all(),
+    market_segments = forms.ModelMultipleChoiceField(label="Segmento de Mercado",required=False,queryset=MarketSegment.objects.all(),
         widget=forms.Select(
-        attrs={'id': 'market_segment', 'class': 'selectpicker form-control','data-live-search':"true", 'multiple':"multiple",'title':'',  'ng-model': 'market_segment',
+        attrs={'id': 'market_segments', 'class': 'selectpicker form-control','data-live-search':"true", 'multiple':"multiple",'title':'',  'ng-model': 'market_segments',
             'list': 'options_segments'}
         )
     )

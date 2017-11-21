@@ -164,3 +164,8 @@ function get_value(select_name){
   });
   return value
 }
+
+function formate_string_date(text_date){
+	var parts = text_date.split("-")
+	return parts[2]+"/"+parts[1]+"/"+parts[0]
+}

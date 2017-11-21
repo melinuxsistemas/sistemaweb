@@ -27,7 +27,6 @@ application.controller('identification_controller', function($scope) {
   $scope.save = function () {
   	var data_paramters = {};
 		$.each($('#form-save-entity').serializeArray(), function(i, field) {
-			//alert("VEJA I: "+i+" - Field: "+field.name+" - Value: "+field.value)
 			data_paramters[field.name] = field.value.toUpperCase();
 		});
 
@@ -35,7 +34,8 @@ application.controller('identification_controller', function($scope) {
 		data_paramters['entity_type'] = parseInt(data_paramters['entity_type'])
 		data_paramters['relations_company'] = $("#relations_company").val();
 		data_paramters['company_activities'] = $("#company_activities").val();
-		data_paramters['market_segment'] = $("#market_segment").val();
+		data_paramters['market_segments'] = $("#market_segments").val();
+		alert("O QUE TEM: "+data_paramters['market_segments'])
 		data_paramters['buy_destination'] = $("#buy_destination").val();
 
     success_function = function(result,message,object,status){
@@ -77,6 +77,67 @@ application.controller('identification_controller', function($scope) {
         alert("Não foi possivel carregar a lista")
       },
     })
+	}
+
+	$scope.update = function() {
+		alert("VEJA O SELECIONADO: "+$scope.entity_selected.entity_name)
+		var data_paramters = {};
+		$.each($('#form-save-entity').serializeArray(), function(i, field) {
+			data_paramters[field.name] = field.value.toUpperCase();
+		});
+
+		data_paramters['cpf_cnpj'] = clear_mask_numbers(data_paramters['cpf_cnpj'])
+		data_paramters['entity_type'] = parseInt(data_paramters['entity_type'])
+		data_paramters['relations_company'] = $("#relations_company").val();
+		data_paramters['company_activities'] = $("#company_activities").val();
+		data_paramters['market_segment'] = $("#market_segment").val();
+		data_paramters['buy_destination'] = $("#buy_destination").val();
+
+    success_function = function(result,message,object,status){
+      if(result == true){
+				$scope.list_entities.splice(0, 0, object);
+				$scope.$apply();
+				document.getElementById("form-save-entity").reset();
+				check_response_message_form('#form-save-entity', message);
+				$("#modal_identification").modal('hide');
+      }
+		}
+
+    fail_function = function (result,message,data_object,status) {
+      check_response_message_form('#form-save-entity', message);
+    }
+
+    validade_function = function () {
+     return  true;//validate_form_regiter_person(); //validate_date($scope.birth_date_foundation);
+    }
+
+    request_api("/api/entity/save",data_paramters,validade_function,success_function,fail_function)
+	}
+
+	$scope.load_register_select = function(){
+		document.getElementById("form-save-entity").reset();
+
+		//alert('TIPO: '+$scope.entity_selected.relations_company)
+
+		select_selectpicer('entity_type',$scope.entity_selected.entity_type)
+		select_entity_type()
+
+		//alert("CADE? "+$scope.entity_selected.birth_date_foundation+" - "+typeof($scope.entity_selected.birth_date_foundation))
+		//alert('e agora '+ $filter('date')($scope.entity_selected.birth_date_foundation,'dd/MM/yyyy'));//$filter('date')($scope.entity_selected.birth_date_foundation, "dd/MM/yyyy")
+
+		//alert('VEJA SO: '+formate_string_date($scope.entity_selected.birth_date_foundation))
+		for (var key in $scope.entity_selected) {
+			//alert('VEJA OS VALORES: '+key+": "+$scope.entity_selected[key])
+			try{
+				$("#"+key).val($scope.entity_selected[key])
+			}
+			catch (err){
+
+			}
+		}
+
+		$('#birth_date_foundation').val(formate_string_date($scope.entity_selected.birth_date_foundation));
+		alert("foi?")
 	}
 
 	$scope.select_filter_by = function (index) {
@@ -182,7 +243,7 @@ application.controller('register_person_controller', function($scope) {
     request_api("/api/entity/register/person/save",data_paramters,validade_function,success_function,fail_function)
   }
 });
-*/
+
 
 application.controller('register_company_controller', function ($scope) {
     $scope.cpf_cnpj = "";
@@ -212,6 +273,7 @@ application.controller('register_company_controller', function ($scope) {
 
     };
 });
+*/
 
 
 

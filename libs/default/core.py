@@ -161,6 +161,7 @@ class BaseController(Notify):
     @request_ajax_required
     @validate_formulary
     def save(self, request, formulary=None):
+        print("VEJA A REQUISICAO QUE VEIO: ",request.POST)
         if self.full_exceptions == {}:
             response_dict = self.execute(self.object, self.object.save)
         else:
@@ -239,8 +240,8 @@ class BaseController(Notify):
         else:
             self.form_exceptions = {}
 
-        #print("FORM EXCEPTIONS: ", self.form_exceptions)
-        #print("MODEL EXCEPTIONS: ", self.model_exceptions)
+        print("FORM EXCEPTIONS: ", self.form_exceptions)
+        print("MODEL EXCEPTIONS: ", self.model_exceptions)
 
         self.full_exceptions.update(self.model_exceptions)
         self.full_exceptions.update(self.form_exceptions)
@@ -306,6 +307,8 @@ class BaseController(Notify):
 
 class BaseForm:
 
+    request = None
+
     def format_validate_response(self):
         response_errors = {}
         if self.errors:
@@ -328,11 +331,36 @@ class BaseForm:
         for attribute in self.data:
             value = self.data[attribute]
             if attribute != 'csrfmiddlewaretoken':
-                field = self.fields[attribute.replace("[]","")]
-                try:
-                    value = field.to_python(value)
-                except:
-                    value = [int(n) for n in value.split(',')]
+                if '[]' in attribute:
+                    value = ';'.join(map(str, self.request.POST.getlist(attribute)))
+                    attribute = attribute.replace("[]", "")
+                else:
+                    field = self.fields[attribute]
+                    value = field.to_python(self.data[attribute])
 
-                setattr(object, attribute, value)
+
+
+                #    value = '1,2,3'
+                #    print("VEJA O QUE VEIO: ",value, type(value))
+                #    for item in value:
+                #        print("OLHA: ",item,type(item))
+                #
+                #    attribute = attribute.replace("[]", "")
+                #else:
+                #    field = self.fields[attribute.replace("[]","")]
+                #    value = field.to_python(value)
+
+                #except Exception as erro:
+                #    print("VEJA O QUE DEU PROBLEMA: ",attribute," - VALOR:",value)
+                #    print("VEJA O ERRO: ",erro)
+                #    value = [int(n) for n in value.split(',')]
+
+                #field = self.fields[attribute.replace("[]", "")]
+                #try:
+                #    value = field.to_python(self.data[attribute])
+                #except:
+                #    value = field.to_python(self.request.POST.getlist(attribute))
+                #    print("TEM QUE PEGARA LISTA: ",value)
+                print("ATRIBUTO: ",attribute,': ',value)
+                setattr(object, attribute , value)
         return object

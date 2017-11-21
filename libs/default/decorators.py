@@ -9,6 +9,7 @@ def validate_formulary(view):
     def _wrapped_view(controller, request, formulary, *args, **kwargs):
         """ request via ajax verifiy need settings.DEBUG=True for running view tests."""
         form = formulary(request.POST)
+        form.request = request
         if not form.is_valid():
             #print("DA UMA VERIFICADA NO FORM: ",form.errors)
             controller.object = form.get_object()
