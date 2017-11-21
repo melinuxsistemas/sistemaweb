@@ -117,22 +117,18 @@
        - No campo "Name" digite ```runserver```
        - No campo "Script" digite o caminho para o arquivo ```manage.py```
        - No campo "Script parameters" digite ```runserver 0.0.0.0:8000```
-    - backup:
-       - No campo "Name" digite ```backup```
-       - No campo "Script" digite o caminho para o arquivo ```dbdropbox.py```
-       - No campo "Script parameters" digite ```--backup```
     - backup for dropbox:
        - No campo "Name" digite ```upload backup```
-       - No campo "Script" digite o caminho para o arquivo ```dbdropbox.py```
-       - No campo "Script parameters" digite ```--dbcompress```
+       - No campo "Script" digite o caminho para o arquivo ```backup.py```
+       - No campo "Script parameters" digite ```create```
     - list files dropbox:
        - No campo "Name" digite ```list files dropbox```
-       - No campo "Script" digite o caminho para o arquivo ```dbdropbox.py```
-       - No campo "Script parameters" digite ```--list```       
+       - No campo "Script" digite o caminho para o arquivo ```backup.py```
+       - No campo "Script parameters" digite ```list```       
     - dropbox restore:
        - No campo "Name" digite ```restore backup```
-       - No campo "Script" digite o caminho para o arquivo ```dbdropbox.py```
-       - No campo "Script parameters" digite ```--restore```       
+       - No campo "Script" digite o caminho para o arquivo ```backup.py```
+       - No campo "Script parameters" digite ```restore```       
 
 - Gerando chave GPG
     - Faça o download e instalação do GPG : https://www.gnupg.org/download/
