@@ -4,6 +4,7 @@ from modules.entity.api import EntityController, ContactController
 urlpatterns = [
     url(r'save$', EntityController.save),
     url(r'filter$',EntityController.filter),
+    url(r'update$',EntityController.update),
     #Rotas Contatos
     url(r'register/contact',ContactController().save),
     url(r'delete/phone/(?P<id_contact>[^/]+)',ContactController().delete_tel),

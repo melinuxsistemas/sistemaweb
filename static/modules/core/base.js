@@ -91,6 +91,14 @@ $('.selectpicker').on('changed.bs.select', function (event ,clickedIndex, newVal
 	$(this).selectpicker('refresh');
 });
 
+function get_value_selectpicker(field_id){
+	var value = $("#"+field_id).val();
+	if(value.length == 0){
+		value = null;
+	}
+	return value
+}
+
 function select_selectpicker(field_id,val){
 	$('#'+field_id).selectpicker('val', val);
   $('#'+field_id).selectpicker('refresh');
