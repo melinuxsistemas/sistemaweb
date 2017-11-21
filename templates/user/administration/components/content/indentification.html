@@ -14,7 +14,8 @@
 							padding-left: 8px;
 						}
 					</style>
-					<a id='bt_identification' href="#entity_identification" data-toggle="modal" data-target="#modal_identification" role="button" class="btn btn-sm btn-success" title="Adicionar nova Entidade" style="color: #fff;padding-right: 6px;width: 40px;"><i class="fa fa-user-plus fa-lg" aria-hidden="true"></i></a><!-- data-toggle="form" data-target="#modal_add_entity" -->
+
+					<a id='bt_add_user' href="#users_identification" data-toggle="modal" data-target="#modal_add_user" role="button" class="btn btn-sm btn-success" title="Adicionar novo Usuário" style="color: #fff;padding-right: 6px;width: 40px;"><i class="fa fa-user-plus fa-lg" aria-hidden="true"></i></a>
 					<a id='bt_permissions' href="#users_permissions" data-toggle="tab" ng-hide="S1 || S2" role="button" class="btn btn-sm btn-default pull-left" ng-class="{true:'desabilitado unselec', false:''}[user_selected==null]" onclick="angular.element(document.getElementById('permission_controller')).scope().load_all();" title="Permissões" style='color: #999;margin-left: 5px;'><i class="fa fa-star-o fa-lg" style="margin-left:-1px;" aria-hidden="true"></i></a>
 					<a id='bt_locations' href="#entity_locations" data-toggle="tab" ng-hide="S1 || S2" role="button" class="btn btn-sm btn-default pull-left" ng-class="{true:'desabilitado', false:''}[registro_selecionado==null]" onclick="angular.element(document.getElementById('contact_controller')).scope().load_contacts();" title="Endereços" style='color: #999;margin-left: 5px;'><i class="fa fa-map-marker fa-lg" aria-hidden="true"></i></a><!-- data-toggle="form" data-target="#modal_entity_email" ng-click="carregar_indicacao()" -->
 					<a id='bt_credit' href="#entity_credit" data-toggle="tab" ng-hide="S1 || S2" role="button" class="btn btn-sm btn-default pull-left" ng-class="{true:'desabilitado', false:''}[registro_selecionado==null]" onclick="angular.element(document.getElementById('contact_controller')).scope().load_contacts();" style='color: #999;margin-left: 5px;' title="Crédito"><i class="fa fa-credit-card fa-lg" aria-hidden="true" style="margin-left: -2px;"></i></a><!-- data-toggle="form" data-target="#modal_entity_email" ng-click="carregar_indicacao()" -->
@@ -70,7 +71,7 @@
 								}
 							</style>
 
-							<tbody id="loading_tbody" ng-show="loaded_entities == false">
+							<tbody id="loading_tbody" ng-show="loaded_users == false">
 								<tr class="row_user loading" style="vertical-align: middle;height: 10px;">
 									<td colspan="6" style='padding: 0px;' class="text-center">
 										Aguarde.. Carregando...<br><i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
@@ -78,8 +79,8 @@
 								</tr>
 							</tbody>
 
-							<tbody id="loaded_tbody" ng-show="loaded_entities == true">
-								<tr ng-show="loaded_entities == true" class="row_user linha_selecionavel {{ user.selected }}" ng-click="select_user(user)" ng-repeat="user in list_users">
+							<tbody id="loaded_tbody" ng-show="loaded_users== true">
+								<tr ng-show="loaded_users == true" class="row_user linha_selecionavel {{ user.selected }}" ng-click="select_user(user)" ng-repeat="user in list_users">
 									<td class="col_user_email" ng-hide='screen_model <= 2' ng-class="{true:'left', false:'center'}">
 										{{ user.email }}
 									</td>
@@ -115,7 +116,7 @@
 
 								</tr>
 
-								<tr class="row_user angular-repeat linha_selecionavel" ng-repeat="k in table_minimun_items_u.slice(list_entities.length,table_minimun_items_u.length)">
+								<tr class="row_user angular-repeat linha_selecionavel" ng-repeat="k in table_minimun_items_u.slice(list_users.length,table_minimun_items_u.length)">
 									<td class="col_index"></td>
 									<td class="col_entity_type" ng-hide='screen_model <= 2'></td>
 									<td class='col_cpf_cnpj' ng-hide='screen_model <= 2' ></td>
@@ -133,5 +134,6 @@
 				</div>
 			</div>
 		</div>
+		{% include "user/administration/components/form/add_new_user.html" %}
 	</div>
 </div>
