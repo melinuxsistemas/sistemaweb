@@ -232,7 +232,7 @@ function select_entity_type(){
 	var entity_type = parseInt($("#entity_type").val())
 	//alert('vou ver o tipo: '+entity_type)
 	if(entity_type == 1){
-		//alert("TROCAR PRA PESSOA FISICA")
+
 		$("#lb_cpf_cnpj").text('CPF')
 		$("#lb_entity_name").text('Nome Completo')
 		$("#lb_fantasy_name").text('Apelido')
@@ -240,19 +240,21 @@ function select_entity_type(){
 		$('#cpf_cnpj').mask('999.999.999-99');
 		$('#cpf_cnpj').val('');
 
+
 		select_selectpicker('natureza_juridica',0)
 		select_selectpicker('main_activity',0)
 		select_selectpicker('tributary_regime',0)
 		$('#market_segments').selectpicker('deselectAll');
 		$('#buy_destination').selectpicker('deselectAll');
 		$('#company_activities').selectpicker('deselectAll');
+		
 
-		desable_selectpicer('natureza_juridica')
-		desable_selectpicer('main_activity')
-		desable_selectpicer('market_segments')
-		desable_selectpicer('tributary_regime')
-		desable_selectpicer('company_activities')
-		desable_selectpicer('buy_destination')
+		desable_selectpicker('natureza_juridica')
+		desable_selectpicker('main_activity')
+		desable_selectpicker('market_segments')
+		desable_selectpicker('tributary_regime')
+		desable_selectpicker('company_activities')
+		desable_selectpicker('buy_destination')
 
 		$('#field_natureza_juridica').hide();
 		$('#field_main_activity').hide();
@@ -270,7 +272,6 @@ function select_entity_type(){
 
 	else if(entity_type == 2){
 		//alert("TROCAR PRA PESSOA JURIDICA")
-
 		$("#lb_cpf_cnpj").text('CNPJ')
 		$("#lb_entity_name").text('Razão Social')
 		$("#lb_fantasy_name").text('Nome Fantasia')
@@ -310,9 +311,9 @@ function select_entity_type(){
 		$('#cpf_cnpj').val('');
 
 		enable_selectpicer('natureza_juridica')
-		desable_selectpicer('main_activity')
-		desable_selectpicer('tributary_regime')
-		desable_selectpicer('company_activities')
+		desable_selectpicker('main_activity')
+		desable_selectpicker('tributary_regime')
+		desable_selectpicker('company_activities')
 		enable_selectpicer('market_segments')
 		enable_selectpicer('buy_destination')
 

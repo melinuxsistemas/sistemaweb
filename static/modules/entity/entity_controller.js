@@ -115,14 +115,9 @@ application.controller('identification_controller', function($scope) {
 
 	$scope.load_register_select = function(){
 		reset_entity_form();
-
 		select_selectpicker('entity_type',$scope.entity_selected.entity_type)
 		select_entity_type()
 
-		//alert("CADE? "+$scope.entity_selected.birth_date_foundation+" - "+typeof($scope.entity_selected.birth_date_foundation))
-		//alert('e agora '+ $filter('date')($scope.entity_selected.birth_date_foundation,'dd/MM/yyyy'));//$filter('date')($scope.entity_selected.birth_date_foundation, "dd/MM/yyyy")
-
-		//alert('VEJA SO: '+formate_string_date($scope.entity_selected.birth_date_foundation))
 		for (var key in $scope.entity_selected) {
 			//alert('VEJA OS VALORES: '+key+": "+$scope.entity_selected[key])
 			try{
@@ -132,24 +127,20 @@ application.controller('identification_controller', function($scope) {
 			}
 		}
 
-		alert('VEJA A NATUREZA:'+$scope.entity_selected['natureza_juridica'])
-
-		$('#natureza_juridica').selectpicker('val', $scope.entity_selected['natureza_juridica']);
-		$('#natureza_juridica').selectpicker('render');
-
-		select_selectpicker('main_activity',$scope.entity_selected['main_activity'])
-		select_selectpicker('natureza_juridica',$scope.entity_selected['natureza_juridica'])
-
-		select_selectpicker('tributary_regime',$scope.entity_selected['tributary_regime'])
-		select_selectpicker('relations_company',$scope.entity_selected['relations_company'].split(';'))
-		select_selectpicker('company_activities',$scope.entity_selected['company_activities'].split(';'))
-		select_selectpicker('market_segments',$scope.entity_selected['market_segments'].split(';'))
-		select_selectpicker('buy_destination',$scope.entity_selected['buy_destination'].split(';'))
-
-
+		if($scope.entity_selected.entity_type==2){
+			select_selectpicker('main_activity',$scope.entity_selected['main_activity'])
+			select_selectpicker('natureza_juridica',$scope.entity_selected['natureza_juridica'])
+			select_selectpicker('tributary_regime',$scope.entity_selected['tributary_regime'])
+			select_selectpicker('relations_company',$scope.entity_selected['relations_company'].split(';'))
+			select_selectpicker('company_activities',$scope.entity_selected['company_activities'].split(';'))
+			select_selectpicker('market_segments',$scope.entity_selected['market_segments'].split(';'))
+			select_selectpicker('buy_destination',$scope.entity_selected['buy_destination'].split(';'))
+		}
+		else{
+			select_selectpicker('relations_company',$scope.entity_selected['relations_company'].split(';'))
+		}
 
 		$('#birth_date_foundation').val(formate_string_date($scope.entity_selected.birth_date_foundation));
-
 	}
 
 	$scope.select_filter_by = function (index) {
