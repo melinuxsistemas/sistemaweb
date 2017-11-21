@@ -66,7 +66,7 @@ class Entity(models.Model, BaseModel):
     entity_name = models.CharField("Nome ou Razão Social", null=False, blank=False, max_length=64,validators=[min_words_name_validator,MinLengthValidator(1)], error_messages=ERRORS_MESSAGES)
     fantasy_name = models.CharField("Nome Fantasia", max_length=32, null=True, blank=True, error_messages=ERRORS_MESSAGES)
     birth_date_foundation = models.DateField("Data de Nascimento ou Fundação", null=True, blank=True, validators=[future_birthdate_validator, minimum_age_person_validator, maximum_age_person_validator], error_messages=ERRORS_MESSAGES)
-    natureza_juridica = models.CharField("Tipo de Relação", null=True, blank=True, max_length=64, error_messages=ERRORS_MESSAGES)
+    natureza_juridica = models.ForeignKey('core.NaturezaJuridica',null=True, blank=True) #models.CharField("Tipo de Relação", null=True, blank=True, max_length=64, error_messages=ERRORS_MESSAGES)
     main_activity = models.ForeignKey('core.EconomicActivity',null=True, blank=True)
     relations_company = models.CharField("Tipo de Relação", max_length=50, null=True, blank=True, error_messages=ERRORS_MESSAGES)
     registration_status = models.IntegerField(choices=options_registration_status, default=0, error_messages=ERRORS_MESSAGES)

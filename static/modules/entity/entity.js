@@ -29,7 +29,6 @@ function get_custom_messages(){
 }
 
 function validate_all_form (){
-
       var validator = new FormValidator();
       validator.texts = get_message_validators();
       validator.settings.alerts = true;
@@ -220,6 +219,15 @@ function validate_date_foundation (birth_date_foundation){
     return true;
 }
 
+function reset_entity_form(){
+	document.getElementById("form-save-entity").reset();
+	select_selectpicker('natureza_juridica',null)
+	select_selectpicker('relations_company',[])
+	select_selectpicker('market_segments',[])
+	select_selectpicker('buy_destination',[])
+	select_selectpicker('company_activities',[])
+}
+
 function select_entity_type(){
 	var entity_type = parseInt($("#entity_type").val())
 	//alert('vou ver o tipo: '+entity_type)
@@ -232,16 +240,16 @@ function select_entity_type(){
 		$('#cpf_cnpj').mask('999.999.999-99');
 		$('#cpf_cnpj').val('');
 
-		select_selectpicer('natureza_juridica',0)
-		select_selectpicer('main_activity',0)
-		select_selectpicer('tributary_regime',0)
-		$('#market_segment').selectpicker('deselectAll');
+		select_selectpicker('natureza_juridica',0)
+		select_selectpicker('main_activity',0)
+		select_selectpicker('tributary_regime',0)
+		$('#market_segments').selectpicker('deselectAll');
 		$('#buy_destination').selectpicker('deselectAll');
 		$('#company_activities').selectpicker('deselectAll');
 
 		desable_selectpicer('natureza_juridica')
 		desable_selectpicer('main_activity')
-		desable_selectpicer('market_segment')
+		desable_selectpicer('market_segments')
 		desable_selectpicer('tributary_regime')
 		desable_selectpicer('company_activities')
 		desable_selectpicer('buy_destination')
@@ -251,7 +259,7 @@ function select_entity_type(){
 		$('#field_tributary_regime').hide();
 		$('#field_company_activities').hide();
 		$('#field_buy_destination').hide();
-		$('#field_market_segment').hide();
+		$('#field_market_segments').hide();
 
 		$('#field_entity_father').show();
 		$('#field_entity_mother').show();
@@ -273,7 +281,7 @@ function select_entity_type(){
 
 		enable_selectpicer('natureza_juridica')
 		enable_selectpicer('main_activity')
-		enable_selectpicer('market_segment')
+		enable_selectpicer('market_segments')
 		enable_selectpicer('tributary_regime')
 		enable_selectpicer('company_activities')
 		enable_selectpicer('buy_destination')
@@ -283,7 +291,7 @@ function select_entity_type(){
 		$('#field_tributary_regime').show();
 		$('#field_company_activities').show();
 		$('#field_buy_destination').show();
-		$('#field_market_segment').show();
+		$('#field_market_segments').show();
 
 		$('#field_entity_father').hide();
 		$('#field_entity_mother').hide();
@@ -305,7 +313,7 @@ function select_entity_type(){
 		desable_selectpicer('main_activity')
 		desable_selectpicer('tributary_regime')
 		desable_selectpicer('company_activities')
-		enable_selectpicer('market_segment')
+		enable_selectpicer('market_segments')
 		enable_selectpicer('buy_destination')
 
 		$('#field_natureza_juridica').show();
@@ -313,7 +321,7 @@ function select_entity_type(){
 		$('#field_tributary_regime').show();
 		$('#field_company_activities').show();
 		$('#field_buy_destination').show();
-		$('#field_market_segment').show();
+		$('#field_market_segments').show();
 
 		$('#field_entity_father').hide();
 		$('#field_entity_mother').hide();

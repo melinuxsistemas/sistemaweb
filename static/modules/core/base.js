@@ -91,12 +91,12 @@ $('.selectpicker').on('changed.bs.select', function (event ,clickedIndex, newVal
 	$(this).selectpicker('refresh');
 });
 
-function select_selectpicer(field_id,val){
+function select_selectpicker(field_id,val){
 	$('#'+field_id).selectpicker('val', val);
   $('#'+field_id).selectpicker('refresh');
 }
 
-function desable_selectpicer(select_id){
+function desable_selectpicker(select_id){
 	$('#'+select_id).prop('disabled', true);
 	$('#lb_'+select_id).addClass('disabled');
   $('#'+select_id).selectpicker('refresh');
