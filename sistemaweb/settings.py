@@ -65,7 +65,7 @@ MIDDLEWARE = [
 
 
 CRON_CLASSES = [
-    "sistemaweb.cron.Backup",
+    "sistemaweb.cron.Backup"
 ]
 
 SESSION_SECURITY_EXPIRE_AFTER= 600
