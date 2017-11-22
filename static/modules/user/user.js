@@ -61,3 +61,6 @@ function compare_passwords(id_senha, id_confirma_senha){
   return (senha === confirma_senha ? true : error_notify("confirm_password","Senhas não conferem","Verifique as senhas informadas."));
 }
 
+function validade_new_user(){
+	return email_is_valid("email")
+}

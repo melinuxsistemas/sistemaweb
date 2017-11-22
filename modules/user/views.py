@@ -98,4 +98,5 @@ def register_autonomy(request):
 @request_get_required
 @login_required
 def user_administration (request):
-    return render(request, "user/administration/user_administration.html")
+    form_register = FormRegister()
+    return render(request, "user/administration/user_administration.html",{'formulario_register': form_register})

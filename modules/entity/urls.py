@@ -8,8 +8,8 @@ urlpatterns = [
     #Rotas Contatos
     url(r'register/contact',ContactController().save),
     url(r'delete/phone/(?P<id_contact>[^/]+)',ContactController().delete_tel),
-    url(r'update/phone',ContactController().update_tel),
-    url(r'list/contacts/(?P<id_entity>[^/]+)/',ContactController().load_tel),
+    url(r'update/phone',ContactController.update_tel),
+    url(r'contacts/',ContactController().load_tel),
     #Rotas Emails
     url(r'register/email',ContactController.save_email),
     url(r'update/email',ContactController.update_email),

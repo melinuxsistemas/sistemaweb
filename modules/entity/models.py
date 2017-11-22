@@ -181,13 +181,13 @@ class Contact(models.Model,BaseModel):
 
     id = models.AutoField(primary_key=True, unique=True)
     entity = models.ForeignKey(to=Entity,on_delete=models.CASCADE,null=False,error_messages=ERRORS_MESSAGES)
-    type_contact = models.IntegerField(choices=options_type_contact, default=1, error_messages=ERRORS_MESSAGES)
+    type_contact = models.IntegerField(choices=options_type_contact,null=False ,default=1, error_messages=ERRORS_MESSAGES)
     name = models.CharField("Nome", max_length=30, null=False, error_messages=ERRORS_MESSAGES)
-    ddd = models.CharField("DDD", max_length=4,validators=[only_numeric,validate_ddd], null=False, blank=False,  error_messages=ERRORS_MESSAGES)
+    ddd = models.CharField("DDD", max_length=4,validators=[only_numeric], null=False, blank=False,  error_messages=ERRORS_MESSAGES)
     phone = models.CharField("Numero de telefone",validators=[only_numeric],max_length=10, error_messages=ERRORS_MESSAGES)
     complemento = models.CharField("Complemento", max_length=32, null=True, blank=True, error_messages=ERRORS_MESSAGES)
-    details = models.CharField("Detalhes",max_length=10, error_messages=ERRORS_MESSAGES)
-    history = models.CharField("Histórico de Alterações", max_length=500)
+    details = models.CharField("Detalhes",max_length=10,null=True,blank=True, error_messages=ERRORS_MESSAGES)
+    history = models.CharField("Histórico de Alterações",null=True,blank=True, max_length=500)
 
     def save(self, *args, **kwargs):
         self.model_exceptions = self.check_validators()

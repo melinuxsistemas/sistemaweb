@@ -139,7 +139,7 @@ application.controller('login_controller', function($scope) {
 application.controller('users_controller', function($scope) {
 	$scope.list_users = [];
 	$scope.table_minimun_items_u = [1,1,1,1,1,1,1];
-	$scope.loaded_entities = false;
+	$scope.loaded_users = false
 	$scope.user_selected = null;
 
 	/*Menus do Sistema com Label e ID*/
@@ -253,12 +253,12 @@ application.controller('users_controller', function($scope) {
 				data = JSON.parse(data);
 				$scope.list_users = data['object'];
         $("#loading_tbody").fadeOut();
-        $scope.loaded_entities = true;
+        $scope.loaded_users = true
         $scope.$apply();
       },
 
       failure: function (data) {
-        $scope.loaded_entities = true;
+      	$scope.loaded_users = true
         alert("Não foi possivel carregar a lista")
       }
     })
@@ -321,8 +321,6 @@ application.controller('users_controller', function($scope) {
 		}
 	};
 
-
-
 	$scope.save_permission = function () {
 		$scope.user_selected = angular.element(document.getElementById('administration_users_controller')).scope().user_selected;
 		var menus = {};
@@ -370,4 +368,25 @@ application.controller('users_controller', function($scope) {
 		}
 		$scope.user_selected.permissions = menus;
 	};
+
+	$scope.save_new_user = function () {
+		$('#password').val('1q2w3e4r')
+		$('#confirm_password').val('1q2w3e4r')
+		var data_paramters = {};
+  	$.each($('#form-save-user').serializeArray(), function(i, field) {
+  		alert("OLHA O VALOR:"+field.value)
+			data_paramters[field.name] = field.value;
+		});
+
+		success_function = function(result,message,data_object,status){
+    	notify('success','Email enviado','Conseguindo mandar esse email')
+    }
+
+    fail_function = function (result,message,data_object,status) {
+      notify_response_message(message);
+    }
+    alert("Vou usar a API")
+    request_api("/api/user/register/save",data_paramters,validade_new_user,success_function,fail_function)
+  }
+
 });
