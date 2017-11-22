@@ -38,9 +38,9 @@ class EntityController(BaseController):
 
 
 class ContactController(BaseController):
-    @method_decorator(login_required)
-    def save(self, request):
-        return super().save(request, EntityPhoneForm)
+    @login_required
+    def save(request):
+        return BaseController().save(request, EntityPhoneForm)
 
     @method_decorator(login_required)
     def load(self, request):
@@ -84,56 +84,6 @@ class ContactController(BaseController):
         return HttpResponse(json.dumps(response_dict))
     """
 
-    def save_email (request):
-        resultado , form = AbstractAPI.filter_request(request,FormRegisterEmailEntity)
-        email_form = request.POST['email']
-        emails_lst = Email.objects.filter(entity_id=1)
-
-        if resultado:
-            email = Email()
-            email.entity_id = 1
-            email.form_to_object(form)
-            email.send_xml = request.POST['send_xml']
-            email.send_suitcase = request.POST['send_suitcase']
-            email.show_fields_value()
-
-        try:
-            email.save()
-            response_dict = response_format_success(email,['entity','name','email','send_xml','send_suitcase'])
-        except:
-            print("Nao salvei")
-            response_dict = response_format_error(False)
-        return HttpResponse(json.dumps(response_dict))
-
-    #APIs para o Contatc
-    def save_tel (request):
-        options_type_contact = {
-            1: "CELULAR",
-            2: "FIXO",
-            3: "SAC",
-            4: "FAX",
-        }
-        result, form = AbstractAPI.filter_request(request, EntityPhoneForm)
-        contact = Contact()
-        contact.form_to_object(form)
-        contact.entity_id = int(request.POST['id_entity'])
-        if result:
-            try:
-                contact.save()
-                contact.type_contact = options_type_contact[int(contact.type_contact)]
-                response_dict = response_format_success(contact)
-            except Exception as e:
-                response_dict = response_format_error(format_exception_message(contact.model_exceptions))
-        else:
-            contact.check_validators()
-            model_exceptions = format_exception_message(contact.model_exceptions)
-            form_exceptions = form.format_validate_response()
-            full_exceptions = {}  # dict(form_exceptions, **model_exceptions);
-            full_exceptions.update(model_exceptions)
-            full_exceptions.update(form_exceptions)
-            response_dict = response_format_error(full_exceptions)
-
-        return HttpResponse(json.dumps(response_dict))
 
     @method_decorator(login_required)
     def load_tel (self,request):
@@ -141,7 +91,6 @@ class ContactController(BaseController):
 
     @login_required()
     def update_tel ( request):
-        print("OLHA O REQUEST",request)
         return BaseController().update(request,EntityPhoneForm)
 
 
@@ -185,58 +134,16 @@ class ContactController(BaseController):
         return HttpResponse(json.dumps({}))
 
     #APIs para o Email
-    def save_email (request):
-        result, form = AbstractAPI.filter_request(request, FormRegisterEmailEntity)
-        email = Email()
-        email.form_to_object(form)
-        email.entity_id = int(request.POST['id_entity'])
-        if result:
-            try:
-                email.save()
-                response_dict = response_format_success(email)
-            except Exception as e:
-                response_dict = response_format_error(format_exception_message(email.model_exceptions))
-        else:
-            email.check_validators()
-            model_exceptions = format_exception_message(email.model_exceptions)
-            form_exceptions = form.format_validate_response()
-            full_exceptions = {}  # dict(form_exceptions, **model_exceptions);
-            full_exceptions.update(model_exceptions)
-            full_exceptions.update(form_exceptions)
-            response_dict = response_format_error(full_exceptions)
+    @login_required
+    def save_email(request):
+        return BaseController().save(request, EntityEmailForm)
 
-        return HttpResponse(json.dumps(response_dict))
-    def load_email (request, id_entity):
-        response_dict = []
-        list_emails = Email.objects.filter(entity_id=int(id_entity)).order_by("-id")
-        for email in list_emails:
-            response_object = json.loads(serializers.serialize('json', [email]))[0]
-            response_object['fields']['id'] = response_object['pk']
-            response_object = response_object['fields']
-            response_dict.append(response_object)
-        return HttpResponse(json.dumps(response_dict))
+    def load_email (self, request):
+        return self.filter(request, Contact, queryset=Email.objects.filter(entity=int(request.POST['id'])))
+
     def update_email (request):
-        result, form = AbstractAPI.filter_request(request, FormRegisterEmailEntity)
-        id = request.POST['id']
-        email = Email.objects.get(id=id)
-        email.form_to_object(form)
-        if result:
-            try:
-                email.show_fields_value()
-                email.save()
-                response_dict = response_format_success(email)
-            except Exception as e:
-                response_dict = response_format_error(format_exception_message(email.model_exceptions))
-        else:
-            email.check_validators()
-            model_exceptions = format_exception_message(email.model_exceptions)
-            form_exceptions = form.format_validate_response()
-            full_exceptions = {}  # dict(form_exceptions, **model_exceptions);
-            full_exceptions.update(model_exceptions)
-            full_exceptions.update(form_exceptions)
-            response_dict = response_format_error(full_exceptions)
+        return BaseController().update(request,EntityEmailForm)
 
-        return HttpResponse(json.dumps(response_dict))
     def delete_email(request,id_email):
         email = Email.objects.get(id=id_email)
         try:

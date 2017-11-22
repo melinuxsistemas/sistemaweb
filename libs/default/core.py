@@ -331,7 +331,6 @@ class BaseForm:
             value = self.data[attribute]
             if attribute != 'csrfmiddlewaretoken':
                 if '[]' in attribute:
-                    print("ATRIBUTO: ",attribute," - ",value," ReQUEST: ",self.request)
                     options_selected = self.request.POST.getlist(attribute)
                     if options_selected is not None:
                         value = ';'.join(map(str, self.request.POST.getlist(attribute)))
@@ -339,8 +338,12 @@ class BaseForm:
                 else:
                     if attribute != 'id':
                         if self.data[attribute] != "null":
-                            field = self.fields[attribute]
-                            value = field.to_python(self.data[attribute])
+                            try:
+                                field = self.fields[attribute]
+                                value = field.to_python(self.data[attribute])
+                            except KeyError as error:
+                                pass
+
                         else:
                             value = None
 

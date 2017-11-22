@@ -170,6 +170,11 @@ class Entity(models.Model, BaseModel):
 
 class Contact(models.Model,BaseModel):
 
+    class Meta:
+        db_table = 'contact'
+        verbose_name = 'Contact'
+        verbose_name_plural = 'Contacts'
+
     models_exceptions = []
 
     options_type_contact = (
@@ -224,14 +229,21 @@ class Contact(models.Model,BaseModel):
 
 class Email (models.Model, BaseModel):
 
+
+    class Meta:
+        db_table = 'email'
+        verbose_name = 'Email'
+        verbose_name_plural = 'Emails'
+
+
     id = models.AutoField(primary_key=True, unique=True)
     email = models.EmailField(('Email'), null=False,blank=False, max_length=255, validators=[email_format_validator, email_dangerous_symbols_validator], error_messages=ERRORS_MESSAGES)
     name = models.CharField("Nome", max_length=30, null=False,blank=False, error_messages=ERRORS_MESSAGES)
     entity = models.ForeignKey(to=Entity, on_delete=models.CASCADE, null=False,blank=False, error_messages=ERRORS_MESSAGES)
     send_xml = models.BooleanField("Envia XML", null=False,blank=False,error_messages=ERRORS_MESSAGES)
     send_suitcase = models.BooleanField("Envia Mala",null=False,blank=False, error_messages=ERRORS_MESSAGES)
-    details = models.CharField("Detalhes", max_length=10, error_messages=ERRORS_MESSAGES)
-    history = models.CharField("Histórico de Alterações", max_length=500,error_messages=ERRORS_MESSAGES)
+    details = models.CharField("Detalhes", max_length=10, null= True, blank= True, error_messages=ERRORS_MESSAGES)
+    history = models.CharField("Histórico de Alterações", null= True, blank= True, max_length=500,error_messages=ERRORS_MESSAGES)
 
     model_exceptions = []
 

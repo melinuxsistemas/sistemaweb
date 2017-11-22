@@ -67,7 +67,7 @@ application.controller('register_phone_entity', function ($scope) {
 			ddd: clear_mask_numbers_contact($('#ddd').val()),
 			phone: clear_mask_numbers_contact($('#phone_number').val()),
 			complemento: $('#complemento').val().toUpperCase(),
-			id_entity: id_entity
+			entity_id: id_entity
 		};
 
 		success_function = function (result,message,data_object) {
@@ -346,7 +346,7 @@ application.controller('register_email_entity', function ($scope) {
 			name : $('#name').val().toUpperCase(),
 			send_xml : $('#send_xml').val(),
 			send_suitcase : $('#send_suitcase').val(),
-			id_entity : id_entity
+			entity_id : id_entity
 		};
 
 		sucess_function = function (result,message,data_object) {
@@ -369,19 +369,24 @@ application.controller('register_email_entity', function ($scope) {
 		$scope.reset_email();
 		$scope.entity_selected =  angular.element(document.getElementById('identification_controller')).scope().entity_selected;
 		var id = $scope.entity_selected.id;
-		$.ajax({
-				type: 'GET',
-				url: "/api/entity/list/emails/" + id +'/',
+		var data_paramters = {
+		    id : id
+		}
+		success_function = function(result,message,data_object,status) {
+            $scope.emails = data_object;
+            $scope.$apply();
+		}
 
-				success: function (data) {
-					$scope.emails = JSON.parse(data)
-					$scope.$apply();
-				},
+		fail_function = function () {
+			notify('error','Falha ao Carregar','Não foi possivel carregar os contatos.')
+		};
 
-				failure: function (data) {
-					alert("Não foi possivel carregar a lista")
-			}
-		});
+        validate_function = function(){
+            return true
+        }
+
+		request_api("/api/entity/list/emails/", data_paramters,validate_function, success_function, fail_function)
+
 		$scope.$apply();
 	};
 
