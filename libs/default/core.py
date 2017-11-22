@@ -331,7 +331,6 @@ class BaseForm:
             value = self.data[attribute]
             if attribute != 'csrfmiddlewaretoken':
                 if '[]' in attribute:
-                    print("ATRIBUTO: ",attribute," - ",value," ReQUEST: ",self.request)
                     options_selected = self.request.POST.getlist(attribute)
                     if options_selected is not None:
                         value = ';'.join(map(str, self.request.POST.getlist(attribute)))
@@ -343,32 +342,6 @@ class BaseForm:
                             value = field.to_python(self.data[attribute])
                         else:
                             value = None
-
-
-
-
-
-                #    value = '1,2,3'
-                #    print("VEJA O QUE VEIO: ",value, type(value))
-                #    for item in value:
-                #        print("OLHA: ",item,type(item))
-                #
-                #    attribute = attribute.replace("[]", "")
-                #else:
-                #    field = self.fields[attribute.replace("[]","")]
-                #    value = field.to_python(value)
-
-                #except Exception as erro:
-                #    print("VEJA O QUE DEU PROBLEMA: ",attribute," - VALOR:",value)
-                #    print("VEJA O ERRO: ",erro)
-                #    value = [int(n) for n in value.split(',')]
-
-                #field = self.fields[attribute.replace("[]", "")]
-                #try:
-                #    value = field.to_python(self.data[attribute])
-                #except:
-                #    value = field.to_python(self.request.POST.getlist(attribute))
-                #    print("TEM QUE PEGARA LISTA: ",value)
-                print("ATRIBUTO: ",attribute,': ',value)
+                #print("ATRIBUTO: ",attribute,': ',value)
                 setattr(object, attribute , value)
         return object

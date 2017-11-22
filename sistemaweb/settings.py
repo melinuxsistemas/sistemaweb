@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     'session_security','sistemaweb',
     'modules.core','modules.user','modules.entity',
     'modules.core.templatetags',
-    'django_cron'
 ]
 
 MIDDLEWARE = [
@@ -61,11 +60,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'session_security.middleware.SessionSecurityMiddleware',
-]
-
-
-CRON_CLASSES = [
-    "sistemaweb.cron.Backup"
 ]
 
 SESSION_SECURITY_EXPIRE_AFTER= 600
