@@ -161,7 +161,6 @@ class BaseController(Notify):
     @request_ajax_required
     @validate_formulary
     def save(self, request, formulary=None):
-        print("VEJA A REQUISICAO QUE VEIO: ",request.POST)
         if self.full_exceptions == {}:
             response_dict = self.execute(self.object, self.object.save)
         else:
@@ -189,12 +188,12 @@ class BaseController(Notify):
         pass
 
     @request_ajax_required
+    @validate_formulary
     def update(self, request, formulary):
         self.request = request
-        print("Atualizar:")
-        result, form = self.filter_request(request, formulary)
-        object = form.get_object(int(request.POST['id']))
-        response_dict = self.execute(object, object.save)
+        #result, form = self.filter_request(request, formulary)
+        #object = self.form.get_object(int(request.POST['id']))
+        response_dict = self.execute(self.object, self.object.save)
         return HttpResponse(json.dumps(response_dict))
 
     @request_ajax_required
@@ -332,11 +331,20 @@ class BaseForm:
             value = self.data[attribute]
             if attribute != 'csrfmiddlewaretoken':
                 if '[]' in attribute:
-                    value = ';'.join(map(str, self.request.POST.getlist(attribute)))
+                    print("ATRIBUTO: ",attribute," - ",value," ReQUEST: ",self.request)
+                    options_selected = self.request.POST.getlist(attribute)
+                    if options_selected is not None:
+                        value = ';'.join(map(str, self.request.POST.getlist(attribute)))
                     attribute = attribute.replace("[]", "")
                 else:
-                    field = self.fields[attribute]
-                    value = field.to_python(self.data[attribute])
+                    if attribute != 'id':
+                        if self.data[attribute] != "null":
+                            field = self.fields[attribute]
+                            value = field.to_python(self.data[attribute])
+                        else:
+                            value = None
+
+
 
 
 

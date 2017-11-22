@@ -44,6 +44,7 @@ application.controller('identification_controller', function($scope) {
 				document.getElementById("form-save-entity").reset();
 				check_response_message_form('#form-save-entity', message);
 				$("#modal_identification").modal('hide');
+				$scope.clear_formulary(1);
       }
 		}
 
@@ -79,22 +80,25 @@ application.controller('identification_controller', function($scope) {
 	}
 
 	$scope.update = function() {
-		alert("VEJA O SELECIONADO: "+$scope.entity_selected.entity_name)
 		var data_paramters = {};
+		data_paramters['id'] = $scope.entity_selected.id;
+
 		$.each($('#form-save-entity').serializeArray(), function(i, field) {
 			data_paramters[field.name] = field.value.toUpperCase();
 		});
 
 		data_paramters['cpf_cnpj'] = clear_mask_numbers(data_paramters['cpf_cnpj'])
 		data_paramters['entity_type'] = parseInt(data_paramters['entity_type'])
-		data_paramters['relations_company'] = $("#relations_company").val();
-		data_paramters['company_activities'] = $("#company_activities").val();
-		data_paramters['market_segments'] = $("#market_segments").val();
-		data_paramters['buy_destination'] = $("#buy_destination").val();
+		data_paramters['relations_company'] = get_value_selectpicker('relations_company')
+		data_paramters['company_activities'] = get_value_selectpicker('company_activities')
+		data_paramters['market_segments'] = get_value_selectpicker('market_segments')
+		data_paramters['buy_destination'] = get_value_selectpicker('buy_destination')
 
     success_function = function(result,message,object,status){
       if(result == true){
-				$scope.list_entities.splice(0, 0, object);
+				//alert("QUERO MECHER NO ELEMENTO:"+$scope.list_entities.findIndex(x => x.id==$scope.entity_selected.id))
+				$scope.list_entities[$scope.list_entities.findIndex(x => x.id==$scope.entity_selected.id)] = object;
+				$scope.entity_selected = null;
 				$scope.$apply();
 				document.getElementById("form-save-entity").reset();
 				check_response_message_form('#form-save-entity', message);
@@ -110,13 +114,11 @@ application.controller('identification_controller', function($scope) {
      return  true;//validate_form_regiter_person(); //validate_date($scope.birth_date_foundation);
     }
 
-    request_api("/api/entity/save",data_paramters,validade_function,success_function,fail_function)
+    request_api("/api/entity/update",data_paramters,validade_function,success_function,fail_function)
 	}
 
 	$scope.load_register_select = function(){
-		reset_entity_form();
-		select_selectpicker('entity_type',$scope.entity_selected.entity_type)
-		select_entity_type()
+		$scope.clear_formulary($scope.entity_selected.entity_type)
 
 		for (var key in $scope.entity_selected) {
 			//alert('VEJA OS VALORES: '+key+": "+$scope.entity_selected[key])
@@ -131,15 +133,11 @@ application.controller('identification_controller', function($scope) {
 			select_selectpicker('main_activity',$scope.entity_selected['main_activity'])
 			select_selectpicker('natureza_juridica',$scope.entity_selected['natureza_juridica'])
 			select_selectpicker('tributary_regime',$scope.entity_selected['tributary_regime'])
-			select_selectpicker('relations_company',$scope.entity_selected['relations_company'].split(';'))
 			select_selectpicker('company_activities',$scope.entity_selected['company_activities'].split(';'))
 			select_selectpicker('market_segments',$scope.entity_selected['market_segments'].split(';'))
 			select_selectpicker('buy_destination',$scope.entity_selected['buy_destination'].split(';'))
 		}
-		else{
-			select_selectpicker('relations_company',$scope.entity_selected['relations_company'].split(';'))
-		}
-
+		select_selectpicker('relations_company',$scope.entity_selected['relations_company'].split(';'))
 		$('#birth_date_foundation').val(formate_string_date($scope.entity_selected.birth_date_foundation));
 	}
 
@@ -160,6 +158,12 @@ application.controller('identification_controller', function($scope) {
 					default:
 							return {entity_name: $scope.search}
 			}
+	}
+
+	$scope.clear_formulary = function(entity_type){
+		reset_entity_form();
+		select_selectpicker('entity_type',entity_type);
+		select_entity_type()
 	}
 
   $scope.select = function(entity){

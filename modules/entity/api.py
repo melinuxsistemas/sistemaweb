@@ -23,12 +23,13 @@ class EntityController(BaseController):
     @login_required
     @user_passes_test(lambda u: u.permissions.can_insert_entity(), login_url='/error/access_denied', redirect_field_name=None)
     def save(request):
-        print("VEJA COMO ESTA: ", request.POST)
         return BaseController().save(request, EntityIdentificationForm)
 
-    @method_decorator(login_required)
-    def update(self, request):
-        return self.update(request, Entity)
+    @login_required
+    @user_passes_test(lambda u: u.permissions.can_update_entity(), login_url='/error/access_denied', redirect_field_name=None)
+    def update(request):
+        print("VEJA COMO ESTA: ", request.POST)
+        return BaseController().update(request, EntityIdentificationForm)
 
     @method_decorator(login_required)
     def disable(self, request):

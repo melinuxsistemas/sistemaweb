@@ -216,7 +216,7 @@ class EntityIdentificationForm(forms.Form, BaseForm):
     )
     """
 
-    buy_destination = forms.MultipleChoiceField(label="Destino da Compra", choices=options_buy_destination, required=False,error_messages=ERRORS_MESSAGES,
+    buy_destination = forms.ChoiceField(label="Destino da Compra", choices=options_buy_destination, required=False,error_messages=ERRORS_MESSAGES,
          widget=forms.Select(
              attrs={'id': 'buy_destination', 'class': 'selectpicker form-control', 'multiple':"multiple", 'title':"", 'ng-model': 'buy_destination'}
          )

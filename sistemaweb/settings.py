@@ -65,7 +65,7 @@ MIDDLEWARE = [
 
 
 CRON_CLASSES = [
-    "sistemaweb.cron.Backup",
+    "sistemaweb.cron.Backup"
 ]
 
 SESSION_SECURITY_EXPIRE_AFTER= 600
@@ -131,7 +131,8 @@ BOWER_INSTALLED_APPS = (
     'multiple-select', # PODE SER QUE NAO IREMOS USAR MAIS
     'jQuery-Smart-Wizard#3.3.1',
     'angular-utils-pagination',
-    'bootstrap-select'
+    'bootstrap-select',
+    'ng-filters-br'
 )
 
 WSGI_APPLICATION = 'sistemaweb.wsgi.application'

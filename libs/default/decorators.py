@@ -11,13 +11,17 @@ def validate_formulary(view):
         form = formulary(request.POST)
         form.request = request
         if not form.is_valid():
-            #print("DA UMA VERIFICADA NO FORM: ",form.errors)
-            controller.object = form.get_object()
-            controller.get_exceptions(controller.object, form)
+            if 'id' in request.POST:
+                controller.object = form.get_object(int(request.POST['id']))
+            else:
+                controller.object = form.get_object()
         else:
-            controller.object = form.get_object()
-            controller.get_exceptions(controller.object, form)
-            #print("FORMULARIO TA VALIDO MAS QUERO VER TBM O MODELO: ", controller.full_exceptions)
+            if 'id' in request.POST:
+                controller.object = form.get_object(int(request.POST['id']))
+            else:
+                controller.object = form.get_object()
+
+        controller.get_exceptions(controller.object, form)
         return view(controller, request, formulary, *args, **kwargs)
     return _wrapped_view
 

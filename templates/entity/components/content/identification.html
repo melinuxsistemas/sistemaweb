@@ -15,8 +15,8 @@
 						}
 					</style>
 
-					<a ng-show="entity_selected==null" id='bt_identification' href="#entity_identification" data-toggle="modal" data-target="#modal_identification" role="button" class="btn btn-sm btn-success" title="Adicionar nova Entidade" style="color: #fff;padding-right: 6px;width: 40px;"><i class="fa fa-user-plus fa-lg" aria-hidden="true"></i></a><!-- data-toggle="form" data-target="#modal_add_entity" -->
-					<a ng-show="entity_selected" id='bt_update_entity' href="#entity_identification" data-toggle="modal" data-target="#modal_identification" role="button" class="btn btn-sm btn-success" title="Alterar Entidade" style="color: #fff;padding-right: 6px;width: 40px;" ng-click="load_register_select()"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></a><!-- data-toggle="form" data-target="#modal_add_entity" -->
+					<a ng-show="entity_selected==null" id='bt_identification' href="#entity_identification" data-toggle="modal" data-target="#modal_identification" role="button" class="btn btn-sm btn-success" title="Adicionar nova Entidade" ng-click="clear_formulary(1);" style="color: #fff;padding-right: 6px;width: 40px;"><i class="fa fa-user-plus fa-lg" aria-hidden="true"></i></a>
+					<a ng-show="entity_selected" id='bt_update_entity' href="#entity_identification" data-toggle="modal" data-target="#modal_identification" role="button" class="btn btn-sm btn-success" title="Alterar Entidade" style="color: #fff;padding-right: 6px;width: 40px;" ng-click="load_register_select()"><i class="fa fa-pencil fa-lg" style='margin-left: -2px;' aria-hidden="true"></i></a><!-- data-toggle="form" data-target="#modal_add_entity" -->
 
 
 					<a id='bt_contacts' href="#entity_contact" data-toggle="tab" ng-hide="S1 || S2" role="button" class="btn btn-sm btn-default pull-left" ng-class="{true:'desabilitado', false:''}[registro_selecionado==null]" onclick="angular.element(document.getElementById('contact_controller')).scope().load_contacts();angular.element(document.getElementById('email_controller')).scope().load_emails();" title="Contatos" style='color: #999;margin-left: 5px;'><i class="fa fa-address-book-o fa-lg" style="margin-left:-1px;" aria-hidden="true"></i></a><!-- data-toggle="form" data-target="#modal_entity_email" ng-click="carregar_indicacao()" -->
@@ -73,7 +73,7 @@
 							{% verbatim %}
 							<thead>
 								<tr class="row_entity linha_selecionavel" style="font-size:10px;">
-									<th class='col_index text-center' ng-click="sortType = 'entity_code'; sortReverse = !sortReverse"></th>
+									<th class='col_index text-center' ng-click="sortType = 'entity_code'; sortReverse = !sortReverse">Nº</th>
 
 									<th class="col_entity_type text-center" ng-hide='screen_model <= 2' ng-click="sortType = 'entity_type'; sortReverse = !sortReverse">Tipo</th>
 
