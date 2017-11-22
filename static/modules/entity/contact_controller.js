@@ -89,21 +89,27 @@ application.controller('register_phone_entity', function ($scope) {
 	/*Carregar Lista com os contatos*/
 	$scope.load_contacts = function () {
 		$scope.entity_selected =  angular.element(document.getElementById('identification_controller')).scope().entity_selected;
-		var id = $scope.entity_selected.id
+		var id = $scope.entity_selected.id;
 		$('#title_contact').text($scope.entity_selected.entity_name)
-		$.ajax({
-				type: 'GET',
-				url: "/api/entity/list/contacts/" + id +'/',
 
-				success: function (data) {
-					$scope.contacts = JSON.parse(data)
-					$scope.$apply();
-				},
+		var data_paramters = {
+			id : id
+		};
 
-				failure: function (data) {
-					alert("Não foi possivel carregar a lista")
-			}
-		})
+		success_function = function (result,message,data_object,status) {
+				$scope.contacts = data_object;
+				$scope.$apply();
+		};
+
+		fail_function = function () {
+			notify('error','Falha ao Carregar','Não foi possivel carregar os contatos.')
+		};
+
+		validate_function = function () {
+			return true;
+		};
+
+		request_api("/api/entity/contacts/",data_paramters,validate_function,success_function,fail_function)
 		$scope.$apply();
 	};
 
@@ -138,7 +144,7 @@ application.controller('register_phone_entity', function ($scope) {
 	$scope.change_contact = function () {
 		var data_paramters = {
 			id : $scope.contact_selected.id,
-			type_contact: $('#type_contact').val(),
+			type_contact: $scope.contact_selected.type_contact,
 			name: $('#name_contact').val().toUpperCase(),
 			ddd: clear_mask_numbers_contact($('#ddd').val()),
 			phone: clear_mask_numbers_contact($('#phone_number').val()),
@@ -165,7 +171,6 @@ application.controller('register_phone_entity', function ($scope) {
 		}
 		else
 		{
-			print("SIDJAIDJAI")
 			$('#modal_add_phone').modal('hide');
 			notify('error','Sem alterações','Para salvar alterações, realize uma')
 		}

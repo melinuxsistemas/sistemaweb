@@ -320,10 +320,10 @@ class EntityPhoneForm (forms.Form, BaseForm):
     model = Contact
 
     options_phone_type = (
-        ("CELL", "CELULAR"),
-        ("FIXO", "FIXO"),
-        ("SAC", "SAC"),
-        ("FAX", "FAX")
+        (1, "CELULAR"),
+        (2, "FIXO"),
+        (3, "SAC"),
+        (4, "FAX")
     )
 
     type_contact = forms.ChoiceField(
@@ -384,7 +384,7 @@ class EntityPhoneForm (forms.Form, BaseForm):
         )
     )
 
-    comments = forms.CharField(
+    '''comments = forms.CharField(
         label="Observações",
         max_length=500,
         required=False,
@@ -404,7 +404,7 @@ class EntityPhoneForm (forms.Form, BaseForm):
                 'autocomplete': "off", 'ng-model': 'detalhes',
             }
         )
-    )
+    )'''
 
     def format_validate_response(self):
         response_errors = {}

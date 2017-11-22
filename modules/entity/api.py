@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.decorators import method_decorator
 from django.core import serializers
 from libs.default.core import BaseController
+from libs.default.decorators import validate_formulary
 from modules.core.api import AbstractAPI
 from modules.core.utils import response_format_success, response_format_error
 from modules.entity.forms import EntityPhoneForm, EntityEmailForm, EntityIdentificationForm
@@ -45,9 +46,9 @@ class ContactController(BaseController):
     def load(self, request):
         return self.filter(request, Entity)
 
-    @method_decorator(login_required)
+    '''@method_decorator(login_required)
     def update(self, request):
-        return self.update(request, Entity)
+        return self.update(request, Entity)'''
 
     """
     @login_required
@@ -133,25 +134,19 @@ class ContactController(BaseController):
             response_dict = response_format_error(full_exceptions)
 
         return HttpResponse(json.dumps(response_dict))
-    def load_tel (request,id_entity):
-        options_type_contact = {
-            1: "CELULAR",
-            2: "FIXO",
-            3: "SAC",
-            4: "FAX",
-        }
-        response_dict = []
-        list_contacts = Contact.objects.filter(entity_id=int(id_entity)).order_by("-id")
-        for contact in list_contacts:
-            response_object = json.loads(serializers.serialize('json', [contact]))[0]
-            response_object['fields']['id'] = response_object['pk']
-            response_object['fields']['type_contact'] = options_type_contact[contact.type_contact]
-            response_object['fields']['id_type_contact'] = contact.type_contact
-            response_object = response_object['fields']
-            response_dict.append(response_object)
-        return HttpResponse(json.dumps(response_dict))
-    def update_tel (request):
-        options_type_contact = {
+
+    @method_decorator(login_required)
+    def load_tel (self,request):
+        return self.filter(request,Contact, queryset=Contact.objects.filter(entity=int(request.POST['id'])))
+
+    @login_required()
+    def update_tel ( request):
+        print("OLHA O REQUEST",request)
+        return BaseController().update(request,EntityPhoneForm)
+
+
+
+        '''options_type_contact = {
             1: "CELULAR",
             2: "FIXO",
             3: "SAC",
@@ -180,6 +175,7 @@ class ContactController(BaseController):
             response_dict = response_format_error(full_exceptions)
 
         return HttpResponse(json.dumps(response_dict))
+    '''
     def delete_tel (request,id_contact):
         contact = Contact.objects.get(id=id_contact)
         try:

@@ -230,11 +230,12 @@ def only_numeric(value):
 
 def validate_ddd(value,type):
     size = len(value)
-    if((type == '3') and (size==4)):
-        return True
-    if (size==2):
-        return True
-    raise ValidationError(_("ddd: Prefix number is not valid"), code='not_all_numeric')
+    if (type is not None):
+        if ((type == '3') and (size == 4)):
+            return True
+        if (size == 2):
+            return True
+        raise ValidationError(_("ddd: Prefix number is not valid"), code='not_all_numeric')
     return False
 
 if __name__ == "__main__":
