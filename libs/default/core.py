@@ -54,7 +54,7 @@ class Notify:
             response_dict['object'] = None
         return response_dict
 
-    def __format_serialized_model(self,object,list_fields):
+    def __format_serialized_model(self,object,list_fields=None):
         if list_fields is not None:
             response_model = serializers.serialize('json', [object], fields=tuple(list_fields))
         else:
@@ -65,6 +65,9 @@ class Notify:
         response_model['id'] = object.id
         response_model['selected'] = ''
         return response_model
+
+
+
 
     def __format_exceptions(self,exceptions):
         message_dict = {}
@@ -109,7 +112,6 @@ class BaseController(Notify):
     server_startup_time_process = None
     server_terminate_time_process = None
     server_processing_time = None
-
     @request_ajax_required
     def login(self, request, formulary):
         form = formulary(request.POST)
@@ -199,10 +201,16 @@ class BaseController(Notify):
     @request_ajax_required
     def delete(self, request, model, object_id):
         self.request = request
+        object = model.objects.get(id=int(object_id))
+        response_dict = {}
         print("Excluir: ", model, '[', object_id, ']')
-        object = model.objects.filter(id=object_id)
-        response_dict = self.execute(object, object.delete)
-        return HttpResponse(json.dumps(response_dict))
+        if object is not None:
+            response_dict = self.execute(object, object.delete)
+        else:
+            response_dict['result'] = False
+            response_dict['object'] = None
+            response_dict['message'] = 'Registro não existe'
+        return self.response(response_dict)
 
     @request_ajax_required
     def disable(self, request, model, object_id):
@@ -215,7 +223,10 @@ class BaseController(Notify):
     def execute(self, object, action):
         try:
             action()
-            response_dict = self.notify.success(object)
+            if object is not None:
+                response_dict = self.notify.success(object)
+            else:
+                response_dict = self.notify.success(object)
         except Exception as e:
             response_dict = self.notify.error(e)
         return response_dict

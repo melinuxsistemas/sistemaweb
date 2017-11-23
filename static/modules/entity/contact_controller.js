@@ -116,17 +116,29 @@ application.controller('register_phone_entity', function ($scope) {
 	/*Deletar contato*/
 	$scope.delete_contact = function () {
 		var id_contact = $scope.contact_selected.id;
-		$.ajax({
-			url: "/api/entity/delete/phone/" + id_contact ,
+		var data_paramters = {
+			id: parseInt(id_contact)
+		};
 
-			success : function () {
-				var pos = $scope.contacts.indexOf($scope.contact_selected)
+		success_function = function () {
+			alert("pq n to aqui?")
+			notify('succes','Operação concluida','Contato deletado com sucesso');
+			var pos = $scope.contacts.indexOf($scope.contact_selected);
 				$scope.contacts.splice(pos,1);
-				$scope.contact_selected = null
-				notify('success','Contato Removido','Seu contato foi removido do sistema')
+				$scope.contact_selected = null;
+				notify('success','Contato Removido','Seu contato foi removido do sistema');
 				$scope.$apply()
-			},
-		})
+		};
+
+		fail_function = function () {
+			notify('error','Operação não Concluida','Não foi possivel remover o contato')
+		};
+
+		validade_function = function () {
+			return true;
+		};
+
+		request_api('/api/entity/delete/phone',data_paramters,validate_function,success_function,fail_function);
 	};
 
 	/*Função que carreaga os campos do formulario de Contatos*/
@@ -278,7 +290,7 @@ application.controller('register_email_entity', function ($scope) {
 
 
 	$('#modal_add_email').on('hidden.bs.modal', function () {
-		$(this).find("input,textarea,select").val('').end();
+		$(this).find("input,textarea,select").val('').end()
 		$scope.email_selected.selected = '';
 		$scope.changing_email = false;
 		$scope.email_selected = null;
@@ -290,10 +302,12 @@ application.controller('register_email_entity', function ($scope) {
 	});
 
 	$scope.reset_email = function () {
+		$scope.emails = [];
 		$scope.email_selected = null;
 		$scope.changing_email = false;
 		$scope.entity_selected = null;
 	};
+
 
 	$scope.load_field_email = function () {
 		$scope.changing_email = true;
@@ -340,7 +354,7 @@ application.controller('register_email_entity', function ($scope) {
 
 	$scope.save_email = function () {
 		$scope.entity_selected = angular.element(document.getElementById('identification_controller')).scope().entity_selected
-		var id_entity = $scope.entity_selected.id
+		var id_entity = $scope.entity_selected.id;
 		var data_paramters = {
 			email : $('#email').val(),
 			name : $('#name').val().toUpperCase(),
@@ -366,7 +380,6 @@ application.controller('register_email_entity', function ($scope) {
 	}
 
 	$scope.load_emails = function () {
-		$scope.reset_email();
 		$scope.entity_selected =  angular.element(document.getElementById('identification_controller')).scope().entity_selected;
 		var id = $scope.entity_selected.id;
 		var data_paramters = {
@@ -392,18 +405,29 @@ application.controller('register_email_entity', function ($scope) {
 
 	$scope.delete_email = function () {
 		var email_delete = $scope.email_selected.id;
-		$.ajax({
-			/*O ultimo elemento da url é o tipo*/
-			url: "/api/entity/delete/email/" + email_delete,
-			success : function () {
-				var pos = $scope.emails.indexOf($scope.email_selected)
+		var data_paramters = {
+			id: parseInt(email_delete)
+		};
+
+		success_function = function () {
+			alert("pq n to aqui?")
+			notify('succes','Operação concluida','Contato deletado com sucesso');
+			var pos = $scope.emails.indexOf($scope.email_selected)
 				$scope.emails.splice(pos,1);
 				$scope.email_selected = null;
 				notify('success','Email Removido','Seu email foi removido do sistema');
 				$scope.$apply()
-			}
-		})
+		};
 
+		fail_function = function () {
+			notify('error','Operação não Concluida','Não foi possivel remover o email')
+		};
+
+		validade_function = function () {
+			return true;
+		};
+
+		request_api('/api/entity/delete/email',data_paramters,validate_function,success_function,fail_function);
 	};
 
 	/*Functions para controlar linhas da tabela*/
@@ -422,17 +446,17 @@ application.controller('register_email_entity', function ($scope) {
       $scope.select_row_email(email);
     }
     $scope.$apply();
-  }
+  };
 
   $scope.select_row_email = function (email) {
   	$scope.email_selected = email;
 		$scope.email_selected.selected = 'selected';
-  }
+  };
 
   $scope.unselect_row_email = function () {
 		$scope.email_selected.selected = '';
     $scope.email_selected = null;
-  }
+  };
 
   /*$scope.update_minimal_table = function () {
 		var emails = $scope.emails.length

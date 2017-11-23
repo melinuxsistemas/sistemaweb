@@ -159,6 +159,8 @@ class Entity(models.Model, BaseModel):
             print("ALGUM CAMPO JA DEU ERRO INDIVIDUALMENTE")
         return form_data
         """
+    def delete(self, using=None, keep_parents=False):
+        self.desativar()
 
     def desativar (self):
         print("Consegui deletar???")
