@@ -42,55 +42,13 @@ class ContactController(BaseController):
     def save(request):
         return BaseController().save(request, EntityPhoneForm)
 
-    @method_decorator(login_required)
-    def load(self, request):
-        return self.filter(request, Entity)
-
-    '''@method_decorator(login_required)
-    def update(self, request):
-        return self.update(request, Entity)'''
-
-    """
-    @login_required
-    def save(request):
-        resultado, form = AbstractAPI.filter_request(request, FormPersonEntity)
-        entity = Entity()
-        entity.form_to_object(form)
-        response_dict = {}
-        if resultado:
-            try:
-                entity.save()
-                response_dict = response_format_success(entity, ['id','cpf_cnpj','entity_name','entity_type','birth_date_foundation','created_date'])
-                #entity.show_fields_value()
-            except Exception as e:
-                print("VEJA A EXCECAO QUE DEU: ",e)
-                response_dict = response_format_error(format_exception_message(entity.model_exceptions))
-
-        else:
-            entity.check_validators()
-            model_exceptions = format_exception_message(entity.model_exceptions)
-            form_exceptions = form.format_validate_response()
-
-            full_exceptions = {}#dict(form_exceptions, **model_exceptions);
-            full_exceptions.update(model_exceptions)
-            full_exceptions.update(form_exceptions)
-
-            #print("RESPONSE FORM EXCEPTIONS: ", form_exceptions)
-            #print("RESPONSE MODEL EXCEPTIONS: ", model_exceptions)
-            #print("RESPONSE FULL EXCEPTIONS: ", full_exceptions)
-            response_dict = response_format_error(full_exceptions)
-
-        #print("RESPONSE_DICT: ",response_dict)
-        return HttpResponse(json.dumps(response_dict))
-    """
-
 
     @method_decorator(login_required)
     def load_tel (self,request):
         return self.filter(request,Contact, queryset=Contact.objects.filter(entity=int(request.POST['id'])))
 
-    @login_required()
-    def update_tel ( request):
+    @login_required
+    def update_tel (request):
         return BaseController().update(request,EntityPhoneForm)
 
     @login_required
@@ -102,11 +60,13 @@ class ContactController(BaseController):
     def save_email(request):
         return BaseController().save(request, EntityEmailForm)
 
-    def load_email (self, request):
-        return self.filter(request, Contact, queryset=Email.objects.filter(entity=int(request.POST['id'])))
-
+    @login_required
     def update_email (request):
         return BaseController().update(request,EntityEmailForm)
+
+
+    def load_email (self, request):
+        return self.filter(request, Email, queryset=Email.objects.filter(entity=int(request.POST['id'])))
 
     @login_required
     def delete_email(request):

@@ -47,6 +47,7 @@ function field_empty(field) {
 		set_wrong_field(field,'informe esse campo')
 		return false
 	}
+	clean_wrong_field(field)
 	return true
 }
 

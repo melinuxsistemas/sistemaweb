@@ -231,7 +231,7 @@ def only_numeric(value):
 def validate_ddd(value,type):
     size = len(value)
     if (type is not None):
-        if ((type == '3') and (size == 4)):
+        if ((int(type) == 3) and (size == 4)):
             return True
         if (size == 2):
             return True

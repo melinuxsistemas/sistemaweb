@@ -13,8 +13,8 @@ urlpatterns = [
     #Rotas Emails
     url(r'register/email',ContactController.save_email),
     url(r'update/email',ContactController.update_email),
-    url(r'list/emails/',ContactController().load_email),
-    url(r'delete/email',ContactController().delete_email),
+    url(r'emails/',ContactController().load_email),
+    url(r'delete/email',ContactController.delete_email),
 
 
     #Falta Consertar APIs do Email

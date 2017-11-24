@@ -183,7 +183,7 @@ class Contact(models.Model,BaseModel):
         (1, "CELULAR"),
         (2, "FIXO"),
         (3, "SAC"),
-        (4,"FAX")
+        (4, "FAX")
     )
 
     id = models.AutoField(primary_key=True, unique=True)

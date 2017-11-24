@@ -384,7 +384,7 @@ class EntityPhoneForm (forms.Form, BaseForm):
         )
     )
 
-    '''comments = forms.CharField(
+    comments = forms.CharField(
         label="Observações",
         max_length=500,
         required=False,
@@ -404,7 +404,7 @@ class EntityPhoneForm (forms.Form, BaseForm):
                 'autocomplete': "off", 'ng-model': 'detalhes',
             }
         )
-    )'''
+    )
 
     def format_validate_response(self):
         response_errors = {}

@@ -76,6 +76,7 @@ application.controller('register_phone_entity', function ($scope) {
 			alert(new_contact.type_contact);
 			$scope.contacts.push(new_contact);
 			$scope.$apply();
+			document.getElementById("form-save-contact").reset()
 			$('#modal_add_phone').modal('hide')
 
 		}
@@ -121,8 +122,6 @@ application.controller('register_phone_entity', function ($scope) {
 		};
 
 		success_function = function () {
-			alert("pq n to aqui?")
-			notify('succes','Operação concluida','Contato deletado com sucesso');
 			var pos = $scope.contacts.indexOf($scope.contact_selected);
 				$scope.contacts.splice(pos,1);
 				$scope.contact_selected = null;
@@ -340,7 +339,6 @@ application.controller('register_email_entity', function ($scope) {
 			var index = $scope.emails.indexOf($scope.email_selected)
 			$scope.emails.splice(index,1);
 			$scope.emails.splice(index,0,data_email);
-			alert(JSON.stringify(data_email))
 			$('#modal_add_email').modal('hide');
 			$scope.$apply();
 			notify('success','Email Alterado',"Seu email foi atualizado com sucesso")
@@ -367,6 +365,7 @@ application.controller('register_email_entity', function ($scope) {
 			var data_email = data_object;
 			$scope.emails.push(data_email);
 			notify('success','Email salvo','Seu Email foi salvo com sucesso');
+			document.getElementById("form-save-email").reset()
 			$('#modal_add_email').modal('hide');
 			$scope.$apply()
 
@@ -398,7 +397,7 @@ application.controller('register_email_entity', function ($scope) {
             return true
         }
 
-		request_api("/api/entity/list/emails/", data_paramters,validate_function, success_function, fail_function)
+		request_api("/api/entity/emails/", data_paramters,validate_function, success_function, fail_function)
 
 		$scope.$apply();
 	};
@@ -410,12 +409,10 @@ application.controller('register_email_entity', function ($scope) {
 		};
 
 		success_function = function () {
-			alert("pq n to aqui?")
-			notify('succes','Operação concluida','Contato deletado com sucesso');
 			var pos = $scope.emails.indexOf($scope.email_selected)
 				$scope.emails.splice(pos,1);
 				$scope.email_selected = null;
-				notify('success','Email Removido','Seu email foi removido do sistema');
+				notify('success','Operação concluida','Email removido do sistema com sucesso');
 				$scope.$apply()
 		};
 
