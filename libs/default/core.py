@@ -258,21 +258,24 @@ class BaseController(Notify):
         return self.notify.error(self.full_exceptions)
 
     def __create_session(self, request, user):
-        sessao = Session()
-        sessao.user = user
-        sessao.session_key = request.session.session_key
-        sessao.internal_ip = request.POST['internal_ipv4']
-        sessao.external_ip = request.POST['external_ip']
-        sessao.country_name = request.POST['country_name']
-        sessao.country_code = request.POST['country_code']
-        sessao.region_code = request.POST['region_code']
-        sessao.region_name = request.POST['region_name']
-        sessao.city = request.POST['city']
-        sessao.zip_code = request.POST['zip_code']
-        sessao.time_zone = request.POST['time_zone']
-        sessao.latitude = request.POST['latitude']
-        sessao.longitude = request.POST['longitude']
-        sessao.save()
+        try:
+            sessao = Session()
+            sessao.user = user
+            sessao.session_key = request.session.session_key
+            sessao.internal_ip = request.POST['internal_ipv4']
+            sessao.external_ip = request.POST['external_ip']
+            sessao.country_name = request.POST['country_name']
+            sessao.country_code = request.POST['country_code']
+            sessao.region_code = request.POST['region_code']
+            sessao.region_name = request.POST['region_name']
+            sessao.city = request.POST['city']
+            sessao.zip_code = request.POST['zip_code']
+            sessao.time_zone = request.POST['time_zone']
+            sessao.latitude = request.POST['latitude']
+            sessao.longitude = request.POST['longitude']
+            sessao.save()
+        except:
+            pass
 
     def start_process(self, request):
         self.__request_path = request.path

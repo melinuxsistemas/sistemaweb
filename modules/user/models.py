@@ -29,15 +29,17 @@ class UserManager(BaseUserManager):
             email = self.normalize_email(email)
             user = self.model(email=email, account_activated=account_activated, active_user=active,type_user=tipo, last_update=now, joined_date=now)#, **extra_fields)
             user.set_password(password)
+            user.group_id = 1
             try:
                 user.full_clean()
                 user.save(using=self._db)
                 return user
 
             except Exception as e:
+                print("Veja o  primeiro erro:",e)
                 return e
         else:
-            #raise ValueError('Passwords there are 8 or more characters, including letters and numbers.')
+            raise ValueError('Passwords there are 8 or more characters, including letters and numbers.')
             return None
 
     def create_contracting_user(self, email, senha):
@@ -53,7 +55,35 @@ class UserManager(BaseUserManager):
         return self._create_user(email, senha,False, False, False, "D")
 
     def create_test_user(self, email, senha):
+        group = GroupPermissions()
+        group.name = 'Test'
+        group.registration = '5;5;5;5;5;5;5;5;5'
+        group.purchases = '5;5;5;5;5;5;5;5;5'
+        group.sales = '5;5;5;5;5;5;5;5;5'
+        group.services = '5;5;5;5;5;5;5;5;5'
+        group.finances = '5;5;5;5;5;5;5;5;5'
+        group.supervision = '5;5;5;5;5;5;5;5;5'
+        group.management = '5;5;5;5;5;5;5;5;5'
+        group.contabil = '5;5;5;5;5;5;5;5;5'
+        group.others = '5;5;5;5;5;5;5;5;5'
+        group.save()
+
         user = self._create_user(email, senha, False, False, False, "T")
+
+        permission = Permissions()
+        permission.user = user
+        permission.registration = '5;5;5;5;5;5;5;5;5'
+        permission.purchases = '5;5;5;5;5;5;5;5;5'
+        permission.sales = '5;5;5;5;5;5;5;5;5'
+        permission.services = '5;5;5;5;5;5;5;5;5'
+        permission.finances = '5;5;5;5;5;5;5;5;5'
+        permission.supervision = '5;5;5;5;5;5;5;5;5'
+        permission.management = '5;5;5;5;5;5;5;5;5'
+        permission.contabil = '5;5;5;5;5;5;5;5;5'
+        permission.others = '5;5;5;5;5;5;5;5;5'
+        permission.save()
+
+
         if user is not None:
             activation_code = generate_activation_code(email)
             user.account_activated = True
@@ -61,7 +91,8 @@ class UserManager(BaseUserManager):
             try:
                 user.save()
                 return user
-            except:
+            except Exception as e:
+                print("Veja o erro:",e)
                 return None
         return None
 
@@ -116,7 +147,7 @@ class User(AbstractBaseUser):
     account_activated = models.BooleanField(default=False)
     activation_code   = models.CharField(max_length=46, null=True, blank=True, error_messages=ERRORS_MESSAGES)
     active_user       = models.BooleanField(default=True)
-    group             = models.ForeignKey('GroupPermissions')
+    group             = models.ForeignKey('GroupPermissions', null=True)
 
     USERNAME_FIELD    = 'email'
     REQUIRED_FIELDS   = []
@@ -262,6 +293,8 @@ class Permissions(models.Model, UserPermissions, EntityPermissions, ContactPermi
 
     def check_validators(self):
         self.model_exceptions = []
+        return self.model_exceptions
+
         try:
             correct_length(self.registration,7)
             validator_level(self.registration)

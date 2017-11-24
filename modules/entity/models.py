@@ -91,6 +91,7 @@ class Entity(models.Model, BaseModel):
     history = models.CharField("Histórico de Alterações", max_length=500, null=True, blank=True)
 
     def save(self, *args, **kwargs):
+        print("ENTRANDO NO FULL CLEAN")
         self.full_clean()
         super(Entity, self).save(*args, **kwargs)
 

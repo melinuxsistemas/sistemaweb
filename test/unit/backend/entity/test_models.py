@@ -1,11 +1,26 @@
+from django.test import TestCase, Client
 from django.db import transaction
-from django.test import TestCase
+from modules.entity.api import EntityController
 from modules.entity.models import Entity, Contact, Email
+from modules.user.models import User
 from test.unit.backend.entity.factory import create_simple_valid_company, create_simple_valid_contac, \
-    create_simple_valid_person, create_simple_valid_email
+    create_simple_valid_person, create_simple_valid_email, create_simple_invalid_company
 
 
-class EntityTest(TestCase):
+class EntityTest(TestCase, EntityController):
+
+    def setUp(self):
+        self.c = Client()
+        user = User.objects.create_test_user(email='teste@teste.com',senha='1q2w3e4r')
+        print("Veja o user:",user, user.account_activated)
+        response = self.c.post('/api/user/login/autentication', data={'email': user.email, 'password': '1q2w3e4r'},
+                                    HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        print("Consigo acessar? ",response)
+
+    def request (self,url,dict):
+        response = self.c.post(url,dict)
+        return response
+
 
     def test_create_entity(self):
         try:
@@ -35,7 +50,7 @@ class EntityTest(TestCase):
             entity.entity_name = item[1]
             entity.fantasy_name = 'teste teste'
             try:
-                entity.save()
+                EntityController.save(entity)
                 result = True
             except Exception as exception:
                 #print("ERRO: ",exception)
@@ -48,11 +63,11 @@ class EntityTest(TestCase):
             self.assertEquals(result,item[2],"Teste de criação (OK)")
 
     def test_create_entity_wrong_document(self):
-        entity = create_simple_valid_company()
-        entity.entity_type = "PF"
+        entity = create_simple_invalid_company()
+        request = self.request('/api/entity/save',entity)
         result = True
         try:
-            entity.save()
+            EntityController().save(request)
             result = True
         except Exception as exception:
             #print("ERRO: ",exception)
@@ -61,9 +76,13 @@ class EntityTest(TestCase):
 
     def test_create_entity_correct_document(self):
         entity = create_simple_valid_company()
-        entity.entity_type = "PJ"
+        print("Olha o Entity:",entity)
+        request = self.request('/api/entity/save', entity)
+        print("Olha o request:",request)
+        print("Veja a resposta:",request.status_code)
+        result = True
         try:
-            entity.save()
+            EntityController().save(request)
             result = True
         except Exception as exception:
             #print("ERRO: ",exception)
@@ -83,7 +102,7 @@ class EntityTest(TestCase):
 
     def test_validation_create_entity_contact(self):
         entity = create_simple_valid_person()
-        entity.save()
+        EntityController.save(entity)
         variacoes = [
             ['','',False],
             [None,None,False],
@@ -116,7 +135,7 @@ class EntityTest(TestCase):
 
     def test_create_entity_valid_contact(self):
         entity = create_simple_valid_person()
-        entity.save()
+        EntityController.save(entity)
         contact = create_simple_valid_contac()
         contact.entity = entity
         try:
@@ -129,7 +148,7 @@ class EntityTest(TestCase):
 
     def test_create_entity_wrong_cotact(self):
         entity = create_simple_valid_person()
-        entity.save()
+        EntityController.save(entity)
         contact = create_simple_valid_contac()
         contact.entity = entity
         contact.phone = "3030323a"
@@ -167,7 +186,7 @@ class EntityTest(TestCase):
             # [False, False, 'gianordolilucas@gmail.com', True]
         ]
         entity = create_simple_valid_person()
-        entity.save()
+        EntityController.save(entity)
 
         for item in variacoes:
             email = Email()
@@ -187,7 +206,7 @@ class EntityTest(TestCase):
 
     def test_create_entity_valid_email(self):
         entity = create_simple_valid_person()
-        entity.save()
+        EntityController.save(entity)
         email = create_simple_valid_email()
         email.entity = entity
         try:
@@ -199,7 +218,7 @@ class EntityTest(TestCase):
 
     def test_create_entity_wrong_email(self):
         entity = create_simple_valid_person()
-        entity.save()
+        EntityController.save(entity)
         email = create_simple_valid_email()
         email.email = None
         email.entity = entity
@@ -209,12 +228,3 @@ class EntityTest(TestCase):
         except Exception as exception:
             result = False
         self.assertEquals(result, False, "Teste de criacao de Contato de um Email Inválido. (OK)")
-
-
-
-
-
-
-
-
-
