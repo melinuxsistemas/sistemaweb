@@ -17,7 +17,12 @@ def create_simple_valid_company():
     entity.cpf_cnpj = '03853896000140'
     entity.entity_name = 'EMPRESA DE TESTES LTDA'
     entity.fantasy_name = 'EMPRESA DE TESTE'
-    return format_serialized_model(entity)
+    dicionario_test = {'entity_type': ['2'], 'cpf_cnpj': ['75328405000152'], 'entity_name': ['EMPRESA XYZ'],
+                  'fantasy_name': ['XYZ'], 'birth_date_foundation': [''], 'natureza_juridica': [''],
+                  'main_activity': [''], 'comments': [''], 'tributary_regime': ['0'], 'entity_father': [''],
+                  'entity_mother': [''], 'entity_conjuge': [''], 'entity_occupation': [''],
+                  'comments_fiscal_note': ['']}
+    return dicionario_test
 
 def create_simple_valid_contac():
     contact = Contact()
@@ -52,5 +57,4 @@ def format_serialized_model(object,list_fields=None):
     response_model = json.loads(response_model)[0]
     response_model = response_model['fields']
     response_model['id'] = object.id
-    response_model['selected'] = ''
     return response_model

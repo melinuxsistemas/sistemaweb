@@ -163,10 +163,15 @@ class BaseController(Notify):
     @request_ajax_required
     @validate_formulary
     def save(self, request, formulary=None):
+        print("chegando no save olha o request",request.user)
         if self.full_exceptions == {}:
+            print("Sem exeptions ")
             response_dict = self.execute(self.object, self.object.save)
+            print("gerou response dict success")
         else:
+            print("entrei no error")
             response_dict = self.notify.error(self.full_exceptions)
+        print("retornando:",response_dict)
         return self.response(response_dict)
 
     @request_ajax_required
@@ -278,29 +283,41 @@ class BaseController(Notify):
             pass
 
     def start_process(self, request):
-        self.__request_path = request.path
-        self.__request_bytes = sys.getsizeof(request.body)
-        self.server_startup_time_process = datetime.datetime.now()
-        print("Processo iniciado em ", self.server_startup_time_process)
+        try:
+            self.__request_path = request.path
+            self.__request_bytes = sys.getsizeof(request.body)
+            self.server_startup_time_process = datetime.datetime.now()
+            print("Processo iniciado em ", self.server_startup_time_process)
+        except:
+            pass
 
     def terminate_process(self):
-        self.server_terminate_time_process = datetime.datetime.now()
-        self.server_processing_time = self.server_terminate_time_process - self.server_startup_time_process
-        print("Processo executado em", self.server_processing_time)  # ,"ou",self.server_processing_time.total_seconds())
+        try:
+            self.server_terminate_time_process = datetime.datetime.now()
+            self.server_processing_time = self.server_terminate_time_process - self.server_startup_time_process
+            print("Processo executado em", self.server_processing_time)  # ,"ou",self.server_processing_time.total_seconds())
+        except:
+            pass
 
     def response(self, response_dict):
         import sys
-        self.terminate_process()
-        response_dict['status'] = {}
-        response_dict['status']['request_path'] = self.__request_path
-        response_dict['status']['request_size'] = self.__request_bytes
-        response_dict['status']['response_size'] = "RESPONSE_SIZE"
-        response_dict['status']['server_processing_time_duration'] = self.server_processing_time.total_seconds()  # datetime.datetime.now()
-        response_dict['status']['cliente_processing_time_duration'] = ''
+        try:
+            self.terminate_process()
+            response_dict['status'] = {}
+            response_dict['status']['request_path'] = self.__request_path
+            response_dict['status']['request_size'] = self.__request_bytes
+            response_dict['status']['response_size'] = "RESPONSE_SIZE"
+            response_dict['status']['server_processing_time_duration'] = self.server_processing_time.total_seconds()  # datetime.datetime.now()
+            response_dict['status']['cliente_processing_time_duration'] = ''
+        except:
+            pass
 
         print("VEJA O RESPONSE NO FINAL: ", response_dict)
         data = json.dumps(response_dict, default=json_serial)
-        data = data.replace('RESPONSE_SIZE', str(sys.getsizeof(data) - 16))
+        try:
+            data = data.replace('RESPONSE_SIZE', str(sys.getsizeof(data) - 16))
+        except:
+            pass
         response = HttpResponse(data)  # after generate response noramlization reduce size in 16 bytes
         return response
 
@@ -337,9 +354,13 @@ class BaseForm:
 
     def get_object(self, object_id=None):
         if object_id is not None:
+            print("veja o self.model",self.model)
             object = self.model.objects.get(pk=int(object_id))
+            print("peguei o objeto")
         else:
+            print('objeto vazio')
             object = self.model()
+            print("pego o MOdelo")
 
         for attribute in self.data:
             value = self.data[attribute]
@@ -351,7 +372,7 @@ class BaseForm:
                     attribute = attribute.replace("[]", "")
                 else:
                     if attribute != 'id':
-                        if self.data[attribute] != "null":
+                        if self.data[attribute] != "null" and self.data[attribute] != 'None':
                             try:
                                 field = self.fields[attribute]
                                 value = field.to_python(self.data[attribute])
@@ -360,8 +381,6 @@ class BaseForm:
 
                         else:
                             value = None
-
-
 
 
 

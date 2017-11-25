@@ -24,7 +24,10 @@ class EntityController(BaseController):
     @login_required
     @user_passes_test(lambda u: u.permissions.can_insert_entity(), login_url='/error/access_denied', redirect_field_name=None)
     def save(request):
-        return BaseController().save(request, EntityIdentificationForm)
+        print("OLHA O REQUEST",request.POST)
+        b = BaseController().save(request, EntityIdentificationForm)
+        print("Olha o resultado da api save:",b)
+        return b
 
     @login_required
     @user_passes_test(lambda u: u.permissions.can_update_entity(), login_url='/error/access_denied', redirect_field_name=None)

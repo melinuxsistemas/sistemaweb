@@ -11,17 +11,18 @@ class EntityTest(TestCase, EntityController):
 
     def setUp(self):
         self.c = Client()
-        user = User.objects.create_test_user(email='teste@teste.com',senha='1q2w3e4r')
-        print("Veja o user:",user, user.account_activated)
-        response = self.c.post('/api/user/login/autentication', data={'email': user.email, 'password': '1q2w3e4r'},
+        self.user = User.objects.create_test_user(email='teste@teste.com',senha='1q2w3e4r')
+        print("Veja o user:",self.user, self.user.account_activated)
+        response = self.c.post('/api/user/login/autentication', data={'email': self.user.email, 'password': '1q2w3e4r'},
                                     HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        print(response.content)
         print("Consigo acessar? ",response)
 
     def request (self,url,dict):
         response = self.c.post(url,dict)
         return response
 
-
+    '''
     def test_create_entity(self):
         try:
             entity = Entity()
@@ -73,23 +74,24 @@ class EntityTest(TestCase, EntityController):
             #print("ERRO: ",exception)
             result = False
         self.assertEquals(result, False, "Teste de criacao de entidade com documento incorreto para o seu tipo (PF ou PJ). (OK)")
-
+    '''
     def test_create_entity_correct_document(self):
         entity = create_simple_valid_company()
         print("Olha o Entity:",entity)
-        request = self.request('/api/entity/save', entity)
-        print("Olha o request:",request)
-        print("Veja a resposta:",request.status_code)
+        entity.pop('id',None)
+        print("VEJA SE AQUI ESTOU LOGADO:",self.user.is_authenticated())
+
+        #print("Veja a resposta:",request.status_code)
         result = True
         try:
-            EntityController().save(request)
+            request = self.c.post('/api/entity/save', data=entity)
             result = True
         except Exception as exception:
-            #print("ERRO: ",exception)
+            print("ERRO: ",exception)
             result = False
         self.assertEquals(result, True, "Teste de criacao de entidade com documento correto para o seu tipo (PF ou PJ). (OK)")
 
-
+'''
     #Tests Entity->Contact
     def test_create_entity_contact (self):
         try:
@@ -228,3 +230,4 @@ class EntityTest(TestCase, EntityController):
         except Exception as exception:
             result = False
         self.assertEquals(result, False, "Teste de criacao de Contato de um Email Inválido. (OK)")
+'''
