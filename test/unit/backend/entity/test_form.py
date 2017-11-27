@@ -85,14 +85,14 @@ class RegisterFormPhone (TestAbstractForm):
         unittest.TestCase.__init__(self, *args, **kwargs)
         self.set_formulary(EntityPhoneForm)
 
-        self.add_case_valid_format({'type_contact':'FIXO','phone':'32322525','ddd':'27', 'name':'TESTE TESTE','complemento':'TESTE'},"Valid form Contact. (OK)")
+        self.add_case_valid_format({'type_contact':2,'phone':'32322525','ddd':'27', 'name':'TESTE TESTE','complemento':'TESTE'},"Valid form Contact. (OK)")
 
-        self.add_case_invalid_format({'type_contact': 'FIXO', 'phone': None, 'ddd': '27', 'name': 'TESTE TESTE', 'complemento': 'TESTE'},"Contact phone is not valid. (OK)")
-        self.add_case_invalid_format({'type_contact': 'FIXO', 'phone': '32322525', 'ddd': None, 'name': 'TESTE TESTE', 'complemento': 'TESTE'},"Contact ddd is not valid (OK)")
-        self.add_case_invalid_size({'type_contact': 'FIXO', 'phone': '', 'ddd': '27', 'name': 'TESTE TESTE', 'complemento': 'TESTE'},"Contac phone is not valid. (OK)")
-        self.add_case_invalid_size({'type_contact': 'FIXO', 'phone': '32322552', 'ddd': '', 'name': 'TESTE TESTE', 'complemento': 'TESTE'},"Contact dd is not valid. (OK)")
-        self.add_case_invalid_size({'type_contact': 'FIXO', 'phone': '32322525', 'ddd': '27', 'name': '', 'complemento': 'TESTE'},"Contact name is not valid. (OK)")
-        self.add_case_invalid_format({'type_contact': 'FIXO', 'phone': '32322525', 'ddd': '27', 'name': None, 'complemento': 'TESTE'},"Contact name is not valid. (OK)")
+        self.add_case_invalid_format({'type_contact': 2, 'phone': None, 'ddd': '27', 'name': 'TESTE TESTE', 'complemento': 'TESTE'},"Contact phone is not valid. (OK)")
+        self.add_case_invalid_format({'type_contact': 2, 'phone': '32322525', 'ddd': None, 'name': 'TESTE TESTE', 'complemento': 'TESTE'},"Contact ddd is not valid (OK)")
+        self.add_case_invalid_size({'type_contact': 2, 'phone': '', 'ddd': '27', 'name': 'TESTE TESTE', 'complemento': 'TESTE'},"Contac phone is not valid. (OK)")
+        self.add_case_invalid_size({'type_contact': 2, 'phone': '32322552', 'ddd': '', 'name': 'TESTE TESTE', 'complemento': 'TESTE'},"Contact dd is not valid. (OK)")
+        self.add_case_invalid_size({'type_contact': 2, 'phone': '32322525', 'ddd': '27', 'name': '', 'complemento': 'TESTE'},"Contact name is not valid. (OK)")
+        self.add_case_invalid_format({'type_contact': 2, 'phone': '32322525', 'ddd': '27', 'name': None, 'complemento': 'TESTE'},"Contact name is not valid. (OK)")
 
 class RegisterFormEmail (TestAbstractForm):
 

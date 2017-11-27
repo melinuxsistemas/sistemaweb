@@ -1,10 +1,11 @@
+import json
 from django.test import TestCase, Client
 from django.db import transaction
 from modules.entity.api import EntityController
 from modules.entity.models import Entity, Contact, Email
 from modules.user.models import User
 from test.unit.backend.entity.factory import create_simple_valid_company, create_simple_valid_contac, \
-    create_simple_valid_person, create_simple_valid_email, create_simple_invalid_company
+    create_simple_valid_person, create_simple_valid_email, create_simple_invalid_company, create_simple_person
 
 
 class EntityTest(TestCase, EntityController):
@@ -18,11 +19,7 @@ class EntityTest(TestCase, EntityController):
         print(response.content)
         print("Consigo acessar? ",response)
 
-    def request (self,url,dict):
-        response = self.c.post(url,dict)
-        return response
 
-    '''
     def test_create_entity(self):
         try:
             entity = Entity()
@@ -39,59 +36,43 @@ class EntityTest(TestCase, EntityController):
             [None, 'teste', False],
             ['81575080967', '', False],
             ['81575080967', None, False],
-            ['81575080966', 'TESTE', True],
             ['81575080966', 'TESTE', False],
         ]
 
         for item in variacoes:
-            #print("VOU TESTAR OS VALORES: (",item[0],") e (",item[0],")")
-            entity = Entity()
-            entity.entity_type = 'PF'
-            entity.cpf_cnpj = item[0]
-            entity.entity_name = item[1]
-            entity.fantasy_name = 'teste teste'
+            entity = create_simple_person('1',item[0],item[1],'teste teste')
+            entity.pop('id', None)
             try:
-                EntityController.save(entity)
-                result = True
+                obj = self.c.post('/api/entity/save', data=entity)
+                result = json.loads(obj.content)
             except Exception as exception:
-                #print("ERRO: ",exception)
-                result = False
-
-            #if result:
-            #    Entity.objects.filter(cpf_cnpj=item[0]).delete()
-
-            #print("V1:",item[0]," - V2:",item[1]," - RESP.:",item[2]," - RESULT:",result)
-            self.assertEquals(result,item[2],"Teste de criação (OK)")
+                result = {}
+                result['result'] = False
+            self.assertEquals(result['result'], item[2],"Teste de criacao (OK)")
 
     def test_create_entity_wrong_document(self):
         entity = create_simple_invalid_company()
-        request = self.request('/api/entity/save',entity)
-        result = True
+        entity.pop('id',None)
         try:
-            EntityController().save(request)
-            result = True
+            obj = self.c.post('/api/entity/save', data=entity)
+            result = json.loads(obj.content)
         except Exception as exception:
-            #print("ERRO: ",exception)
-            result = False
-        self.assertEquals(result, False, "Teste de criacao de entidade com documento incorreto para o seu tipo (PF ou PJ). (OK)")
-    '''
+            result = {}
+            result['result'] = False
+        self.assertEquals(result['result'], False, "Teste de criacao de entidade com documento incorreto para o seu tipo (PF ou PJ). (OK)")
+
     def test_create_entity_correct_document(self):
         entity = create_simple_valid_company()
-        print("Olha o Entity:",entity)
         entity.pop('id',None)
-        print("VEJA SE AQUI ESTOU LOGADO:",self.user.is_authenticated())
-
-        #print("Veja a resposta:",request.status_code)
-        result = True
         try:
-            request = self.c.post('/api/entity/save', data=entity)
-            result = True
+            obj = self.c.post('/api/entity/save', data=entity)
+            result = json.loads(obj.content)
         except Exception as exception:
-            print("ERRO: ",exception)
-            result = False
-        self.assertEquals(result, True, "Teste de criacao de entidade com documento correto para o seu tipo (PF ou PJ). (OK)")
+            result = {}
+            result['result'] = False
+        self.assertEquals(result['result'], True, "Teste de criacao de entidade com documento correto para o seu tipo (PF ou PJ). (OK)")
 
-'''
+
     #Tests Entity->Contact
     def test_create_entity_contact (self):
         try:
@@ -102,9 +83,13 @@ class EntityTest(TestCase, EntityController):
             entity = None
             self.assertIsNone(entity,"Entidade Não criada (OK)")
 
+
     def test_validation_create_entity_contact(self):
-        entity = create_simple_valid_person()
-        EntityController.save(entity)
+        entity = create_simple_valid_company()
+        entity.pop('id', None)
+        obj = self.c.post('/api/entity/save', data=entity)
+        result = json.loads(obj.content)
+        print("Resulltadoooo:",result)
         variacoes = [
             ['','',False],
             [None,None,False],
@@ -114,27 +99,24 @@ class EntityTest(TestCase, EntityController):
             ['123456789','A27',False],
             ['123456789','27',True]
         ]
+        entity = Entity.objects.get(id=1)
+        contact = create_simple_valid_contac()
+        contact.pop('id',None)
+        print("OLHA O CONTAAAAAAAAAATO:",contact)
+        contact['entity'] = entity.id
 
         for item in variacoes:
-
             #print("VOU TESTAR OS VALORES: (",item[0],") e (",item[0],")")
-            contact = Contact()
-            contact.type_contact = 'TEST'
-            contact.name = 'TESTE CONTACT'
-            contact.phone = item[0]
-            contact.ddd = item[1]
-            contact.complemento = 'teste teste'
-            contact.entity = entity
-            try:
-                with transaction.atomic():
-                    contact.save()
-                    result = True
-            except Exception as exception:
-                contact.active = False
-                #print("ERRO: ",exception)
-                result = False
-            self.assertEquals(result,item[2],"Teste de criação (OK)")
 
+            try:
+                contact_json = bj = self.c.post('/api/entity/register/contact', data=contact)
+                cont = json.load(contact_json.content)
+                print("OLHA O CONTENT:",cont)
+            except Exception as exception:
+                result = {}
+                result['result'] = False
+            self.assertEquals(result['result'],item[2],"Teste de criação (OK)")
+    '''
     def test_create_entity_valid_contact(self):
         entity = create_simple_valid_person()
         EntityController.save(entity)

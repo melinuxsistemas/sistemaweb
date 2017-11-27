@@ -12,11 +12,6 @@ def create_simple_valid_person():
     return format_serialized_model(entity)
 
 def create_simple_valid_company():
-    entity = Entity()
-    entity.entity_type = '2'
-    entity.cpf_cnpj = '03853896000140'
-    entity.entity_name = 'EMPRESA DE TESTES LTDA'
-    entity.fantasy_name = 'EMPRESA DE TESTE'
     dicionario_test = {'entity_type': ['2'], 'cpf_cnpj': ['75328405000152'], 'entity_name': ['EMPRESA XYZ'],
                   'fantasy_name': ['XYZ'], 'birth_date_foundation': [''], 'natureza_juridica': [''],
                   'main_activity': [''], 'comments': [''], 'tributary_regime': ['0'], 'entity_father': [''],
@@ -24,13 +19,18 @@ def create_simple_valid_company():
                   'comments_fiscal_note': ['']}
     return dicionario_test
 
+def create_simple_person(entity_type,cpf_cnpj,entity_name,fantasy_name):
+    dicionario_test = {'entity_type': [entity_type], 'cpf_cnpj': [cpf_cnpj], 'entity_name': [entity_name],
+                  'fantasy_name': [fantasy_name], 'birth_date_foundation': [''], 'natureza_juridica': [''],
+                  'main_activity': [''], 'comments': [''], 'tributary_regime': ['0'], 'entity_father': [''],
+                  'entity_mother': [''], 'entity_conjuge': [''], 'entity_occupation': [''],
+                  'comments_fiscal_note': ['']}
+    return dicionario_test
+
 def create_simple_valid_contac():
-    contact = Contact()
-    contact.type_contact = 2
-    contact.phone = '30304040'
-    contact.ddd = '27'
-    contact.complemento = 'TESTE TESTE'
-    return contact
+    dicionario_campos = {'entity': None, 'type_contact': ['2'], 'name': ['LUCAS'], 'ddd': ['27'], 'phone': ['30304040']
+        , 'complemento': ['TESTE TESTE'], 'details': [''], 'history':[''], 'id': ['']}
+    return dicionario_campos
 
 def create_simple_valid_email():
     email = Email()
@@ -41,12 +41,12 @@ def create_simple_valid_email():
     return email
 
 def create_simple_invalid_company ():
-    entity = Entity()
-    entity.entity_type = '1'
-    entity.cpf_cnpj = '03853896000140'
-    entity.entity_name = 'EMPRESA DE TESTES LTDA'
-    entity.fantasy_name = 'EMPRESA DE TESTE'
-    return format_serialized_model(entity)
+    dicionario_test = {'entity_type': ['2'], 'cpf_cnpj': ['75328400000000'], 'entity_name': ['EMPRESA XYZ'],
+                       'fantasy_name': ['XYZ'], 'birth_date_foundation': [''], 'natureza_juridica': [''],
+                       'main_activity': [''], 'comments': [''], 'tributary_regime': ['0'], 'entity_father': [''],
+                       'entity_mother': [''], 'entity_conjuge': [''], 'entity_occupation': [''],
+                       'comments_fiscal_note': ['']}
+    return (dicionario_test)
 
 def format_serialized_model(object,list_fields=None):
     if list_fields is not None:
