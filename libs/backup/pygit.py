@@ -42,6 +42,7 @@ def update():
             print('\nOPERAÇÃO REALIZADA COM SUCESSO...')
         except:
             pass
+        
 
 if __name__ == '__main__':
     import sys
