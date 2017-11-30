@@ -22,7 +22,7 @@ def check_update():
     #r = porcelain.fetch(LOCAL_REPO,REMOTE_REPO)
     #print(r)
     if local_ref != remote_commit:
-        print('\nNOVA VERSÃO DISPONÍVEL,INSTALANDO...')
+        print('\nNOVA VERSÃO DISPONÍVEL,INSTALANDO...\n')
         update()
     else:
         pass
