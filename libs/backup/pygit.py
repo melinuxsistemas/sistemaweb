@@ -16,34 +16,34 @@ def check_update():
     #print(log)
     #status = porcelain.status(LOCAL_REPO)
     #print(status)
-    remote_commint = porcelain.ls_remote(REMOTE_REPO)[b"HEAD"].decode('utf-8')
-    print('\nVersão remota: ',remote_commint)
+    remote_commit = porcelain.ls_remote(REMOTE_REPO)[b"HEAD"].decode('utf-8')
+    print('\nVersão remota: ',remote_commit)
 
     #r = porcelain.fetch(LOCAL_REPO,REMOTE_REPO)
     #print(r)
-    if local_ref != remote_commint:
+    if local_ref != remote_commit:
         print('\nNOVA VERSÃO DISPONÍVEL,INSTALANDO...')
         update()
     else:
         pass
         print('\nVC JÁ ESTÁ COM A ÚLTIMA VERSÃO INSTALADA.')
+        
+        
 def update():
 
     try:
         porcelain.pull(LOCAL_REPO, REMOTE_REPO)
-        print('\nCONSEGUI...')
+        print('\nOPERAÇÃO REALIZADA COM SUCESSO...')
     except:
-        print('\nPUTSS,DEU ERRO,VOU TENTAR DE NOVO...')
         pass
         try:
-            print('\nREMOVENDO ARQUIVO MASTER...')
             os.remove(HEADS)
             porcelain.pull(LOCAL_REPO, REMOTE_REPO)
-            print('\nCONSEGUI...')
+            print('\nOPERAÇÃO REALIZADA COM SUCESSO...')
         except:
             pass
 
-if __name__=='__main__':
+if __name__ == '__main__':
     import sys
     arguments = sys.argv
     if "update" in arguments:
