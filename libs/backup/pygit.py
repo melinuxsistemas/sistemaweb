@@ -11,13 +11,13 @@ def check_update():
 
     ref = Repo('.')
     local_ref = ref.head().decode('utf-8')
-    print('Versão local: ',local_ref)
+    print('Versão local: ', local_ref)
     #log = porcelain.log(LOCAL_REPO)
     #print(log)
     #status = porcelain.status(LOCAL_REPO)
     #print(status)
     remote_commit = porcelain.ls_remote(REMOTE_REPO)[b"HEAD"].decode('utf-8')
-    print('\nVersão remota: ',remote_commit)
+    print('\nVersão remota: ', remote_commit)
 
     #r = porcelain.fetch(LOCAL_REPO,REMOTE_REPO)
     #print(r)
