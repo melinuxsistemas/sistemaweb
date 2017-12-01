@@ -6,7 +6,7 @@ from modules.core.forms import FormAbstractPassword,FormAbstractConfirmPassword,
 from modules.user.validators import password_format_validator
 
 
-class FormLogin(FormAbstractEmail, FormAbstractPassword):
+class FormLogin(FormAbstractEmail, FormAbstractPassword,BaseForm):
 
     def __init__(self, *args, **kwargs):
         super(FormAbstractPassword, self).__init__(*args, **kwargs)

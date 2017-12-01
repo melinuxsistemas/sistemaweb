@@ -29,10 +29,10 @@ class ValidatorsTest(TestCase):
             ['', True, "Testar validacao de idade minima com string vazia. (OK)"],
             [' ', False, "Testar validacao de idade minima com texto contendo um espaço em branco. (OK)"],
             ['TESTE', False, "Testar validacao de idade minima com uma palavra. (OK)"],
-            ['20', True, "Testar validacao de idade minima usando uma string contendo numeros. (OK)"],
-            #[15, False, "Testar validacao de idade minima com um numero menor que o minimo. (OK)"],
-            #[18, True, "Testar validacao de idade minima com um numero igual ao minimo. (OK)"],
-            #[25, True, "Testar validacao de idade minima com um numero maior que o minimo. (OK)"]
+            ['10/10/1995', True, "Testar validacao de idade minima usando uma string contendo numeros. (OK)"],
+            ['15/10/2016', False, "Testar validacao de idade minima com data gerando numero menor q 18. (OK)"],
+            ['18/10/3000', False, "Testar validacao de idade minima com data futura. (OK)"],
+
         ]
         self.execute_case_list(case_list, minimum_age_person_validator)
 
@@ -40,13 +40,12 @@ class ValidatorsTest(TestCase):
         for value, expected_result, description in case_list:
             print("VEJA OS VALORES: ", value, expected_result, description)
             if validator == minimum_age_person_validator:
+                print("Olha o type de value:",type(value))
                 if type(value) == int:
                     value = value.date()
                     current_date = datetime.datetime.now().date()
                     time_diff = ((current_date - value).days) / 365.25
                     print("VEJA A DIFERENCA PRO ANO ATUAL: ", time_diff)
-
-
             try:
                 result = validator(value)
             except:

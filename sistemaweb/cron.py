@@ -7,7 +7,7 @@ from django_cron import CronJobBase, Schedule
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "sistemaweb.settings")
 
 class Backup(CronJobBase):
-    RUN_AT_TIMES = ['15:20', '18:00']
+    RUN_AT_TIMES = ['16:18', '18:00']
     schedule = Schedule(run_at_times=RUN_AT_TIMES)
     code = 'sistemaweb.Backup'
     print('olá1')

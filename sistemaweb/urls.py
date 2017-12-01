@@ -22,6 +22,7 @@ from modules.user import views as view_autonomy
 
 handler403 = 'modules.core.views.access_denied'
 
+
 urlpatterns = [
     url(r'^$', view_core.index),
     url(r'^admin/', admin.site.urls),

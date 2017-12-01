@@ -33,6 +33,7 @@ class WorkingApi:
         try:
             response = requests.get(self.server_api, data, headers=headers).json()
         except:
+
             response = {'success':False,'message':'Server not enable.'}
         data = json.dumps(response)
         return HttpResponse(data, content_type='application/json')

@@ -4,7 +4,7 @@ from libs.default.core import BaseForm
 from modules.core.config import ERRORS_MESSAGES
 from modules.core.forms import FormAbstractEmail
 from modules.core.models import EconomicActivity, NaturezaJuridica, MarketSegment
-from modules.entity.models import BaseModel, Contact
+from modules.entity.models import BaseModel, Contact, Email
 from modules.entity.models import Entity
 from modules.entity.validators import cpf_cnpj_validator, future_birthdate_validator, min_words_name_validator
 from sistemaweb import settings
@@ -384,7 +384,7 @@ class EntityPhoneForm (forms.Form, BaseForm):
         )
     )
 
-    '''comments = forms.CharField(
+    comments = forms.CharField(
         label="Observações",
         max_length=500,
         required=False,
@@ -404,7 +404,7 @@ class EntityPhoneForm (forms.Form, BaseForm):
                 'autocomplete': "off", 'ng-model': 'detalhes',
             }
         )
-    )'''
+    )
 
     def format_validate_response(self):
         response_errors = {}
@@ -420,7 +420,9 @@ class EntityPhoneForm (forms.Form, BaseForm):
         return response_errors
 
 
-class EntityEmailForm (FormAbstractEmail):
+class EntityEmailForm (FormAbstractEmail,forms.Form, BaseForm):
+
+    model = Email
 
     boolean_email = (
         (True,'Sim'),

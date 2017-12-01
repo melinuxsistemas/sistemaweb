@@ -13,7 +13,11 @@ def required_validator(value):
 
 
 def minimum_age_person_validator(value):
+    if value is None or value == '':
+        return True
     value = format_date_value(value)
+    print("OLHA O VALUE QUANDO VOLTA:",value)
+    #Como não é um campo obrigatorio o validador nao pode retornar erro em alor None
     if value is not None:
         current_date = datetime.datetime.now().date()
         time_diff = ((current_date-value).days)/365.25
@@ -88,6 +92,7 @@ def format_date_value(value):
             new_value = datetime.datetime.strptime(value, "%d/%m/%Y").date()
             return new_value
         except:
+            #raise ValidationError(_("birth_date_foundation: Date not is valid."), code='invalid')
             return None
     else:
         return None
@@ -231,7 +236,7 @@ def only_numeric(value):
 def validate_ddd(value,type):
     size = len(value)
     if (type is not None):
-        if ((type == '3') and (size == 4)):
+        if ((int(type) == 3) and (size == 4)):
             return True
         if (size == 2):
             return True

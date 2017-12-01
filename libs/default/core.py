@@ -54,7 +54,7 @@ class Notify:
             response_dict['object'] = None
         return response_dict
 
-    def __format_serialized_model(self,object,list_fields):
+    def __format_serialized_model(self,object,list_fields=None):
         if list_fields is not None:
             response_model = serializers.serialize('json', [object], fields=tuple(list_fields))
         else:
@@ -65,6 +65,9 @@ class Notify:
         response_model['id'] = object.id
         response_model['selected'] = ''
         return response_model
+
+
+
 
     def __format_exceptions(self,exceptions):
         message_dict = {}
@@ -109,7 +112,6 @@ class BaseController(Notify):
     server_startup_time_process = None
     server_terminate_time_process = None
     server_processing_time = None
-
     @request_ajax_required
     def login(self, request, formulary):
         form = formulary(request.POST)
@@ -161,10 +163,15 @@ class BaseController(Notify):
     @request_ajax_required
     @validate_formulary
     def save(self, request, formulary=None):
+        print("chegando no save olha o request",request.user)
         if self.full_exceptions == {}:
+            print("Sem exeptions ")
             response_dict = self.execute(self.object, self.object.save)
+            print("gerou response dict success")
         else:
+            print("entrei no error")
             response_dict = self.notify.error(self.full_exceptions)
+        print("retornando:",response_dict)
         return self.response(response_dict)
 
     @request_ajax_required
@@ -199,10 +206,16 @@ class BaseController(Notify):
     @request_ajax_required
     def delete(self, request, model, object_id):
         self.request = request
+        object = model.objects.get(id=int(object_id))
+        response_dict = {}
         print("Excluir: ", model, '[', object_id, ']')
-        object = model.objects.filter(id=object_id)
-        response_dict = self.execute(object, object.delete)
-        return HttpResponse(json.dumps(response_dict))
+        if object is not None:
+            response_dict = self.execute(object, object.delete)
+        else:
+            response_dict['result'] = False
+            response_dict['object'] = None
+            response_dict['message'] = 'Registro não existe'
+        return self.response(response_dict)
 
     @request_ajax_required
     def disable(self, request, model, object_id):
@@ -215,7 +228,10 @@ class BaseController(Notify):
     def execute(self, object, action):
         try:
             action()
-            response_dict = self.notify.success(object)
+            if object is not None:
+                response_dict = self.notify.success(object)
+            else:
+                response_dict = self.notify.success(object)
         except Exception as e:
             response_dict = self.notify.error(e)
         return response_dict
@@ -247,46 +263,61 @@ class BaseController(Notify):
         return self.notify.error(self.full_exceptions)
 
     def __create_session(self, request, user):
-        sessao = Session()
-        sessao.user = user
-        sessao.session_key = request.session.session_key
-        sessao.internal_ip = request.POST['internal_ipv4']
-        sessao.external_ip = request.POST['external_ip']
-        sessao.country_name = request.POST['country_name']
-        sessao.country_code = request.POST['country_code']
-        sessao.region_code = request.POST['region_code']
-        sessao.region_name = request.POST['region_name']
-        sessao.city = request.POST['city']
-        sessao.zip_code = request.POST['zip_code']
-        sessao.time_zone = request.POST['time_zone']
-        sessao.latitude = request.POST['latitude']
-        sessao.longitude = request.POST['longitude']
-        sessao.save()
+        try:
+            sessao = Session()
+            sessao.user = user
+            sessao.session_key = request.session.session_key
+            sessao.internal_ip = request.POST['internal_ipv4']
+            sessao.external_ip = request.POST['external_ip']
+            sessao.country_name = request.POST['country_name']
+            sessao.country_code = request.POST['country_code']
+            sessao.region_code = request.POST['region_code']
+            sessao.region_name = request.POST['region_name']
+            sessao.city = request.POST['city']
+            sessao.zip_code = request.POST['zip_code']
+            sessao.time_zone = request.POST['time_zone']
+            sessao.latitude = request.POST['latitude']
+            sessao.longitude = request.POST['longitude']
+            sessao.save()
+        except:
+            pass
 
     def start_process(self, request):
-        self.__request_path = request.path
-        self.__request_bytes = sys.getsizeof(request.body)
-        self.server_startup_time_process = datetime.datetime.now()
-        print("Processo iniciado em ", self.server_startup_time_process)
+        try:
+            self.__request_path = request.path
+            self.__request_bytes = sys.getsizeof(request.body)
+            self.server_startup_time_process = datetime.datetime.now()
+            print("Processo iniciado em ", self.server_startup_time_process)
+        except:
+            pass
 
     def terminate_process(self):
-        self.server_terminate_time_process = datetime.datetime.now()
-        self.server_processing_time = self.server_terminate_time_process - self.server_startup_time_process
-        print("Processo executado em", self.server_processing_time)  # ,"ou",self.server_processing_time.total_seconds())
+        try:
+            self.server_terminate_time_process = datetime.datetime.now()
+            self.server_processing_time = self.server_terminate_time_process - self.server_startup_time_process
+            print("Processo executado em", self.server_processing_time)  # ,"ou",self.server_processing_time.total_seconds())
+        except:
+            pass
 
     def response(self, response_dict):
         import sys
-        self.terminate_process()
-        response_dict['status'] = {}
-        response_dict['status']['request_path'] = self.__request_path
-        response_dict['status']['request_size'] = self.__request_bytes
-        response_dict['status']['response_size'] = "RESPONSE_SIZE"
-        response_dict['status']['server_processing_time_duration'] = self.server_processing_time.total_seconds()  # datetime.datetime.now()
-        response_dict['status']['cliente_processing_time_duration'] = ''
+        try:
+            self.terminate_process()
+            response_dict['status'] = {}
+            response_dict['status']['request_path'] = self.__request_path
+            response_dict['status']['request_size'] = self.__request_bytes
+            response_dict['status']['response_size'] = "RESPONSE_SIZE"
+            response_dict['status']['server_processing_time_duration'] = self.server_processing_time.total_seconds()  # datetime.datetime.now()
+            response_dict['status']['cliente_processing_time_duration'] = ''
+        except:
+            pass
 
         print("VEJA O RESPONSE NO FINAL: ", response_dict)
         data = json.dumps(response_dict, default=json_serial)
-        data = data.replace('RESPONSE_SIZE', str(sys.getsizeof(data) - 16))
+        try:
+            data = data.replace('RESPONSE_SIZE', str(sys.getsizeof(data) - 16))
+        except:
+            pass
         response = HttpResponse(data)  # after generate response noramlization reduce size in 16 bytes
         return response
 
@@ -323,23 +354,32 @@ class BaseForm:
 
     def get_object(self, object_id=None):
         if object_id is not None:
+            print("veja o self.model",self.model)
             object = self.model.objects.get(pk=int(object_id))
+            print("peguei o objeto")
         else:
+            print('objeto vazio')
             object = self.model()
+            print("pego o MOdelo")
 
         for attribute in self.data:
             value = self.data[attribute]
             if attribute != 'csrfmiddlewaretoken':
                 if '[]' in attribute:
+                    print("ATRIBUTO: ",attribute," - ",value," ReQUEST: ",self.request)
                     options_selected = self.request.POST.getlist(attribute)
                     if options_selected is not None:
                         value = ';'.join(map(str, self.request.POST.getlist(attribute)))
                     attribute = attribute.replace("[]", "")
                 else:
                     if attribute != 'id':
-                        if self.data[attribute] != "null":
-                            field = self.fields[attribute]
-                            value = field.to_python(self.data[attribute])
+                        if self.data[attribute] != "null" and self.data[attribute] != 'None':
+                            try:
+                                field = self.fields[attribute]
+                                value = field.to_python(self.data[attribute])
+                            except KeyError as error:
+                                pass
+
                         else:
                             value = None
                 #print("ATRIBUTO: ",attribute,': ',value)
