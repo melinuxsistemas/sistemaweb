@@ -17,7 +17,7 @@ def check_update():
     #log = porcelain.log(LOCAL_REPO)
     #print(log)
     changes = porcelain.get_tree_changes(LOCAL_REPO)
-    print(changes)    
+    print(changes)
     #status = porcelain.status(LOCAL_REPO)
     #print(status)
     #r = porcelain.fetch(LOCAL_REPO,REMOTE_REPO)
