@@ -19,6 +19,8 @@ rcssmin --install-option="--without-c-extensions"
 # Ex: django-compressor --install-option="--upgrade"
 django-compressor
 
+
+
 dj-static==0.0.6
 static3==0.6.1
 wheel==0.24.0
