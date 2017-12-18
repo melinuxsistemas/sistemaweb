@@ -36,6 +36,5 @@ django-session-security
 django-dbbackup
 django-storages
 python-gnupg
-django-cron
 dropbox
 urllib3

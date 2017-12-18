@@ -42,7 +42,7 @@ class EntityIdentificationForm(forms.Form, BaseForm):
         widget=forms.TextInput(
             attrs={
                 'id': 'cpf_cnpj', 'class': "form-control ", 'type': "text",
-                'autocomplete': "off", 'ng-model': 'cpf_cnpj', 'required':'required'
+                'autocomplete': "off", 'ng-model': 'cpf_cnpj', 'required':'required','onblur':'validate_cpf_cnpj()'
             }
         )
     )
@@ -75,7 +75,7 @@ class EntityIdentificationForm(forms.Form, BaseForm):
         widget=forms.DateInput(
             attrs= {
                 'id': 'birth_date_foundation', 'class': "form-control optional", 'type':'text',
-                'ng-model': 'birth_date_foundation',
+                'ng-model': 'birth_date_foundation','onblur':"validate_birth_date_foundation()"
             }
         )
     )

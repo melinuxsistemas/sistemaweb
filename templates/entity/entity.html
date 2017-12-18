@@ -4,17 +4,12 @@
 {% block recursos_necessarios %}
 
   {% load static %}
+	<link rel="stylesheet" href="{% static 'bower_components/bootstrap-select/dist/css/bootstrap-select.min.css' %}" type="text/css">
 	<script src="{% static 'bower_components/nprogress/nprogress.js' %}"></script>
 	<link href="{% static 'bower_components/nprogress/nprogress.css' %}" rel="stylesheet">
-	<link href="{% static 'modules/entity/entity.css' %}" rel="stylesheet">
-	<link href="{% static 'modules/entity/contact.css' %}" rel="stylesheet">
 	<script src="{% static 'bower_components/angularUtils-pagination/dirPagination.js'%}"></script>
+	<link href="{% static 'modules/entity/entity.css' %}" rel="stylesheet">
 	<script src="{% static 'modules/entity/entity_controller.js' %}"></script>
-	<script src="{% static 'modules/entity/entity.js' %}"></script>
-	<script src="{% static 'modules/entity/contact_controller.js' %}"></script>
-	<script src="{% static 'modules/entity/contact.js' %}"></script>
-	<script src="{% static 'angular/filters.js' %}"></script>
-
   <style>
   .actionBar{
     display: none;
@@ -73,12 +68,16 @@
 {% load static %}
 <!--<link rel="stylesheet" href="{% static 'bower_components/multiple-select/multiple-select.css' %}" type="text/css">
 <script type="text/javascript" src="{% static 'bower_components/multiple-select/multiple-select.js' %}"></script>-->
-<link rel="stylesheet" href="{% static 'bower_components/bootstrap-select/dist/css/bootstrap-select.min.css' %}" type="text/css">
+
+<script src="{% static 'modules/entity/entity.js' %}"></script>
+<script src="{% static 'modules/entity/contact_controller.js' %}"></script>
+<script src="{% static 'modules/entity/contact.js' %}"></script>
+
+<link href="{% static 'modules/entity/contact.css' %}" rel="stylesheet">
 <script type="text/javascript" src="{% static 'bower_components/bootstrap-select/dist/js/bootstrap-select.min.js' %}"></script>
-
 <script type="text/javascript" src="{% static 'bower_components/validator/validator.js' %}"></script>
-
 <script type="text/javascript" src="{% static 'custom/mask/mask.js' %}"></script>
+<script type="text/javascript" src="{% static 'modules/entity/entity/validators.js' %}"></script>
 
 <script type="text/javascript">
 	function post_screen_verified(){
@@ -86,8 +85,6 @@
 	}
 
 	function test_form(){
-
-
 		select_selectpicer('entity_type',2)
 		select_entity_type()
 
@@ -105,7 +102,6 @@
 		select_selectpicer('buy_destination',1)
 		select_selectpicer('market_segment',[1,2])
 		$("#comments_fiscal_note").val('ENTREGAR PREFERENCIALMENTE DE SEGUNDA A SEXTA DAS 09H AS 16H.')
-
 	}
 
 	$(document).ready(function(){
@@ -130,14 +126,10 @@
 
 
 <script>
-	//document.getElementById("cpf_cnpj").onblur = function () {validate_cpf_cnpj()};
+	document.getElementById("cpf_cnpj").onblur = function () {validate_cpf_cnpj()};
 	//document.getElementById("birth_date_foundation").onblur = function () {validate_birth_date()};
 	//document.getElementById('entity_name').onblur = function () {validate_entity_name()};
 	//document.getElementById('fantasy_name').onblur = function () {validate_entity_fantasy()};
-
-	function validate_cpf_cnpj (){
-			validate_cpf('cpf_cnpj')
-	}
 
 	function validate_entity_name () {
 			validate_field_entity('entity_name')

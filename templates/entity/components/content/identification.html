@@ -114,9 +114,8 @@
 										<td class='col_index'>{{ entity.id }}</td><!-- $index+1 -->
 
 										<td class="col_entity_type" ng-hide='screen_model <= 2' ng-class="{true:'left', false:'center'}[entity.entity_type=='']">
-											{{ entity.entity_type }}
-											<!--<span ng-if="entity.entity_type">{{ entity.entity_type }}</span>
-											<span ng-if="!entity.entity_type"></span>-->
+											<span ng-if="entity.entity_type==1">PF</span>
+											<span ng-if="entity.entity_type==2">PJ</span>
 										</td>
 
 										<td class="col_cpf_cnpj" ng-hide='screen_model <= 2' style="text-align: left;">
